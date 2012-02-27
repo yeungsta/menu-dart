@@ -1,0 +1,129 @@
+﻿@model List<MenuDart.Models.Location>
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Add Location for @ViewBag.Restaurant</h2>
+
+<script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
+
+@using (Html.BeginForm()) {
+    @Html.ValidationSummary(true)
+    <fieldset>
+        <legend>Location</legend>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model[0].Title)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model[0].Title)
+            @Html.ValidationMessageFor(model => model[0].Title)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model[0].Address)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model[0].Address)
+            @Html.ValidationMessageFor(model => model[0].Address)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model[0].City)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model[0].City)
+            @Html.ValidationMessageFor(model => model[0].City)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model[0].State)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model[0].State)
+            @Html.ValidationMessageFor(model => model[0].State)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model[0].Zip)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model[0].Zip)
+            @Html.ValidationMessageFor(model => model[0].Zip)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model[0].MapImgUrl)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model[0].MapImgUrl)
+            @Html.ValidationMessageFor(model => model[0].MapImgUrl)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model[0].MapLink)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model[0].MapLink)
+            @Html.ValidationMessageFor(model => model[0].MapLink)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model[0].Hours)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model[0].Hours)
+            @Html.ValidationMessageFor(model => model[0].Hours)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model[0].Phone)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model[0].Phone)
+            @Html.ValidationMessageFor(model => model[0].Phone)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model[0].Email)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model[0].Email)
+            @Html.ValidationMessageFor(model => model[0].Email)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model[0].Facebook)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model[0].Facebook)
+            @Html.ValidationMessageFor(model => model[0].Facebook)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model[0].Twitter)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model[0].Twitter)
+            @Html.ValidationMessageFor(model => model[0].Twitter)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model[0].Yelp)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model[0].Yelp)
+            @Html.ValidationMessageFor(model => model[0].Yelp)
+        </div>
+        
+        <p>
+            <input type="submit" value="Create" />
+        </p>
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("Back to Menu", "Edit", "Menu", new { id = ViewBag.MenuId }, null)
+</div>

@@ -1,0 +1,90 @@
+﻿@model MenuDart.Models.Menu
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<fieldset>
+    <legend>Menu</legend>
+
+    <div class="display-label">Name</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Name)
+    </div>
+
+    <div class="display-label">City</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.City)
+    </div>
+
+    <div class="display-label">Phone</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Phone)
+    </div>
+
+    <div class="display-label">Website</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Website)
+    </div>
+
+    <div class="display-label">AboutTitle</div>
+    <div class="display-field">
+        @MvcHtmlString.Create(Html.Encode(Model.AboutTitle).Replace(Environment.NewLine, "<br />"))
+    </div>
+
+    <div class="display-label">AboutText</div>
+    <div class="display-field">
+        @MvcHtmlString.Create(Html.Encode(Model.AboutText).Replace(Environment.NewLine, "<br />"))
+    </div>
+
+    <div class="display-label">Email</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Email)
+    </div>
+
+    <div class="display-label">Facebook</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Facebook)
+    </div>
+
+    <div class="display-label">Twitter</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Twitter)
+    </div>
+
+    <div class="display-label">Yelp</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Yelp)
+    </div>
+
+    <div class="display-label">Template</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Template)
+    </div>
+
+    <div class="display-label">Owner</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Owner)
+    </div>
+
+    <div class="display-label">MenuDartUrl</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.MenuDartUrl)
+    </div>
+
+    <div class="display-label">Locations</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Locations)
+    </div>
+
+    <div class="display-label">MenuTree</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.MenuTree)
+    </div>
+</fieldset>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id=Model.ID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

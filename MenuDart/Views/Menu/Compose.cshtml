@@ -1,0 +1,9 @@
+﻿@model MenuDart.Models.ComposeViewModel
+
+@{
+    ViewBag.Title = "Compose";
+}
+
+<h2>@Model.Name's Menu Located At:<br /><a href="@Model.Url" target="_blank">@Model.Url</a></h2>
+
+@Html.TextAreaFor(model => model.MenuString, new { style = "width: 100%; height: 800px;" })

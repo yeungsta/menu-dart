@@ -1,0 +1,60 @@
+﻿@model MenuDart.Models.Template
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<fieldset>
+    <legend>Template</legend>
+
+    <div class="display-label">Name</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Name)
+    </div>
+
+    <div class="display-label">HdrTxtClr</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.HdrTxtClr)
+    </div>
+
+    <div class="display-label">HdrTxtFnt</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.HdrTxtFnt)
+    </div>
+
+    <div class="display-label">HdrClrGrdntTop</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.HdrClrGrdntTop)
+    </div>
+
+    <div class="display-label">HdrClrGrdntBottom</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.HdrClrGrdntBottom)
+    </div>
+
+    <div class="display-label">BkgndClr</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.BkgndClr)
+    </div>
+
+    <div class="display-label">Stripes</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Stripes)
+    </div>
+
+    <div class="display-label">FtrTxtClr</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.FtrTxtClr)
+    </div>
+
+    <div class="display-label">FtrLnkClr</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.FtrLnkClr)
+    </div>
+</fieldset>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id=Model.ID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

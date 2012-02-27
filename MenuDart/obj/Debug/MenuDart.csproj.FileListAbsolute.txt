@@ -1,0 +1,14 @@
+C:\Documents and Settings\Owner.NATTO\Desktop\VS2010\MenuDart\MenuDart\bin\MenuDart.dll
+C:\Documents and Settings\Owner.NATTO\Desktop\VS2010\MenuDart\MenuDart\bin\MenuDart.pdb
+C:\Documents and Settings\Owner.NATTO\Desktop\VS2010\MenuDart\MenuDart\bin\EntityFramework.dll
+C:\Documents and Settings\Owner.NATTO\Desktop\VS2010\MenuDart\MenuDart\bin\EntityFramework.xml
+C:\Documents and Settings\Owner.NATTO\Desktop\VS2010\MenuDart\MenuDart\obj\Debug\ResolveAssemblyReference.cache
+C:\Documents and Settings\Owner.NATTO\Desktop\VS2010\MenuDart\MenuDart\obj\Debug\MenuDart.dll
+C:\Documents and Settings\Owner.NATTO\Desktop\VS2010\MenuDart\MenuDart\obj\Debug\MenuDart.pdb
+C:\Users\Jamo\Desktop\VS2010\MenuDart\MenuDart\bin\MenuDart.dll
+C:\Users\Jamo\Desktop\VS2010\MenuDart\MenuDart\bin\MenuDart.pdb
+C:\Users\Jamo\Desktop\VS2010\MenuDart\MenuDart\bin\EntityFramework.dll
+C:\Users\Jamo\Desktop\VS2010\MenuDart\MenuDart\bin\EntityFramework.xml
+C:\Users\Jamo\Desktop\VS2010\MenuDart\MenuDart\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\Jamo\Desktop\VS2010\MenuDart\MenuDart\obj\Debug\MenuDart.dll
+C:\Users\Jamo\Desktop\VS2010\MenuDart\MenuDart\obj\Debug\MenuDart.pdb
