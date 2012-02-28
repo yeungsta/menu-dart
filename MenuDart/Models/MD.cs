@@ -29,7 +29,6 @@ namespace MenuDart.Models
         public string Locations { get; set; }
         [Column(TypeName = "xml")]
         public string MenuTree { get; set; }
-        public string temp { get; set; }
     }
 
     public class Location
