@@ -4,7 +4,7 @@
     ViewBag.Title = "Edit";
 }
 
-<h2>Edit Categories for @ViewBag.Restaurant</h2>
+<h2>Edit Menu for @ViewBag.Restaurant: @ViewBag.Parent</h2>
 
 <script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
 <script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
@@ -17,12 +17,52 @@
 
         @for (int i = 0; i < Model.Count; i++)
         {
-            <p>
-            <h3>Category #@(i + 1)
-            @Html.ActionLink("Delete", "Delete", new { id = ViewBag.MenuId, nodeIdx = (i) }, null)
-            @Html.ActionLink("Edit", "Edit", new { id = ViewBag.MenuId, parent = Model[i].Link }, null)
+            if (Model[i] is MenuDart.Models.MenuLeaf)
+            {
+                MenuDart.Models.MenuLeaf currentItem = Model[i] as MenuDart.Models.MenuLeaf;
+                
+            <h3>
+                <p>
+                    Item #@(i + 1)
+                    @Html.ActionLink("Delete", "Delete", new { id = ViewBag.MenuId, link = currentItem.Link }, null)
+                    @Html.ActionLink("Edit", "EditItem", new { id = ViewBag.MenuId, link = currentItem.Link }, null)
+                </p>
             </h3>
-            </p>              
+                         
+            @Html.HiddenFor(model => currentItem.ID)     
+            
+            <div class="editor-label">
+                @Html.LabelFor(model => currentItem.Title)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => currentItem.Title)
+                @Html.ValidationMessageFor(model => currentItem.Title)
+            </div>
+            
+            <div class="editor-label">
+                @Html.LabelFor(model => currentItem.Description)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => currentItem.Description)
+                @Html.ValidationMessageFor(model => currentItem.Description)
+            </div>            
+                   
+            <div class="editor-label">
+                @Html.LabelFor(model => currentItem.Price)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => currentItem.Price)
+                @Html.ValidationMessageFor(model => currentItem.Price)
+            </div>                             
+            }
+            else
+            {             
+            <h3><p>
+                    Category #@(i + 1)
+                    @Html.ActionLink("Delete", "Delete", new { id = ViewBag.MenuId, parent = ViewBag.Parent, idx = i }, null)
+                    @Html.ActionLink("Edit", "Edit", new { id = ViewBag.MenuId, parent = ViewBag.Parent, idx = i }, null)
+            </p></h3>
+                         
             @Html.HiddenFor(model => model[i].ID)
 
             <div class="editor-label">
@@ -47,7 +87,8 @@
             <div class="editor-field">
                 @Html.EditorFor(model => model[i].Text)
                 @Html.ValidationMessageFor(model => model[i].Text)
-            </div>
+            </div>             
+            }
         }
 
         <p>
@@ -56,6 +97,9 @@
     </fieldset>
 }
 
+    @Html.ActionLink("Add Category", "Create", "MenuTree", new { id = ViewBag.MenuId, parent = ViewBag.Parent }, null)
+    @Html.ActionLink("Add Item", "CreateItem", "MenuTree", new { id = ViewBag.MenuId, parent = ViewBag.Parent }, null)
+
 <div>
-    @Html.ActionLink("Back to Menu", "Edit", "Menu", new { id = ViewBag.MenuId, parent = ViewBag.Parent }, null)
+    @Html.ActionLink("Back to Menu", "Edit", "Menu", new { id = ViewBag.MenuId }, null)
 </div>

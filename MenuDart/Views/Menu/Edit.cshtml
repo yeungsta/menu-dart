@@ -132,8 +132,7 @@
 
         <div class="editor-label">
             @Html.LabelFor(model => model.MenuTree)
-            @Html.ActionLink("Add Category", "Create", "MenuTree", new { id = Model.ID }, null)
-            @Html.ActionLink("Edit Category", "Edit", "MenuTree", new { id = Model.ID }, null)
+            @Html.ActionLink("Edit Menu", "Edit", "MenuTree", new { id = Model.ID, parent = "0", idx = -1 }, null)
         </div>
         <div class="editor-field">
             @Html.TextAreaFor(model => model.MenuTree, new { style = "width: 300px;" })

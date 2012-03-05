@@ -89,6 +89,57 @@ namespace MenuDart.Composer
             }
         }
 
+        public static MenuNode FindMenuNode(List<MenuNode> menuNodes, string link)
+        {
+            string[] levels = link.Split('-');
+
+            List<MenuNode> currentLevel = menuNodes;
+            string currentLink = string.Empty;
+
+            //traverse to the correct level
+            for (int x = 2; x < levels.Count(); x++)
+            {
+                //construct the link
+                currentLink = levels[0];
+
+                for (int y = 1; y < x; y++)
+                {
+                    currentLink += "-" + levels[y];
+                }
+
+                //get the nodes of this link
+                currentLevel = currentLevel.Find(node => node.Link == currentLink).Branches;
+            }
+
+            return currentLevel.Find(node => node.Link == link);
+        }
+
+        public static void RemoveMenuNode(List<MenuNode> menuNodes, string link)
+        {
+            string[] levels = link.Split('-');
+
+            List<MenuNode> currentLevel = menuNodes;
+            string currentLink = string.Empty;
+
+            //traverse to the correct level
+            for (int x = 2; x < levels.Count(); x++)
+            {
+                //construct the link
+                currentLink = levels[0];
+
+                for (int y = 1; y < x; y++)
+                {
+                    currentLink += "-" + levels[y];
+                }
+
+                //get the nodes of this link
+                currentLevel = currentLevel.Find(node => node.Link == currentLink).Branches;
+            }
+
+            //remove node
+            currentLevel.RemoveAll(node => node.Link == link);
+        }
+
         /// <summary>
         /// Constructor
         /// </summary>

@@ -12,6 +12,7 @@ namespace MenuDart.Controllers
     public class MenuController : Controller
     {
         private MenuDartDBContext db = new MenuDartDBContext();
+        private const string RootLevel = "0";
 
         //
         // GET: /Menu/
@@ -164,6 +165,45 @@ namespace MenuDart.Controllers
             composeViewData.Url = composer.Url;
 
             return View(composeViewData);
+        }
+
+        //
+        // GET: /Menu/MenuBuilder/5
+
+        public ActionResult MenuBuilder(string parent, int id = 0)
+        {
+            //we need a parent in order to know what to edit
+            if (!string.IsNullOrEmpty(parent))
+            {
+                Menu menu = db.Menus.Find(id);
+
+                if (menu == null)
+                {
+                    return HttpNotFound();
+                }
+
+                ViewBag.Restaurant = menu.Name;
+                ViewBag.MenuId = id;
+                ViewBag.Parent = parent;
+
+                MenuBuilderViewModel menuBuilderViewData = new MenuBuilderViewModel();
+                menuBuilderViewData.MenuTree = Composer.V1.DeserializeMenuTree(menu.MenuTree);
+
+                //if we're at the root level, just return the whole tree. Else find the right
+                //parent node and send its branches.
+                if (parent != RootLevel)
+                {
+                    //find the right node
+                    MenuNode parentNode = menuBuilderViewData.MenuTree.Find(node => node.Link == parent);
+
+                    //return the branches of the parent node
+                    menuBuilderViewData.MenuTree = parentNode.Branches;
+                }
+
+                return View(menuBuilderViewData);
+            }
+
+            return HttpNotFound();
         }
 
         protected override void Dispose(bool disposing)

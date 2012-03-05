@@ -27,6 +27,6 @@
 </fieldset>
 
     <p>
-        @Html.ActionLink("Delete", "DeleteConfirmed", new { id = ViewBag.MenuId, nodeIdx = ViewBag.NodeIdx }, null) |
+        @Html.ActionLink("Delete", "DeleteConfirmed", new { id = ViewBag.MenuId, parent = ViewBag.Parent, idx = ViewBag.Index }, null) |
         @Html.ActionLink("Back to Menu Nodes", "Edit", new { id = ViewBag.MenuId }, null)
     </p>
