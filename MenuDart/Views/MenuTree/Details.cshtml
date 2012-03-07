@@ -1,30 +1,72 @@
-﻿@model MenuDart.Models.MenuNode
+﻿@model List<MenuDart.Models.MenuNode>
 
 @{
     ViewBag.Title = "Details";
 }
 
-<h2>Details</h2>
+@section Scripts {
 
-<fieldset>
-    <legend>MenuNode</legend>
+	<script src="http://code.jquery.com/jquery-1.6.4.min.js"></script>
+    <script type="text/javascript">
+        // do not handle links via ajax by default
+        $(document).bind("mobileinit", function () { $.mobile.ajaxEnabled = false; });
+    </script>
+	<script src="http://code.jquery.com/mobile/1.0/jquery.mobile-1.0.min.js"></script>
+	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.0/jquery.mobile-1.0.min.css" />
+}
 
-    <div class="display-label">Title</div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.Title)
-    </div>
+}
+<h2>Menu for @ViewBag.Restaurant: @ViewBag.Parent</h2>
 
-    <div class="display-label">Link</div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.Link)
-    </div>
+<div data-role="page">
+	<div data-role="content">
+        @if (!string.IsNullOrEmpty(ViewBag.Text))
+        {
+		<center>@ViewBag.Text</center>
+        }
+		<ul data-role="listview" data-inset="true">
+					
+        @for (int i = 0; i < Model.Count; i++)
+        {
+            if (Model[i] is MenuDart.Models.MenuLeaf)
+            {
+                MenuDart.Models.MenuLeaf currentItem = Model[i] as MenuDart.Models.MenuLeaf;
+                
+                <li>
+					<h3>@currentItem.Title</h3>
+					<p>@currentItem.Description</p>
+					<span class="ui-li-count">@currentItem.Price</span>
+                    <p>
+                    @Html.ActionLink("Delete", "Delete", new { id = ViewBag.MenuId, parent = ViewBag.Parent, idx = i }, null)
+                    @Html.ActionLink("Edit", "EditItem", new { id = ViewBag.MenuId, parent = ViewBag.Parent, idx = i }, null)
+                    </p>
+				</li>       
+            }
+            else
+            {
+                <li><a href="@ViewBag.MenuId?parent=@ViewBag.Parent&idx=@(i)">@Model[i].Title</a>
+                <p>
+                &nbsp;&nbsp;&nbsp;&nbsp;
+                @Html.ActionLink("Delete", "Delete", new { id = ViewBag.MenuId, parent = ViewBag.Parent, idx = i }, null)
+                @Html.ActionLink("Edit", "Edit", new { id = ViewBag.MenuId, parent = ViewBag.Parent, idx = i }, null)
+                </p>
+                </li>
+            }
+        }
 
-    <div class="display-label">Text</div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.Text)
-    </div>
-</fieldset>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id=Model.ID }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
+		</ul>
+    @Html.ActionLink("Add Category", "Create", "MenuTree", new { id = ViewBag.MenuId, parent = ViewBag.Parent }, null)
+    @Html.ActionLink("Add Item", "CreateItem", "MenuTree", new { id = ViewBag.MenuId, parent = ViewBag.Parent }, null)
+    <p>
+    @if (!string.IsNullOrEmpty(ViewBag.UpLevel))
+    {
+        @Html.ActionLink("Back one level", "Details", "MenuTree", new { id = ViewBag.MenuId, parent = ViewBag.UpLevel, idx = -1 }, null)
+    }
+    else
+    {
+        @Html.ActionLink("Back to Main Level", "Details", "MenuTree", new { id = ViewBag.MenuId, parent = 0, idx = -1 }, null)
+    }
+    <br>
+    @Html.ActionLink("Back to Menu Edit", "Edit", "Menu", new { id = ViewBag.MenuId }, null)		    	
+	</div><!-- /content -->
+</div>

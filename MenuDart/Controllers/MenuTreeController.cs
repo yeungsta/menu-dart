@@ -25,10 +25,98 @@ namespace MenuDart.Controllers
         //
         // GET: /MenuTree/Details/5
 
-        public ViewResult Details(int id)
+        public ActionResult Details(string parent, int idx, int id = 0)
         {
-            MenuNode menunode = db.MenuTree.Find(id);
-            return View(menunode);
+            //we need a parent ID in order to know what to display
+            if (!string.IsNullOrEmpty(parent))
+            {
+                Menu menu = db.Menus.Find(id);
+
+                if (menu == null)
+                {
+                    return HttpNotFound();
+                }
+
+                ViewBag.Restaurant = menu.Name;
+                ViewBag.MenuId = id;
+                ViewBag.Parent = parent;
+
+                List<MenuNode> currentMenuTree = Composer.V1.DeserializeMenuTree(menu.MenuTree);
+
+                if (parent == RootLevel)
+                {
+                    ViewBag.UpLevel = RootLevel;
+
+                    //if no specific index is specified, just display the whole level
+                    if (idx == -1)
+                    {
+                        return View(currentMenuTree);
+                    }
+                    else
+                    {
+                        ViewBag.Parent = currentMenuTree[idx].Link;
+                        ViewBag.Text = currentMenuTree[idx].Text;
+                        return View(currentMenuTree[idx].Branches);
+                    }
+                }
+                else
+                {
+                    //find the parent node
+                    MenuNode parentNode = Composer.V1.FindMenuNode(currentMenuTree, parent);
+
+                    //if no specific index is specified, just display the whole level
+                    if (idx == -1)
+                    {
+                        string[] levels = parentNode.Link.Split('-');
+                        if (levels.Count() > 2)
+                        {
+                            string upLevel = levels[0];
+
+                            //construct one level up
+                            for (int x = 1; x < levels.Count() - 1; x++)
+                            {
+                                upLevel += "-" + levels[x];
+                            }
+
+                            ViewBag.UpLevel = upLevel;
+                        }
+                        else
+                        {
+                            ViewBag.UpLevel = RootLevel;
+                        }
+
+                        ViewBag.Text = parentNode.Text;
+                        return View(parentNode.Branches);
+                    }
+                    else
+                    {
+                        string[] levels = parentNode.Branches[idx].Link.Split('-');
+                        if (levels.Count() > 2)
+                        {
+                            string upLevel = levels[0];
+
+                            //construct one level up
+                            for (int x = 1; x < levels.Count() - 1; x++)
+                            {
+                                upLevel += "-" + levels[x];
+                            }
+
+                            ViewBag.UpLevel = upLevel;
+                        }
+                        else
+                        {
+                            ViewBag.UpLevel = RootLevel;
+                        }
+
+                        ViewBag.Parent = parentNode.Branches[idx].Link;
+                        ViewBag.Text = parentNode.Branches[idx].Text;
+                        //return the branches of the parent node
+                        return View(parentNode.Branches[idx].Branches);
+                    }
+                }
+            }
+
+            return HttpNotFound();
         }
 
         //
@@ -55,7 +143,7 @@ namespace MenuDart.Controllers
         // POST: /MenuTree/Create
 
         [HttpPost]
-        public ActionResult Create(List<MenuNode> newMenuNodes, int id, string parent)
+        public ActionResult Create(MenuNode newMenuNode, int id, string parent)
         {
             //we need a parent in order to know where to create these menu nodes
             if (!string.IsNullOrEmpty(parent))
@@ -77,8 +165,8 @@ namespace MenuDart.Controllers
                         //if parent is empty, this is the root level
                         if (parent == RootLevel)
                         {
-                            //add all nodes to the root level
-                            currentMenuTree.AddRange(newMenuNodes);
+                            //add node to the root level
+                            currentMenuTree.Add(newMenuNode);
                         }
                         else
                         {
@@ -87,8 +175,8 @@ namespace MenuDart.Controllers
 
                             if (parentNode != null)
                             {
-                                //add all nodes to the parent's branches
-                                parentNode.Branches.AddRange(newMenuNodes);
+                                //add node to the parent's branches
+                                parentNode.Branches.Add(newMenuNode);
                             }
                         }
 
@@ -97,18 +185,20 @@ namespace MenuDart.Controllers
                     }
                     else
                     {
+                        List<MenuNode> newMenuNodeList = new List<MenuNode>();
+                        newMenuNodeList.Add(newMenuNode);
                         //no current nodes, so just set serialized data directly into menu
-                        menu.MenuTree = Composer.V1.SerializeMenuTree(newMenuNodes);
+                        menu.MenuTree = Composer.V1.SerializeMenuTree(newMenuNodeList);
                     }
 
                     //save menu
                     db.Entry(menu).State = EntityState.Modified;
                     db.SaveChanges();
 
-                    return RedirectToAction("Edit", new { id = id, parent = parent, idx = -1 });
+                    return RedirectToAction("Details", new { id = id, parent = parent, idx = -1 });
                 }
 
-                return View(newMenuNodes);
+                return View(newMenuNode);
             }
 
             return HttpNotFound();
@@ -135,7 +225,7 @@ namespace MenuDart.Controllers
         // POST: /MenuTree/CreateItem
 
         [HttpPost]
-        public ActionResult CreateItem(List<MenuLeaf> newMenuLeaves, int id, string parent)
+        public ActionResult CreateItem(MenuLeaf newMenuLeaf, int id, string parent)
         {
             //we need a parent in order to know where to create these menu nodes
             if (!string.IsNullOrEmpty(parent))
@@ -157,8 +247,8 @@ namespace MenuDart.Controllers
                         //if parent is empty, this is the root level
                         if (parent == RootLevel)
                         {
-                            //add all nodes to the root level
-                            currentMenuTree.AddRange(newMenuLeaves);
+                            //add node to the root level
+                            currentMenuTree.Add(newMenuLeaf);
                         }
                         else
                         {
@@ -167,8 +257,8 @@ namespace MenuDart.Controllers
 
                             if (parentNode != null)
                             {
-                                //add all nodes to the parent's branches
-                                parentNode.Branches.AddRange(newMenuLeaves);
+                                //add node to the parent's branches
+                                parentNode.Branches.Add(newMenuLeaf);
                             }
                         }
 
@@ -179,7 +269,7 @@ namespace MenuDart.Controllers
                     {
                         //no current nodes, so just set serialized data directly into menu
                         List<MenuNode> newMenuNodes = new List<MenuNode>();
-                        newMenuNodes.Add(newMenuLeaves[0] as MenuNode);
+                        newMenuNodes.Add(newMenuLeaf as MenuNode);
 
                         menu.MenuTree = Composer.V1.SerializeMenuTree(newMenuNodes);
                     }
@@ -188,10 +278,10 @@ namespace MenuDart.Controllers
                     db.Entry(menu).State = EntityState.Modified;
                     db.SaveChanges();
 
-                    return RedirectToAction("Edit", new { id = id, link = parent });
+                    return RedirectToAction("Details", new { id = id, parent = parent, idx = -1 });
                 }
 
-                return View(newMenuLeaves);
+                return View(newMenuLeaf);
             }
 
             return HttpNotFound();
@@ -218,36 +308,21 @@ namespace MenuDart.Controllers
 
                 List<MenuNode> currentMenuTree = Composer.V1.DeserializeMenuTree(menu.MenuTree);
 
+                MenuNode currentNode;
+
                 if (parent == RootLevel)
                 {
-                    //if no specific index is specified, just return the whole level to edit
-                    if (idx == -1)
-                    {
-                        return View(currentMenuTree);
-                    }
-                    else
-                    {
-                        ViewBag.Parent = currentMenuTree[idx].Link;
-                        return View(currentMenuTree[idx].Branches);
-                    }
+                    currentNode = currentMenuTree[idx];
                 }
                 else
                 {
                     //find the parent node based on link
                     MenuNode parentNode = Composer.V1.FindMenuNode(currentMenuTree, parent);
 
-                    //if no specific index is specified, just return the whole level to edit
-                    if (idx == -1)
-                    {
-                        return View(parentNode.Branches);
-                    }
-                    else
-                    {
-                        ViewBag.Parent = parentNode.Branches[idx].Link;
-                        //return the branches of the parent node
-                        return View(parentNode.Branches[idx].Branches);
-                    }
+                    currentNode = parentNode.Branches[idx];
                 }
+
+                return View(currentNode);
             }
 
             return HttpNotFound();
@@ -258,8 +333,60 @@ namespace MenuDart.Controllers
 
         [HttpPost]
         [ValidateInput(false)]
-        public ActionResult Edit(List<MenuNode> editedMenuNodes, int id, string parent)
+        public ActionResult Edit(MenuNode editedMenuNode, int id, string parent, int idx)
         {
+            //we need a parent ID in order to know where to edit
+            if (!string.IsNullOrEmpty(parent))
+            {
+                if (ModelState.IsValid)
+                {
+                    Menu menu = db.Menus.Find(id);
+
+                    if (menu == null)
+                    {
+                        return HttpNotFound();
+                    }
+
+                    //deserialize current menu tree
+                    List<MenuNode> currentMenuTree = Composer.V1.DeserializeMenuTree(menu.MenuTree);
+
+                    //check if this is the root level
+                    if (parent == RootLevel)
+                    {
+                        //update node: update all fields except branches
+                        currentMenuTree[idx].Title = editedMenuNode.Title;
+                        currentMenuTree[idx].Text = editedMenuNode.Text;
+                        currentMenuTree[idx].Link = editedMenuNode.Link;
+                    }
+                    else
+                    {
+                        //find the parent node
+                        MenuNode parentNode = Composer.V1.FindMenuNode(currentMenuTree, parent);
+
+                        if (parentNode != null)
+                        {
+                            //update node: update all fields except branches
+                            parentNode.Branches[idx].Title = editedMenuNode.Title;
+                            parentNode.Branches[idx].Text = editedMenuNode.Text;
+                            parentNode.Branches[idx].Link = editedMenuNode.Link;
+                        }
+                    }
+
+                    //serialize back into the menu
+                    menu.MenuTree = Composer.V1.SerializeMenuTree(currentMenuTree);
+
+                    //save menu
+                    db.Entry(menu).State = EntityState.Modified;
+                    db.SaveChanges();
+
+                    return RedirectToAction("Details", new { id = id, parent = parent, idx = -1 });
+                }
+
+                return View(editedMenuNode);
+            }
+
+            return HttpNotFound();
+/*
             //we need a parent ID in order to know where to edit
             if (!string.IsNullOrEmpty(parent))
             {
@@ -304,15 +431,16 @@ namespace MenuDart.Controllers
             }
 
             return HttpNotFound();
+ */ 
         }
 
         //
         // GET: /MenuTree/EditItem/5
 
-        public ActionResult EditItem(string link, int id = 0)
+        public ActionResult EditItem(string parent, int idx, int id = 0)
         {
-            //we need a link ID in order to know what to item edit
-            if (!string.IsNullOrEmpty(link))
+            //we need a parent ID in order to know where to edit
+            if (!string.IsNullOrEmpty(parent))
             {
                 Menu menu = db.Menus.Find(id);
 
@@ -323,17 +451,24 @@ namespace MenuDart.Controllers
 
                 ViewBag.Restaurant = menu.Name;
                 ViewBag.MenuId = id;
-                ViewBag.Link = link;
+                ViewBag.Parent = parent;
 
                 List<MenuNode> currentMenuTree = Composer.V1.DeserializeMenuTree(menu.MenuTree);
 
-                //find the right node
-                MenuNode currentNode = currentMenuTree.Find(node => node.Link == link);
+                MenuLeaf currentLeaf;
 
-                //view as leaf
-                MenuLeaf currentLeaf = currentNode as MenuLeaf;
+                if (parent == RootLevel)
+                {
+                    currentLeaf = currentMenuTree[idx] as MenuLeaf; 
+                }
+                else
+                {
+                    //find the parent node based on link
+                    MenuNode parentNode = Composer.V1.FindMenuNode(currentMenuTree, parent);
 
-                //return the node as a leaf
+                    currentLeaf = parentNode.Branches[idx] as MenuLeaf;
+                }
+
                 return View(currentLeaf);
             }
 
@@ -345,10 +480,10 @@ namespace MenuDart.Controllers
 
         [HttpPost]
         [ValidateInput(false)]
-        public ActionResult EditItem(List<MenuNode> editedMenuNodes, int id, string link)
+        public ActionResult EditItem(MenuLeaf newMenuLeaf, int id, string parent, int idx)
         {
-            //we need a link ID in order to know what to edit
-            if (!string.IsNullOrEmpty(link))
+            //we need a parent ID in order to know where to edit
+            if (!string.IsNullOrEmpty(parent))
             {
                 if (ModelState.IsValid)
                 {
@@ -359,35 +494,38 @@ namespace MenuDart.Controllers
                         return HttpNotFound();
                     }
 
+                    //deserialize current menu tree
+                    List<MenuNode> currentMenuTree = Composer.V1.DeserializeMenuTree(menu.MenuTree);
+
                     //check if this is the root level
-                    if (link == RootLevel)
+                    if (parent == RootLevel)
                     {
-                        //serialize data directly into menu's root level
-                        menu.MenuTree = Composer.V1.SerializeMenuTree(editedMenuNodes);
+                        //update item
+                        currentMenuTree[idx] = newMenuLeaf;
                     }
                     else
                     {
-                        //deserialize current menu tree
-                        List<MenuNode> currentMenuTree = Composer.V1.DeserializeMenuTree(menu.MenuTree);
+                        //find the parent node
+                        MenuNode parentNode = Composer.V1.FindMenuNode(currentMenuTree, parent);
 
-                        //find the right node
-                        MenuNode currentNode = currentMenuTree.Find(node => node.Link == link);
-
-                        if (currentNode != null)
+                        if (parentNode != null)
                         {
-                            //add all nodes to the right node's branches
-                            currentNode.Branches.AddRange(editedMenuNodes);
+                            //update item
+                            parentNode.Branches[idx] = newMenuLeaf;
                         }
                     }
+
+                    //serialize back into the menu
+                    menu.MenuTree = Composer.V1.SerializeMenuTree(currentMenuTree);
 
                     //save menu
                     db.Entry(menu).State = EntityState.Modified;
                     db.SaveChanges();
 
-                    return RedirectToAction("Details", "Menu", new { id = id });
+                    return RedirectToAction("Details", new { id = id, parent = parent, idx = -1 });
                 }
 
-                return View(editedMenuNodes);
+                return View(newMenuLeaf);
             }
 
             return HttpNotFound();
@@ -463,7 +601,7 @@ namespace MenuDart.Controllers
             db.Entry(menu).State = EntityState.Modified;
             db.SaveChanges();
 
-            return RedirectToAction("Edit", new { id = id, parent = parent, idx = -1 });
+            return RedirectToAction("Details", new { id = id, parent = parent, idx = -1 });
         }
 
         protected override void Dispose(bool disposing)

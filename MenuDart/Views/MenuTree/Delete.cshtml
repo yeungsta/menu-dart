@@ -28,5 +28,5 @@
 
     <p>
         @Html.ActionLink("Delete", "DeleteConfirmed", new { id = ViewBag.MenuId, parent = ViewBag.Parent, idx = ViewBag.Index }, null) |
-        @Html.ActionLink("Back to Menu Nodes", "Edit", new { id = ViewBag.MenuId }, null)
+        @Html.ActionLink("Back", "Details", "MenuTree", new { id = ViewBag.MenuId, parent = ViewBag.Parent, idx = -1 }, null)
     </p>
