@@ -55,7 +55,7 @@ namespace MenuDart.Models
             firestarters.Add(new MenuLeaf() { Title = "Crispy Fried Shaved Onions", Price = 5, Link = "1-1-i11" });
 
             List<MenuNode> wings = new List<MenuNode>();
-            wings.Add(new MenuLeaf() { Title = "Wings By the Dozen", Description = "Order &apos;Em The Way You Like &apos;Em<br>Mild / Medium / Hot<br>With Bleu Cheese Dip and Celery Sticks", Price = 10, Link = "1-2-i1" });
+            wings.Add(new MenuLeaf() { Title = "Wings By the Dozen", Description = "Order 'Em The Way You Like 'Em<br>Mild / Medium / Hot<br>With Bleu Cheese Dip and Celery Sticks", Price = 10, Link = "1-2-i1" });
 
             List<MenuNode> salads = new List<MenuNode>();
             salads.Add(new MenuLeaf() { Title = "Southwest Chicken Salad", Description = "With Citrus Vinaigrette", Price = 12, Link = "1-3-i1" });

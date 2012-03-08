@@ -1,0 +1,64 @@
+﻿@model MenuDart.Models.MenuBuilderViewModel
+
+@{
+    ViewBag.Title = "MenuBuilder";
+}
+
+<h2>MenuBuilder for @ViewBag.Restaurant: @ViewBag.Parent</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.ValidationSummary(true)
+    <fieldset>
+        <legend>Menu Builder</legend>
+
+        @for (int i = 0; i < Model.MenuTree.Count; i++)
+        {
+            <p><h3> 
+            @if (Model.MenuTree[i] is MenuDart.Models.MenuLeaf)
+            {
+                <text>Item</text>
+            }
+            else
+            {
+               <text>Category</text>
+            }
+
+            #@(i + 1)
+            @Html.ActionLink("Delete", "Delete", new { id = ViewBag.MenuId, nodeIdx = (i) }, null)
+            @Html.ActionLink("MenuBuilder", "MenuBuilder", new { id = ViewBag.MenuId, parent = Model.MenuTree[i].Link }, null)
+            </h3>
+            </p> 
+             
+            @Html.HiddenFor(model => model.MenuTree[i].ID)
+
+            <div class="editor-label">
+                @Html.LabelFor(model => model.MenuTree[i].Title)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.MenuTree[i].Title)
+                @Html.ValidationMessageFor(model => model.MenuTree[i].Title)
+            </div>
+
+            <div class="editor-label">
+                @Html.LabelFor(model => model.MenuTree[i].Link)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.MenuTree[i].Link)
+                @Html.ValidationMessageFor(model => model.MenuTree[i].Link)
+            </div>
+
+            <div class="editor-label">
+                @Html.LabelFor(model => model.MenuTree[i].Text)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.MenuTree[i].Text)
+                @Html.ValidationMessageFor(model => model.MenuTree[i].Text)
+            </div>
+        }
+
+        <p>
+            <input type="submit" value="Save" />
+        </p>
+    </fieldset>
+}

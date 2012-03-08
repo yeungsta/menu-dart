@@ -162,9 +162,18 @@ namespace MenuDart.Controllers
 
                     if ((currentMenuTree != null) && (currentMenuTree.Count > 0))
                     {
-                        //if parent is empty, this is the root level
+                        //if this is the root level
                         if (parent == RootLevel)
                         {
+                            try
+                            {
+                                newMenuNode.Link = IncrementLink(currentMenuTree.Last(node => !(node is MenuLeaf)).Link);
+                            }
+                            catch //there is no other menuNode
+                            {
+                                newMenuNode.Link = "1-1";
+                            }
+
                             //add node to the root level
                             currentMenuTree.Add(newMenuNode);
                         }
@@ -175,6 +184,16 @@ namespace MenuDart.Controllers
 
                             if (parentNode != null)
                             {
+                                try
+                                {
+                                    newMenuNode.Link = IncrementLink(parentNode.Branches.Last(node => !(node is MenuLeaf)).Link);
+                                }
+                                catch //there is no other menuNode
+                                {
+                                    //create the first category link of this level
+                                    newMenuNode.Link = parentNode.Link + "-1";
+                                }
+
                                 //add node to the parent's branches
                                 parentNode.Branches.Add(newMenuNode);
                             }
@@ -185,6 +204,9 @@ namespace MenuDart.Controllers
                     }
                     else
                     {
+                        //this is the first and only node of the tree
+                        newMenuNode.Link = "1-1";
+
                         List<MenuNode> newMenuNodeList = new List<MenuNode>();
                         newMenuNodeList.Add(newMenuNode);
                         //no current nodes, so just set serialized data directly into menu
@@ -202,6 +224,27 @@ namespace MenuDart.Controllers
             }
 
             return HttpNotFound();
+        }
+
+        private string IncrementLink(string link)
+        {
+            string[] levels = link.Split('-');
+            
+            int lastNum = int.Parse(levels.Last());
+            lastNum++;
+            levels[levels.Count() - 1] = lastNum.ToString();
+
+            string newLink = string.Empty;
+
+            //construct the link
+            newLink = levels[0];
+
+            for (int x = 1; x < levels.Count(); x++)
+            {
+                newLink += "-" + levels[x];
+            }
+
+            return newLink;
         }
 
         public ActionResult CreateItem(string parent, int id = 0)
