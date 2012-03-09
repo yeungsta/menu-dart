@@ -4,61 +4,50 @@
     ViewBag.Title = "MenuBuilder";
 }
 
-<h2>MenuBuilder for @ViewBag.Restaurant: @ViewBag.Parent</h2>
+<h2>Menu Builder</h2>
 
 @using (Html.BeginForm())
 {
     @Html.ValidationSummary(true)
     <fieldset>
         <legend>Menu Builder</legend>
-
-        @for (int i = 0; i < Model.MenuTree.Count; i++)
-        {
-            <p><h3> 
-            @if (Model.MenuTree[i] is MenuDart.Models.MenuLeaf)
-            {
-                <text>Item</text>
-            }
-            else
-            {
-               <text>Category</text>
-            }
-
-            #@(i + 1)
-            @Html.ActionLink("Delete", "Delete", new { id = ViewBag.MenuId, nodeIdx = (i) }, null)
-            @Html.ActionLink("MenuBuilder", "MenuBuilder", new { id = ViewBag.MenuId, parent = Model.MenuTree[i].Link }, null)
-            </h3>
-            </p> 
              
-            @Html.HiddenFor(model => model.MenuTree[i].ID)
+            @Html.HiddenFor(model => model.CurrentMenu.ID)
 
             <div class="editor-label">
-                @Html.LabelFor(model => model.MenuTree[i].Title)
+                @Html.LabelFor(model => model.CurrentMenu.Name, "Please enter your restaurant's name.")
             </div>
             <div class="editor-field">
-                @Html.EditorFor(model => model.MenuTree[i].Title)
-                @Html.ValidationMessageFor(model => model.MenuTree[i].Title)
-            </div>
-
-            <div class="editor-label">
-                @Html.LabelFor(model => model.MenuTree[i].Link)
-            </div>
-            <div class="editor-field">
-                @Html.EditorFor(model => model.MenuTree[i].Link)
-                @Html.ValidationMessageFor(model => model.MenuTree[i].Link)
+                @Html.EditorFor(model => model.CurrentMenu.Name)
+                @Html.ValidationMessageFor(model => model.CurrentMenu.Name)
             </div>
 
             <div class="editor-label">
-                @Html.LabelFor(model => model.MenuTree[i].Text)
+                @Html.LabelFor(model => model.CurrentMenu.City, "Enter the city your restaurant is in.")
             </div>
             <div class="editor-field">
-                @Html.EditorFor(model => model.MenuTree[i].Text)
-                @Html.ValidationMessageFor(model => model.MenuTree[i].Text)
+                @Html.EditorFor(model => model.CurrentMenu.City)
+                @Html.ValidationMessageFor(model => model.CurrentMenu.City)
             </div>
-        }
+
+            <div class="editor-label">
+                @Html.LabelFor(model => model.CurrentMenu.Phone, "Enter your restaurant's phone number.")
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.CurrentMenu.Phone)
+                @Html.ValidationMessageFor(model => model.CurrentMenu.Phone)
+            </div>
+
+            <div class="editor-label">
+                @Html.LabelFor(model => model.CurrentMenu.Website, "Enter your restaurant's current website address, if you have one.")
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.CurrentMenu.Website)
+                @Html.ValidationMessageFor(model => model.CurrentMenu.Website)
+            </div>
 
         <p>
-            <input type="submit" value="Save" />
+            <input type="submit" value="Create Menu!" />
         </p>
     </fieldset>
 }

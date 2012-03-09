@@ -457,25 +457,28 @@ namespace MenuDart.Composer
             writer.AddAttribute(Constants.DataInset, "true");
             writer.RenderBeginTag(HtmlTextWriterTag.Ul);
 
-            foreach (MenuNode node in nodeList)
+            if (nodeList != null)
             {
-                writer.RenderBeginTag(HtmlTextWriterTag.Li);
-                writer.WriteLine();
-                writer.Indent++;
-
-                if (node is MenuLeaf)
+                foreach (MenuNode node in nodeList)
                 {
-                    MenuLeaf leaf = node as MenuLeaf;
-                    AddMenuLeaf(writer, leaf.Title, leaf.Description, leaf.Price);
-                }
-                else
-                {
-                    AddMenuNode(writer, node.Title, "#" + node.Link);
-                }
+                    writer.RenderBeginTag(HtmlTextWriterTag.Li);
+                    writer.WriteLine();
+                    writer.Indent++;
 
-                writer.Indent--;
-                writer.RenderEndTag();
-                writer.WriteLine();
+                    if (node is MenuLeaf)
+                    {
+                        MenuLeaf leaf = node as MenuLeaf;
+                        AddMenuLeaf(writer, leaf.Title, leaf.Description, leaf.Price);
+                    }
+                    else
+                    {
+                        AddMenuNode(writer, node.Title, "#" + node.Link);
+                    }
+
+                    writer.Indent--;
+                    writer.RenderEndTag();
+                    writer.WriteLine();
+                }
             }
 
             writer.RenderEndTag();
@@ -616,71 +619,82 @@ namespace MenuDart.Composer
             writer.RenderBeginTag(HtmlTextWriterTag.Img);
             writer.RenderEndTag();
             writer.WriteLine();
-            writer.RenderBeginTag(HtmlTextWriterTag.H3);
-            writer.Write(m_menu.AboutTitle.Replace(Environment.NewLine, Constants.Break));
-            writer.RenderEndTag();
+
+            if (!string.IsNullOrEmpty(m_menu.AboutTitle))
+            {
+                writer.RenderBeginTag(HtmlTextWriterTag.H3);
+                writer.Write(m_menu.AboutTitle.Replace(Environment.NewLine, Constants.Break));
+                writer.RenderEndTag();
+            }
+
             writer.RenderEndTag();
         }
 
         private void AddStory(HtmlTextWriter writer)
         {
-            writer.RenderBeginTag(HtmlTextWriterTag.H4);
-            writer.Write(m_menu.AboutText.Replace(Environment.NewLine, Constants.Paragraph));
-            writer.RenderEndTag();
+            if (!string.IsNullOrEmpty(m_menu.AboutText))
+            {
+                writer.RenderBeginTag(HtmlTextWriterTag.H4);
+                writer.Write(m_menu.AboutText.Replace(Environment.NewLine, Constants.Paragraph));
+                writer.RenderEndTag();
+            }
         }
 
         private void AddLocations(HtmlTextWriter writer)
         {
-            foreach (Location location in m_locations)
+            if (m_locations != null)
             {
-                writer.AddAttribute(HtmlTextWriterAttribute.Class, "center");
-                writer.RenderBeginTag(HtmlTextWriterTag.Div);
-                writer.RenderBeginTag(HtmlTextWriterTag.H4);
-                writer.Write(location.Title);
-                writer.Write(Constants.Paragraph);
-                writer.Write(location.Address + Constants.Break + location.City + ", " + location.State + " " + location.Zip);
-                writer.Write(Constants.Paragraph);
-                writer.WriteLine();
-                if (!string.IsNullOrEmpty(location.MapImgUrl) && !string.IsNullOrEmpty(location.MapLink))
+                foreach (Location location in m_locations)
                 {
-                    AddMap(writer, location.MapLink, location.MapImgUrl);
-                }
-                writer.Write(Constants.Paragraph);
-                writer.WriteLine();
-                if (!string.IsNullOrEmpty(location.Phone))
-                {
-                    AddCallBtn(writer, location.Phone);
+                    writer.AddAttribute(HtmlTextWriterAttribute.Class, "center");
+                    writer.RenderBeginTag(HtmlTextWriterTag.Div);
+                    writer.RenderBeginTag(HtmlTextWriterTag.H4);
+                    writer.Write(location.Title);
+                    writer.Write(Constants.Paragraph);
+                    writer.Write(location.Address + Constants.Break + location.City + ", " + location.State + " " + location.Zip);
                     writer.Write(Constants.Paragraph);
                     writer.WriteLine();
-                }
-                AddHours(writer, location.Hours);
-                writer.Write(Constants.Paragraph);
-                writer.WriteLine();
-                if (!string.IsNullOrEmpty(location.Email))
-                {
-                    AddEmailBtn(writer, location.Email);
+                    if (!string.IsNullOrEmpty(location.MapImgUrl) && !string.IsNullOrEmpty(location.MapLink))
+                    {
+                        AddMap(writer, location.MapLink, location.MapImgUrl);
+                    }
                     writer.Write(Constants.Paragraph);
                     writer.WriteLine();
-                }
-                if (!string.IsNullOrEmpty(location.Facebook))
-                {
-                    AddFacebookBtn(writer, location.Facebook);
+                    if (!string.IsNullOrEmpty(location.Phone))
+                    {
+                        AddCallBtn(writer, location.Phone);
+                        writer.Write(Constants.Paragraph);
+                        writer.WriteLine();
+                    }
+                    AddHours(writer, location.Hours);
                     writer.Write(Constants.Paragraph);
                     writer.WriteLine();
-                }
-                if (!string.IsNullOrEmpty(location.Twitter))
-                {
-                    AddTwitterBtn(writer, location.Twitter);
-                    writer.Write(Constants.Paragraph);
-                    writer.WriteLine();
-                }
-                if (!string.IsNullOrEmpty(location.Yelp))
-                {
-                    AddYelpBtn(writer, location.Yelp);
-                }
+                    if (!string.IsNullOrEmpty(location.Email))
+                    {
+                        AddEmailBtn(writer, location.Email);
+                        writer.Write(Constants.Paragraph);
+                        writer.WriteLine();
+                    }
+                    if (!string.IsNullOrEmpty(location.Facebook))
+                    {
+                        AddFacebookBtn(writer, location.Facebook);
+                        writer.Write(Constants.Paragraph);
+                        writer.WriteLine();
+                    }
+                    if (!string.IsNullOrEmpty(location.Twitter))
+                    {
+                        AddTwitterBtn(writer, location.Twitter);
+                        writer.Write(Constants.Paragraph);
+                        writer.WriteLine();
+                    }
+                    if (!string.IsNullOrEmpty(location.Yelp))
+                    {
+                        AddYelpBtn(writer, location.Yelp);
+                    }
 
-                writer.RenderEndTag();
-                writer.RenderEndTag();
+                    writer.RenderEndTag();
+                    writer.RenderEndTag();
+                }
             }
         }
 

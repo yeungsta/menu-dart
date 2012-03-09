@@ -330,6 +330,80 @@ namespace MenuDart.Controllers
             return HttpNotFound();
         }
 
+        public ActionResult CreateText(string parent, int id = 0)
+        {
+            //Todo: may not need to do a DB find. Just pass in the restaurant name from link
+            Menu menu = db.Menus.Find(id);
+
+            if (menu == null)
+            {
+                return HttpNotFound();
+            }
+
+            ViewBag.Restaurant = menu.Name;
+            ViewBag.MenuId = id;
+            ViewBag.Parent = parent;
+
+            return View();
+        }
+
+        //
+        // POST: /MenuTree/CreateText
+
+        [HttpPost]
+        public ActionResult CreateText(MenuNode newNode, int id, string parent)
+        {
+            //we need a parent in order to know where to add the text
+            if (!string.IsNullOrEmpty(parent))
+            {
+                if (ModelState.IsValid)
+                {
+                    Menu menu = db.Menus.Find(id);
+
+                    if (menu == null)
+                    {
+                        return HttpNotFound();
+                    }
+
+                    //first deserialize current menu tree
+                    List<MenuNode> currentMenuTree = Composer.V1.DeserializeMenuTree(menu.MenuTree);
+
+                    if ((currentMenuTree != null) && (currentMenuTree.Count > 0))
+                    {
+                        //if parent is empty, this is the root level
+                        if (parent == RootLevel)
+                        {
+                            //no text on root level?
+                        }
+                        else
+                        {
+                            //find the parent node
+                            MenuNode parentNode = Composer.V1.FindMenuNode(currentMenuTree, parent);
+
+                            if (parentNode != null)
+                            {
+                                //add node to the parent's branches
+                                parentNode.Text = newNode.Text;
+                            }
+                        }
+
+                        //serialize back into the menu
+                        menu.MenuTree = Composer.V1.SerializeMenuTree(currentMenuTree);
+                    }
+
+                    //save menu
+                    db.Entry(menu).State = EntityState.Modified;
+                    db.SaveChanges();
+
+                    return RedirectToAction("Details", new { id = id, parent = parent, idx = -1 });
+                }
+
+                return View(newNode);
+            }
+
+            return HttpNotFound();
+        }
+
         //
         // GET: /MenuTree/Edit/5
 
@@ -428,53 +502,7 @@ namespace MenuDart.Controllers
                 return View(editedMenuNode);
             }
 
-            return HttpNotFound();
-/*
-            //we need a parent ID in order to know where to edit
-            if (!string.IsNullOrEmpty(parent))
-            {
-                if (ModelState.IsValid)
-                {
-                    Menu menu = db.Menus.Find(id);
-
-                    if (menu == null)
-                    {
-                        return HttpNotFound();
-                    }
-
-                    //check if this is the root level
-                    if (parent == RootLevel)
-                    {
-                        //serialize data directly into menu's root level
-                        menu.MenuTree = Composer.V1.SerializeMenuTree(editedMenuNodes);
-                    }
-                    else
-                    {
-                        //deserialize current menu tree
-                        List<MenuNode> currentMenuTree = Composer.V1.DeserializeMenuTree(menu.MenuTree);
-
-                        //find the parent node based on link
-                        MenuNode parentNode = Composer.V1.FindMenuNode(currentMenuTree, parent);
-
-                        if (parentNode != null)
-                        {
-                            //add all nodes to the parent node's branches
-                            parentNode.Branches.AddRange(editedMenuNodes);
-                        }
-                    }
-
-                    //save menu
-                    db.Entry(menu).State = EntityState.Modified;
-                    db.SaveChanges();
-
-                    return RedirectToAction("Details", "Menu", new { id = id });
-                }
-
-                return View(editedMenuNodes);
-            }
-
-            return HttpNotFound();
- */ 
+            return HttpNotFound(); 
         }
 
         //
@@ -575,6 +603,96 @@ namespace MenuDart.Controllers
         }
 
         //
+        // GET: /MenuTree/EditText/5
+
+        public ActionResult EditText(string parent, int id = 0)
+        {
+            //we need a parent ID in order to know where to edit
+            if (!string.IsNullOrEmpty(parent))
+            {
+                Menu menu = db.Menus.Find(id);
+
+                if (menu == null)
+                {
+                    return HttpNotFound();
+                }
+
+                ViewBag.Restaurant = menu.Name;
+                ViewBag.MenuId = id;
+                ViewBag.Parent = parent;
+
+                List<MenuNode> currentMenuTree = Composer.V1.DeserializeMenuTree(menu.MenuTree);
+
+                if (parent == RootLevel)
+                {
+                    //no root
+                }
+                else
+                {
+                    //find the parent node
+                    return View(Composer.V1.FindMenuNode(currentMenuTree, parent));
+                }
+            }
+
+            return HttpNotFound();
+        }
+
+        //
+        // POST: /MenuTree/EditText/5
+
+        [HttpPost]
+        [ValidateInput(false)]
+        public ActionResult EditText(MenuNode editedMenuNode, int id, string parent)
+        {
+            //we need a parent ID in order to know where to edit
+            if (!string.IsNullOrEmpty(parent))
+            {
+                if (ModelState.IsValid)
+                {
+                    Menu menu = db.Menus.Find(id);
+
+                    if (menu == null)
+                    {
+                        return HttpNotFound();
+                    }
+
+                    //deserialize current menu tree
+                    List<MenuNode> currentMenuTree = Composer.V1.DeserializeMenuTree(menu.MenuTree);
+
+                    //check if this is the root level
+                    if (parent == RootLevel)
+                    {
+                        //no root level?
+                    }
+                    else
+                    {
+                        //find the parent node
+                        MenuNode parentNode = Composer.V1.FindMenuNode(currentMenuTree, parent);
+
+                        if (parentNode != null)
+                        {
+                            //update text field
+                            parentNode.Text = editedMenuNode.Text;
+                        }
+                    }
+
+                    //serialize back into the menu
+                    menu.MenuTree = Composer.V1.SerializeMenuTree(currentMenuTree);
+
+                    //save menu
+                    db.Entry(menu).State = EntityState.Modified;
+                    db.SaveChanges();
+
+                    return RedirectToAction("Details", new { id = id, parent = parent, idx = -1 });
+                }
+
+                return View(editedMenuNode);
+            }
+
+            return HttpNotFound();
+        }
+
+        //
         // GET: /MenuTree/Delete/5
 
         public ActionResult Delete(string parent, int idx, int id)
@@ -635,6 +753,77 @@ namespace MenuDart.Controllers
             {
                 //remove at the index
                 Composer.V1.FindMenuNode(currentMenuTree, parent).Branches.RemoveAt(idx);
+            }
+
+            //serialize back into the menu
+            menu.MenuTree = Composer.V1.SerializeMenuTree(currentMenuTree);
+
+            //save menu
+            db.Entry(menu).State = EntityState.Modified;
+            db.SaveChanges();
+
+            return RedirectToAction("Details", new { id = id, parent = parent, idx = -1 });
+        }
+
+        //
+        // GET: /MenuTree/DeleteText/5
+
+        public ActionResult DeleteText(string parent, int id)
+        {
+            //we need a parent ID in order to know where to delete
+            if (!string.IsNullOrEmpty(parent))
+            {
+                Menu menu = db.Menus.Find(id);
+
+                if (menu == null)
+                {
+                    return HttpNotFound();
+                }
+
+                ViewBag.MenuId = id;
+                ViewBag.Parent = parent;
+
+                List<MenuNode> currentMenuTree = Composer.V1.DeserializeMenuTree(menu.MenuTree);
+
+                //check if this is the root level
+                if (parent == RootLevel)
+                {
+                    //no root level?
+                }
+                else
+                {
+                    //find the parent node
+                    return View(Composer.V1.FindMenuNode(currentMenuTree, parent));
+                }
+            }
+
+            return HttpNotFound();
+        }
+
+        //
+        // POST: /MenuTree/DeleteText/5
+
+        public ActionResult DeleteTextConfirmed(int id, string parent)
+        {
+            Menu menu = db.Menus.Find(id);
+
+            if (menu == null)
+            {
+                return HttpNotFound();
+            }
+
+            //deserialize current menutree
+            List<MenuNode> currentMenuTree = Composer.V1.DeserializeMenuTree(menu.MenuTree);
+
+            //check if this is the root level
+            if (parent == RootLevel)
+            {
+                //none at root level?
+            }
+            else
+            {
+                //clear out text
+                Composer.V1.FindMenuNode(currentMenuTree, parent).Text = string.Empty;
             }
 
             //serialize back into the menu

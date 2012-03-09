@@ -1,0 +1,22 @@
+﻿@model MenuDart.Models.MenuNode
+           
+@{
+    ViewBag.Title = "DeleteText";
+}
+
+<h2>DeleteText</h2>
+
+<h3>Are you sure you want to delete this text?</h3>
+<fieldset>
+    <legend>Page Text</legend>
+
+    <div class="display-label">Text</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Text)
+    </div>
+</fieldset>
+
+    <p>
+        @Html.ActionLink("Delete", "DeleteTextConfirmed", new { id = ViewBag.MenuId, parent = ViewBag.Parent }, null) |
+        @Html.ActionLink("Back", "Details", "MenuTree", new { id = ViewBag.MenuId, parent = ViewBag.Parent, idx = -1 }, null)
+    </p>

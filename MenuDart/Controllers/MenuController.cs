@@ -168,42 +168,60 @@ namespace MenuDart.Controllers
         }
 
         //
-        // GET: /Menu/MenuBuilder/5
-
-        public ActionResult MenuBuilder(string parent, int id = 0)
+        // GET: /Menu/MenuBuilder
+        // This is the start of the menu builder. A new menu is created here.
+        public ActionResult MenuBuilder()
         {
-            //we need a parent in order to know what to edit
-            if (!string.IsNullOrEmpty(parent))
+            Menu newMenu = new Menu();
+
+            ViewBag.MenuId = newMenu.ID;
+
+            MenuBuilderViewModel menuBuilderViewData = new MenuBuilderViewModel();
+            menuBuilderViewData.CurrentMenu = newMenu;
+
+            return View(menuBuilderViewData);
+        }
+
+        //
+        // POST: /Menu/MenuBuilder
+
+        [HttpPost]
+        public ActionResult MenuBuilder(MenuBuilderViewModel menuBuilderModel)
+        {
+            if (ModelState.IsValid)
             {
-                Menu menu = db.Menus.Find(id);
+                //put some placeholder values for empty menu 
+                menuBuilderModel.CurrentMenu.AboutTitle = "About Your Restaurant Here";
+                menuBuilderModel.CurrentMenu.AboutText = "Talk about your business here...";
 
-                if (menu == null)
-                {
-                    return HttpNotFound();
-                }
+                //create menudart URL: buffalo-fire-department-torrance
+                //todo: check if there are duplicate URLs.
+                menuBuilderModel.CurrentMenu.MenuDartUrl = 
+                    (menuBuilderModel.CurrentMenu.Name.Replace(' ', '-') + 
+                    "-" + menuBuilderModel.CurrentMenu.City).ToLower();
 
-                ViewBag.Restaurant = menu.Name;
-                ViewBag.MenuId = id;
-                ViewBag.Parent = parent;
+                //save to DB
+                //db.Menus.Add(menuBuilderModel.CurrentMenu);
+                //db.SaveChanges();
 
-                MenuBuilderViewModel menuBuilderViewData = new MenuBuilderViewModel();
-                menuBuilderViewData.MenuTree = Composer.V1.DeserializeMenuTree(menu.MenuTree);
+                Composer.V1 composer = new Composer.V1(menuBuilderModel.CurrentMenu);
+                composer.CreateMenu();
 
-                //if we're at the root level, just return the whole tree. Else find the right
-                //parent node and send its branches.
-                if (parent != RootLevel)
-                {
-                    //find the right node
-                    MenuNode parentNode = menuBuilderViewData.MenuTree.Find(node => node.Link == parent);
-
-                    //return the branches of the parent node
-                    menuBuilderViewData.MenuTree = parentNode.Branches;
-                }
-
-                return View(menuBuilderViewData);
+                return RedirectToAction("MenuBuilder2", new { name = menuBuilderModel.CurrentMenu.Name, url = composer.Url });
             }
 
-            return HttpNotFound();
+            return View(menuBuilderModel.CurrentMenu);
+        }
+
+        //
+        // GET: /Menu/MenuBuilder2
+        // 
+        public ActionResult MenuBuilder2(string name, string url)
+        {
+            ViewBag.Name = name;
+            ViewBag.Url = url;
+
+            return View();
         }
 
         protected override void Dispose(bool disposing)

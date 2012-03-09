@@ -231,6 +231,18 @@
   <ItemGroup>
     <Content Include="Views\MenuTree\EditItem.cshtml" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\MenuTree\CreateText.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\MenuTree\DeleteText.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\MenuTree\EditText.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Menu\MenuBuilder2.cshtml" />
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

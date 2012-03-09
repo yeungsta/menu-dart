@@ -7,6 +7,6 @@ namespace MenuDart.Models
 {
     public class MenuBuilderViewModel
     {
-        public List<MenuNode> MenuTree { get; set; }
+        public Menu CurrentMenu { get; set; }
     }
 }

@@ -22,7 +22,14 @@
 	<div data-role="content">
         @if (!string.IsNullOrEmpty(ViewBag.Text))
         {
-		<center>@Html.Raw(ViewBag.Text)</center>
+		<center>@Html.Raw(ViewBag.Text)
+        @Html.ActionLink("Delete", "DeleteText", new { id = ViewBag.MenuId, parent = ViewBag.Parent }, null)
+        @Html.ActionLink("Edit", "EditText", new { id = ViewBag.MenuId, parent = ViewBag.Parent }, null)
+        </center>
+        }
+        else if (ViewBag.Parent != "0")
+        {
+            <center>@Html.ActionLink("Add Text", "CreateText", new { id = ViewBag.MenuId, parent = ViewBag.Parent }, null)</center>
         }
 		<ul data-role="listview" data-inset="true">
 
@@ -58,13 +65,13 @@
     @Html.ActionLink("Add Category", "Create", "MenuTree", new { id = ViewBag.MenuId, parent = ViewBag.Parent }, null)
     @Html.ActionLink("Add Item", "CreateItem", "MenuTree", new { id = ViewBag.MenuId, parent = ViewBag.Parent }, null)
     <p>
-    @if (!string.IsNullOrEmpty(ViewBag.UpLevel))
+    @if (!string.IsNullOrEmpty(ViewBag.UpLevel) && (ViewBag.Parent != "0"))
     {
         @Html.ActionLink("Back one level", "Details", "MenuTree", new { id = ViewBag.MenuId, parent = ViewBag.UpLevel, idx = -1 }, null)
     }
-    else
+    else 
     {
-        @Html.ActionLink("Back to Main Level", "Details", "MenuTree", new { id = ViewBag.MenuId, parent = 0, idx = -1 }, null)
+        <text><b>This is the main level.</b></text>
     }
     <br>
     @Html.ActionLink("Back to Menu Edit", "Edit", "Menu", new { id = ViewBag.MenuId }, null)		    	
