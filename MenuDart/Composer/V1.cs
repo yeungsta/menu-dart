@@ -172,6 +172,7 @@ namespace MenuDart.Composer
                 writer.RenderEndTag(); // </html>
 
                 WriteToFile(stringWriter.ToString());
+                CopyIndexFiles();
             }
 
             // result is in stringWriter
@@ -221,8 +222,7 @@ namespace MenuDart.Composer
                 writer.WriteLine();
                 BeginContent(writer);
                     AddMenuList(writer, m_menuTree);
-                    writer.WriteLine();
-                    writer.WriteBreak();
+                writer.RenderEndTag();
                     writer.WriteLine();
                     AddCallBtn(writer, m_menu.Phone);
                     writer.WriteLine();
@@ -233,7 +233,6 @@ namespace MenuDart.Composer
                     writer.WriteBreak();
                     writer.WriteLine();
                     AddFooter(writer);
-                writer.RenderEndTag();
             writer.RenderEndTag();
         }
 
@@ -284,6 +283,34 @@ namespace MenuDart.Composer
             using (StreamWriter outfile = new StreamWriter(filepath + Constants.OutputFile))
             {                
                 outfile.Write(data);
+            }
+        }
+
+        private void CopyIndexFiles()
+        {
+            //copy base CSS/index_files folder if missing
+            string indexFilesPath = HttpContext.Current.Server.MapPath("~/Content/menus/" + m_menu.MenuDartUrl + "/index_files");
+            string baseIndexFilesPath = HttpContext.Current.Server.MapPath("~/Content/templates/base/index_files/");
+
+            if (!Directory.Exists(indexFilesPath))
+            {
+                Directory.CreateDirectory(indexFilesPath);
+
+                if (Directory.Exists(baseIndexFilesPath))
+                {
+                    string[] files = Directory.GetFiles(baseIndexFilesPath);
+                    string fileName;
+                    string destFile;
+
+                    // Copy the files and overwrite destination files if they already exist.
+                    foreach (string s in files)
+                    {
+                        // Use static Path methods to extract only the file name from the path.
+                        fileName = Path.GetFileName(s);
+                        destFile = Path.Combine(indexFilesPath, fileName);
+                        File.Copy(s, destFile, true);
+                    }
+                }
             }
         }
 

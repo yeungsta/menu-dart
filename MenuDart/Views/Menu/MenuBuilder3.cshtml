@@ -1,0 +1,28 @@
+﻿@model MenuDart.Models.Menu
+           
+@{
+    ViewBag.Title = "MenuBuilder3";
+}
+
+<h2>Now choose a template:</h2>
+
+@using (Html.BeginForm()) {
+    @Html.ValidationSummary(true)
+    <fieldset>
+        <legend>Template</legend>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Template)
+        </div>
+        <div class="editor-field">
+            @Html.DropDownList("Template", ViewData["templateList"] as SelectList)
+            @Html.ValidationMessageFor(model => model.Template)
+        </div>
+        <p>
+            <input type="submit" value="Apply" />
+        </p>
+    </fieldset>
+}
+
+@*<h3>
+@Html.ActionLink("Continue and Fill out About Section", "MenuBuilder4", "Menu", new { id = ViewBag.MenuId }, null)
+</h3>*@

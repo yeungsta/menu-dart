@@ -61,6 +61,9 @@ namespace MenuDart.Controllers
         [HttpPost]
         public ActionResult Create(Menu menu)
         {
+            //create initial empty menu tree
+            menu.MenuTree = Composer.V1.SerializeMenuTree(new List<MenuNode>());
+
             if (ModelState.IsValid)
             {
                 db.Menus.Add(menu);
@@ -192,7 +195,7 @@ namespace MenuDart.Controllers
             {
                 //put some placeholder values for empty menu 
                 menuBuilderModel.CurrentMenu.AboutTitle = "About Your Restaurant Here";
-                menuBuilderModel.CurrentMenu.AboutText = "Talk about your business here...";
+                menuBuilderModel.CurrentMenu.AboutText = "Description about your business here...";
 
                 //create menudart URL: buffalo-fire-department-torrance
                 //todo: check if there are duplicate URLs.
@@ -201,13 +204,13 @@ namespace MenuDart.Controllers
                     "-" + menuBuilderModel.CurrentMenu.City).ToLower();
 
                 //save to DB
-                //db.Menus.Add(menuBuilderModel.CurrentMenu);
-                //db.SaveChanges();
+                db.Menus.Add(menuBuilderModel.CurrentMenu);
+                db.SaveChanges();
 
                 Composer.V1 composer = new Composer.V1(menuBuilderModel.CurrentMenu);
                 composer.CreateMenu();
 
-                return RedirectToAction("MenuBuilder2", new { name = menuBuilderModel.CurrentMenu.Name, url = composer.Url });
+                return RedirectToAction("MenuBuilder2", new { name = menuBuilderModel.CurrentMenu.Name, url = composer.Url, id = menuBuilderModel.CurrentMenu.ID });
             }
 
             return View(menuBuilderModel.CurrentMenu);
@@ -216,12 +219,71 @@ namespace MenuDart.Controllers
         //
         // GET: /Menu/MenuBuilder2
         // 
-        public ActionResult MenuBuilder2(string name, string url)
+        public ActionResult MenuBuilder2(string name, string url, int id = 0)
         {
             ViewBag.Name = name;
             ViewBag.Url = url;
+            ViewBag.MenuId = id;
 
             return View();
+        }
+
+        //
+        // GET: /Menu/MenuBuilder3
+        // 
+        public ActionResult MenuBuilder3(int id = 0)
+        {
+            ViewBag.MenuId = id;
+
+            Menu menu = db.Menus.Find(id);
+
+            if (menu == null)
+            {
+                return HttpNotFound();
+            }
+
+            //compile list of Templates
+            var templates = new List<string>();
+
+            var templateQuery = from t in db.Templates
+                                orderby t.Name
+                                select t.Name;
+            templates.AddRange(templateQuery.Distinct());
+
+            ViewData["templateList"] = new SelectList(templates);
+
+            return View(menu);
+        }
+
+        //
+        // POST: /Menu/MenuBuilder3
+
+        [HttpPost]
+        [ValidateInput(false)]
+        public ActionResult MenuBuilder3(Menu newMenu, int id)
+        {
+            if (ModelState.IsValid)
+            {
+                Menu menu = db.Menus.Find(id);
+
+                if (menu == null)
+                {
+                    return HttpNotFound();
+                }
+
+                //set template value
+                menu.Template = newMenu.Template;
+
+                //save menu
+                db.Entry(menu).State = EntityState.Modified;
+                db.SaveChanges();
+
+                //TODO: Update CSS in directory with new template
+
+                return RedirectToAction("Details", new { id = id });
+            }
+
+            return View(newMenu);
         }
 
         protected override void Dispose(bool disposing)
