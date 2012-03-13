@@ -1,0 +1,28 @@
+/* Brie color theme */
+.bodyBg {
+        background: #DFCB97; /*{a-bar-background-color}*/
+        color: black;
+        background-color: #black;
+	background-image: -webkit-gradient(linear, 0 0, 100% 0, color-stop(.1, rgba(255, 255, 255, .2)), color-stop(.1, transparent), to(transparent));
+	background-image: -moz-linear-gradient(0, rgba(255, 255, 255, .2) 1px, transparent 1px, transparent);
+	background-image: -o-linear-gradient(0, rgba(255, 255, 255, .2) 1px, transparent 1px, transparent);
+	background-image: linear-gradient(0, rgba(255, 255, 255, .2) 1px, transparent 1px, transparent);
+	
+	-webkit-background-size: 10px;
+	-moz-background-size: 10px;
+	background-size: 10px;	
+}
+
+.headerBar {
+	text-shadow: none;   
+	font-family:serif;
+	color: black;
+        background: #FBE6AD /*{a-bar-background-color}*/;
+	background-image: -webkit-gradient(linear, left top, left bottom, from( #FBE6AD /*{a-bar-background-start}*/), to( #AC9E77 /*{a-bar-background-end}*/)); /* Saf4+, Chrome */
+	background-image: -webkit-linear-gradient(#FBE6AD /*{a-bar-background-start}*/, #AC9E77 /*{a-bar-background-end}*/); /* Chrome 10+, Saf5.1+ */
+	background-image:    -moz-linear-gradient(#FBE6AD /*{a-bar-background-start}*/, #AC9E77  /*{a-bar-background-end}*/); /* FF3.6 */
+	background-image:     -ms-linear-gradient(#FBE6AD /*{a-bar-background-start}*/, #AC9E77  /*{a-bar-background-end}*/); /* IE10 */
+	background-image:      -o-linear-gradient(#FBE6AD /*{a-bar-background-start}*/, #AC9E77  /*{a-bar-background-end}*/); /* Opera 11.10+ */
+	background-image:         linear-gradient(#FBE6AD /*{a-bar-background-start}*/, #AC9E77  /*{a-bar-background-end}*/);    
+}
+/* End Brie color theme */

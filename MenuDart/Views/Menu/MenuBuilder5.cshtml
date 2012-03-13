@@ -1,0 +1,22 @@
+﻿@{
+    ViewBag.Title = "MenuBuilder5";
+}
+
+
+<h2>How many locations does your restaurant have? (You can always add more later.)</h2>
+
+@using (Html.BeginForm()) {
+    <fieldset>
+        <legend>Location</legend>
+
+        <div class="editor-label">
+            @Html.Label("Number of Locations")
+        </div>
+        <div class="editor-field">
+            @Html.DropDownList("numLocations", ViewData["numList"] as SelectList)
+        </div>
+        <p>
+            <input type="submit" value="Add" />
+        </p>
+    </fieldset>
+}

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
 using System.Linq;
+using System.IO;
 using System.Web;
 using System.Web.Mvc;
 using MenuDart.Models;
@@ -14,6 +15,8 @@ namespace MenuDart.Controllers
         private MenuDartDBContext db = new MenuDartDBContext();
         private const string RootLevel = "0";
 
+        //max number of locations
+        private const int MaxLocations = 8;
         //
         // GET: /Menu/
 
@@ -278,18 +281,198 @@ namespace MenuDart.Controllers
                 db.Entry(menu).State = EntityState.Modified;
                 db.SaveChanges();
 
-                //TODO: Update CSS in directory with new template
+                //Update index_html directory with new template CSS file
+                CopyTemplate(menu.MenuDartUrl, menu.Template);
 
-                return RedirectToAction("Details", new { id = id });
+                return RedirectToAction("MenuBuilder4", new { id = id });
             }
 
             return View(newMenu);
+        }
+
+        //
+        // GET: /Menu/MenuBuilder4
+        // 
+        public ActionResult MenuBuilder4(int id = 0)
+        {
+            ViewBag.MenuId = id;
+
+            Menu menu = db.Menus.Find(id);
+
+            if (menu == null)
+            {
+                return HttpNotFound();
+            }
+
+            return View(menu);
+        }
+
+        //
+        // POST: /Menu/MenuBuilder4
+
+        [HttpPost]
+        [ValidateInput(false)]
+        public ActionResult MenuBuilder4(Menu newMenu, int id)
+        {
+            if (ModelState.IsValid)
+            {
+                Menu menu = db.Menus.Find(id);
+
+                if (menu == null)
+                {
+                    return HttpNotFound();
+                }
+
+                //set about values
+                menu.AboutTitle = newMenu.AboutTitle;
+                menu.AboutText = newMenu.AboutText;
+
+                //save menu
+                db.Entry(menu).State = EntityState.Modified;
+                db.SaveChanges();
+
+                return RedirectToAction("MenuBuilder5", new { id = id });
+            }
+
+            return View(newMenu);
+        }
+
+        //
+        // GET: /Menu/MenuBuilder5
+        // 
+        public ActionResult MenuBuilder5(int id = 0)
+        {
+            ViewBag.MenuId = id;
+
+            Menu menu = db.Menus.Find(id);
+
+            if (menu == null)
+            {
+                return HttpNotFound();
+            }
+
+            //compile list of number of locations
+            var numLocations = new List<int>();
+
+            for (int x = 1; x <= MaxLocations; x++)
+            {
+                numLocations.Add(x);
+            }
+
+            ViewData["numList"] = new SelectList(numLocations, 1);
+
+            return View();
+        }
+
+        //
+        // POST: /Menu/MenuBuilder5
+
+        [HttpPost]
+        [ValidateInput(false)]
+        public ActionResult MenuBuilder5(int numLocations, int id)
+        {
+            if (numLocations == 1)
+            {
+                return RedirectToAction("MenuBuilder6a", new { id = id });
+            }
+            else
+            {
+                return RedirectToAction("MenuBuilder6b", new { id = id });
+            }
+        }
+
+        //
+        // GET: /Menu/MenuBuilder6a
+        // 
+        public ActionResult MenuBuilder6a(int id = 0)
+        {
+            ViewBag.MenuId = id;
+
+            Menu menu = db.Menus.Find(id);
+
+            if (menu == null)
+            {
+                return HttpNotFound();
+            }
+
+            //populate the city since we already know it.
+            Location newLocation = new Location();
+            newLocation.City = menu.City;
+
+            return View(newLocation);
+        }
+
+        //
+        // POST: /Menu/MenuBuilder6a
+
+        [HttpPost]
+        [ValidateInput(false)]
+        public ActionResult MenuBuilder6a(Location newLocation, int id)
+        {
+            if (ModelState.IsValid)
+            {
+                Menu menu = db.Menus.Find(id);
+
+                if (menu == null)
+                {
+                    return HttpNotFound();
+                }
+
+                //add Google map link
+                newLocation.MapLink = CreateMapLink(newLocation.Address, newLocation.City, newLocation.Zip);
+
+                //add Google map image link
+
+                List<Location> newLocationList = new List<Location>();
+                newLocationList.Add(newLocation);
+
+                //just set serialized locations directly into menu
+                menu.Locations = Composer.V1.SerializeLocations(newLocationList);
+
+                //save menu
+                db.Entry(menu).State = EntityState.Modified;
+                db.SaveChanges();
+
+                return RedirectToAction("MenuBuilder6a2", new { id = id });
+            }
+
+            return View();
         }
 
         protected override void Dispose(bool disposing)
         {
             db.Dispose();
             base.Dispose(disposing);
+        }
+
+        private string CreateMapLink(string address, string state, string zip)
+        {
+            return string.Empty;
+        }
+
+        private void CopyTemplate(string menuDartUrl, string templateName)
+        {
+            string indexFilesPath = HttpContext.Server.MapPath("~/Content/menus/" + menuDartUrl + "/index_files");
+            string templatesPath = HttpContext.Server.MapPath("~/Content/templates/themes/" + templateName + "/");
+
+            if (Directory.Exists(indexFilesPath))
+            {
+                if (Directory.Exists(templatesPath))
+                {
+                    string[] files = Directory.GetFiles(templatesPath);
+                    string fileName;
+                    string destFile;
+
+                    // Copy the files and overwrite destination files if they already exist. Should be only one.
+                    foreach (string s in files)
+                    {
+                        // Use static Path methods to extract only the file name from the path.
+                        fileName = Path.GetFileName(s);
+                        destFile = Path.Combine(indexFilesPath, fileName);
+                        System.IO.File.Copy(s, destFile, true);
+                    }
+                }
+            }
         }
     }
 }

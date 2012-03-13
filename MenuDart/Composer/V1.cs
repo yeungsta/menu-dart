@@ -204,6 +204,7 @@ namespace MenuDart.Composer
                     AddMeta(writer, "apple-mobile-web-app-status-bar-style", "black");
                     AddLink(writer, "stylesheet", Constants.JqueryMobileCss, null);
                     AddLink(writer, "stylesheet", "index_files/master.css", "text/css");
+                    AddLink(writer, "stylesheet", "index_files/template.css", "text/css");
                     AddScript(writer, Constants.Jquery);
                     AddScript(writer, Constants.JqueryMobile);
             writer.RenderEndTag();
