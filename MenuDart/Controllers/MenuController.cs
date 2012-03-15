@@ -22,6 +22,7 @@ namespace MenuDart.Controllers
 
         public ViewResult Index()
         {
+            ViewBag.UrlPath = Composer.V1.GetUrlPath();
             return View(db.Menus.ToList());
         }
 
@@ -66,6 +67,9 @@ namespace MenuDart.Controllers
         {
             //create initial empty menu tree
             menu.MenuTree = Composer.V1.SerializeMenuTree(new List<MenuNode>());
+
+            //create initial empty locations
+            menu.Locations = Composer.V1.SerializeLocations(new List<Location>());
 
             if (ModelState.IsValid)
             {
@@ -148,6 +152,10 @@ namespace MenuDart.Controllers
 
             db.Menus.Remove(menu);
             db.SaveChanges();
+
+            //now delete the menu directory as well
+            Composer.V1.RemoveDirectory(menu.MenuDartUrl);
+
             return RedirectToAction("Index");
         }
 
@@ -168,7 +176,7 @@ namespace MenuDart.Controllers
             ComposeViewModel composeViewData = new ComposeViewModel();
             composeViewData.Name = menu.Name;
             composeViewData.MenuString = composer.CreateMenu();
-            composeViewData.Url = composer.Url;
+            composeViewData.Url = Composer.V1.GetFullUrl(menu.MenuDartUrl);
 
             return View(composeViewData);
         }
@@ -178,6 +186,7 @@ namespace MenuDart.Controllers
         // This is the start of the menu builder. A new menu is created here.
         public ActionResult MenuBuilder()
         {
+            //create empty menu
             Menu newMenu = new Menu();
 
             ViewBag.MenuId = newMenu.ID;
@@ -196,24 +205,39 @@ namespace MenuDart.Controllers
         {
             if (ModelState.IsValid)
             {
+                //create initial empty locations
+                menuBuilderModel.CurrentMenu.Locations = Composer.V1.SerializeLocations(new List<Location>());
+
+                //create initial empty menu tree
+                menuBuilderModel.CurrentMenu.MenuTree = Composer.V1.SerializeMenuTree(new List<MenuNode>());
+
                 //put some placeholder values for empty menu 
                 menuBuilderModel.CurrentMenu.AboutTitle = "About Your Restaurant Here";
                 menuBuilderModel.CurrentMenu.AboutText = "Description about your business here...";
 
-                //create menudart URL: buffalo-fire-department-torrance
-                //todo: check if there are duplicate URLs.
-                menuBuilderModel.CurrentMenu.MenuDartUrl = 
-                    (menuBuilderModel.CurrentMenu.Name.Replace(' ', '-') + 
+                //Create unique menudart URL.
+                string tempUrl = (menuBuilderModel.CurrentMenu.Name.Replace(' ', '-') + 
                     "-" + menuBuilderModel.CurrentMenu.City).ToLower();
+
+                //Check if there are duplicate URLs.
+                int matches = db.Menus.Count(menu => menu.MenuDartUrl.Contains(tempUrl));
+
+                if (matches > 0)
+                {
+                    tempUrl += "-" + (matches + 1).ToString();
+                }
+                
+                menuBuilderModel.CurrentMenu.MenuDartUrl = tempUrl;
 
                 //save to DB
                 db.Menus.Add(menuBuilderModel.CurrentMenu);
                 db.SaveChanges();
 
+                //Build the menu
                 Composer.V1 composer = new Composer.V1(menuBuilderModel.CurrentMenu);
                 composer.CreateMenu();
 
-                return RedirectToAction("MenuBuilder2", new { name = menuBuilderModel.CurrentMenu.Name, url = composer.Url, id = menuBuilderModel.CurrentMenu.ID });
+                return RedirectToAction("MenuBuilder2", new { name = menuBuilderModel.CurrentMenu.Name, url = Composer.V1.GetFullUrl(menuBuilderModel.CurrentMenu.MenuDartUrl), id = menuBuilderModel.CurrentMenu.ID });
             }
 
             return View(menuBuilderModel.CurrentMenu);
@@ -395,7 +419,7 @@ namespace MenuDart.Controllers
                 return HttpNotFound();
             }
 
-            //populate the city since we already know it.
+            //Starting with a new location. Populate the city since we already know it.
             Location newLocation = new Location();
             newLocation.City = menu.City;
 
@@ -422,6 +446,7 @@ namespace MenuDart.Controllers
                 newLocation.MapLink = CreateMapLink(newLocation.Address, newLocation.City, newLocation.Zip);
 
                 //add Google map image link
+                newLocation.MapImgUrl = CreateMapImgLink(newLocation.Address, newLocation.City, newLocation.Zip);
 
                 List<Location> newLocationList = new List<Location>();
                 newLocationList.Add(newLocation);
@@ -439,6 +464,137 @@ namespace MenuDart.Controllers
             return View();
         }
 
+        //
+        // GET: /Menu/MenuBuilder6a2
+        // 
+        public ActionResult MenuBuilder6a2(int id = 0)
+        {
+            Menu menu = db.Menus.Find(id);
+
+            if (menu == null)
+            {
+                return HttpNotFound();
+            }
+
+            //create location
+            Location newLocation = new Location();
+
+            //populate the phone number if it's already been filled at the menu-level.
+            if (!string.IsNullOrEmpty(menu.Phone))
+            {
+                newLocation.Phone = menu.Phone;
+            }
+
+            return View(newLocation);
+        }
+
+        //
+        // POST: /Menu/MenuBuilder6a2
+
+        [HttpPost]
+        [ValidateInput(false)]
+        public ActionResult MenuBuilder6a2(Location newLocation, int id)
+        {
+            if (ModelState.IsValid)
+            {
+                Menu menu = db.Menus.Find(id);
+
+                if (menu == null)
+                {
+                    return HttpNotFound();
+                }
+
+                //get current locations (should be only one on this path)
+                List<Location> currentLocations = Composer.V1.DeserializeLocations(menu.Locations);
+
+                //write new data
+                currentLocations[0].Hours = newLocation.Hours;
+                currentLocations[0].Phone = newLocation.Phone;
+                currentLocations[0].Email = newLocation.Email;
+
+                //set serialized locations back into menu
+                menu.Locations = Composer.V1.SerializeLocations(currentLocations);
+
+                //save menu
+                db.Entry(menu).State = EntityState.Modified;
+                db.SaveChanges();
+
+                return RedirectToAction("MenuBuilder6a3", new { id = id });
+            }
+
+            return View();
+        }
+
+        //
+        // GET: /Menu/MenuBuilder6a3
+        // 
+        public ActionResult MenuBuilder6a3(int id = 0)
+        {
+            //create location
+            Location newLocation = new Location();
+
+            return View(newLocation);
+        }
+
+        //
+        // POST: /Menu/MenuBuilder6a3
+
+        [HttpPost]
+        [ValidateInput(false)]
+        public ActionResult MenuBuilder6a3(Location newLocation, int id)
+        {
+            if (ModelState.IsValid)
+            {
+                Menu menu = db.Menus.Find(id);
+
+                if (menu == null)
+                {
+                    return HttpNotFound();
+                }
+
+                //get current locations (should be only one on this path)
+                List<Location> currentLocations = Composer.V1.DeserializeLocations(menu.Locations);
+
+                //write new data
+                currentLocations[0].Facebook = newLocation.Facebook;
+                currentLocations[0].Twitter = newLocation.Twitter;
+                currentLocations[0].Yelp = newLocation.Yelp;
+
+                //set serialized locations back into menu
+                menu.Locations = Composer.V1.SerializeLocations(currentLocations);
+
+                //save menu
+                db.Entry(menu).State = EntityState.Modified;
+                db.SaveChanges();
+
+                return RedirectToAction("Details", "MenuTree", new { id = id, parent = 0, idx = -1 });
+            }
+
+            return View();
+        }
+
+        //
+        // GET: /Menu/MenuBuilder7
+        // 
+        public ActionResult MenuBuilder7(int id = 0)
+        {
+            Menu menu = db.Menus.Find(id);
+
+            if (menu == null)
+            {
+                return HttpNotFound();
+            }
+
+            ViewBag.Name = menu.Name;
+            ViewBag.Url = Composer.V1.GetFullUrl(menu.MenuDartUrl);
+
+            //Compose the menu
+            Composer.V1 composer = new Composer.V1(menu);
+            composer.CreateMenu();
+
+            return View();
+        }
+
         protected override void Dispose(bool disposing)
         {
             db.Dispose();
@@ -447,7 +603,14 @@ namespace MenuDart.Controllers
 
         private string CreateMapLink(string address, string state, string zip)
         {
-            return string.Empty;
+            string noSpacesAddress = address.Replace(' ', '+');
+            return (@"http://maps.google.com/maps?q=" + noSpacesAddress + "+" + state + "+" + zip);
+        }
+
+        private string CreateMapImgLink(string address, string state, string zip)
+        {
+            string noSpacesAddress = address.Replace(' ', '+');
+            return (@"http://maps.googleapis.com/maps/api/staticmap?size=275x275&maptype=roadmap\&markers=size:mid%7Ccolor:red%7C" + noSpacesAddress + "+" + state + "+" + zip + @"&sensor=false&zoom=14");
         }
 
         private void CopyTemplate(string menuDartUrl, string templateName)

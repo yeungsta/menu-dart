@@ -19,14 +19,14 @@ namespace MenuDart.Composer
         private static XmlSerializer m_menuTreeSerializer;
         private static XmlSerializer m_locationsSerializer;
 
-        public enum MenuBarItems
+        private enum MenuBarItems
         {
             Menu,
             About,
             Contact
         }
 
-        public string Url { get; private set; }
+        #region static members
 
         /// <summary>
         /// Static Constructor
@@ -113,7 +113,7 @@ namespace MenuDart.Composer
 
             return currentLevel.Find(node => node.Link == link);
         }
-
+/*  Is this used?
         public static void RemoveMenuNode(List<MenuNode> menuNodes, string link)
         {
             string[] levels = link.Split('-');
@@ -139,6 +139,30 @@ namespace MenuDart.Composer
             //remove node
             currentLevel.RemoveAll(node => node.Link == link);
         }
+*/
+        public static string GetUrlPath()
+        {
+            return "http://" + HttpContext.Current.Request.Url.Host + ":" + HttpContext.Current.Request.Url.Port + "/Content/menus/";
+        }
+
+        public static string GetFullUrl(string menuDartUrl)
+        {
+            return "http://" + HttpContext.Current.Request.Url.Host + ":" + HttpContext.Current.Request.Url.Port + "/Content/menus/" + menuDartUrl + "/" + Constants.OutputFile;
+        }
+
+        public static void RemoveDirectory(string menuDartUrl)
+        {
+            string filepath = HttpContext.Current.Server.MapPath("~/Content/menus/" + menuDartUrl + "/");
+
+            if (Directory.Exists(filepath))
+            {
+                Directory.Delete(filepath, true);
+            }
+        }
+
+        #endregion static members
+
+        #region public members
 
         /// <summary>
         /// Constructor
@@ -178,6 +202,10 @@ namespace MenuDart.Composer
             // result is in stringWriter
             return stringWriter.ToString();
         }
+
+        #endregion public members
+
+        #region private members
 
         private void Initialize()
         {
@@ -274,7 +302,6 @@ namespace MenuDart.Composer
         private void WriteToFile(string data)
         {
             string filepath = HttpContext.Current.Server.MapPath("~/Content/menus/" + m_menu.MenuDartUrl + "/");
-            Url = "http://" + HttpContext.Current.Request.Url.Host + ":" + HttpContext.Current.Request.Url.Port + "/Content/menus/" + m_menu.MenuDartUrl + "/" + Constants.OutputFile;
 
             if (!Directory.Exists(filepath))
             {
@@ -797,5 +824,7 @@ namespace MenuDart.Composer
         {
             AddBtn(writer, "Yelp", link, Constants.YelpIcon, "insetBtn", "y", Constants.BlankTarget);
         }
+
+        #endregion private members
     }
 }

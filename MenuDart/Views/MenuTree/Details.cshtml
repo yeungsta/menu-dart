@@ -16,10 +16,11 @@
 }
 
 }
-<h2>Menu for @ViewBag.Restaurant: @ViewBag.Parent</h2>
 
 <div data-role="page">
 	<div data-role="content">
+        <h2>You're almost done! Now create and organize your menu items.<br>Just add Categories, then Items. Click on Categories to add more in them.</h2>
+
         @if (!string.IsNullOrEmpty(ViewBag.Text))
         {
 		<center>@Html.Raw(ViewBag.Text)
@@ -74,6 +75,6 @@
         <text><b>This is the main level.</b></text>
     }
     <br>
-    @Html.ActionLink("Back to Menu Edit", "Edit", "Menu", new { id = ViewBag.MenuId }, null)		    	
+    @Html.ActionLink("I'm Done!", "MenuBuilder7", "Menu", new { id = ViewBag.MenuId }, null)		    	
 	</div><!-- /content -->
 </div>

@@ -62,7 +62,6 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Composer\MenuTree.cs" />
     <Compile Include="Composer\V1.cs" />
     <Compile Include="Composer\Constants.cs" />
     <Compile Include="Controllers\AccountController.cs" />
@@ -255,6 +254,15 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Menu\MenuBuilder6a.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Menu\MenuBuilder6a2.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Menu\MenuBuilder6a3.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Menu\MenuBuilder7.cshtml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />

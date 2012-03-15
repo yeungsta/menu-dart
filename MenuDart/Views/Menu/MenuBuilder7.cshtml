@@ -1,0 +1,14 @@
+﻿@{
+    ViewBag.Title = "MenuBuilder7";
+}
+
+<h2>Congrats! You're finally done!</h2>
+<h3>
+You can now check out your finished restaurant menu for @ViewBag.Name.<p>
+Again, it's available at: <a href="@ViewBag.Url" target="_blank">@ViewBag.Url</a><br />
+Just use a smartphone or small mobile device to surf to this site to check it out in its full mobile-glory.
+<p>
+Now check out these ways to connect your menu to your website and link to other sites:
+<p></p>
+@Html.ActionLink("Go to your Dashboard", "Index", "Menu", new { id = ViewBag.MenuId }, null)
+</h3>

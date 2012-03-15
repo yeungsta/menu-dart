@@ -4,7 +4,7 @@
     ViewBag.Title = "Menus";
 }
 
-<h2>Menus</h2>
+<h2>Menus (@Model.Count())</h2>
 
 <p>
     @Html.ActionLink("Create New", "Create")
@@ -18,13 +18,10 @@
             City
         </th>
         <th>
-            Template
+            MenuDartUrl
         </th>
         <th>
             Owner
-        </th>
-        <th>
-            MenuDartUrl
         </th>
         <th></th>
     </tr>
@@ -38,15 +35,13 @@
             @Html.DisplayFor(modelItem => item.City)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Template)
+            @Html.DisplayFor(modelItem => item.MenuDartUrl)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Owner)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.MenuDartUrl)
-        </td>
-        <td>
+            <a href="@ViewBag.UrlPath@item.MenuDartUrl/index.html" target="_blank">View</a> |
             @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
             @Html.ActionLink("Details", "Details", new { id=item.ID }) |
             @Html.ActionLink("Delete", "Delete", new { id=item.ID }) |
