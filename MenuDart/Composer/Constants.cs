@@ -17,6 +17,7 @@ namespace MenuDart.Composer
         public const string BlankTarget = "_blank";
         public const string Break = "<br>";
         public const string Paragraph = "<p>";
+        public const string NewLine = "\n";
 
         //jQuery Mobile
         public const string DataRole = "data-role";

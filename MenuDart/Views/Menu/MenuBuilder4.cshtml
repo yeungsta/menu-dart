@@ -12,21 +12,21 @@
 @using (Html.BeginForm()) {
     @Html.ValidationSummary(true)
     <fieldset>
-        <legend>About</legend>
+        <legend>Step 3</legend>
 
         <div class="editor-label">
-            @Html.LabelFor(model => model.AboutTitle)
+            @Html.LabelFor(model => model.AboutTitle, "Title")
         </div>
         <div class="editor-field">
-            @Html.TextAreaFor(model => model.AboutTitle, new { style = "width: 300px;" })
+            @Html.TextAreaFor(model => model.AboutTitle, new { style = "width: 300px; height: 50px;" })
             @Html.ValidationMessageFor(model => model.AboutTitle)
         </div>
 
         <div class="editor-label">
-            @Html.LabelFor(model => model.AboutText)
+            @Html.LabelFor(model => model.AboutText, "Text")
         </div>
         <div class="editor-field">
-            @Html.TextAreaFor(model => model.AboutText, new { style = "width: 300px;" })
+            @Html.TextAreaFor(model => model.AboutText, new { style = "width: 300px; height: 250px;" })
             @Html.ValidationMessageFor(model => model.AboutText)
         </div>
 

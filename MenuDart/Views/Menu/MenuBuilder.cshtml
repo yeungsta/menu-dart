@@ -1,53 +1,53 @@
 ﻿@model MenuDart.Models.MenuBuilderViewModel
 
 @{
-    ViewBag.Title = "MenuBuilder";
+    ViewBag.Title = "MenuDart Builder";
 }
 
-<h2>Menu Builder</h2>
+<h2>Welcome to the MenuDart Builder!</h2>
 
 @using (Html.BeginForm())
 {
     @Html.ValidationSummary(true)
     <fieldset>
-        <legend>Menu Builder</legend>
+        <legend>Step 1</legend>
              
             @Html.HiddenFor(model => model.CurrentMenu.ID)
 
             <div class="editor-label">
-                @Html.LabelFor(model => model.CurrentMenu.Name, "Please enter your restaurant's name.")
+                @Html.LabelFor(model => model.CurrentMenu.Name, "Restaurant's name")
             </div>
             <div class="editor-field">
-                @Html.EditorFor(model => model.CurrentMenu.Name)
+                @Html.TextBoxFor(model => model.CurrentMenu.Name, new { style = "width: 300px;" })
                 @Html.ValidationMessageFor(model => model.CurrentMenu.Name)
             </div>
 
             <div class="editor-label">
-                @Html.LabelFor(model => model.CurrentMenu.City, "Enter the city your restaurant is in.")
+                @Html.LabelFor(model => model.CurrentMenu.City, "City restaurant is in")
             </div>
             <div class="editor-field">
-                @Html.EditorFor(model => model.CurrentMenu.City)
+                @Html.TextBoxFor(model => model.CurrentMenu.City, new { style = "width: 300px;" })
                 @Html.ValidationMessageFor(model => model.CurrentMenu.City)
             </div>
 
             <div class="editor-label">
-                @Html.LabelFor(model => model.CurrentMenu.Phone, "Enter your restaurant's phone number.")
+                @Html.LabelFor(model => model.CurrentMenu.Phone, "Restaurant's phone number")
             </div>
             <div class="editor-field">
-                @Html.EditorFor(model => model.CurrentMenu.Phone)
+                @Html.TextBoxFor(model => model.CurrentMenu.Phone, new { style = "width: 300px;" })
                 @Html.ValidationMessageFor(model => model.CurrentMenu.Phone)
             </div>
 
             <div class="editor-label">
-                @Html.LabelFor(model => model.CurrentMenu.Website, "Enter your restaurant's current website address, if you have one.")
+                @Html.LabelFor(model => model.CurrentMenu.Website, "Restaurant's current website address (if you have one)")
             </div>
             <div class="editor-field">
-                @Html.EditorFor(model => model.CurrentMenu.Website)
+                @Html.TextBoxFor(model => model.CurrentMenu.Website, new { style = "width: 500px;" })
                 @Html.ValidationMessageFor(model => model.CurrentMenu.Website)
             </div>
 
         <p>
-            <input type="submit" value="Create Menu!" />
+            <input type="submit" value="Create" />
         </p>
     </fieldset>
 }

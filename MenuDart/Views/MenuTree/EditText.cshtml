@@ -4,7 +4,7 @@
     ViewBag.Title = "EditText";
 }
 
-<h2>Edit Text for @ViewBag.Parent</h2>
+<h2>Edit Page Text</h2>
 
 <script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
 <script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
@@ -13,7 +13,7 @@
 {
     @Html.ValidationSummary(true)
     <fieldset>
-        <legend>MenuNode</legend>
+        <legend>Page Text</legend>
            
             @Html.HiddenFor(model => model.ID)
 
@@ -21,7 +21,7 @@
                 @Html.LabelFor(model => model.Text)
             </div>
             <div class="editor-field">
-                @Html.EditorFor(model => model.Text)
+                @Html.TextAreaFor(model => model.Text, new { style = "width: 300px; height: 250px;" })
                 @Html.ValidationMessageFor(model => model.Text)
             </div>             
 

@@ -8,7 +8,7 @@
 
 	<script src="http://code.jquery.com/jquery-1.6.4.min.js"></script>
     <script type="text/javascript">
-        // do not handle links via ajax by default
+        // do not handle links via ajax by default; Turn off ajax
         $(document).bind("mobileinit", function () { $.mobile.ajaxEnabled = false; });
     </script>
 	<script src="http://code.jquery.com/mobile/1.0/jquery.mobile-1.0.min.js"></script>
@@ -19,13 +19,25 @@
 
 <div data-role="page">
 	<div data-role="content">
-        <h2>You're almost done! Now create and organize your menu items.<br>Just add Categories, then Items. Click on Categories to add more in them.</h2>
+        <h2>You're almost done! Now create and organize your menu items.</h2>
+        <h3>Just add Categories, then Items. Click on Categories to add more in them.</h3>
 
+        @if (!string.IsNullOrEmpty(ViewBag.UpLevel) && (ViewBag.Parent != "0"))
+        {
+            @Html.ActionLink("Back one level", "Details", "MenuTree", new { id = ViewBag.MenuId, parent = ViewBag.UpLevel, idx = -1 }, null)
+        }
+        else 
+        {
+            <text><b>This is the main level.</b></text>
+        }
+        <br>
+        <hr />
+        <br>
         @if (!string.IsNullOrEmpty(ViewBag.Text))
         {
-		<center>@Html.Raw(ViewBag.Text)
-        @Html.ActionLink("Delete", "DeleteText", new { id = ViewBag.MenuId, parent = ViewBag.Parent }, null)
-        @Html.ActionLink("Edit", "EditText", new { id = ViewBag.MenuId, parent = ViewBag.Parent }, null)
+		<center>@Html.Raw(ViewBag.Text)<br>
+            @Html.ActionLink("Delete", "DeleteText", new { id = ViewBag.MenuId, parent = ViewBag.Parent }, null)
+            @Html.ActionLink("Edit", "EditText", new { id = ViewBag.MenuId, parent = ViewBag.Parent }, null)
         </center>
         }
         else if (ViewBag.Parent != "0")
@@ -45,8 +57,8 @@
 					<p>@currentItem.Description</p>
 					<span class="ui-li-count">@currentItem.Price</span>
                     <p>
-                    @Html.ActionLink("Delete", "Delete", new { id = ViewBag.MenuId, parent = ViewBag.Parent, idx = i }, null)
-                    @Html.ActionLink("Edit", "EditItem", new { id = ViewBag.MenuId, parent = ViewBag.Parent, idx = i }, null)
+                        @Html.ActionLink("Delete", "Delete", new { id = ViewBag.MenuId, parent = ViewBag.Parent, idx = i }, null)
+                        @Html.ActionLink("Edit", "EditItem", new { id = ViewBag.MenuId, parent = ViewBag.Parent, idx = i }, null)
                     </p>
 				</li>       
             }
@@ -54,27 +66,23 @@
             {
                 <li><a href="@ViewBag.MenuId?parent=@ViewBag.Parent&idx=@(i)">@Model[i].Title</a>
                 <p>
-                &nbsp;&nbsp;&nbsp;&nbsp;
-                @Html.ActionLink("Delete", "Delete", new { id = ViewBag.MenuId, parent = ViewBag.Parent, idx = i }, null)
-                @Html.ActionLink("Edit", "Edit", new { id = ViewBag.MenuId, parent = ViewBag.Parent, idx = i }, null)
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    @Html.ActionLink("Delete", "Delete", new { id = ViewBag.MenuId, parent = ViewBag.Parent, idx = i }, null)
+                    @Html.ActionLink("Edit", "Edit", new { id = ViewBag.MenuId, parent = ViewBag.Parent, idx = i }, null)
                 </p>
                 </li>
             }
         }
 
 		</ul>
-    @Html.ActionLink("Add Category", "Create", "MenuTree", new { id = ViewBag.MenuId, parent = ViewBag.Parent }, null)
-    @Html.ActionLink("Add Item", "CreateItem", "MenuTree", new { id = ViewBag.MenuId, parent = ViewBag.Parent }, null)
-    <p>
-    @if (!string.IsNullOrEmpty(ViewBag.UpLevel) && (ViewBag.Parent != "0"))
-    {
-        @Html.ActionLink("Back one level", "Details", "MenuTree", new { id = ViewBag.MenuId, parent = ViewBag.UpLevel, idx = -1 }, null)
-    }
-    else 
-    {
-        <text><b>This is the main level.</b></text>
-    }
-    <br>
-    @Html.ActionLink("I'm Done!", "MenuBuilder7", "Menu", new { id = ViewBag.MenuId }, null)		    	
+
+        @Html.ActionLink("Add Category", "Create", "MenuTree", new { id = ViewBag.MenuId, parent = ViewBag.Parent }, null)
+        <br />
+        @Html.ActionLink("Add Item", "CreateItem", "MenuTree", new { id = ViewBag.MenuId, parent = ViewBag.Parent }, null)
+        <br />
+        <br />
+        <br />
+        <hr />
+        @Html.ActionLink("I'm Done with the Menu!", "MenuBuilder7", "Menu", new { id = ViewBag.MenuId }, null)		    	
 	</div><!-- /content -->
 </div>

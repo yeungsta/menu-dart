@@ -20,7 +20,7 @@
             @Html.LabelFor(model => model.Name)
         </div>
         <div class="editor-field">
-            @Html.EditorFor(model => model.Name)
+            @Html.TextBoxFor(model => model.Name, new { style = "width: 300px;" })
             @Html.ValidationMessageFor(model => model.Name)
         </div>
 
@@ -28,7 +28,7 @@
             @Html.LabelFor(model => model.City)
         </div>
         <div class="editor-field">
-            @Html.EditorFor(model => model.City)
+            @Html.TextBoxFor(model => model.City, new { style = "width: 300px;" })
             @Html.ValidationMessageFor(model => model.City)
         </div>
 
@@ -36,7 +36,7 @@
             @Html.LabelFor(model => model.Phone)
         </div>
         <div class="editor-field">
-            @Html.EditorFor(model => model.Phone)
+            @Html.TextBoxFor(model => model.Phone, new { style = "width: 300px;" })
             @Html.ValidationMessageFor(model => model.Phone)
         </div>
 
@@ -52,7 +52,7 @@
             @Html.LabelFor(model => model.AboutTitle)
         </div>
         <div class="editor-field">
-            @Html.TextAreaFor(model => model.AboutTitle, new { style = "width: 300px;" })
+            @Html.TextAreaFor(model => model.AboutTitle, new { style = "width: 300px; height: 50px;" })
             @Html.ValidationMessageFor(model => model.AboutTitle)
         </div>
 
@@ -60,7 +60,7 @@
             @Html.LabelFor(model => model.AboutText)
         </div>
         <div class="editor-field">
-            @Html.TextAreaFor(model => model.AboutText, new { style = "width: 300px;" })
+            @Html.TextAreaFor(model => model.AboutText, new { style = "width: 300px; height: 250px;" })
             @Html.ValidationMessageFor(model => model.AboutText)
         </div>
 
@@ -68,7 +68,7 @@
             @Html.LabelFor(model => model.Email)
         </div>
         <div class="editor-field">
-            @Html.EditorFor(model => model.Email)
+            @Html.TextBoxFor(model => model.Email, new { style = "width: 300px;" })
             @Html.ValidationMessageFor(model => model.Email)
         </div>
 
@@ -76,7 +76,7 @@
             @Html.LabelFor(model => model.Facebook)
         </div>
         <div class="editor-field">
-            @Html.EditorFor(model => model.Facebook)
+            @Html.TextBoxFor(model => model.Facebook, new { style = "width: 500px;" })
             @Html.ValidationMessageFor(model => model.Facebook)
         </div>
 
@@ -84,7 +84,7 @@
             @Html.LabelFor(model => model.Twitter)
         </div>
         <div class="editor-field">
-            @Html.EditorFor(model => model.Twitter)
+            @Html.TextBoxFor(model => model.Twitter, new { style = "width: 500px;" })
             @Html.ValidationMessageFor(model => model.Twitter)
         </div>
 
@@ -92,7 +92,7 @@
             @Html.LabelFor(model => model.Yelp)
         </div>
         <div class="editor-field">
-            @Html.EditorFor(model => model.Yelp)
+            @Html.TextBoxFor(model => model.Yelp, new { style = "width: 500px;" })
             @Html.ValidationMessageFor(model => model.Yelp)
         </div>
 
@@ -100,7 +100,7 @@
             @Html.LabelFor(model => model.Template)
         </div>
         <div class="editor-field">
-            @Html.DropDownList("Template", ViewData["templateList"] as SelectList)
+            @Html.DropDownList("Template", ViewData["templateList"] as SelectList, new { style = "width: 150px;" })
             @Html.ValidationMessageFor(model => model.Template)
         </div>
 
@@ -108,7 +108,7 @@
             @Html.LabelFor(model => model.Owner)
         </div>
         <div class="editor-field">
-            @Html.EditorFor(model => model.Owner)
+            @Html.TextBoxFor(model => model.Owner, new { style = "width: 300px;" })
             @Html.ValidationMessageFor(model => model.Owner)
         </div>
 
@@ -116,7 +116,7 @@
             @Html.LabelFor(model => model.MenuDartUrl)
         </div>
         <div class="editor-field">
-            @Html.EditorFor(model => model.MenuDartUrl)
+            @Html.TextBoxFor(model => model.MenuDartUrl, new { style = "width: 300px;" })
             @Html.ValidationMessageFor(model => model.MenuDartUrl)
         </div>
 
@@ -126,7 +126,7 @@
             @Html.ActionLink("Edit", "Edit", "Locations", new { id = Model.ID }, null)
         </div>
         <div class="editor-field">
-            @Html.TextAreaFor(model => model.Locations, new { style = "width: 300px;" })
+            @Html.TextAreaFor(model => model.Locations, new { style = "width: 500px; height: 250px;" })
             @Html.ValidationMessageFor(model => model.Locations)
         </div>
 
@@ -135,7 +135,7 @@
             @Html.ActionLink("Edit Menu", "Details", "MenuTree", new { id = Model.ID, parent = "0", idx = -1 }, null)
         </div>
         <div class="editor-field">
-            @Html.TextAreaFor(model => model.MenuTree, new { style = "width: 300px;" })
+            @Html.TextAreaFor(model => model.MenuTree, new { style = "width: 500px; height: 250px;" })
             @Html.ValidationMessageFor(model => model.MenuTree)
         </div>
 

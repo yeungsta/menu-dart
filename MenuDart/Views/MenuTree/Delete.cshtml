@@ -4,13 +4,12 @@
     ViewBag.Title = "Delete";
 }
 
-<h2>Delete</h2>
+<h2>Are you sure you want to delete the entire "@Model.Title" and all its subitems?</h2>
 
-<h3>Are you sure you want to delete the entire menu node?</h3>
 <fieldset>
-    <legend>MenuNode</legend>
+    <legend>Delete</legend>
 
-    <div class="display-label">Title</div>
+    <div class="display-label">Name</div>
     <div class="display-field">
         @Html.DisplayFor(model => model.Title)
     </div>

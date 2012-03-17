@@ -222,6 +222,28 @@ namespace MenuDart.Models
                      FtrLnkClr = "",
                      Stripes = "vertical"
                  },
+                 new Template { 
+                     Name = "Marinara",
+                     BkgndClr = "",
+                     HdrTxtClr = "",
+                     HdrTxtFnt = "",
+                     HdrClrGrdntTop = "",
+                     HdrClrGrdntBottom = "",
+                     FtrTxtClr = "",
+                     FtrLnkClr = "",
+                     Stripes = ""
+                 },
+                 new Template { 
+                     Name = "Spinach",
+                     BkgndClr = "",
+                     HdrTxtClr = "",
+                     HdrTxtFnt = "",
+                     HdrClrGrdntTop = "",
+                     HdrClrGrdntBottom = "",
+                     FtrTxtClr = "",
+                     FtrLnkClr = "",
+                     Stripes = ""
+                 },
              };
 
             templates.ForEach(d => context.Templates.Add(d));

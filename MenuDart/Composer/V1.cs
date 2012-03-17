@@ -500,7 +500,7 @@ namespace MenuDart.Composer
             if (!string.IsNullOrEmpty(text))
             {
                 writer.RenderBeginTag(HtmlTextWriterTag.Center);
-                writer.Write(text);
+                writer.Write(text.Replace(Constants.NewLine, Constants.Break));
                 writer.RenderEndTag();
                 writer.WriteLine();
             }
@@ -678,7 +678,7 @@ namespace MenuDart.Composer
             if (!string.IsNullOrEmpty(m_menu.AboutTitle))
             {
                 writer.RenderBeginTag(HtmlTextWriterTag.H3);
-                writer.Write(m_menu.AboutTitle.Replace(Environment.NewLine, Constants.Break));
+                writer.Write(m_menu.AboutTitle.Replace(Constants.NewLine, Constants.Break));
                 writer.RenderEndTag();
             }
 
@@ -690,7 +690,7 @@ namespace MenuDart.Composer
             if (!string.IsNullOrEmpty(m_menu.AboutText))
             {
                 writer.RenderBeginTag(HtmlTextWriterTag.H4);
-                writer.Write(m_menu.AboutText.Replace(Environment.NewLine, Constants.Paragraph));
+                writer.Write(m_menu.AboutText.Replace(Constants.NewLine, Constants.Break));
                 writer.RenderEndTag();
             }
         }
@@ -801,7 +801,7 @@ namespace MenuDart.Composer
         {
             if (!string.IsNullOrEmpty(hours))
             {
-                writer.Write(hours);
+                writer.Write(hours.Replace(Constants.NewLine, Constants.Break));
             }
         }
 
