@@ -206,12 +206,20 @@ namespace MenuDart.Controllers
                 //create initial empty locations
                 menuBuilderModel.CurrentMenu.Locations = V1.SerializeLocations(new List<Location>());
 
-                //create initial empty menu tree
-                menuBuilderModel.CurrentMenu.MenuTree = V1.SerializeMenuTree(new List<MenuNode>());
+                //create initial default menu tree
+                List<MenuNode> defaultMenuNodeList = new List<MenuNode>(){
+                    new MenuNode() { Title = "Breakfast", Text = "Sample page text here." },
+                    new MenuNode() { Title = "Lunch", Text = "Sample page text here." },
+                    new MenuNode() { Title = "Dinner", Text = "Sample page text here." }
+                };
 
-                //put some placeholder values for empty menu 
-                menuBuilderModel.CurrentMenu.AboutTitle = Constants.DefaultAboutTitle;
-                menuBuilderModel.CurrentMenu.AboutText = Constants.DefaultAboutText;
+                menuBuilderModel.CurrentMenu.MenuTree = V1.SerializeMenuTree(defaultMenuNodeList);
+
+                //put placeholder values for empty menu
+ 
+                //create default About page values
+                menuBuilderModel.CurrentMenu.AboutTitle = string.Format(Constants.DefaultAboutTitleFormat, menuBuilderModel.CurrentMenu.Name);
+                menuBuilderModel.CurrentMenu.AboutText = string.Format(Constants.DefaultAboutTextFormat, menuBuilderModel.CurrentMenu.Name);
 
                 //Create unique menudart URL
                 string tempUrl = (menuBuilderModel.CurrentMenu.Name.Replace(' ', '-') + 

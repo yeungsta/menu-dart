@@ -11,6 +11,7 @@ namespace MenuDart.Models
     {
         protected override void Seed(MenuDartDBContext context)
         {
+/*
             //create a location
             Location location1 = new Location();
             location1.Title = "The Buffalo Fire Department<br>is located across from The Depot Restaurant at:";
@@ -247,6 +248,7 @@ namespace MenuDart.Models
              };
 
             templates.ForEach(d => context.Templates.Add(d));
+ */ 
         }
     }
 }

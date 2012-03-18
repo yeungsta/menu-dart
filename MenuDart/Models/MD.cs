@@ -11,7 +11,9 @@ namespace MenuDart.Models
     public class Menu
     {
         public int ID { get; set; }
+        [Required]
         public string Name { get; set; }
+        [Required]
         public string City { get; set; }
         public string Website { get; set; }
         public string AboutTitle { get; set; }
@@ -29,7 +31,6 @@ namespace MenuDart.Models
         public string Locations { get; set; }
         [Column(TypeName = "xml")]
         public string MenuTree { get; set; }
-        public string temp { get; set; }
     }
 
     public class Location
@@ -69,6 +70,7 @@ namespace MenuDart.Models
     public class Template
     {
         public int ID { get; set; }
+        [Required]
         public string Name { get; set; }
         public string HdrTxtClr { get; set; }
         public string HdrTxtFnt { get; set; }

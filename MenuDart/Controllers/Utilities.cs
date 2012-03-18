@@ -35,14 +35,26 @@ namespace MenuDart.Controllers
         //Creates Google map link
         public static string CreateMapLink(string address, string state, string zip)
         {
-            string noSpacesAddress = address.Replace(' ', '+');
+            string noSpacesAddress = string.Empty;
+
+            if (!string.IsNullOrEmpty(address))
+            {
+                noSpacesAddress = address.Replace(' ', '+');
+            }
+
             return (Constants.GoogleMapPrefix + noSpacesAddress + "+" + state + "+" + zip);
         }
 
         //Creates Google map image link
         public static string CreateMapImgLink(string address, string state, string zip)
         {
-            string noSpacesAddress = address.Replace(' ', '+');
+            string noSpacesAddress = string.Empty;
+
+            if (!string.IsNullOrEmpty(address))
+            {
+                noSpacesAddress = address.Replace(' ', '+');
+            }
+
             return (Constants.GoogleMapImgPrefix + noSpacesAddress + "+" + state + "+" + zip + Constants.GoogleMapImgSuffix);
         }
     }
