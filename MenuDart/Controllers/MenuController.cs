@@ -203,20 +203,28 @@ namespace MenuDart.Controllers
         {
             if (ModelState.IsValid)
             {
-                //create initial empty locations
+/*
+                //create initial default location
+                List<Location> defaultLocationList = new List<Location>() {
+                    new Location() { Address = "Address Here.",
+                        City = menuBuilderModel.CurrentMenu.City,
+                        Hours = "Hours of Operation Here.",
+                        MapLink = Utilities.CreateMapLink(string.Empty, menuBuilderModel.CurrentMenu.City, string.Empty),
+                        MapImgUrl = Utilities.CreateMapImgLink(string.Empty, menuBuilderModel.CurrentMenu.City, string.Empty) 
+                    }
+                };
+*/
                 menuBuilderModel.CurrentMenu.Locations = V1.SerializeLocations(new List<Location>());
 
                 //create initial default menu tree
                 List<MenuNode> defaultMenuNodeList = new List<MenuNode>(){
-                    new MenuNode() { Title = "Breakfast", Text = "Sample page text here." },
-                    new MenuNode() { Title = "Lunch", Text = "Sample page text here." },
-                    new MenuNode() { Title = "Dinner", Text = "Sample page text here." }
+                    new MenuNode() { Title = "Breakfast (Example)", Link = "1-1", Text = "Breakfast menu items here. (Sample)" },
+                    new MenuNode() { Title = "Lunch (Example)", Link = "1-2", Text = "Lunch menu items here. (Sample)" },
+                    new MenuNode() { Title = "Dinner (Example)", Link = "1-3", Text = "Dinner menu items here. (Sample)" }
                 };
 
                 menuBuilderModel.CurrentMenu.MenuTree = V1.SerializeMenuTree(defaultMenuNodeList);
 
-                //put placeholder values for empty menu
- 
                 //create default About page values
                 menuBuilderModel.CurrentMenu.AboutTitle = string.Format(Constants.DefaultAboutTitleFormat, menuBuilderModel.CurrentMenu.Name);
                 menuBuilderModel.CurrentMenu.AboutText = string.Format(Constants.DefaultAboutTextFormat, menuBuilderModel.CurrentMenu.Name);

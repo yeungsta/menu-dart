@@ -18,6 +18,12 @@
 }
 
 <div data-role="page">
+	<div data-role="header">
+		<div data-role="navbar">
+			<center><h2>Menu Builder</h2></center>
+		</div><!-- /navbar -->
+	</div><!-- /header -->
+
 	<div data-role="content">
         <h2>You're almost done! Now create and organize your menu items.</h2>
         <h3>Just add Categories, then Items. Click on Categories to add more in them.</h3>
@@ -26,13 +32,17 @@
         {
             @Html.ActionLink("Back one level", "Details", "MenuTree", new { id = ViewBag.MenuId, parent = ViewBag.UpLevel, idx = -1 }, null)
         }
-        else 
+        else
         {
             <text><b>This is the main level.</b></text>
         }
         <br>
         <hr />
         <br>
+        @if (!string.IsNullOrEmpty(ViewBag.LevelTitle))
+        {
+		    <center><h3>@ViewBag.LevelTitle:</h3></center>
+        }
         @if (!string.IsNullOrEmpty(ViewBag.Text))
         {
 		<center>@Html.Raw(ViewBag.Text)<br>

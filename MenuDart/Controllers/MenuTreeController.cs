@@ -61,6 +61,11 @@ namespace MenuDart.Controllers
                             ViewBag.Text = currentMenuTree[idx].Text.Replace(Constants.NewLine, Constants.Break);
                         }
 
+                        if (!string.IsNullOrEmpty(currentMenuTree[idx].Title))
+                        {
+                            ViewBag.LevelTitle = currentMenuTree[idx].Title;
+                        }
+
                         return View(currentMenuTree[idx].Branches);
                     }
                 }
@@ -95,6 +100,11 @@ namespace MenuDart.Controllers
                             ViewBag.Text = parentNode.Text.Replace(Constants.NewLine, Constants.Break);
                         }
 
+                        if (!string.IsNullOrEmpty(parentNode.Title))
+                        {
+                            ViewBag.LevelTitle = parentNode.Title;
+                        }
+
                         return View(parentNode.Branches);
                     }
                     else
@@ -122,6 +132,11 @@ namespace MenuDart.Controllers
                         if (!string.IsNullOrEmpty(parentNode.Branches[idx].Text))
                         {
                             ViewBag.Text = parentNode.Branches[idx].Text.Replace(Constants.NewLine, Constants.Break);
+                        }
+
+                        if (!string.IsNullOrEmpty(parentNode.Branches[idx].Title))
+                        {
+                            ViewBag.LevelTitle = parentNode.Branches[idx].Title;
                         }
 
                         //return the branches of the parent node
