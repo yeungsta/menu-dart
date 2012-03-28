@@ -7,6 +7,7 @@ namespace MenuDart.Composer
 {
     public class Constants
     {
+        public const string DocType = "<!DOCTYPE html>";
         public const string Jquery = "http://code.jquery.com/jquery-1.6.4.min.js";
         public const string JqueryMobile = "http://code.jquery.com/mobile/1.0/jquery.mobile-1.0.min.js";
         public const string JqueryMobileCss = "http://code.jquery.com/mobile/1.0/jquery.mobile-1.0.min.css";

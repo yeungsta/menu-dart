@@ -224,9 +224,12 @@ namespace MenuDart.Composer
 
         private void CreateBase(HtmlTextWriter writer)
         {
+            writer.Write(Constants.DocType);
+            writer.WriteLine();
             writer.RenderBeginTag(HtmlTextWriterTag.Html);
             writer.RenderBeginTag(HtmlTextWriterTag.Head);
                     AddTitle(writer, m_menu.Name);
+                    AddMetaEncoding(writer);
                     AddMeta(writer, "viewport", "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0");
                     AddMeta(writer, "apple-mobile-web-app-capable", "yes");
                     AddMeta(writer, "apple-mobile-web-app-status-bar-style", "black");
@@ -347,6 +350,12 @@ namespace MenuDart.Composer
             writer.RenderBeginTag(HtmlTextWriterTag.Title);
             writer.Write(title);
             writer.RenderEndTag();
+        }
+
+        private void AddMetaEncoding(HtmlTextWriter writer)
+        {
+            writer.WriteLine();
+            writer.Write("<meta http-equiv=\"Content-Type\" content=\"text/html;charset=utf-8\" >");
         }
 
         private void AddMeta(HtmlTextWriter writer, string name, string content)
@@ -547,7 +556,7 @@ namespace MenuDart.Composer
             writer.RenderEndTag();
         }
 
-        private void AddMenuLeaf(HtmlTextWriter writer, string title, string desc, decimal price)
+        private void AddMenuLeaf(HtmlTextWriter writer, string title, string desc, decimal? price)
         {
             if (!string.IsNullOrEmpty(title))
             {
@@ -569,9 +578,9 @@ namespace MenuDart.Composer
             writer.WriteLine();
         }
 
-        private void AddPriceTag(HtmlTextWriter writer, decimal price)
+        private void AddPriceTag(HtmlTextWriter writer, decimal? price)
         {
-            if (price > 0)
+            if ((price != null) && (price > 0))
             {
                 writer.AddAttribute(HtmlTextWriterAttribute.Class, Constants.CountClass);
                 writer.RenderBeginTag(HtmlTextWriterTag.Span);

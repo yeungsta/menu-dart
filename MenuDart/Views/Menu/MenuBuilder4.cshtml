@@ -13,6 +13,32 @@
     @Html.ValidationSummary(true)
     <fieldset>
         <legend>Step 3</legend>
+<br />
+<link href="@Url.Content("~/Content/fileuploader.css")" rel="stylesheet" type="text/css" />
+<script src="@Url.Content("~/Scripts/fileuploader.js")" type="text/javascript"></script>
+
+	<div id="file-uploader">		
+		<noscript>			
+			<p>Please enable JavaScript to be able to upload your business's logo.</p>
+			<!-- or put a simple form for upload here -->
+		</noscript>         
+	</div>
+    <script>
+        jQuery(function () {
+            var uploader = new qq.FileUploader({
+                element: document.getElementById('file-uploader'),
+                action: '/Menu/LogoUpload',
+                allowedExtensions: ['jpg', 'jpeg', 'png', 'gif'], 
+                sizeLimit: 600000, // max size
+                multiple: false,
+                debug: true,
+                params: {
+                    menuDartUrl: '@Model.MenuDartUrl'
+                }
+            });
+        });     
+
+    </script>
 
         @Html.HiddenFor(model => model.Name)
         @Html.HiddenFor(model => model.City)

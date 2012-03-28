@@ -7,7 +7,7 @@ namespace MenuDart.Controllers
 {
     public class Constants
     {
-        public const string DefaultAboutTitleFormat = "Welcome to {0}!";
+        public const string DefaultAboutTitleFormat = "Welcome to\n{0}!";
         public const string DefaultAboutTextFormat = "A description and/or story about {0} here...";
         public const string Break = "<br>";
         public const string NewLine = "\n";
@@ -20,5 +20,6 @@ namespace MenuDart.Controllers
         public const string GoogleMapPrefix = @"http://maps.google.com/maps?q=";
         public const string GoogleMapImgPrefix = @"http://maps.googleapis.com/maps/api/staticmap?size=275x275&maptype=roadmap\&markers=size:mid%7Ccolor:red%7C";
         public const string GoogleMapImgSuffix = @"&sensor=false&zoom=14";
+        public const string LogoFileName = "logo.png";
     }
 }

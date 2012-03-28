@@ -64,7 +64,7 @@ namespace MenuDart.Models
     public class MenuLeaf : MenuNode
     {
         public string Description { get; set; }
-        public decimal Price { get; set; }
+        public decimal? Price { get; set; }
     }
 
     public class Template

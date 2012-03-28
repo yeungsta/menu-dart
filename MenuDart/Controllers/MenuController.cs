@@ -229,9 +229,16 @@ namespace MenuDart.Controllers
                 menuBuilderModel.CurrentMenu.AboutTitle = string.Format(Constants.DefaultAboutTitleFormat, menuBuilderModel.CurrentMenu.Name);
                 menuBuilderModel.CurrentMenu.AboutText = string.Format(Constants.DefaultAboutTextFormat, menuBuilderModel.CurrentMenu.Name);
 
-                //Create unique menudart URL
+                //Create unique menudart URL          
                 string tempUrl = (menuBuilderModel.CurrentMenu.Name.Replace(' ', '-') + 
                     "-" + menuBuilderModel.CurrentMenu.City).ToLower();
+
+                //remove unwanted chars
+                tempUrl = tempUrl.Replace(",", "");
+                tempUrl = tempUrl.Replace("'", "");
+
+                //replace chars with text
+                tempUrl = tempUrl.Replace("&", "and");
 
                 //Check if there are duplicate URLs.
                 int matches = db.Menus.Count(menu => menu.MenuDartUrl.Contains(tempUrl));
@@ -592,6 +599,48 @@ namespace MenuDart.Controllers
             composer.CreateMenu();
 
             return View();
+        }
+
+        [HttpPost]
+        public ActionResult LogoUpload(string qqfile, string menuDartUrl)
+        {
+            if (!string.IsNullOrEmpty(menuDartUrl))
+            {
+                string indexFilesPath = HttpContext.Server.MapPath(Constants.MenusPath + menuDartUrl + "/" + Constants.IndexFilesDir);
+                var file = string.Empty;
+
+                try
+                {
+                    var stream = Request.InputStream;
+                    if (String.IsNullOrEmpty(Request["qqfile"]))
+                    {
+                        // IE
+                        HttpPostedFileBase postedFile = Request.Files[0];
+                        stream = postedFile.InputStream;
+                        file = Path.Combine(indexFilesPath, Constants.LogoFileName);
+                    }
+                    else
+                    {
+                        //Webkit, Mozilla
+                        file = Path.Combine(indexFilesPath, Constants.LogoFileName);
+                    }
+
+                    //TODO: check if there exists a logo.png file; if it does prompt
+                    //TODO: user to confirm that they want to overwrite.
+
+                    var buffer = new byte[stream.Length];
+                    stream.Read(buffer, 0, buffer.Length);
+                    System.IO.File.WriteAllBytes(file, buffer);
+                }
+                catch (Exception ex)
+                {
+                    return Json(new { success = false, message = ex.Message }, "application/json");
+                }
+
+                return Json(new { success = true }, "text/html");
+            }
+
+            return Json(new { success = false, message = "No URL path." }, "application/json");
         }
 
         protected override void Dispose(bool disposing)
