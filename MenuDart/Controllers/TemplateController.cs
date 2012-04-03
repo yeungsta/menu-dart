@@ -8,7 +8,8 @@ using System.Web.Mvc;
 using MenuDart.Models;
 
 namespace MenuDart.Controllers
-{ 
+{
+    [Authorize(Roles = "Administrator")]
     public class TemplateController : Controller
     {
         private MenuDartDBContext db = new MenuDartDBContext();

@@ -82,6 +82,14 @@ namespace MenuDart.Models
         public string FtrLnkClr { get; set; }
     }
 
+    public class TempMenu
+    {
+        public int ID { get; set; }
+        public string SessionId { get; set; }
+        public int MenuId { get; set; }
+        public System.DateTime DateCreated { get; set; }
+    }
+
     public class MenuDartDBContext : DbContext
     {
         public DbSet<Menu> Menus { get; set; }
@@ -94,5 +102,7 @@ namespace MenuDart.Models
         //we won't be storing MenuNodes in it's SQL table, however. Just as XML
         //in the Menus table.
         public DbSet<MenuNode> MenuTree { get; set; }
+
+        public DbSet<TempMenu> TempMenus { get; set; }
     }
 }

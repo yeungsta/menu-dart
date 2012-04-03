@@ -250,9 +250,19 @@ namespace MenuDart.Controllers
                 
                 menuBuilderModel.CurrentMenu.MenuDartUrl = tempUrl;
 
-                //save to DB
+                //save menu to DB, get an assigned menu ID
                 db.Menus.Add(menuBuilderModel.CurrentMenu);
                 db.SaveChanges();
+
+                //save temp menu with session so anonymous user can retrieve later
+                if (!Request.IsAuthenticated)
+                {
+                    var cart = SessionCart.GetCart(this.HttpContext);
+                    cart.AddMenu(menuBuilderModel.CurrentMenu.ID);
+                }
+                else
+                {
+                }
 
                 //Compose the menu for the first time, so user can try it out
                 V1 composer = new V1(menuBuilderModel.CurrentMenu);

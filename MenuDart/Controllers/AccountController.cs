@@ -30,6 +30,9 @@ namespace MenuDart.Controllers
             {
                 if (Membership.ValidateUser(model.UserName, model.Password))
                 {
+                    //set temp menu to owner
+                    MigrateSessionCart(model.UserName);
+
                     FormsAuthentication.SetAuthCookie(model.UserName, model.RememberMe);
                     if (Url.IsLocalUrl(returnUrl) && returnUrl.Length > 1 && returnUrl.StartsWith("/")
                         && !returnUrl.StartsWith("//") && !returnUrl.StartsWith("/\\"))
@@ -83,6 +86,9 @@ namespace MenuDart.Controllers
 
                 if (createStatus == MembershipCreateStatus.Success)
                 {
+                    //set temp menu to owner
+                    MigrateSessionCart(model.UserName);
+
                     FormsAuthentication.SetAuthCookie(model.UserName, false /* createPersistentCookie */);
                     return RedirectToAction("Index", "Home");
                 }
@@ -189,5 +195,14 @@ namespace MenuDart.Controllers
             }
         }
         #endregion
+
+        private void MigrateSessionCart(string UserName)
+        {
+            // Associate shopping cart items with logged-in user
+            var cart = SessionCart.GetCart(this.HttpContext);
+
+            cart.MigrateMenu(UserName);
+            Session[SessionCart.CartSessionKey] = UserName;
+        }
     }
 }

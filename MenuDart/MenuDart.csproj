@@ -66,7 +66,6 @@
     <Compile Include="Composer\Constants.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\Constants.cs" />
-    <Compile Include="Controllers\DashboardController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LocationsController.cs" />
     <Compile Include="Controllers\MenuController.cs" />
@@ -81,6 +80,7 @@
     <Compile Include="Models\MD.cs" />
     <Compile Include="Models\MDInitializer.cs" />
     <Compile Include="Models\MenuBuilderViewModel.cs" />
+    <Compile Include="Models\SessionCart.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

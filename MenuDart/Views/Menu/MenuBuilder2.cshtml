@@ -11,5 +11,12 @@ Just use a smartphone or small mobile device to surf to this site to check it ou
 Hooray for instant gratification!
 <p>
 When you're ready, let's add more information and customize it a bit...
+@if (Request.IsAuthenticated)
+{
 @Html.ActionLink("Continue and Select a Template", "MenuBuilder3", "Menu", new { id = ViewBag.MenuId }, null)
+}
+else
+{
+@Html.ActionLink("First, Log On/Create Account", "LogOn", "Account", new { ReturnUrl = "/Menu/MenuBuilder3/" + ViewBag.MenuId }, null)
+}
 </h3>
