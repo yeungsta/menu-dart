@@ -80,6 +80,7 @@ namespace MenuDart.Models
         public string Stripes { get; set; }
         public string FtrTxtClr { get; set; }
         public string FtrLnkClr { get; set; }
+        public string temp { get; set; }
     }
 
     public class TempMenu

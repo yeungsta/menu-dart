@@ -250,6 +250,12 @@ namespace MenuDart.Controllers
                 
                 menuBuilderModel.CurrentMenu.MenuDartUrl = tempUrl;
 
+                if (Request.IsAuthenticated)
+                {
+                    //save current user as owner
+                    menuBuilderModel.CurrentMenu.Owner = HttpContext.User.Identity.Name;
+                }
+
                 //save menu to DB, get an assigned menu ID
                 db.Menus.Add(menuBuilderModel.CurrentMenu);
                 db.SaveChanges();
@@ -259,9 +265,6 @@ namespace MenuDart.Controllers
                 {
                     var cart = SessionCart.GetCart(this.HttpContext);
                     cart.AddMenu(menuBuilderModel.CurrentMenu.ID);
-                }
-                else
-                {
                 }
 
                 //Compose the menu for the first time, so user can try it out

@@ -15,8 +15,10 @@ namespace MenuDart.Controllers
         //
         // GET: /Account/LogOn
 
-        public ActionResult LogOn()
+        public ActionResult LogOn(string ReturnUrl)
         {
+            ViewBag.ReturnUrl = ReturnUrl;
+
             return View();
         }
 
@@ -76,7 +78,7 @@ namespace MenuDart.Controllers
         // POST: /Account/Register
 
         [HttpPost]
-        public ActionResult Register(RegisterModel model)
+        public ActionResult Register(RegisterModel model, string returnUrl)
         {
             if (ModelState.IsValid)
             {
@@ -90,7 +92,16 @@ namespace MenuDart.Controllers
                     MigrateSessionCart(model.UserName);
 
                     FormsAuthentication.SetAuthCookie(model.UserName, false /* createPersistentCookie */);
-                    return RedirectToAction("Index", "Home");
+
+                    if (Url.IsLocalUrl(returnUrl) && returnUrl.Length > 1 && returnUrl.StartsWith("/")
+                        && !returnUrl.StartsWith("//") && !returnUrl.StartsWith("/\\"))
+                    {
+                        return Redirect(returnUrl);
+                    }
+                    else
+                    {
+                        return RedirectToAction("Index", "Home");
+                    }
                 }
                 else
                 {
