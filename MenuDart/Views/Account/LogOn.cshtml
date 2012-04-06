@@ -6,7 +6,7 @@
 
 <h2>Log On</h2>
 <p>
-    Please enter your user name and password.
+    Please enter your email address and password.
     @if (!string.IsNullOrEmpty(ViewBag.ReturnUrl))
     {
         @Html.ActionLink("Register", "Register", new { ReturnUrl = ViewBag.ReturnUrl }, null)
@@ -30,11 +30,11 @@
             <legend>Account Information</legend>
 
             <div class="editor-label">
-                @Html.LabelFor(m => m.UserName)
+                @Html.LabelFor(m => m.Email)
             </div>
             <div class="editor-field">
-                @Html.TextBoxFor(m => m.UserName)
-                @Html.ValidationMessageFor(m => m.UserName)
+                @Html.TextBoxFor(m => m.Email)
+                @Html.ValidationMessageFor(m => m.Email)
             </div>
 
             <div class="editor-label">

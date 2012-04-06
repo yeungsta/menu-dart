@@ -1,0 +1,33 @@
+﻿@model MenuDart.Models.TempMenu
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<fieldset>
+    <legend>TempMenu</legend>
+
+    <div class="display-label">SessionId</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.SessionId)
+    </div>
+
+    <div class="display-label">MenuId</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.MenuId)
+    </div>
+
+    <div class="display-label">DateCreated</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.DateCreated)
+    </div>
+</fieldset>
+@using (Html.BeginForm()) {
+    <p>
+        <input type="submit" value="Delete" /> |
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+}

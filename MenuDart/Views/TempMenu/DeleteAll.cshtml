@@ -1,0 +1,11 @@
+﻿@{
+    ViewBag.Title = "DeleteAll";
+}
+
+<h2>Are you sure you want to delete all temporary menus older than 48 hours?</h2>
+@using (Html.BeginForm()) {
+<p>
+    <input type="submit" value="Delete All" /> |
+    @Html.ActionLink("Back to List", "Index")
+</p>
+}

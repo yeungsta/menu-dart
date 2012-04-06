@@ -71,6 +71,7 @@
     <Compile Include="Controllers\MenuController.cs" />
     <Compile Include="Controllers\MenuTreeController.cs" />
     <Compile Include="Controllers\TemplateController.cs" />
+    <Compile Include="Controllers\TempMenuController.cs" />
     <Compile Include="Controllers\Utilities.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -269,6 +270,24 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Menu\MenuBuilder7.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\TempMenu\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\TempMenu\Details.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\TempMenu\Create.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\TempMenu\Edit.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\TempMenu\Delete.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\TempMenu\DeleteAll.cshtml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />

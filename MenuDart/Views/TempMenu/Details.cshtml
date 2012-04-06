@@ -1,0 +1,30 @@
+﻿@model MenuDart.Models.TempMenu
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<fieldset>
+    <legend>TempMenu</legend>
+
+    <div class="display-label">SessionId</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.SessionId)
+    </div>
+
+    <div class="display-label">MenuId</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.MenuId)
+    </div>
+
+    <div class="display-label">DateCreated</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.DateCreated)
+    </div>
+</fieldset>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id=Model.ID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

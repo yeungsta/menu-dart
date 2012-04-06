@@ -29,9 +29,14 @@ namespace MenuDart.Models
 
     public class LogOnModel
     {
+        //[Required]
+        //[Display(Name = "User name")]
+        //public string UserName { get; set; }
+
         [Required]
-        [Display(Name = "User name")]
-        public string UserName { get; set; }
+        [DataType(DataType.EmailAddress)]
+        [Display(Name = "Email address")]
+        public string Email { get; set; }
 
         [Required]
         [DataType(DataType.Password)]
@@ -44,9 +49,9 @@ namespace MenuDart.Models
 
     public class RegisterModel
     {
-        [Required]
-        [Display(Name = "User name")]
-        public string UserName { get; set; }
+        //[Required]
+        //[Display(Name = "User name")]
+        //public string UserName { get; set; }
 
         [Required]
         [DataType(DataType.EmailAddress)]
