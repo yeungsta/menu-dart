@@ -5,13 +5,13 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 using System.Web.Security;
+using System.Net.Mail;
 using MenuDart.Models;
 
 namespace MenuDart.Controllers
 {
     public class AccountController : Controller
     {
-
         //
         // GET: /Account/LogOn
 
@@ -165,6 +165,160 @@ namespace MenuDart.Controllers
         public ActionResult ChangePasswordSuccess()
         {
             return View();
+        }
+
+        //
+        // GET: /Account/StartReset
+
+        public ActionResult StartReset()
+        {
+            return View();
+        }
+
+        //
+        // POST: /Account/StartReset
+
+        [HttpPost]
+        public ActionResult StartReset(StartResetModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                MembershipUser currentUser = Membership.GetUser(model.Email, true /* userIsOnline */);
+
+                if (currentUser != null)
+                {
+                    try
+                    {
+                        SendResetEmail(currentUser);
+                        return RedirectToAction("StartResetSuccess");
+                    }
+                    catch (Exception e)
+                    {
+                        string hi = e.Message;
+                        ModelState.AddModelError("", "The system could not email you your password reset. Please try again later or contact Support.");
+
+                        //something failed, redisplay form
+                        return View(model);
+                    }
+                }
+
+                ModelState.AddModelError("", "The email address provided is not found. Please check again.");
+            }
+
+            //something failed, redisplay form
+            return View(model);
+        }
+
+        //
+        // GET: /Account/StartResetSuccess
+
+        public ActionResult StartResetSuccess()
+        {
+            return View();
+        }
+
+        //
+        // GET: /Account/ResetPassword
+
+        public ActionResult ResetPassword(string reset, string username)
+        {
+            if ((reset != null) && (username != null))
+            {
+                MembershipUser currentUser = Membership.GetUser(username);
+                if (HashResetParams(currentUser.Email, currentUser.ProviderUserKey.ToString()) == reset)
+                {
+                    ResetPasswordModel model = new ResetPasswordModel();
+                    model.TempPassword = currentUser.ResetPassword();
+                    model.Email = currentUser.Email;
+                    //save reset string in case user needs to do this over
+                    model.Reset = reset;
+                    return View(model);
+                }
+            }
+
+            return RedirectToAction("ResetPasswordFailed");
+        }
+
+        //
+        // POST: /Account/ResetPassword
+
+        [HttpPost]
+        public ActionResult ResetPassword(ResetPasswordModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                bool resetPasswordSucceeded = false;
+
+                try
+                {
+                    MembershipUser currentUser = Membership.GetUser(model.Email, true /* userIsOnline */);
+
+                    //if temp password passed in is correct, then we will be able to update it:
+                    resetPasswordSucceeded = currentUser.ChangePassword(model.TempPassword, model.NewPassword);
+                }
+                catch (Exception)
+                {
+                    resetPasswordSucceeded = false;
+                }
+
+                if (resetPasswordSucceeded)
+                {
+                    return RedirectToAction("ResetPasswordSuccess");
+                }
+                else
+                {
+                    ModelState.AddModelError("", "We could not reset your password. Please contact support.");
+                }
+            }
+
+            // something failed, redisplay form
+            return View(model);
+        }
+
+        //
+        // GET: /Account/ResetPasswordSuccess
+
+        public ActionResult ResetPasswordSuccess()
+        {
+            return View();
+        }
+
+        //
+        // GET: /Account/ResetPasswordFailed
+
+        public ActionResult ResetPasswordFailed()
+        {
+            return View();
+        }
+
+        public static void SendResetEmail(MembershipUser user)
+        {
+            MailMessage email = new MailMessage();
+
+            email.From = new MailAddress("noreply@menudart.com");
+            email.To.Add(new MailAddress(user.Email));
+
+            email.Subject = "MenuDart Password Reset";
+            email.IsBodyHtml = true;
+            string link = Utilities.PrependUrl("/Account/ResetPassword/?username=" + user.Email + "&reset=" + HashResetParams(user.Email, user.ProviderUserKey.ToString()));
+            email.Body = "<p>" + user.Email + ", please click the following link to reset your password at MenuDart.com:<p><a href='" + link + "'>" + link + "</a></p>";
+            email.Body += "<p>If you did not request a password reset, you do not need to take any action.</p>";
+            
+            //TODO: configure SMTP host
+            //SmtpClient smtpClient = new SmtpClient();          
+            //smtpClient.Send(email);
+            string tempFile = @"c:\\temp\\menudart_password_reset_email.htm";
+            System.IO.File.WriteAllText(tempFile, email.Body);
+        }
+
+        //Method to hash parameters to generate the Reset URL
+        public static string HashResetParams(string username, string guid)
+        {
+            byte[] bytesofLink = System.Text.Encoding.UTF8.GetBytes(username + guid);
+            System.Security.Cryptography.MD5 md5 = new System.Security.Cryptography.MD5CryptoServiceProvider();
+            string HashParams = BitConverter.ToString(md5.ComputeHash(bytesofLink)).Replace("-", "");
+
+            return HashParams;
         }
 
         #region Status Codes

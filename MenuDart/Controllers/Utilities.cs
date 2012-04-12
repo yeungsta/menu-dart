@@ -57,5 +57,10 @@ namespace MenuDart.Controllers
 
             return (Constants.GoogleMapImgPrefix + noSpacesAddress + "+" + state + "+" + zip + Constants.GoogleMapImgSuffix);
         }
+
+        public static string PrependUrl(string url)
+        {
+            return "http://" + HttpContext.Current.Request.Url.Host + ":" + HttpContext.Current.Request.Url.Port + url;
+        }
     }
 }
