@@ -1,0 +1,59 @@
+﻿@model IEnumerable<MenuDart.Models.Menu>
+           
+@{
+    ViewBag.Title = "Dashboard";
+}
+
+<h2>Your Dashboard (@ViewBag.Email)</h2>
+
+<h3>Menus (@Model.Count())</h3>
+
+<table>
+    <tr>
+        <th>
+            Name
+        </th>
+        <th>
+            City
+        </th>
+        <th>
+            Menu Status
+        </th>
+        <th>
+            Unique Visitors This Month
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.City)
+        </td>
+        <td>
+            Active
+        </td>
+        <td>
+            300
+        </td>
+        <td>
+            <a href="@ViewBag.UrlPath@item.MenuDartUrl/index.html" target="_blank">View</a> |
+            @Html.ActionLink("Menu Builder", "Edit", "Menu", new { id = item.ID }, null) |
+            @Html.ActionLink("Delete", "Delete", "Menu", new { id = item.ID }, null) |
+            @Html.ActionLink("Compose", "Compose", "Menu", new { id = item.ID }, null) |
+            @Html.ActionLink("Deactivate", "Deactivate", "Menu", new { id = item.ID }, null) |
+            @Html.ActionLink("Activate", "Activate", "Menu", new { id = item.ID }, null)
+        </td>
+    </tr>
+}
+
+</table>
+
+<br />
+<h3>Account</h3>
+<p>
+    Need to change your password? Do it @Html.ActionLink("here", "ChangePassword", "Account").
+</p>

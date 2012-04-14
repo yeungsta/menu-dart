@@ -58,9 +58,32 @@ namespace MenuDart.Controllers
             return (Constants.GoogleMapImgPrefix + noSpacesAddress + "+" + state + "+" + zip + Constants.GoogleMapImgSuffix);
         }
 
+        //constructs full URL of site
         public static string PrependUrl(string url)
         {
             return "http://" + HttpContext.Current.Request.Url.Host + ":" + HttpContext.Current.Request.Url.Port + url;
+        }
+
+        //constructs URL path of menu directory
+        public static string GetUrlPath()
+        {
+            return "http://" + HttpContext.Current.Request.Url.Host + ":" + HttpContext.Current.Request.Url.Port + "/Content/menus/";
+        }
+
+        //constructs full URL of menu site
+        public static string GetFullUrl(string menuDartUrl)
+        {
+            return "http://" + HttpContext.Current.Request.Url.Host + ":" + HttpContext.Current.Request.Url.Port + "/Content/menus/" + menuDartUrl + "/" + Constants.OutputFile;
+        }
+
+        public static void RemoveDirectory(string menuDartUrl)
+        {
+            string filepath = HttpContext.Current.Server.MapPath("~/Content/menus/" + menuDartUrl + "/");
+
+            if (Directory.Exists(filepath))
+            {
+                Directory.Delete(filepath, true);
+            }
         }
     }
 }

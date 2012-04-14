@@ -20,7 +20,7 @@ namespace MenuDart.Controllers
 
         public ViewResult Index()
         {
-            ViewBag.UrlPath = V1.GetUrlPath();
+            ViewBag.UrlPath = Utilities.GetUrlPath();
             return View(db.Menus.ToList());
         }
 
@@ -152,7 +152,7 @@ namespace MenuDart.Controllers
             db.SaveChanges();
 
             //now delete the menu directory as well
-            V1.RemoveDirectory(menu.MenuDartUrl);
+            Utilities.RemoveDirectory(menu.MenuDartUrl);
 
             return RedirectToAction("Index");
         }
@@ -174,7 +174,7 @@ namespace MenuDart.Controllers
             ComposeViewModel composeViewData = new ComposeViewModel();
             composeViewData.Name = menu.Name;
             composeViewData.MenuString = composer.CreateMenu();
-            composeViewData.Url = V1.GetFullUrl(menu.MenuDartUrl);
+            composeViewData.Url = Utilities.GetFullUrl(menu.MenuDartUrl);
 
             return View(composeViewData);
         }
@@ -271,7 +271,7 @@ namespace MenuDart.Controllers
                 V1 composer = new V1(menuBuilderModel.CurrentMenu);
                 composer.CreateMenu();
 
-                return RedirectToAction("MenuBuilder2", new { name = menuBuilderModel.CurrentMenu.Name, url = V1.GetFullUrl(menuBuilderModel.CurrentMenu.MenuDartUrl), id = menuBuilderModel.CurrentMenu.ID });
+                return RedirectToAction("MenuBuilder2", new { name = menuBuilderModel.CurrentMenu.Name, url = Utilities.GetFullUrl(menuBuilderModel.CurrentMenu.MenuDartUrl), id = menuBuilderModel.CurrentMenu.ID });
             }
 
             return View(menuBuilderModel.CurrentMenu);
@@ -605,7 +605,7 @@ namespace MenuDart.Controllers
             }
 
             ViewBag.Name = menu.Name;
-            ViewBag.Url = V1.GetFullUrl(menu.MenuDartUrl);
+            ViewBag.Url = Utilities.GetFullUrl(menu.MenuDartUrl);
 
             //Compose the menu
             V1 composer = new V1(menu);

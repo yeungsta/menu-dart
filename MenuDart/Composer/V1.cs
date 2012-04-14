@@ -113,6 +113,7 @@ namespace MenuDart.Composer
 
             return currentLevel.Find(node => node.Link == link);
         }
+
 /*  Is this used?
         public static void RemoveMenuNode(List<MenuNode> menuNodes, string link)
         {
@@ -140,26 +141,6 @@ namespace MenuDart.Composer
             currentLevel.RemoveAll(node => node.Link == link);
         }
 */
-        public static string GetUrlPath()
-        {
-            return "http://" + HttpContext.Current.Request.Url.Host + ":" + HttpContext.Current.Request.Url.Port + "/Content/menus/";
-        }
-
-        public static string GetFullUrl(string menuDartUrl)
-        {
-            return "http://" + HttpContext.Current.Request.Url.Host + ":" + HttpContext.Current.Request.Url.Port + "/Content/menus/" + menuDartUrl + "/" + Constants.OutputFile;
-        }
-
-        public static void RemoveDirectory(string menuDartUrl)
-        {
-            string filepath = HttpContext.Current.Server.MapPath("~/Content/menus/" + menuDartUrl + "/");
-
-            if (Directory.Exists(filepath))
-            {
-                Directory.Delete(filepath, true);
-            }
-        }
-
         #endregion static members
 
         #region public members

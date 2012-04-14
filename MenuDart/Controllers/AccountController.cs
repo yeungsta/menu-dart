@@ -147,7 +147,7 @@ namespace MenuDart.Controllers
 
                 if (changePasswordSucceeded)
                 {
-                    return RedirectToAction("ChangePasswordSuccess");
+                    return RedirectToAction("ChangePasswordSuccess", new { email = User.Identity.Name });
                 }
                 else
                 {
@@ -162,8 +162,10 @@ namespace MenuDart.Controllers
         //
         // GET: /Account/ChangePasswordSuccess
 
-        public ActionResult ChangePasswordSuccess()
+        public ActionResult ChangePasswordSuccess(string email)
         {
+            ViewBag.Email = email;
+
             return View();
         }
 

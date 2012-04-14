@@ -21,5 +21,6 @@ namespace MenuDart.Controllers
         public const string GoogleMapImgPrefix = @"http://maps.googleapis.com/maps/api/staticmap?size=275x275&maptype=roadmap\&markers=size:mid%7Ccolor:red%7C";
         public const string GoogleMapImgSuffix = @"&sensor=false&zoom=14";
         public const string LogoFileName = "logo.png";
+        public const string OutputFile = "index.html";
     }
 }
