@@ -4,14 +4,17 @@
     ViewBag.Title = "Delete";
 }
 
-<h2>Delete</h2>
+<h2>Remove @Model.Name Permanently?</h2>
 
-<h3>Are you sure you want to delete this?</h3>
+<h3>Are you sure you want to remove the menu for @Model.Name? It will be permanently removed
+and will NOT be able to be recovered.
+<p>
+Or maybe you just want to deactivate it? It won't be live, but won't be removed either.</h3>
 
 @using (Html.BeginForm()) {
     <p>
-        <input type="submit" value="Delete" /> |
-        @Html.ActionLink("Back to List", "Index")
+        <input type="submit" value="Remove For Good" /> |
+        @Html.ActionLink("Back to Dashboard", "Index", "Dashboard")
     </p>
 }
 
@@ -31,6 +34,11 @@
     <div class="display-label">Phone</div>
     <div class="display-field">
         @Html.DisplayFor(model => model.Phone)
+    </div>
+
+    <div class="display-label">Active</div>
+    <div class="display-field">
+        @Html.DisplayTextFor(model => model.Active)
     </div>
 
     <div class="display-label">Website</div>

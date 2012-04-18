@@ -11,6 +11,7 @@ namespace MenuDart.Controllers
         public const string DefaultAboutTextFormat = "A description and/or story about {0} here...";
         public const string Break = "<br>";
         public const string NewLine = "\n";
+        public const string NewLine2 = "\r\n";
         public const string MenusPath = "~/Content/menus/";
         public const string TemplatesPath = "~/Content/templates/themes/";
         public const string IndexFilesDir = "index_files";
@@ -22,5 +23,6 @@ namespace MenuDart.Controllers
         public const string GoogleMapImgSuffix = @"&sensor=false&zoom=14";
         public const string LogoFileName = "logo.png";
         public const string OutputFile = "index.html";
+        public const string SupportEmailAddress = "support@menudart.com";
     }
 }

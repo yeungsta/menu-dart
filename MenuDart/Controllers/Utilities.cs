@@ -82,6 +82,7 @@ namespace MenuDart.Controllers
 
             if (Directory.Exists(filepath))
             {
+                //TODO: exception sometimes thrown here when dir is not empty?
                 Directory.Delete(filepath, true);
             }
         }

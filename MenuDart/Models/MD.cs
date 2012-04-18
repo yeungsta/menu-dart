@@ -15,6 +15,7 @@ namespace MenuDart.Models
         public string Name { get; set; }
         [Required]
         public string City { get; set; }
+        public bool Active { get; set; }
         public string Website { get; set; }
         public string AboutTitle { get; set; }
         public string AboutText { get; set; }

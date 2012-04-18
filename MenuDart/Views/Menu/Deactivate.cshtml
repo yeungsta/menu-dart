@@ -1,0 +1,20 @@
+﻿@model MenuDart.Models.Menu
+
+@{
+    ViewBag.Title = "Deactivate";
+}
+
+<h2>Deactivate @Model.Name?</h2>
+
+<h3>Are you sure you want to deactivate the menu for @Model.Name?
+<p>
+It won't be permanently removed, but it also will no longer be viewable by your customers, or anyone, in fact.
+<p>
+You can always re-activate this menu when you choose. You are only charged for active menus.</h3>
+
+@using (Html.BeginForm()) {
+    <p>
+        <input type="submit" value="Deactivate" /> |
+        @Html.ActionLink("Back to Dashboard", "Index", "Dashboard")
+    </p>
+}

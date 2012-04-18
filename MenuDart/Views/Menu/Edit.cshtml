@@ -33,6 +33,14 @@
         </div>
 
         <div class="editor-label">
+            @Html.LabelFor(model => model.Active)
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(model => model.Active, new { style = "width: 300px;" })
+            @Html.ValidationMessageFor(model => model.Active)
+        </div>
+
+        <div class="editor-label">
             @Html.LabelFor(model => model.Phone)
         </div>
         <div class="editor-field">

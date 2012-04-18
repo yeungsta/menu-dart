@@ -1,9 +1,14 @@
 ﻿@model MenuDart.Models.ComposeViewModel
 
 @{
-    ViewBag.Title = "Compose";
+    ViewBag.Title = "Menu Activated";
 }
 
-<h2>@Model.Name's Menu Located At:<br /><a href="@Model.Url" target="_blank">@Model.Url</a></h2>
+<h2>@Model.Name's Menu is Activated!
+<p>It's located At:<br /><a href="@Model.Url" target="_blank">@Model.Url</a>
+<p>
+@Html.ActionLink("Back to Dashboard", "Index", "Dashboard")
+</p>
+</h2>
 
 @Html.TextAreaFor(model => model.MenuString, new { style = "width: 100%; height: 800px;" })

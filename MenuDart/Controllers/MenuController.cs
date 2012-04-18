@@ -154,13 +154,13 @@ namespace MenuDart.Controllers
             //now delete the menu directory as well
             Utilities.RemoveDirectory(menu.MenuDartUrl);
 
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", "Dashboard");
         }
 
         //
-        // GET: /Menu/Compose/5
+        // GET: /Menu/Deactivate/5
 
-        public ActionResult Compose(int id = 0)
+        public ActionResult Deactivate(int id = 0)
         {
             Menu menu = db.Menus.Find(id);
 
@@ -169,14 +169,65 @@ namespace MenuDart.Controllers
                 return HttpNotFound();
             }
 
-            V1 composer = new V1(menu);
+            return View(menu);
+        }
 
-            ComposeViewModel composeViewData = new ComposeViewModel();
-            composeViewData.Name = menu.Name;
-            composeViewData.MenuString = composer.CreateMenu();
-            composeViewData.Url = Utilities.GetFullUrl(menu.MenuDartUrl);
+        //
+        // POST: /Menu/Deactivate/5
 
-            return View(composeViewData);
+        [HttpPost, ActionName("Deactivate")]
+        public ActionResult DeactivateConfirmed(int id = 0)
+        {
+            Menu menu = db.Menus.Find(id);
+
+            if (menu == null)
+            {
+                return HttpNotFound();
+            }
+
+            //set menu as deactivated
+            menu.Active = false;
+            db.Entry(menu).State = EntityState.Modified;
+            db.SaveChanges();
+
+            //delete the menu directory from public directory
+            Utilities.RemoveDirectory(menu.MenuDartUrl);
+
+            return RedirectToAction("Index", "Dashboard");
+        }
+
+        //
+        // GET: /Menu/Compose/5
+
+        public ActionResult Compose(int id = 0)
+        {
+            try
+            {
+                Menu menu = db.Menus.Find(id);
+
+                if (menu == null)
+                {
+                    return HttpNotFound();
+                }
+
+                V1 composer = new V1(menu);
+
+                ComposeViewModel composeViewData = new ComposeViewModel();
+                composeViewData.Name = menu.Name;
+                composeViewData.MenuString = composer.CreateMenu();
+                composeViewData.Url = Utilities.GetFullUrl(menu.MenuDartUrl);
+
+                //set menu as active
+                menu.Active = true;
+                db.Entry(menu).State = EntityState.Modified;
+                db.SaveChanges();
+
+                return View(composeViewData);
+            }
+            catch
+            {
+                return View();
+            }
         }
 
         //

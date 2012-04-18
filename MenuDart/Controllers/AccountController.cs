@@ -43,7 +43,8 @@ namespace MenuDart.Controllers
                     }
                     else
                     {
-                        return RedirectToAction("Index", "Home");
+                        //send to Dashboard by default
+                        return RedirectToAction("Index", "Dashboard");
                     }
                 }
                 else

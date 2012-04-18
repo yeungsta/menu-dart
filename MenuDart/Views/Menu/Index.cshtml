@@ -21,6 +21,9 @@
             City
         </th>
         <th>
+            Active
+        </th>
+        <th>
             MenuDartUrl
         </th>
         <th>
@@ -39,6 +42,15 @@
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.City)
+        </td>
+        <td>
+            @if (@item.Active) {
+            <text>Yes</text>
+            }
+            else
+            {
+               <text>No</text> 
+            }
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.MenuDartUrl)

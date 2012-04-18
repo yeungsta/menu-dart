@@ -79,6 +79,7 @@
     </Compile>
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\ComposeViewModel.cs" />
+    <Compile Include="Models\DashboardModel.cs" />
     <Compile Include="Models\MD.cs" />
     <Compile Include="Models\MDInitializer.cs" />
     <Compile Include="Models\MenuBuilderViewModel.cs" />
@@ -307,6 +308,12 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Dashboard\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Dashboard\SendFeedbackSuccess.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Menu\Deactivate.cshtml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />
