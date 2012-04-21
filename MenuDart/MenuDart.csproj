@@ -262,16 +262,16 @@
     <Content Include="Views\Menu\MenuBuilder5.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Menu\MenuBuilder6a.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Views\Menu\MenuBuilder6a2.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Views\Menu\MenuBuilder6a3.cshtml" />
+    <Content Include="Views\Menu\MenuBuilder6.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Menu\MenuBuilder7.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Menu\MenuBuilder8.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Menu\MenuBuilder9.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\TempMenu\Index.cshtml" />
@@ -314,6 +314,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Menu\Deactivate.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Menu\MenuBuilderAccessViolation.cshtml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />

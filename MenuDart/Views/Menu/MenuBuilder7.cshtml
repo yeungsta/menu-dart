@@ -1,14 +1,47 @@
-﻿@{
+﻿@model List<MenuDart.Models.Location>
+           
+@{
     ViewBag.Title = "MenuBuilder7";
 }
 
-<h2>Congrats, you're finally done!</h2>
-<h3>
-You can now check out your finished restaurant menu for @ViewBag.Name.<p>
-It's available at: <a href="@ViewBag.Url" target="_blank">@ViewBag.Url</a><br />
-(Just use a smartphone or pocket mobile device to surf to this site to check it out in its full mobile-glory.)
-<p>
-Now check out these ways to connect your menu to your website and link to other sites:
-<p></p>
-@Html.ActionLink("Go to your Dashboard", "Index", "Dashboard")
-</h3>
+<h2>Now fill out business hours and contact information for your restaurant.</h2>
+
+<script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
+
+@using (Html.BeginForm()) {
+    @Html.ValidationSummary(true)
+    <fieldset>
+        <legend>Step 6</legend>
+        @for (int i = 0; i < Model.Count; i++)
+        {
+            <h3>Location @(i + 1):</h3>
+              
+            <div class="editor-label">
+                @Html.LabelFor(model => Model[i].Hours)
+            </div>
+            <div class="editor-field">
+                @Html.TextAreaFor(model => Model[i].Hours, new { style = "width: 300px; height: 250px;" })
+                @Html.ValidationMessageFor(model => Model[i].Hours)
+            </div>
+            <div class="editor-label">
+                @Html.LabelFor(model => Model[i].Phone)
+            </div>
+            <div class="editor-field">
+                @Html.TextBoxFor(model => Model[i].Phone, new { style = "width: 300px;" })
+                @Html.ValidationMessageFor(model => Model[i].Phone)
+            </div>
+            <div class="editor-label">
+                @Html.LabelFor(model => Model[i].Email)
+            </div>
+            <div class="editor-field">
+                @Html.TextBoxFor(model => Model[i].Email, new { style = "width: 300px;" })
+                @Html.ValidationMessageFor(model => Model[i].Email)
+            </div>
+        }
+
+        <p>
+            <input type="submit" value="Next" />
+        </p>
+    </fieldset>
+}

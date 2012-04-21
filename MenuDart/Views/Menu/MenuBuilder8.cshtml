@@ -1,0 +1,47 @@
+﻿@model List<MenuDart.Models.Location>
+           
+@{
+    ViewBag.Title = "MenuBuilder8";
+}
+
+<h2>Now fill out any social media info your restaurant has.</h2>
+
+<script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
+
+@using (Html.BeginForm()) {
+    @Html.ValidationSummary(true)
+    <fieldset>
+        <legend>Step 7</legend>
+        @for (int i = 0; i < Model.Count; i++)
+        {
+            <h3>Location @(i + 1):</h3>
+            
+            <div class="editor-label">
+                @Html.LabelFor(model => Model[i].Facebook)
+            </div>
+            <div class="editor-field">
+                @Html.TextBoxFor(model => Model[i].Facebook, new { style = "width: 500px;" })
+                @Html.ValidationMessageFor(model => Model[i].Facebook)
+            </div>
+            <div class="editor-label">
+                @Html.LabelFor(model => Model[i].Twitter)
+            </div>
+            <div class="editor-field">
+                @Html.TextBoxFor(model => Model[i].Twitter, new { style = "width: 500px;" })
+                @Html.ValidationMessageFor(model => Model[i].Twitter)
+            </div>
+            <div class="editor-label">
+                @Html.LabelFor(model => Model[i].Yelp)
+            </div>
+            <div class="editor-field">
+                @Html.TextBoxFor(model => Model[i].Yelp, new { style = "width: 500px;" })
+                @Html.ValidationMessageFor(model => Model[i].Yelp)
+            </div>
+        }
+
+        <p>
+            <input type="submit" value="Next" />
+        </p>
+    </fieldset>
+}
