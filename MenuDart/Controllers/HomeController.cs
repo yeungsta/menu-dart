@@ -10,8 +10,6 @@ namespace MenuDart.Controllers
     {
         public ActionResult Index()
         {
-            ViewBag.Message = "Welcome to MenuDart!";
-
             return View();
         }
 

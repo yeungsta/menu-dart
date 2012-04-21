@@ -7,8 +7,6 @@ namespace MenuDart.Controllers
 {
     public class Constants
     {
-        public const string DefaultAboutTitleFormat = "Welcome to\n{0}!";
-        public const string DefaultAboutTextFormat = "A description and/or story about {0} here...";
         public const string Break = "<br>";
         public const string NewLine = "\n";
         public const string NewLine2 = "\r\n";

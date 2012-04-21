@@ -1,4 +1,4 @@
-﻿@model MenuDart.Models.Location
+﻿@model List<MenuDart.Models.Location>
            
 @{
     ViewBag.Title = "MenuBuilder6a3";
@@ -13,31 +13,35 @@
     @Html.ValidationSummary(true)
     <fieldset>
         <legend>Step 7</legend>
-
-                <div class="editor-label">
-                    @Html.LabelFor(model => model.Facebook)
-                </div>
-                <div class="editor-field">
-                    @Html.TextBoxFor(model => model.Facebook, new { style = "width: 500px;" })
-                    @Html.ValidationMessageFor(model => model.Facebook)
-                </div>
-                <div class="editor-label">
-                    @Html.LabelFor(model => model.Twitter)
-                </div>
-                <div class="editor-field">
-                    @Html.TextBoxFor(model => model.Twitter, new { style = "width: 500px;" })
-                    @Html.ValidationMessageFor(model => model.Twitter)
-                </div>
-                <div class="editor-label">
-                    @Html.LabelFor(model => model.Yelp)
-                </div>
-                <div class="editor-field">
-                    @Html.TextBoxFor(model => model.Yelp, new { style = "width: 500px;" })
-                    @Html.ValidationMessageFor(model => model.Yelp)
-                </div>
+        @for (int i = 0; i < Model.Count; i++)
+        {
+            <h3>Location @(i + 1):</h3>
+            
+            <div class="editor-label">
+                @Html.LabelFor(model => Model[i].Facebook)
+            </div>
+            <div class="editor-field">
+                @Html.TextBoxFor(model => Model[i].Facebook, new { style = "width: 500px;" })
+                @Html.ValidationMessageFor(model => Model[i].Facebook)
+            </div>
+            <div class="editor-label">
+                @Html.LabelFor(model => Model[i].Twitter)
+            </div>
+            <div class="editor-field">
+                @Html.TextBoxFor(model => Model[i].Twitter, new { style = "width: 500px;" })
+                @Html.ValidationMessageFor(model => Model[i].Twitter)
+            </div>
+            <div class="editor-label">
+                @Html.LabelFor(model => Model[i].Yelp)
+            </div>
+            <div class="editor-field">
+                @Html.TextBoxFor(model => Model[i].Yelp, new { style = "width: 500px;" })
+                @Html.ValidationMessageFor(model => Model[i].Yelp)
+            </div>
+        }
 
         <p>
-            <input type="submit" value="Save" />
+            <input type="submit" value="Next" />
         </p>
     </fieldset>
 }

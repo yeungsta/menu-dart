@@ -693,10 +693,20 @@ namespace MenuDart.Composer
                 {
                     writer.AddAttribute(HtmlTextWriterAttribute.Class, "center");
                     writer.RenderBeginTag(HtmlTextWriterTag.Div);
+                    if (!string.IsNullOrEmpty(location.Title))
+                    {
+                        writer.RenderBeginTag(HtmlTextWriterTag.H3);
+                        writer.Write(location.Title);
+                        writer.RenderEndTag();
+                        writer.WriteLine();
+                    }
                     writer.RenderBeginTag(HtmlTextWriterTag.H4);
-                    writer.Write(location.Title);
-                    writer.Write(Constants.Paragraph);
-                    writer.Write(location.Address + Constants.Break + location.City + ", " + location.State + " " + location.Zip);
+                    writer.Write(location.Address + Constants.Break + location.City);
+                    if (!string.IsNullOrEmpty(location.State))
+                    {
+                        writer.Write(", " + location.State);
+                    }
+                    writer.Write(" " + location.Zip);
                     writer.Write(Constants.Paragraph);
                     writer.WriteLine();
                     if (!string.IsNullOrEmpty(location.MapImgUrl) && !string.IsNullOrEmpty(location.MapLink))
@@ -739,6 +749,9 @@ namespace MenuDart.Composer
 
                     writer.RenderEndTag();
                     writer.RenderEndTag();
+
+                    //add spacing between locations
+                    writer.WriteBreak();
                 }
             }
         }

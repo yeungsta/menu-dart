@@ -3,7 +3,7 @@
 }
 
 
-<h2>How many locations does your restaurant have? (You can always add more later.)</h2>
+<h2>How many locations does your restaurant have?</h2>
 
 @using (Html.BeginForm()) {
     <fieldset>
@@ -16,7 +16,7 @@
             @Html.DropDownList("numLocations", ViewData["numList"] as SelectList)
         </div>
         <p>
-            <input type="submit" value="Add" />
+            <input type="submit" value="Next" />
         </p>
     </fieldset>
 }

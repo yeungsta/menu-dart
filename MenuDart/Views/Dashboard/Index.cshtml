@@ -2,6 +2,7 @@
            
 @{
     ViewBag.Title = "Dashboard";
+    int activeCount = 0;
 }
 
 <h2>Your Dashboard (@Model.Email)</h2>
@@ -36,7 +37,8 @@
         </td>
         <td>
             @if (@item.Active) {
-            <text>Yes</text>
+                activeCount++;
+                <text>Yes</text>
             }
             else
             {
@@ -48,20 +50,21 @@
         </td>
         <td>
             <a href="@ViewBag.UrlPath@item.MenuDartUrl/index.html" target="_blank">View</a> |
-            @Html.ActionLink("Menu Builder", "Edit", "Menu", new { id = item.ID }, null) |
+            @Html.ActionLink("Edit Menu", "Edit", "Menu", new { id = item.ID }, null) |
             @Html.ActionLink("Activate", "Compose", "Menu", new { id = item.ID }, null) |
             @Html.ActionLink("Deactivate", "Deactivate", "Menu", new { id = item.ID }, null) |
             @Html.ActionLink("Trash", "Delete", "Menu", new { id = item.ID }, null)
         </td>
     </tr>
 }
-
 </table>
+<br />
+@Html.ActionLink("Create a menu", "MenuBuilder", "Menu", null, null)
 
 <br />
 <h3>Billing</h3>
 <p>
-    You are currently subscribed with 2 active menu(s). [@Html.ActionLink("Subscribe", "Index", "Dashboard") / @Html.ActionLink("Unsubscribe", "Index", "Dashboard") ]
+    You are currently subscribed with @activeCount active menu(s). [@Html.ActionLink("Subscribe", "Index", "Dashboard") / @Html.ActionLink("Unsubscribe", "Index", "Dashboard") ]
     <br />
     You are currently on a free month trial, which ends on 1/23/12.
 </p>

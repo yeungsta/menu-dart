@@ -2,7 +2,12 @@
     ViewBag.Title = "MenuDart";
 }
 
-<h2>@ViewBag.Message</h2>
+<p>
+    @Html.ActionLink("Try it now!", "MenuBuilder", "Menu", null, null)
+</p>
+
+<br />
+<h2>Admin</h2>
 <p>
     @Html.ActionLink("Menus", "Index", "Menu")
 </p>
@@ -11,7 +16,4 @@
 </p>
 <p>
     @Html.ActionLink("Temporary Menus (Not owned)", "Index", "TempMenu")
-</p>
-<p>
-    @Html.ActionLink("Try it now!", "MenuBuilder", "Menu", null, null)
 </p>

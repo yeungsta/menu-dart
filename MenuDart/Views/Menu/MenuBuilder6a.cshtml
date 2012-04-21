@@ -1,4 +1,4 @@
-﻿@model MenuDart.Models.Location
+﻿@model List<MenuDart.Models.Location>
            
 @{
     ViewBag.Title = "MenuBuilder6a";
@@ -14,40 +14,53 @@
     <fieldset>
         <legend>Step 5</legend>
 
-        <div class="editor-label">
-            @Html.LabelFor(model => model.Address)
-        </div>
-        <div class="editor-field">
-            @Html.TextBoxFor(model => model.Address, new { style = "width: 300px;" })
-            @Html.ValidationMessageFor(model => model.Address)
-        </div>
+        @for (int i = 0; i < Model.Count; i++)
+        { 
+            <h3>Location @(i+1):</h3>
+            
+            <div class="editor-label">
+                @Html.LabelFor(model => Model[i].Title, "Name of location (optional)")
+            </div>
+            <div class="editor-field">
+                @Html.TextBoxFor(model => Model[i].Title, new { style = "width: 300px;" })
+                @Html.ValidationMessageFor(model => Model[i].Title)
+            </div>           
+            
+            <div class="editor-label">
+                @Html.LabelFor(model => Model[i].Address)
+            </div>
+            <div class="editor-field">
+                @Html.TextBoxFor(model => Model[i].Address, new { style = "width: 300px;" })
+                @Html.ValidationMessageFor(model => Model[i].Address)
+            </div>
 
-        <div class="editor-label">
-            @Html.LabelFor(model => model.City)
-        </div>
-        <div class="editor-field">
-            @Html.TextBoxFor(model => model.City, new { style = "width: 300px;" })
-            @Html.ValidationMessageFor(model => model.City)
-        </div>
+            <div class="editor-label">
+                @Html.LabelFor(model => Model[i].City)
+            </div>
+            <div class="editor-field">
+                @Html.TextBoxFor(model => Model[i].City, new { style = "width: 300px;" })
+                @Html.ValidationMessageFor(model => Model[i].City)
+            </div>
 
-        <div class="editor-label">
-            @Html.LabelFor(model => model.State)
-        </div>
-        <div class="editor-field">
-            @Html.TextBoxFor(model => model.State, new { style = "width: 30px;" })
-            @Html.ValidationMessageFor(model => model.State)
-        </div>
+            <div class="editor-label">
+                @Html.LabelFor(model => Model[i].State)
+            </div>
+            <div class="editor-field">
+                @Html.TextBoxFor(model => Model[i].State, new { style = "width: 30px;" })
+                @Html.ValidationMessageFor(model => Model[i].State)
+            </div>
 
-        <div class="editor-label">
-            @Html.LabelFor(model => model.Zip)
-        </div>
-        <div class="editor-field">
-            @Html.TextBoxFor(model => model.Zip, new { style = "width: 50px;" })
-            @Html.ValidationMessageFor(model => model.Zip)
-        </div>
+            <div class="editor-label">
+                @Html.LabelFor(model => Model[i].Zip)
+            </div>
+            <div class="editor-field">
+                @Html.TextBoxFor(model => Model[i].Zip, new { style = "width: 50px;" })
+                @Html.ValidationMessageFor(model => Model[i].Zip)
+            </div>
+        }
 
         <p>
-            <input type="submit" value="Apply" />
+            <input type="submit" value="Next" />
         </p>
     </fieldset>
 }

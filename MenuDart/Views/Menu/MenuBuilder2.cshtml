@@ -2,15 +2,15 @@
     ViewBag.Title = "MenuBuilder2";
 }
 
-<h2>Congratulations!</h2>
+<h2>Hooray for instant gratification!</h2>
 <h3>
 You've just created a mobile-friendly restaurant menu for @ViewBag.Name.<p>
 It's already available at: <a href="@ViewBag.Url" target="_blank">@ViewBag.Url</a><br />
-Just use a smartphone or small mobile device to surf to this site to check it out in its full mobile-glory.
+(Just use a smartphone or pocket mobile device to surf to this site to check it out in its full mobile-glory.)
 <p>
-Hooray for instant gratification!
-<p>
-When you're ready, let's add more information and customize it a bit...
+You can see how useful it looks, but some of your info is still missing (mainly your menu items!)
+<br />
+So when you're ready, let's add more information and customize it a bit...
 @if (Request.IsAuthenticated)
 {
 @Html.ActionLink("Continue and Select a Template", "MenuBuilder3", "Menu", new { id = ViewBag.MenuId }, null)
