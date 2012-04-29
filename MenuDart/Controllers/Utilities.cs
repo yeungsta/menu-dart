@@ -9,25 +9,28 @@ namespace MenuDart.Controllers
 {
     public static class Utilities
     {
-        //Copies source directory + files to a destination directory
+        //Copies source directory + files to a destination directory.
+        //If destination directory doesn't exist, it will be created.
         public static void CopyDirTo(string srcPatch, string destPath)
         {
-            if (Directory.Exists(destPath))
+            if (Directory.Exists(srcPatch))
             {
-                if (Directory.Exists(srcPatch))
+                if (!Directory.Exists(destPath))
                 {
-                    string[] files = Directory.GetFiles(srcPatch);
-                    string fileName;
-                    string destFile;
+                    Directory.CreateDirectory(destPath);
+                }
 
-                    // Copy the files and overwrite destination files if they already exist.
-                    foreach (string s in files)
-                    {
-                        // Use static Path methods to extract only the file name from the path.
-                        fileName = Path.GetFileName(s);
-                        destFile = Path.Combine(destPath, fileName);
-                        System.IO.File.Copy(s, destFile, true);
-                    }
+                string[] files = Directory.GetFiles(srcPatch);
+                string fileName;
+                string destFile;
+
+                // Copy the files and overwrite destination files if they already exist.
+                foreach (string s in files)
+                {
+                    // Use static Path methods to extract only the file name from the path.
+                    fileName = Path.GetFileName(s);
+                    destFile = Path.Combine(destPath, fileName);
+                    System.IO.File.Copy(s, destFile, true);
                 }
             }
         }

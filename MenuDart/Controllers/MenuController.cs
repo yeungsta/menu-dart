@@ -81,8 +81,76 @@ namespace MenuDart.Controllers
         
         //
         // GET: /Menu/Edit/5
-
+        [Authorize]
         public ActionResult Edit(int id = 0)
+        {
+            if ((id == 0) || !IsThisMyMenu(id))
+            {
+                return RedirectToAction("MenuBuilderAccessViolation");
+            }
+
+            Menu menu = db.Menus.Find(id);
+
+            if (menu == null)
+            {
+                return HttpNotFound();
+            }
+
+            MenuEditorBasicViewModel basicViewData = new MenuEditorBasicViewModel();
+            basicViewData.MenuId = menu.ID;
+            basicViewData.Name = menu.Name;
+            basicViewData.City = menu.City;
+            basicViewData.Phone = menu.Phone;
+            basicViewData.Website = menu.Website;
+
+            return View(basicViewData);
+        }
+
+        //
+        // POST: /Menu/Edit/5
+
+        [HttpPost]
+        [ValidateInput(false)]
+        [Authorize]
+        public ActionResult Edit(MenuEditorBasicViewModel basicInfo, int id = 0)
+        {
+            if ((id == 0) || !IsThisMyMenu(id))
+            {
+                return RedirectToAction("MenuBuilderAccessViolation");
+            }
+
+            if (ModelState.IsValid)
+            {
+                Menu menu = db.Menus.Find(id);
+
+                if (menu == null)
+                {
+                    return HttpNotFound();
+                }
+
+                //update basic info fields
+                menu.Name = basicInfo.Name;
+                menu.City = basicInfo.City;
+                //TODO: need to update URLs now that name or city is updated
+                menu.Phone = basicInfo.Phone;
+                menu.Website = basicInfo.Website;
+
+                //save changes
+                db.Entry(menu).State = EntityState.Modified;
+                db.SaveChanges();
+
+                //re-compose the menu
+                V1 composer = new V1(menu);
+                composer.CreateMenu();
+            }
+
+            return View(basicInfo);
+        }
+
+        //
+        // GET: /Menu/Edit2/5
+
+        public ActionResult Edit2(int id = 0)
         {
             Menu menu = db.Menus.Find(id);
 
@@ -95,8 +163,8 @@ namespace MenuDart.Controllers
             var templates = new List<string>();
 
             var templateQuery = from t in db.Templates
-                           orderby t.Name
-                           select t.Name;
+                                orderby t.Name
+                                select t.Name;
             templates.AddRange(templateQuery.Distinct());
 
             ViewData["templateList"] = new SelectList(templates, menu.Template);
@@ -105,18 +173,42 @@ namespace MenuDart.Controllers
         }
 
         //
-        // POST: /Menu/Edit/5
+        // POST: /Menu/Edit2/5
 
         [HttpPost]
         [ValidateInput(false)]
-        public ActionResult Edit(Menu menu)
+        public ActionResult Edit2(string template, SelectList TemplateList, int id = 0)
         {
+            if ((id == 0) || !IsThisMyMenu(id))
+            {
+                return RedirectToAction("MenuBuilderAccessViolation");
+            }
+
+            Menu menu = db.Menus.Find(id);
+
+            if (menu == null)
+            {
+                return HttpNotFound();
+            }
+
             if (ModelState.IsValid)
             {
+                //set template value
+                menu.Template = template;
+
+                //save menu to DB
                 db.Entry(menu).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+
+                //Update index_html directory with new CSS template file
+                string indexFilesPath = HttpContext.Server.MapPath(Constants.MenusPath + menu.MenuDartUrl + "/" + Constants.IndexFilesDir);
+                string templatesPath = HttpContext.Server.MapPath((Constants.TemplatesPath + menu.Template + "/"));
+
+                Utilities.CopyDirTo(templatesPath, indexFilesPath);
             }
+
+            ViewData["templateList"] = TemplateList;
+
             return View(menu);
         }
 

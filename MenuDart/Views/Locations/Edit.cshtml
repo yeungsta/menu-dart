@@ -16,8 +16,6 @@
 
                 // manipulate the name/id values of the inputs inside the new element;
                 // we want to replace [0].Title with [1].Title, for example
-                //newElem.children(':first').attr('id', 'name' + newNum).attr('name', 'name' + newNum);
-                //newElem.children('input').each(function () { $(this).attr('name', 'name' + newNum); });
                 newElem.$('.editor-field').children('input').each(function () {
                     $(this).attr('value', '');
                 });
@@ -166,12 +164,11 @@
 
         <p>
             <input type="submit" value="Save" />
-            <!-- <input type="button" id="btnAdd" value="Add Another Location" /> -->
-            <!-- <input type="button" id="btnDel" value="Remove Last Location" /> -->
+            @Html.ActionLink("Cancel", "Edit", "Menu", new { id = ViewBag.MenuId }, null )
         </p>
     </fieldset>
 }
 
 <div>
-    @Html.ActionLink("Back to Menu", "Edit", "Menu", new { id = ViewBag.MenuId }, null)
+    @Html.ActionLink("Back to Dashboard", "Index", "Dashboard")
 </div>

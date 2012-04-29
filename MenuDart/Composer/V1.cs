@@ -7,6 +7,7 @@ using System.Web.UI;
 using System.Xml;
 using System.Xml.Serialization;
 using MenuDart.Models;
+using MenuDart.Controllers;
 
 namespace MenuDart.Composer
 {
@@ -301,9 +302,19 @@ namespace MenuDart.Composer
         private void CopyIndexFiles()
         {
             //copy base CSS/index_files folder if missing
-            string indexFilesPath = HttpContext.Current.Server.MapPath("~/Content/menus/" + m_menu.MenuDartUrl + "/index_files");
-            string baseIndexFilesPath = HttpContext.Current.Server.MapPath("~/Content/templates/base/index_files/");
+            string indexFilesPath = HttpContext.Current.Server.MapPath(Controllers.Constants.MenusPath + m_menu.MenuDartUrl + "/" + Controllers.Constants.IndexFilesDir);
+            //default base template
+            string templatesPath = HttpContext.Current.Server.MapPath(Controllers.Constants.BaseTemplatesPath);
 
+            //if a template is defined, use that one
+            if (!string.IsNullOrEmpty(m_menu.Template))
+            {
+                templatesPath = HttpContext.Current.Server.MapPath((Controllers.Constants.TemplatesPath + m_menu.Template + "/"));
+            }
+
+            Utilities.CopyDirTo(templatesPath, indexFilesPath);
+
+/*
             if (!Directory.Exists(indexFilesPath))
             {
                 Directory.CreateDirectory(indexFilesPath);
@@ -324,6 +335,7 @@ namespace MenuDart.Composer
                     }
                 }
             }
+ */ 
         }
 
         private void AddTitle(HtmlTextWriter writer, string title)

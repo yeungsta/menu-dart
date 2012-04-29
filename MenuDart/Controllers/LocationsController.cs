@@ -6,10 +6,11 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using MenuDart.Models;
+using MenuDart.Composer;
 
 namespace MenuDart.Controllers
 {
-    [Authorize(Roles = "Administrator")]
+    //[Authorize(Roles = "Administrator")]
     public class LocationsController : Controller
     {
         private MenuDartDBContext db = new MenuDartDBContext();
@@ -134,7 +135,11 @@ namespace MenuDart.Controllers
                 db.Entry(menu).State = EntityState.Modified;
                 db.SaveChanges();
 
-                return RedirectToAction("Details", "Menu", new { id = id });
+                //re-compose the menu
+                V1 composer = new V1(menu);
+                composer.CreateMenu();
+
+                return RedirectToAction("Edit", "Menu", new { id = id });
             }
 
             return View(locations);

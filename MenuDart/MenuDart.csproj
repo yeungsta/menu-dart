@@ -83,6 +83,7 @@
     <Compile Include="Models\MD.cs" />
     <Compile Include="Models\MDInitializer.cs" />
     <Compile Include="Models\MenuBuilderViewModel.cs" />
+    <Compile Include="Models\MenuEditorBasicViewModel.cs" />
     <Compile Include="Models\SessionCart.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -317,6 +318,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Menu\MenuBuilderAccessViolation.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Menu\Edit2.cshtml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />

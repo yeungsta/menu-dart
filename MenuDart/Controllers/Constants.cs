@@ -12,6 +12,7 @@ namespace MenuDart.Controllers
         public const string NewLine2 = "\r\n";
         public const string MenusPath = "~/Content/menus/";
         public const string TemplatesPath = "~/Content/templates/themes/";
+        public const string BaseTemplatesPath = "~/Content/templates/base/index_files/";
         public const string IndexFilesDir = "index_files";
         public const int MaxLocations = 8;
         public const string RootLevel = "0";
