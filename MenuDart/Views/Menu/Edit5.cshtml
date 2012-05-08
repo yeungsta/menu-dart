@@ -1,0 +1,95 @@
+﻿@model MenuDart.Models.MenuEditorLocationViewModel
+
+@{
+    ViewBag.Title = "Edit Location";
+}
+
+<h2>Edit @Model.Name</h2>
+<h3>
+@Html.ActionLink("Basic Info", "Edit", "Menu", new { id = Model.MenuId }, null) | 
+@Html.ActionLink("Theme", "Edit2", "Menu", new { id = Model.MenuId }, null) | 
+@Html.ActionLink("About", "Edit3", "Menu", new { id = Model.MenuId }, null) | 
+@Html.ActionLink("Logo", "Edit4", "Menu", new { id = Model.MenuId }, null) | 
+@Html.ActionLink("Location", "Edit5", "Menu", new { id = Model.MenuId }, null) | 
+@Html.ActionLink("Hours", "Edit6", "Menu", new { id = Model.MenuId }, null) | 
+@Html.ActionLink("Contact", "Edit7", "Menu", new { id = Model.MenuId }, null) | 
+@Html.ActionLink("Menu Items", "Details", "MenuTree", new { id = Model.MenuId, parent = 0, idx = -1, source = "MenuEditor" }, null)
+</h3>
+
+<script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
+
+@using (Html.BeginForm())
+{
+    @Html.ValidationSummary(true)
+    <fieldset>
+        <legend>Location</legend>
+
+        @Html.HiddenFor(model => model.Name)
+        @Html.HiddenFor(model => model.MenuId)
+
+        @for (int i = 0; i < Model.Locations.Count; i++)
+        { 
+            <h3>Location @(i + 1):</h3>
+          
+            @Html.HiddenFor(model => model.Locations[i].Hours)
+            @Html.HiddenFor(model => model.Locations[i].Phone)
+            @Html.HiddenFor(model => model.Locations[i].Email)
+            @Html.HiddenFor(model => model.Locations[i].Facebook)
+            @Html.HiddenFor(model => model.Locations[i].Twitter)
+            @Html.HiddenFor(model => model.Locations[i].Yelp)
+            @Html.HiddenFor(model => model.Locations[i].MapImgUrl)
+            @Html.HiddenFor(model => model.Locations[i].MapLink)
+
+            <div class="editor-label">
+                @Html.LabelFor(model => model.Locations[i].Title, "Name of location (optional)")
+            </div>
+            <div class="editor-field">
+                @Html.TextBoxFor(model => model.Locations[i].Title, new { style = "width: 300px;" })
+                @Html.ValidationMessageFor(model => model.Locations[i].Title)
+            </div>           
+            
+            <div class="editor-label">
+                @Html.LabelFor(model => model.Locations[i].Address)
+            </div>
+            <div class="editor-field">
+                @Html.TextBoxFor(model => model.Locations[i].Address, new { style = "width: 300px;" })
+                @Html.ValidationMessageFor(model => model.Locations[i].Address)
+            </div>
+
+            <div class="editor-label">
+                @Html.LabelFor(model => model.Locations[i].City)
+            </div>
+            <div class="editor-field">
+                @Html.TextBoxFor(model => model.Locations[i].City, new { style = "width: 300px;" })
+                @Html.ValidationMessageFor(model => model.Locations[i].City)
+            </div>
+
+            <div class="editor-label">
+                @Html.LabelFor(model => model.Locations[i].State)
+            </div>
+            <div class="editor-field">
+                @Html.TextBoxFor(model => model.Locations[i].State, new { style = "width: 30px;" })
+                @Html.ValidationMessageFor(model => model.Locations[i].State)
+            </div>
+
+            <div class="editor-label">
+                @Html.LabelFor(model => model.Locations[i].Zip)
+            </div>
+            <div class="editor-field">
+                @Html.TextBoxFor(model => model.Locations[i].Zip, new { style = "width: 50px;" })
+                @Html.ValidationMessageFor(model => model.Locations[i].Zip)
+            </div>            
+        }
+
+        <p>
+            <input type="submit" value="Save" />
+            @Html.ActionLink("Cancel", "Index", "Dashboard")
+        </p>
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("Back to Dashboard", "Index", "Dashboard")
+</div>
+

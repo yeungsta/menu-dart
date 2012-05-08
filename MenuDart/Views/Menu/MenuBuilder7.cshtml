@@ -24,20 +24,6 @@
                 @Html.TextAreaFor(model => Model[i].Hours, new { style = "width: 300px; height: 250px;" })
                 @Html.ValidationMessageFor(model => Model[i].Hours)
             </div>
-            <div class="editor-label">
-                @Html.LabelFor(model => Model[i].Phone)
-            </div>
-            <div class="editor-field">
-                @Html.TextBoxFor(model => Model[i].Phone, new { style = "width: 300px;" })
-                @Html.ValidationMessageFor(model => Model[i].Phone)
-            </div>
-            <div class="editor-label">
-                @Html.LabelFor(model => Model[i].Email)
-            </div>
-            <div class="editor-field">
-                @Html.TextBoxFor(model => Model[i].Email, new { style = "width: 300px;" })
-                @Html.ValidationMessageFor(model => Model[i].Email)
-            </div>
         }
 
         <p>

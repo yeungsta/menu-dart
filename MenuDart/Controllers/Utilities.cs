@@ -4,11 +4,37 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.IO;
+using System.Security.Principal;
+using MenuDart.Models;
 
 namespace MenuDart.Controllers
 {
     public static class Utilities
     {
+        public static bool IsThisMyMenu(int questionedMenuId, MenuDartDBContext db, IPrincipal User)
+        {
+            IOrderedQueryable<Menu> myMenus = from menu in db.Menus
+                                              where menu.Owner == User.Identity.Name
+                                              orderby menu.ID ascending
+                                              select menu;
+
+            if (myMenus == null)
+            {
+                return false;
+            }
+
+            //check if we own this menu
+            foreach (Menu menu in myMenus.ToList())
+            {
+                if (menu.ID == questionedMenuId)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
         //Copies source directory + files to a destination directory.
         //If destination directory doesn't exist, it will be created.
         public static void CopyDirTo(string srcPatch, string destPath)
@@ -67,7 +93,7 @@ namespace MenuDart.Controllers
             return "http://" + HttpContext.Current.Request.Url.Host + ":" + HttpContext.Current.Request.Url.Port + url;
         }
 
-        //constructs URL path of menu directory
+        //constructs URL path of menu repository
         public static string GetUrlPath()
         {
             return "http://" + HttpContext.Current.Request.Url.Host + ":" + HttpContext.Current.Request.Url.Port + "/Content/menus/";
@@ -77,6 +103,12 @@ namespace MenuDart.Controllers
         public static string GetFullUrl(string menuDartUrl)
         {
             return "http://" + HttpContext.Current.Request.Url.Host + ":" + HttpContext.Current.Request.Url.Port + "/Content/menus/" + menuDartUrl + "/" + Constants.OutputFile;
+        }
+
+        //constructs full URL of menu site's logo
+        public static string GetMenuLogoUrl(string menuDartUrl)
+        {
+            return "http://" + HttpContext.Current.Request.Url.Host + ":" + HttpContext.Current.Request.Url.Port + "/Content/menus/" + menuDartUrl + "/" + Constants.LogoPath;
         }
 
         public static void RemoveDirectory(string menuDartUrl)

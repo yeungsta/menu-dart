@@ -1,0 +1,56 @@
+﻿@model MenuDart.Models.MenuEditorAboutViewModel
+
+@{
+    ViewBag.Title = "Edit About";
+}
+
+<h2>Edit @Model.Name</h2>
+<h3>
+@Html.ActionLink("Basic Info", "Edit", "Menu", new { id = Model.MenuId }, null) | 
+@Html.ActionLink("Theme", "Edit2", "Menu", new { id = Model.MenuId }, null) | 
+@Html.ActionLink("About", "Edit3", "Menu", new { id = Model.MenuId }, null) | 
+@Html.ActionLink("Logo", "Edit4", "Menu", new { id = Model.MenuId }, null) | 
+@Html.ActionLink("Location", "Edit5", "Menu", new { id = Model.MenuId }, null) | 
+@Html.ActionLink("Hours", "Edit6", "Menu", new { id = Model.MenuId }, null) | 
+@Html.ActionLink("Contact", "Edit7", "Menu", new { id = Model.MenuId }, null) | 
+@Html.ActionLink("Menu Items", "Details", "MenuTree", new { id = Model.MenuId, parent = 0, idx = -1, source = "MenuEditor" }, null)
+</h3>
+
+<script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
+
+@using (Html.BeginForm())
+{
+    @Html.ValidationSummary(true)
+    <fieldset>
+        <legend>About</legend>
+
+        @Html.HiddenFor(model => model.Name)
+        @Html.HiddenFor(model => model.MenuId)
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.AboutTitle, "Title")
+        </div>
+        <div class="editor-field">
+            @Html.TextAreaFor(model => model.AboutTitle, new { style = "width: 300px; height: 50px;" })
+            @Html.ValidationMessageFor(model => model.AboutTitle)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.AboutText, "Text")
+        </div>
+        <div class="editor-field">
+            @Html.TextAreaFor(model => model.AboutText, new { style = "width: 300px; height: 250px;" })
+            @Html.ValidationMessageFor(model => model.AboutText)
+        </div>
+
+        <p>
+            <input type="submit" value="Save" />
+            @Html.ActionLink("Cancel", "Index", "Dashboard")
+        </p>
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("Back to Dashboard", "Index", "Dashboard")
+</div>

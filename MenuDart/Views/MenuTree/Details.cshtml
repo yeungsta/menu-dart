@@ -25,8 +25,27 @@
 	</div><!-- /header -->
 
 	<div data-role="content">
-        <h2>You're almost done! Now create and organize your menu items.</h2>
-        <h3>Just add Categories, then Items. Click on Categories to add more in them.</h3>
+        @if (ViewBag.Source == "MenuBuilder")
+        {
+            <text><h2>You're almost done! Now create and organize your menu items.</h2>
+            <h3>Just add Categories, then Items. Click on Categories to add more in them.</h3></text>
+        }
+        else if (ViewBag.Source == "MenuEditor")
+        {
+            <text>
+            <h2>Edit your menu items.</h2>
+            <h3>
+            @Html.ActionLink("Basic Info", "Edit", "Menu", new { id = ViewBag.MenuId }, null) | 
+            @Html.ActionLink("Theme", "Edit2", "Menu", new { id = ViewBag.MenuId }, null) | 
+            @Html.ActionLink("About", "Edit3", "Menu", new { id = ViewBag.MenuId }, null) | 
+            @Html.ActionLink("Logo", "Edit4", "Menu", new { id = ViewBag.MenuId }, null) | 
+            @Html.ActionLink("Location", "Edit5", "Menu", new { id = ViewBag.MenuId }, null) | 
+            @Html.ActionLink("Hours", "Edit6", "Menu", new { id = ViewBag.MenuId }, null) | 
+            @Html.ActionLink("Contact", "Edit7", "Menu", new { id = ViewBag.MenuId }, null) | 
+            @Html.ActionLink("Menu Items", "Details", "MenuTree", new { id = ViewBag.MenuId, parent = 0, idx = -1, source = "MenuEditor" }, null)
+            </h3>
+            </text>
+        }
 
         @if (!string.IsNullOrEmpty(ViewBag.UpLevel) && (ViewBag.Parent != "0"))
         {
@@ -93,6 +112,13 @@
         <br />
         <br />
         <hr />
-        @Html.ActionLink("I'm Done with the Menu!", "MenuBuilder9", "Menu", new { id = ViewBag.MenuId }, null)		    	
+        @if (ViewBag.Source == "MenuBuilder")
+        {
+            @Html.ActionLink("I'm Done with the Menu!", "MenuBuilder9", "Menu", new { id = ViewBag.MenuId }, null)		    	
+        }
+        else if (ViewBag.Source == "MenuEditor")
+        {
+            @Html.ActionLink("Back to Dashboard", "Index", "Dashboard")
+        }
 	</div><!-- /content -->
 </div>

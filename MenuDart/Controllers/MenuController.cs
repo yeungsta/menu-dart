@@ -44,15 +44,7 @@ namespace MenuDart.Controllers
 
         public ActionResult Create()
         {
-            //compile list of Templates
-            var templates = new List<string>();
-
-            var templateQuery = from t in db.Templates
-                                orderby t.Name
-                                select t.Name;
-            templates.AddRange(templateQuery.Distinct());
-
-            ViewData["templateList"] = new SelectList(templates);
+            ViewData["templateList"] = new SelectList(GetTemplates());
 
             return View();
         } 
@@ -84,7 +76,7 @@ namespace MenuDart.Controllers
         [Authorize]
         public ActionResult Edit(int id = 0)
         {
-            if ((id == 0) || !IsThisMyMenu(id))
+            if ((id == 0) || !Utilities.IsThisMyMenu(id, db, User))
             {
                 return RedirectToAction("MenuBuilderAccessViolation");
             }
@@ -114,7 +106,7 @@ namespace MenuDart.Controllers
         [Authorize]
         public ActionResult Edit(MenuEditorBasicViewModel basicInfo, int id = 0)
         {
-            if ((id == 0) || !IsThisMyMenu(id))
+            if ((id == 0) || !Utilities.IsThisMyMenu(id, db, User))
             {
                 return RedirectToAction("MenuBuilderAccessViolation");
             }
@@ -128,10 +120,17 @@ namespace MenuDart.Controllers
                     return HttpNotFound();
                 }
 
+                //if name or city is updated, need to update new URL
+                if ((menu.Name != basicInfo.Name) || (menu.City != basicInfo.City))
+                {
+                    menu.Name = basicInfo.Name;
+                    menu.City = basicInfo.City;
+                    menu.MenuDartUrl = CreateMenuDartUrl(basicInfo.Name, basicInfo.City);
+
+                    //TODO: notify user of new URL when saving
+                }
+                
                 //update basic info fields
-                menu.Name = basicInfo.Name;
-                menu.City = basicInfo.City;
-                //TODO: need to update URLs now that name or city is updated
                 menu.Phone = basicInfo.Phone;
                 menu.Website = basicInfo.Website;
 
@@ -139,9 +138,11 @@ namespace MenuDart.Controllers
                 db.Entry(menu).State = EntityState.Modified;
                 db.SaveChanges();
 
+/* TODO: Maybe just on a publish button?
                 //re-compose the menu
                 V1 composer = new V1(menu);
                 composer.CreateMenu();
+ */ 
             }
 
             return View(basicInfo);
@@ -149,9 +150,14 @@ namespace MenuDart.Controllers
 
         //
         // GET: /Menu/Edit2/5
-
+        [Authorize]
         public ActionResult Edit2(int id = 0)
         {
+            if ((id == 0) || !Utilities.IsThisMyMenu(id, db, User))
+            {
+                return RedirectToAction("MenuBuilderAccessViolation");
+            }
+
             Menu menu = db.Menus.Find(id);
 
             if (menu == null)
@@ -159,27 +165,25 @@ namespace MenuDart.Controllers
                 return HttpNotFound();
             }
 
-            //compile list of Templates
-            var templates = new List<string>();
+            //pass template list to view
+            ViewData["templateList"] = new SelectList(GetTemplates(), menu.Template);
 
-            var templateQuery = from t in db.Templates
-                                orderby t.Name
-                                select t.Name;
-            templates.AddRange(templateQuery.Distinct());
+            //create view model
+            MenuEditorThemeViewModel themeViewData = new MenuEditorThemeViewModel();
+            themeViewData.MenuId = menu.ID;
+            themeViewData.Name = menu.Name;
 
-            ViewData["templateList"] = new SelectList(templates, menu.Template);
-
-            return View(menu);
+            return View(themeViewData);
         }
 
         //
         // POST: /Menu/Edit2/5
-
         [HttpPost]
         [ValidateInput(false)]
-        public ActionResult Edit2(string template, SelectList TemplateList, int id = 0)
+        [Authorize]
+        public ActionResult Edit2(string template, int id = 0)
         {
-            if ((id == 0) || !IsThisMyMenu(id))
+            if ((id == 0) || !Utilities.IsThisMyMenu(id, db, User))
             {
                 return RedirectToAction("MenuBuilderAccessViolation");
             }
@@ -207,9 +211,283 @@ namespace MenuDart.Controllers
                 Utilities.CopyDirTo(templatesPath, indexFilesPath);
             }
 
-            ViewData["templateList"] = TemplateList;
+            //pass template list to view
+            ViewData["templateList"] = new SelectList(GetTemplates(), menu.Template);
 
-            return View(menu);
+            //create view model
+            MenuEditorThemeViewModel themeViewData = new MenuEditorThemeViewModel();
+            themeViewData.MenuId = menu.ID;
+            themeViewData.Name = menu.Name;
+
+            return View(themeViewData);
+        }
+
+        //
+        // GET: /Menu/Edit3/5
+        [Authorize]
+        public ActionResult Edit3(int id = 0)
+        {
+            if ((id == 0) || !Utilities.IsThisMyMenu(id, db, User))
+            {
+                return RedirectToAction("MenuBuilderAccessViolation");
+            }
+
+            Menu menu = db.Menus.Find(id);
+
+            if (menu == null)
+            {
+                return HttpNotFound();
+            }
+
+            //create view model
+            MenuEditorAboutViewModel aboutViewData = new MenuEditorAboutViewModel();
+            aboutViewData.MenuId = menu.ID;
+            aboutViewData.Name = menu.Name;
+            aboutViewData.AboutTitle = menu.AboutTitle;
+            aboutViewData.AboutText = menu.AboutText;
+
+            return View(aboutViewData);
+        }
+
+        //
+        // POST: /Menu/Edit3/5
+        [HttpPost]
+        [ValidateInput(false)]
+        [Authorize]
+        public ActionResult Edit3(MenuEditorAboutViewModel aboutInfo, int id = 0)
+        {
+            if ((id == 0) || !Utilities.IsThisMyMenu(id, db, User))
+            {
+                return RedirectToAction("MenuBuilderAccessViolation");
+            }
+
+            if (ModelState.IsValid)
+            {
+                Menu menu = db.Menus.Find(id);
+
+                if (menu == null)
+                {
+                    return HttpNotFound();
+                }
+
+                //update about info fields
+                menu.AboutTitle = aboutInfo.AboutTitle;
+                menu.AboutText = aboutInfo.AboutText;
+
+                //save menu to DB
+                db.Entry(menu).State = EntityState.Modified;
+                db.SaveChanges();
+            }
+
+            return View(aboutInfo);
+        }
+
+        //
+        // GET: /Menu/Edit4/5
+        [Authorize]
+        public ActionResult Edit4(int id = 0)
+        {
+            if ((id == 0) || !Utilities.IsThisMyMenu(id, db, User))
+            {
+                return RedirectToAction("MenuBuilderAccessViolation");
+            }
+
+            Menu menu = db.Menus.Find(id);
+
+            if (menu == null)
+            {
+                return HttpNotFound();
+            }
+
+            //create view model
+            MenuEditorLogoViewModel logoViewData = new MenuEditorLogoViewModel();
+            logoViewData.MenuId = menu.ID;
+            logoViewData.Name = menu.Name;
+            logoViewData.MenuDartUrl = menu.MenuDartUrl;
+
+            //check if logo exists for display
+            string logoPath = HttpContext.Server.MapPath(Constants.MenusPath + menu.MenuDartUrl + "/" + Constants.IndexFilesDir + "/" + Constants.LogoFileName);
+
+            if (System.IO.File.Exists(logoPath))
+            {
+                logoViewData.LogoUrl = Utilities.GetMenuLogoUrl(menu.MenuDartUrl);
+            }
+
+            return View(logoViewData);
+        }
+
+        //
+        // GET: /Menu/Edit5/5
+        [Authorize]
+        public ActionResult Edit5(int id = 0)
+        {
+            if ((id == 0) || !Utilities.IsThisMyMenu(id, db, User))
+            {
+                return RedirectToAction("MenuBuilderAccessViolation");
+            }
+
+            Menu menu = db.Menus.Find(id);
+
+            if (menu == null)
+            {
+                return HttpNotFound();
+            }
+
+            //create view model
+            MenuEditorLocationViewModel locationViewData = new MenuEditorLocationViewModel();
+            locationViewData.MenuId = menu.ID;
+            locationViewData.Name = menu.Name;
+            locationViewData.Locations = V1.DeserializeLocations(menu.Locations);
+
+            return View(locationViewData);
+        }
+
+        //
+        // POST: /Menu/Edit5/5
+        [HttpPost]
+        [ValidateInput(false)]
+        [Authorize]
+        public ActionResult Edit5(MenuEditorLocationViewModel locationInfo, int id = 0)
+        {
+            if ((id == 0) || !Utilities.IsThisMyMenu(id, db, User))
+            {
+                return RedirectToAction("MenuBuilderAccessViolation");
+            }
+
+            if (ModelState.IsValid)
+            {
+                Menu menu = db.Menus.Find(id);
+
+                if (menu == null)
+                {
+                    return HttpNotFound();
+                }
+
+                //set serialized locations back into menu
+                menu.Locations = V1.SerializeLocations(locationInfo.Locations);
+
+                //save menu to DB
+                db.Entry(menu).State = EntityState.Modified;
+                db.SaveChanges();
+            }
+
+            return View(locationInfo);
+        }
+
+        //
+        // GET: /Menu/Edit6/5
+        [Authorize]
+        public ActionResult Edit6(int id = 0)
+        {
+            if ((id == 0) || !Utilities.IsThisMyMenu(id, db, User))
+            {
+                return RedirectToAction("MenuBuilderAccessViolation");
+            }
+
+            Menu menu = db.Menus.Find(id);
+
+            if (menu == null)
+            {
+                return HttpNotFound();
+            }
+
+            //create view model
+            MenuEditorLocationViewModel locationViewData = new MenuEditorLocationViewModel();
+            locationViewData.MenuId = menu.ID;
+            locationViewData.Name = menu.Name;
+            locationViewData.Locations = V1.DeserializeLocations(menu.Locations);
+
+            return View(locationViewData);
+        }
+
+        //
+        // POST: /Menu/Edit6/5
+        [HttpPost]
+        [ValidateInput(false)]
+        [Authorize]
+        public ActionResult Edit6(MenuEditorLocationViewModel locationInfo, int id = 0)
+        {
+            if ((id == 0) || !Utilities.IsThisMyMenu(id, db, User))
+            {
+                return RedirectToAction("MenuBuilderAccessViolation");
+            }
+
+            if (ModelState.IsValid)
+            {
+                Menu menu = db.Menus.Find(id);
+
+                if (menu == null)
+                {
+                    return HttpNotFound();
+                }
+
+                //set serialized locations back into menu
+                menu.Locations = V1.SerializeLocations(locationInfo.Locations);
+
+                //save menu to DB
+                db.Entry(menu).State = EntityState.Modified;
+                db.SaveChanges();
+            }
+
+            return View(locationInfo);
+        }
+
+        //
+        // GET: /Menu/Edit7/5
+        [Authorize]
+        public ActionResult Edit7(int id = 0)
+        {
+            if ((id == 0) || !Utilities.IsThisMyMenu(id, db, User))
+            {
+                return RedirectToAction("MenuBuilderAccessViolation");
+            }
+
+            Menu menu = db.Menus.Find(id);
+
+            if (menu == null)
+            {
+                return HttpNotFound();
+            }
+
+            //create view model
+            MenuEditorLocationViewModel locationViewData = new MenuEditorLocationViewModel();
+            locationViewData.MenuId = menu.ID;
+            locationViewData.Name = menu.Name;
+            locationViewData.Locations = V1.DeserializeLocations(menu.Locations);
+
+            return View(locationViewData);
+        }
+
+        //
+        // POST: /Menu/Edit7/5
+        [HttpPost]
+        [ValidateInput(false)]
+        [Authorize]
+        public ActionResult Edit7(MenuEditorLocationViewModel locationInfo, int id = 0)
+        {
+            if ((id == 0) || !Utilities.IsThisMyMenu(id, db, User))
+            {
+                return RedirectToAction("MenuBuilderAccessViolation");
+            }
+
+            if (ModelState.IsValid)
+            {
+                Menu menu = db.Menus.Find(id);
+
+                if (menu == null)
+                {
+                    return HttpNotFound();
+                }
+
+                //set serialized locations back into menu
+                menu.Locations = V1.SerializeLocations(locationInfo.Locations);
+
+                //save menu to DB
+                db.Entry(menu).State = EntityState.Modified;
+                db.SaveChanges();
+            }
+
+            return View(locationInfo);
         }
 
         //
@@ -413,26 +691,8 @@ namespace MenuDart.Controllers
                 menuBuilderModel.CurrentMenu.AboutTitle = string.Format(Composer.Constants.DefaultAboutTitleFormat, menuBuilderModel.CurrentMenu.Name);
                 menuBuilderModel.CurrentMenu.AboutText = string.Format(Composer.Constants.DefaultAboutTextFormat, menuBuilderModel.CurrentMenu.Name);
 
-                //Create unique menudart URL          
-                string tempUrl = (menuBuilderModel.CurrentMenu.Name.Replace(' ', '-') + 
-                    "-" + menuBuilderModel.CurrentMenu.City).ToLower();
-
-                //remove unwanted chars
-                tempUrl = tempUrl.Replace(",", "");
-                tempUrl = tempUrl.Replace("'", "");
-
-                //replace chars with text
-                tempUrl = tempUrl.Replace("&", "and");
-
-                //Check if there are duplicate URLs.
-                int matches = db.Menus.Count(menu => menu.MenuDartUrl.Contains(tempUrl));
-
-                if (matches > 0)
-                {
-                    tempUrl += "-" + (matches + 1).ToString();
-                }
-                
-                menuBuilderModel.CurrentMenu.MenuDartUrl = tempUrl;
+                //create menudart URL
+                menuBuilderModel.CurrentMenu.MenuDartUrl = CreateMenuDartUrl(menuBuilderModel.CurrentMenu.Name, menuBuilderModel.CurrentMenu.City);
 
                 if (Request.IsAuthenticated)
                 {
@@ -493,20 +753,12 @@ namespace MenuDart.Controllers
         [Authorize]
         public ActionResult MenuBuilder3(int id = 0)
         {
-            if ((id == 0) || !IsThisMyMenu(id))
+            if ((id == 0) || !Utilities.IsThisMyMenu(id, db, User))
             {
                 return RedirectToAction("MenuBuilderAccessViolation");
             }
 
-            //compile list of Templates
-            var templates = new List<string>();
-
-            var templateQuery = from t in db.Templates
-                                orderby t.Name
-                                select t.Name;
-            templates.AddRange(templateQuery.Distinct());
-
-            ViewData["templateList"] = new SelectList(templates);
+            ViewData["templateList"] = new SelectList(GetTemplates());
 
             return View();
         }
@@ -519,7 +771,7 @@ namespace MenuDart.Controllers
         [Authorize]
         public ActionResult MenuBuilder3(string template, int id = 0)
         {
-            if ((id == 0) || !IsThisMyMenu(id))
+            if ((id == 0) || !Utilities.IsThisMyMenu(id, db, User))
             {
                 return RedirectToAction("MenuBuilderAccessViolation");
             }
@@ -558,7 +810,7 @@ namespace MenuDart.Controllers
         [Authorize]
         public ActionResult MenuBuilder4(int id = 0)
         {
-            if ((id == 0) || !IsThisMyMenu(id))
+            if ((id == 0) || !Utilities.IsThisMyMenu(id, db, User))
             {
                 return RedirectToAction("MenuBuilderAccessViolation");
             }
@@ -581,7 +833,7 @@ namespace MenuDart.Controllers
         [Authorize]
         public ActionResult MenuBuilder4(Menu newMenu, int id = 0)
         {
-            if ((id == 0) || !IsThisMyMenu(id))
+            if ((id == 0) || !Utilities.IsThisMyMenu(id, db, User))
             {
                 return RedirectToAction("MenuBuilderAccessViolation");
             }
@@ -615,7 +867,7 @@ namespace MenuDart.Controllers
         [Authorize]
         public ActionResult MenuBuilder5(int id = 0)
         {
-            if ((id == 0) || !IsThisMyMenu(id))
+            if ((id == 0) || !Utilities.IsThisMyMenu(id, db, User))
             {
                 return RedirectToAction("MenuBuilderAccessViolation");
             }
@@ -641,7 +893,7 @@ namespace MenuDart.Controllers
         [Authorize]
         public ActionResult MenuBuilder5(int numLocations, int id = 0)
         {
-            if ((id == 0) || !IsThisMyMenu(id))
+            if ((id == 0) || !Utilities.IsThisMyMenu(id, db, User))
             {
                 return RedirectToAction("MenuBuilderAccessViolation");
             }
@@ -655,7 +907,7 @@ namespace MenuDart.Controllers
         [Authorize]
         public ActionResult MenuBuilder6(int numLocations, int id = 0)
         {
-            if ((id == 0) || !IsThisMyMenu(id))
+            if ((id == 0) || !Utilities.IsThisMyMenu(id, db, User))
             {
                 return RedirectToAction("MenuBuilderAccessViolation");
             }
@@ -688,7 +940,7 @@ namespace MenuDart.Controllers
         [Authorize]
         public ActionResult MenuBuilder6(List<Location> locations, int id = 0)
         {
-            if ((id == 0) || !IsThisMyMenu(id))
+            if ((id == 0) || !Utilities.IsThisMyMenu(id, db, User))
             {
                 return RedirectToAction("MenuBuilderAccessViolation");
             }
@@ -731,7 +983,7 @@ namespace MenuDart.Controllers
         [Authorize]
         public ActionResult MenuBuilder7(int numLocations, int id = 0)
         {
-            if ((id == 0) || !IsThisMyMenu(id))
+            if ((id == 0) || !Utilities.IsThisMyMenu(id, db, User))
             {
                 return RedirectToAction("MenuBuilderAccessViolation");
             }
@@ -751,13 +1003,8 @@ namespace MenuDart.Controllers
             {
                 Location newLocation = new Location();
 
-                //pre-populate the phone number if it's already been filled at the menu-level.
                 //pre-populate a sample "hours" text
-                if (!string.IsNullOrEmpty(menu.Phone))
-                {
-                    newLocation.Phone = menu.Phone;
-                    newLocation.Hours = Composer.Constants.DefaultHours;
-                }
+                newLocation.Hours = Composer.Constants.DefaultHours;
 
                 locations.Add(newLocation);
             }
@@ -773,7 +1020,7 @@ namespace MenuDart.Controllers
         [Authorize]
         public ActionResult MenuBuilder7(List<Location> locations, int id = 0)
         {
-            if ((id == 0) || !IsThisMyMenu(id))
+            if ((id == 0) || !Utilities.IsThisMyMenu(id, db, User))
             {
                 return RedirectToAction("MenuBuilderAccessViolation");
             }
@@ -794,8 +1041,6 @@ namespace MenuDart.Controllers
                 {
                     //write new data
                     currentLocations[i].Hours = locations[i].Hours;
-                    currentLocations[i].Phone = locations[i].Phone;
-                    currentLocations[i].Email = locations[i].Email;
                 }
 
                 //set serialized locations back into menu
@@ -817,9 +1062,16 @@ namespace MenuDart.Controllers
         [Authorize]
         public ActionResult MenuBuilder8(int numLocations, int id = 0)
         {
-            if ((id == 0) || !IsThisMyMenu(id))
+            if ((id == 0) || !Utilities.IsThisMyMenu(id, db, User))
             {
                 return RedirectToAction("MenuBuilderAccessViolation");
+            }
+
+            Menu menu = db.Menus.Find(id);
+
+            if (menu == null)
+            {
+                return HttpNotFound();
             }
 
             //a location already exists, but let's just create an empty location
@@ -830,6 +1082,12 @@ namespace MenuDart.Controllers
             {
                 Location newLocation = new Location();
                 locations.Add(newLocation);
+
+                //pre-populate the phone number if it's already been filled at the menu-level.
+                if (!string.IsNullOrEmpty(menu.Phone))
+                {
+                    newLocation.Phone = menu.Phone;
+                }
             }
 
             return View(locations);
@@ -843,7 +1101,7 @@ namespace MenuDart.Controllers
         [Authorize]
         public ActionResult MenuBuilder8(List<Location> locations, int id = 0)
         {
-            if ((id == 0) || !IsThisMyMenu(id))
+            if ((id == 0) || !Utilities.IsThisMyMenu(id, db, User))
             {
                 return RedirectToAction("MenuBuilderAccessViolation");
             }
@@ -863,6 +1121,8 @@ namespace MenuDart.Controllers
                 for (int i = 0; i < currentLocations.Count; i++)
                 {
                     //write new data
+                    currentLocations[i].Phone = locations[i].Phone;
+                    currentLocations[i].Email = locations[i].Email;	
                     currentLocations[i].Facebook = locations[i].Facebook;
                     currentLocations[i].Twitter = locations[i].Twitter;
                     currentLocations[i].Yelp = locations[i].Yelp;
@@ -876,7 +1136,7 @@ namespace MenuDart.Controllers
                 db.SaveChanges();
 
                 //send to MenuTree builder (root level)
-                return RedirectToAction("Details", "MenuTree", new { id = id, parent = 0, idx = -1 });
+                return RedirectToAction("Details", "MenuTree", new { id = id, parent = 0, idx = -1, source = "MenuBuilder"});
             }
 
             return View();
@@ -888,7 +1148,7 @@ namespace MenuDart.Controllers
         [Authorize]
         public ActionResult MenuBuilder9(int id = 0)
         {
-            if ((id == 0) || !IsThisMyMenu(id))
+            if ((id == 0) || !Utilities.IsThisMyMenu(id, db, User))
             {
                 return RedirectToAction("MenuBuilderAccessViolation");
             }
@@ -911,7 +1171,7 @@ namespace MenuDart.Controllers
         }
 
         //
-        // GET: /Account/MenuBuilderAccessViolation
+        // GET: /Menu/MenuBuilderAccessViolation
 
         public ActionResult MenuBuilderAccessViolation()
         {
@@ -967,28 +1227,41 @@ namespace MenuDart.Controllers
             base.Dispose(disposing);
         }
 
-        private bool IsThisMyMenu(int questionedMenuId)
+        private string CreateMenuDartUrl(string name, string city)
         {
-            IOrderedQueryable<Menu> myMenus = from menu in db.Menus
-                                            where menu.Owner == User.Identity.Name
-                                            orderby menu.ID ascending
-                                            select menu;
+            //Create unique menudart URL          
+            string tempUrl = (name.Replace(' ', '-') +
+                "-" + city).ToLower();
 
-            if (myMenus == null)
+            //remove unwanted chars
+            tempUrl = tempUrl.Replace(",", "");
+            tempUrl = tempUrl.Replace("'", "");
+
+            //replace chars with text
+            tempUrl = tempUrl.Replace("&", "and");
+
+            //Check if there are duplicate URLs.
+            int matches = db.Menus.Count(menu => menu.MenuDartUrl.Contains(tempUrl));
+
+            if (matches > 0)
             {
-                return false;
+                tempUrl += "-" + (matches + 1).ToString();
             }
 
-            //check if we own this menu
-            foreach (Menu menu in myMenus.ToList())
-            {
-                if (menu.ID == questionedMenuId)
-                {
-                    return true;
-                }
-            }
+            return tempUrl;
+        }
 
-            return false;
+        private List<string> GetTemplates()
+        {
+            //compile list of templates
+            var templates = new List<string>();
+
+            var templateQuery = from t in db.Templates
+                                orderby t.Name
+                                select t.Name;
+            templates.AddRange(templateQuery.Distinct());
+
+            return templates;
         }
     }
 }

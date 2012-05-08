@@ -25,12 +25,17 @@ namespace MenuDart.Controllers
 
         //
         // GET: /MenuTree/Details/5
-
-        public ActionResult Details(string parent, int idx, int id = 0)
+        [Authorize]
+        public ActionResult Details(string parent, int idx, string source, int id = 0)
         {
             //we need a parent ID in order to know what to display
             if (!string.IsNullOrEmpty(parent))
             {
+                if ((id == 0) || !Utilities.IsThisMyMenu(id, db, User))
+                {
+                    return RedirectToAction("MenuBuilderAccessViolation", "Menu");
+                }
+
                 Menu menu = db.Menus.Find(id);
 
                 if (menu == null)
@@ -40,6 +45,7 @@ namespace MenuDart.Controllers
 
                 ViewBag.MenuId = id;
                 ViewBag.Parent = parent;
+                ViewBag.Source = source;
 
                 List<MenuNode> currentMenuTree = V1.DeserializeMenuTree(menu.MenuTree);
 
