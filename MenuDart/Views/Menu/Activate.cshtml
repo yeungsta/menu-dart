@@ -1,0 +1,12 @@
+﻿@model MenuDart.Models.ActivateViewModel
+
+@{
+    ViewBag.Title = "Menu Activated";
+}
+
+<h2>@Model.Name's Menu is Activated!
+<p>It's located At:<br /><a href="@Model.Url" target="_blank">@Model.Url</a>
+<p>
+@Html.ActionLink("Back to Dashboard", "Index", "Dashboard")
+</p>
+</h2>

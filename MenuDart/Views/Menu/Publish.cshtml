@@ -1,0 +1,13 @@
+﻿@model MenuDart.Models.ActivateViewModel
+
+@{
+    ViewBag.Title = "Menu Published";
+}
+
+<h2>@Model.Name's Menu has been published!
+<p>You can check it out at:<br /><a href="@Model.Url" target="_blank">@Model.Url</a>
+<p>
+@Html.ActionLink("Back to Editor", Model.ReturnUrl, "Menu") |
+@Html.ActionLink("Dashboard", "Index", "Dashboard")
+</p>
+</h2>

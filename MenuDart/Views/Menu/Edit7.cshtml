@@ -13,7 +13,8 @@
 @Html.ActionLink("Location", "Edit5", "Menu", new { id = Model.MenuId }, null) | 
 @Html.ActionLink("Hours", "Edit6", "Menu", new { id = Model.MenuId }, null) | 
 @Html.ActionLink("Contact", "Edit7", "Menu", new { id = Model.MenuId }, null) | 
-@Html.ActionLink("Menu Items", "Details", "MenuTree", new { id = Model.MenuId, parent = 0, idx = -1, source = "MenuEditor" }, null)
+@Html.ActionLink("Menu Items", "Details", "MenuTree", new { id = Model.MenuId, parent = 0, idx = -1, source = "MenuEditor" }, null) |
+@Html.ActionLink("Publish", "Publish", "Menu", new { ReturnUrl = "/Edit7/" + Model.MenuId, id = Model.MenuId }, null)
 </h3>
 
 <script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>

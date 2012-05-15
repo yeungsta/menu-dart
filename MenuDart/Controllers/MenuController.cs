@@ -137,14 +137,10 @@ namespace MenuDart.Controllers
                 //save changes
                 db.Entry(menu).State = EntityState.Modified;
                 db.SaveChanges();
-
-/* TODO: Maybe just on a publish button?
-                //re-compose the menu
-                V1 composer = new V1(menu);
-                composer.CreateMenu();
- */ 
             }
 
+            //create view model
+            basicInfo.MenuId = id;
             return View(basicInfo);
         }
 
@@ -311,6 +307,14 @@ namespace MenuDart.Controllers
             if (System.IO.File.Exists(logoPath))
             {
                 logoViewData.LogoUrl = Utilities.GetMenuLogoUrl(menu.MenuDartUrl);
+            }
+
+            //check if temp logo exists for display
+            string logoTmpPath = HttpContext.Server.MapPath(Constants.MenusPath + menu.MenuDartUrl + "/" + Constants.IndexFilesDir + "/" + Constants.LogoTmpFileName);
+
+            if (System.IO.File.Exists(logoTmpPath))
+            {
+                logoViewData.LogoTmpUrl = Utilities.GetMenuLogoTmpUrl(menu.MenuDartUrl);
             }
 
             return View(logoViewData);
@@ -567,9 +571,9 @@ namespace MenuDart.Controllers
         }
 
         //
-        // GET: /Menu/Compose/5
+        // GET: /Menu/Activate/5
 
-        public ActionResult Compose(int id = 0)
+        public ActionResult Activate(int id = 0)
         {
             try
             {
@@ -582,17 +586,55 @@ namespace MenuDart.Controllers
 
                 V1 composer = new V1(menu);
 
-                ComposeViewModel composeViewData = new ComposeViewModel();
-                composeViewData.Name = menu.Name;
-                composeViewData.MenuString = composer.CreateMenu();
-                composeViewData.Url = Utilities.GetFullUrl(menu.MenuDartUrl);
+                ActivateViewModel activateViewData = new ActivateViewModel();
+                activateViewData.Name = menu.Name;
+                activateViewData.Url = Utilities.GetFullUrl(menu.MenuDartUrl);
 
                 //set menu as active
                 menu.Active = true;
                 db.Entry(menu).State = EntityState.Modified;
                 db.SaveChanges();
 
-                return View(composeViewData);
+                return View(activateViewData);
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
+        //
+        // GET: /Menu/Publish/5
+
+        public ActionResult Publish(string ReturnUrl, int id = 0)
+        {
+            try
+            {
+                Menu menu = db.Menus.Find(id);
+
+                if (menu == null)
+                {
+                    return HttpNotFound();
+                }
+
+                if (menu.Active)
+                {
+                    V1 composer = new V1(menu);
+                    // re-compose/re-publish the menu
+                    composer.CreateMenu();
+
+                    ActivateViewModel activateViewData = new ActivateViewModel();
+                    activateViewData.Name = menu.Name;
+                    activateViewData.Url = Utilities.GetFullUrl(menu.MenuDartUrl);
+                    activateViewData.ReturnUrl = ReturnUrl;
+
+                    return View(activateViewData);
+                }
+                else
+                {
+                    //menu not activated; cannot publish! TODO: ask user to activate?
+                    return View();
+                }
             }
             catch
             {
@@ -820,6 +862,14 @@ namespace MenuDart.Controllers
             if (menu == null)
             {
                 return HttpNotFound();
+            }
+
+            //check if logo exists for display
+            string logoPath = HttpContext.Server.MapPath(Constants.MenusPath + menu.MenuDartUrl + "/" + Constants.IndexFilesDir + "/" + Constants.LogoFileName);
+
+            if (System.IO.File.Exists(logoPath))
+            {
+                ViewBag.LogoUrl = Utilities.GetMenuLogoUrl(menu.MenuDartUrl);
             }
 
             return View(menu);
@@ -1180,7 +1230,7 @@ namespace MenuDart.Controllers
 
         [HttpPost]
         [Authorize]
-        public ActionResult LogoUpload(string qqfile, string menuDartUrl)
+        public ActionResult LogoUpload(string qqfile, string menuDartUrl, bool replaceCurrent)
         {
             if (!string.IsNullOrEmpty(menuDartUrl))
             {
@@ -1195,16 +1245,21 @@ namespace MenuDart.Controllers
                         // IE
                         HttpPostedFileBase postedFile = Request.Files[0];
                         stream = postedFile.InputStream;
-                        file = Path.Combine(indexFilesPath, Constants.LogoFileName);
                     }
                     else
                     {
                         //Webkit, Mozilla
-                        file = Path.Combine(indexFilesPath, Constants.LogoFileName);
                     }
 
-                    //TODO: check if there exists a logo.png file; if it does prompt
-                    //TODO: user to confirm that they want to overwrite.
+                    if (replaceCurrent)
+                    {
+                        file = Path.Combine(indexFilesPath, Constants.LogoFileName);
+                    }
+                    else
+                    {
+                        //save logo temporarily (until directed to replace)
+                        file = Path.Combine(indexFilesPath, Constants.LogoTmpFileName);        
+                    }
 
                     var buffer = new byte[stream.Length];
                     stream.Read(buffer, 0, buffer.Length);
@@ -1219,6 +1274,72 @@ namespace MenuDart.Controllers
             }
 
             return Json(new { success = false, message = "No URL path." }, "application/json");
+        }
+
+        //
+        // GET: /Menu/LogoReplace/5
+        // replace current logo with temp one
+        [Authorize]
+        public ActionResult LogoReplace(int id = 0)
+        {
+            if ((id == 0) || !Utilities.IsThisMyMenu(id, db, User))
+            {
+                return RedirectToAction("MenuBuilderAccessViolation");
+            }
+
+            Menu menu = db.Menus.Find(id);
+
+            if (menu == null)
+            {
+                return HttpNotFound();
+            }
+
+            string indexFilesPath = HttpContext.Server.MapPath(Constants.MenusPath + menu.MenuDartUrl + "/" + Constants.IndexFilesDir);
+            string currentLogo = Path.Combine(indexFilesPath, Constants.LogoFileName);
+            string tempLogo = Path.Combine(indexFilesPath, Constants.LogoTmpFileName);
+
+            if (System.IO.File.Exists(tempLogo))
+            {
+                System.IO.File.Copy(tempLogo, currentLogo, true);
+                System.IO.File.Delete(tempLogo);
+            }
+
+            return RedirectToAction("Edit4", new { id = id });
+        }
+
+        //
+        // GET: /Menu/LogoRemove/5
+        // delete logo
+        [Authorize]
+        public ActionResult LogoRemove(string ReturnUrl, int id = 0)
+        {
+            if ((id == 0) || !Utilities.IsThisMyMenu(id, db, User))
+            {
+                return RedirectToAction("MenuBuilderAccessViolation");
+            }
+
+            Menu menu = db.Menus.Find(id);
+
+            if (menu == null)
+            {
+                return HttpNotFound();
+            }
+
+            string indexFilesPath = HttpContext.Server.MapPath(Constants.MenusPath + menu.MenuDartUrl + "/" + Constants.IndexFilesDir);
+            string currentLogo = Path.Combine(indexFilesPath, Constants.LogoFileName);
+            string tempLogo = Path.Combine(indexFilesPath, Constants.LogoTmpFileName);
+
+            if (System.IO.File.Exists(tempLogo))
+            {
+                System.IO.File.Delete(tempLogo);
+            }
+
+            if (System.IO.File.Exists(currentLogo))
+            {
+                System.IO.File.Delete(currentLogo);
+            }
+
+            return RedirectToAction(ReturnUrl, new { id = id });
         }
 
         protected override void Dispose(bool disposing)

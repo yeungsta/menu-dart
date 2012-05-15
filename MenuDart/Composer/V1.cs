@@ -299,6 +299,13 @@ namespace MenuDart.Composer
             }
         }
 
+        private bool LogoExists()
+        {
+            string filepath = HttpContext.Current.Server.MapPath("~/Content/menus/" + m_menu.MenuDartUrl + "/" + Constants.LogoPath);
+
+            return File.Exists(filepath);
+        }
+
         private void CopyIndexFiles()
         {
             //copy base CSS/index_files folder if missing
@@ -313,29 +320,6 @@ namespace MenuDart.Composer
             }
 
             Utilities.CopyDirTo(templatesPath, indexFilesPath);
-
-/*
-            if (!Directory.Exists(indexFilesPath))
-            {
-                Directory.CreateDirectory(indexFilesPath);
-
-                if (Directory.Exists(baseIndexFilesPath))
-                {
-                    string[] files = Directory.GetFiles(baseIndexFilesPath);
-                    string fileName;
-                    string destFile;
-
-                    // Copy the files and overwrite destination files if they already exist.
-                    foreach (string s in files)
-                    {
-                        // Use static Path methods to extract only the file name from the path.
-                        fileName = Path.GetFileName(s);
-                        destFile = Path.Combine(indexFilesPath, fileName);
-                        File.Copy(s, destFile, true);
-                    }
-                }
-            }
- */ 
         }
 
         private void AddTitle(HtmlTextWriter writer, string title)
@@ -671,10 +655,15 @@ namespace MenuDart.Composer
         {
             writer.AddAttribute(HtmlTextWriterAttribute.Class, "center");
             writer.RenderBeginTag(HtmlTextWriterTag.Div);
-            writer.AddAttribute(HtmlTextWriterAttribute.Src, Constants.LogoPath);
-            writer.AddAttribute(HtmlTextWriterAttribute.Class, "logo");
-            writer.RenderBeginTag(HtmlTextWriterTag.Img);
-            writer.RenderEndTag();
+
+            if (LogoExists())
+            {
+                writer.AddAttribute(HtmlTextWriterAttribute.Src, Constants.LogoPath);
+                writer.AddAttribute(HtmlTextWriterAttribute.Class, "logo");
+                writer.RenderBeginTag(HtmlTextWriterTag.Img);
+                writer.RenderEndTag();
+            }
+
             writer.WriteLine();
 
             if (!string.IsNullOrEmpty(m_menu.AboutTitle))

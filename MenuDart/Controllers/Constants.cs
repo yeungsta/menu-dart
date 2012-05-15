@@ -21,7 +21,7 @@ namespace MenuDart.Controllers
         public const string GoogleMapImgSuffix = @"&sensor=false&zoom=14";
         public const string IndexFilesDir = "index_files";
         public const string LogoFileName = "logo.png";
-        public const string LogoPath = "index_files/logo.png";
+        public const string LogoTmpFileName = "logo_tmp.png";
         public const string OutputFile = "index.html";
         public const string SupportEmailAddress = "support@menudart.com";
     }

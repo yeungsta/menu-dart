@@ -51,7 +51,7 @@
         <td>
             <a href="@ViewBag.UrlPath@item.MenuDartUrl/index.html" target="_blank">View</a> |
             @Html.ActionLink("Edit Menu", "Edit", "Menu", new { id = item.ID }, null) |
-            @Html.ActionLink("Activate", "Compose", "Menu", new { id = item.ID }, null) |
+            @Html.ActionLink("Activate", "Activate", "Menu", new { id = item.ID }, null) |
             @Html.ActionLink("Deactivate", "Deactivate", "Menu", new { id = item.ID }, null) |
             @Html.ActionLink("Trash", "Delete", "Menu", new { id = item.ID }, null)
         </td>

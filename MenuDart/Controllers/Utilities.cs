@@ -108,7 +108,13 @@ namespace MenuDart.Controllers
         //constructs full URL of menu site's logo
         public static string GetMenuLogoUrl(string menuDartUrl)
         {
-            return "http://" + HttpContext.Current.Request.Url.Host + ":" + HttpContext.Current.Request.Url.Port + "/Content/menus/" + menuDartUrl + "/" + Constants.LogoPath;
+            return "http://" + HttpContext.Current.Request.Url.Host + ":" + HttpContext.Current.Request.Url.Port + "/Content/menus/" + menuDartUrl + "/" + "index_files" + "/" + Constants.LogoFileName;
+        }
+
+        //constructs full URL of menu site's temp logo
+        public static string GetMenuLogoTmpUrl(string menuDartUrl)
+        {
+            return "http://" + HttpContext.Current.Request.Url.Host + ":" + HttpContext.Current.Request.Url.Port + "/Content/menus/" + menuDartUrl + "/" + "index_files" + "/" + Constants.LogoTmpFileName;
         }
 
         public static void RemoveDirectory(string menuDartUrl)
@@ -117,8 +123,14 @@ namespace MenuDart.Controllers
 
             if (Directory.Exists(filepath))
             {
-                //TODO: exception sometimes thrown here when dir is not empty?
-                Directory.Delete(filepath, true);
+                try
+                {
+                    Directory.Delete(filepath, true);
+                }
+                catch
+                {
+                    //exception is thrown when dir is not empty, so ignore
+                }
             }
         }
     }

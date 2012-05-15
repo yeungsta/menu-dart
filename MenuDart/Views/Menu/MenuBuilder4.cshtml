@@ -17,6 +17,16 @@
 <link href="@Url.Content("~/Content/fileuploader.css")" rel="stylesheet" type="text/css" />
 <script src="@Url.Content("~/Scripts/fileuploader.js")" type="text/javascript"></script>
 
+    @if (string.IsNullOrEmpty(ViewBag.LogoUrl))
+    {
+        <text><b>No logo uploaded.</b></text>
+    }
+    else
+    {
+        <img src="@ViewBag.LogoUrl" />          
+    }
+    <br />
+    <br />
 	<div id="file-uploader">		
 		<noscript>			
 			<p>Please enable JavaScript on your browser to be able to upload your business's logo.</p>
@@ -33,12 +43,20 @@
                 multiple: false,
                 debug: true,
                 params: {
-                    menuDartUrl: '@Model.MenuDartUrl'
+                    menuDartUrl: '@Model.MenuDartUrl',
+                    replaceCurrent: 'true'
+                },
+                onComplete: function (id, fileName, responseJSON) {
+                    window.location = '/Menu/MenuBuilder4/' + @Model.ID;
                 }
             });
         });     
 
     </script>
+    @if (!string.IsNullOrEmpty(ViewBag.LogoUrl))
+    {
+        @Html.ActionLink("I Don't Need a Logo Now (You can always add one later)", "LogoRemove", "Menu", new { ReturnUrl = "MenuBuilder4", id = @Model.ID }, null)
+    }
 
         @Html.HiddenFor(model => model.Name)
         @Html.HiddenFor(model => model.City)
