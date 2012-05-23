@@ -5,7 +5,7 @@
 }
 
 <h2>@Model.Name's Menu is Activated!
-<p>It's located At:<br /><a href="@Model.Url" target="_blank">@Model.Url</a>
+<p>It's located At:<br />@Html.ActionLink(@Model.Url, "Preview", "Menu", new { id = @Model.MenuId, url = @Model.Url }, null)
 <p>
 @Html.ActionLink("Back to Dashboard", "Index", "Dashboard")
 </p>

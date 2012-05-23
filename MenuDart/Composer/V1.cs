@@ -308,18 +308,21 @@ namespace MenuDart.Composer
 
         private void CopyIndexFiles()
         {
-            //copy base CSS/index_files folder if missing
+            //path to menu index
             string indexFilesPath = HttpContext.Current.Server.MapPath(Controllers.Constants.MenusPath + m_menu.MenuDartUrl + "/" + Controllers.Constants.IndexFilesDir);
-            //default base template
+            //default base template files
             string templatesPath = HttpContext.Current.Server.MapPath(Controllers.Constants.BaseTemplatesPath);
 
-            //if a template is defined, use that one
+            //copy base template files to menu
+            Utilities.CopyDirTo(templatesPath, indexFilesPath);
+
+            //if a template is defined, copy template file to menu
             if (!string.IsNullOrEmpty(m_menu.Template))
             {
                 templatesPath = HttpContext.Current.Server.MapPath((Controllers.Constants.TemplatesPath + m_menu.Template + "/"));
-            }
 
-            Utilities.CopyDirTo(templatesPath, indexFilesPath);
+                Utilities.CopyDirTo(templatesPath, indexFilesPath);
+            }
         }
 
         private void AddTitle(HtmlTextWriter writer, string title)

@@ -585,8 +585,11 @@ namespace MenuDart.Controllers
                 }
 
                 V1 composer = new V1(menu);
+                // re-compose/re-publish the menu
+                composer.CreateMenu();
 
                 ActivateViewModel activateViewData = new ActivateViewModel();
+                activateViewData.MenuId = id;
                 activateViewData.Name = menu.Name;
                 activateViewData.Url = Utilities.GetFullUrl(menu.MenuDartUrl);
 
@@ -640,6 +643,16 @@ namespace MenuDart.Controllers
             {
                 return View();
             }
+        }
+
+        //
+        // GET: /Menu/Preview/5
+
+        public ActionResult Preview(string url, int id = 0)
+        {
+            ViewBag.Url = url;
+
+            return View();
         }
 
         //

@@ -13,6 +13,12 @@ namespace MenuDart.Controllers
     {
         public static bool IsThisMyMenu(int questionedMenuId, MenuDartDBContext db, IPrincipal User)
         {
+            //check if admin role
+            if (User.IsInRole("Administrator"))
+            {
+                return true;
+            }
+
             IOrderedQueryable<Menu> myMenus = from menu in db.Menus
                                               where menu.Owner == User.Identity.Name
                                               orderby menu.ID ascending
@@ -123,14 +129,29 @@ namespace MenuDart.Controllers
 
             if (Directory.Exists(filepath))
             {
-                try
-                {
+                //try
+                //{
+                    string[] files = Directory.GetFiles(filepath);
+                    string[] dirs = Directory.GetDirectories(filepath);
+
+                    // Remove all the files
+                    foreach (string s in files)
+                    {
+                        System.IO.File.Delete(s);
+                    }
+
+                    // Remove all sub directories
+                    foreach (string d in dirs)
+                    {
+                        Directory.Delete(d, true);
+                    }
+
                     Directory.Delete(filepath, true);
-                }
-                catch
-                {
-                    //exception is thrown when dir is not empty, so ignore
-                }
+                //}
+                //catch
+                //{
+                    //exception is sometimes thrown when dir is not empty. Remove directory again.
+                //}
             }
         }
     }

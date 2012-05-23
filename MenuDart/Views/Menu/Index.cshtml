@@ -59,11 +59,12 @@
             @Html.DisplayFor(modelItem => item.Owner)
         </td>
         <td>
-            <a href="@ViewBag.UrlPath@item.MenuDartUrl/index.html" target="_blank">View</a> |
-            @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
+            @Html.ActionLink("View", "Preview", "Menu", new { id = item.ID, url = @ViewBag.UrlPath + @item.MenuDartUrl + "/index.html" }, null) |
             @Html.ActionLink("Details", "Details", new { id=item.ID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.ID }) |
-            @Html.ActionLink("Activate", "Activate", new { id = item.ID })
+            @Html.ActionLink("Edit Menu", "Edit", "Menu", new { id = item.ID }, null) |
+            @Html.ActionLink("Activate", "Activate", "Menu", new { id = item.ID }, null) |
+            @Html.ActionLink("Deactivate", "Deactivate", "Menu", new { id = item.ID }, null) |
+            @Html.ActionLink("Trash", "Delete", "Menu", new { id = item.ID }, null)
         </td>
     </tr>
 }

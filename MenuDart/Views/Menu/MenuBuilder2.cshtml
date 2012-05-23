@@ -5,7 +5,8 @@
 <h2>Hooray for instant gratification!</h2>
 <h3>
 You've just created a mobile-friendly restaurant menu for @ViewBag.Name.<p>
-It's already available at: <a href="@ViewBag.Url" target="_blank">@ViewBag.Url</a><br />
+It's already available at: @Html.ActionLink((string)ViewBag.Url, "Preview", "Menu", new { id = ViewBag.MenuId, url = @ViewBag.Url }, null)
+<br />
 (Just use a smartphone or pocket mobile device to surf to this site to check it out in its full mobile-glory.)
 <p>
 You can see how useful it looks, but some of your info is still missing (mainly your menu items!)
