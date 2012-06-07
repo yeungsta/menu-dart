@@ -42,8 +42,6 @@ namespace MenuDart.Controllers
                     return HttpNotFound();
                 }
 
-                ViewBag.UrlPath = Utilities.GetUrlPath();
-
                 DashboardModel model = new DashboardModel();
                 model.Menus = menus.ToList();
                 model.Email = currentUser.Email;

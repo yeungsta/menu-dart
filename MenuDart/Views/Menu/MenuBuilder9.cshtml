@@ -5,9 +5,7 @@
 <h2>Congrats, you're finally done!</h2>
 <h3>
 You can now check out your finished restaurant menu for @ViewBag.Name.<p>
-It's available at: @Html.ActionLink((string)ViewBag.Url, "Preview", "Menu", new { id = ViewBag.MenuId, url = @ViewBag.Url }, null)
-<br />
-(Just use a smartphone or pocket mobile device to surf to this site to check it out in its full mobile-glory.)
+It's available to @Html.ActionLink("preview here.", "PreviewMenu", "Menu", new { id = ViewBag.MenuId }, null)
 <p>
 Now check out these ways to connect your menu to your website and link to other sites:
 <p></p>

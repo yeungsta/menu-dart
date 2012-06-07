@@ -49,11 +49,23 @@
             300
         </td>
         <td>
-            @Html.ActionLink("View", "Preview", "Menu", new { id = item.ID, url = @ViewBag.UrlPath + @item.MenuDartUrl + "/index.html" }, null) |
-            @Html.ActionLink("Edit Menu", "Edit", "Menu", new { id = item.ID }, null) |
-            @Html.ActionLink("Activate", "Activate", "Menu", new { id = item.ID }, null) |
-            @Html.ActionLink("Deactivate", "Deactivate", "Menu", new { id = item.ID }, null) |
-            @Html.ActionLink("Trash", "Delete", "Menu", new { id = item.ID }, null)
+            @if (@item.Active) {
+                <text>
+                @Html.ActionLink("View", "ViewActiveMenu", "Menu", new { id = item.ID }, null) |
+                @Html.ActionLink("Edit Menu", "Edit", "Menu", new { id = item.ID }, null) |
+                @Html.ActionLink("Deactivate", "Deactivate", "Menu", new { id = item.ID }, null)
+                </text>
+            }
+            else
+            {
+                <text>
+                @Html.ActionLink("Preview", "PreviewMenu", "Menu", new { id = item.ID }, null) |
+                @Html.ActionLink("Edit Menu", "Edit", "Menu", new { id = item.ID }, null) |
+                @Html.ActionLink("Activate", "Activate", "Menu", new { id = item.ID }, null) |
+                @Html.ActionLink("Trash", "Delete", "Menu", new { id = item.ID }, null)
+                </text>
+            }
+
         </td>
     </tr>
 }

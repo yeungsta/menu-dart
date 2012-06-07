@@ -1,0 +1,18 @@
+﻿@model MenuDart.Models.ActivateViewModel
+           
+@{
+    ViewBag.Title = "Menu Not Active";
+}
+
+<h2>Your menu must be activated before you publish it!
+<p>
+    Activation requires a subscription to MenuDart. Do you want to activate @Model.Name's Menu now?
+<p>
+@Html.ActionLink("Yes, activate it", "Activate", "Menu", new { id = Model.MenuId }, null)
+<br />
+@Html.ActionLink("No thanks", Model.ReturnUrl, "Menu")
+<p>
+@Html.ActionLink("Back to Editor", Model.ReturnUrl, "Menu") |
+@Html.ActionLink("Dashboard", "Index", "Dashboard")
+</p>
+</h2>

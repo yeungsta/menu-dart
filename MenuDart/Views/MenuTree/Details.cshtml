@@ -43,6 +43,7 @@
             @Html.ActionLink("Hours", "Edit6", "Menu", new { id = ViewBag.MenuId }, null) | 
             @Html.ActionLink("Contact", "Edit7", "Menu", new { id = ViewBag.MenuId }, null) | 
             @Html.ActionLink("Menu Items", "Details", "MenuTree", new { id = ViewBag.MenuId, parent = 0, idx = -1, source = "MenuEditor" }, null) |
+            @Html.ActionLink("Preview", "PreviewMenu", "Menu", new { id = ViewBag.MenuId }, null) |
             @Html.ActionLink("Publish", "Publish", "Menu", new { ReturnUrl = "/Details/" + ViewBag.MenuId, id = ViewBag.MenuId }, null)
             </h3>
             </text>

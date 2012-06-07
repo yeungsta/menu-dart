@@ -10,7 +10,10 @@ namespace MenuDart.Controllers
         public const string Break = "<br>";
         public const string NewLine = "\n";
         public const string NewLine2 = "\r\n";
-        public const string MenusPath = "~/Content/menus/";
+        public const string MenusDir = "/Content/menus/";
+        public const string MenusPath = "~" + MenusDir;
+        public const string PreviewMenusDir = "/Content/previews/";
+        public const string PreviewMenusPath = "~" + PreviewMenusDir;
         public const string TemplatesPath = "~/Content/templates/themes/";
         public const string BaseTemplatesPath = "~/Content/templates/base/index_files/";
         public const int MaxLocations = 8;
@@ -24,5 +27,6 @@ namespace MenuDart.Controllers
         public const string LogoTmpFileName = "logo_tmp.png";
         public const string OutputFile = "index.html";
         public const string SupportEmailAddress = "support@menudart.com";
+        public const string SessionPreviewKey = "PreviewId";
     }
 }

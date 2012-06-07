@@ -43,7 +43,7 @@ namespace MenuDart.Controllers
 
         //Copies source directory + files to a destination directory.
         //If destination directory doesn't exist, it will be created.
-        public static void CopyDirTo(string srcPatch, string destPath)
+        public static void CopyDirTo(string srcPatch, string destPath, bool overwrite)
         {
             if (Directory.Exists(srcPatch))
             {
@@ -56,13 +56,21 @@ namespace MenuDart.Controllers
                 string fileName;
                 string destFile;
 
-                // Copy the files and overwrite destination files if they already exist.
+                // Copy the files
                 foreach (string s in files)
                 {
                     // Use static Path methods to extract only the file name from the path.
                     fileName = Path.GetFileName(s);
                     destFile = Path.Combine(destPath, fileName);
-                    System.IO.File.Copy(s, destFile, true);
+
+                    try
+                    {
+                        System.IO.File.Copy(s, destFile, overwrite);
+                    }
+                    catch (Exception)
+                    {
+                        //ignore exceptions about existing files
+                    }
                 }
             }
         }
@@ -102,30 +110,36 @@ namespace MenuDart.Controllers
         //constructs URL path of menu repository
         public static string GetUrlPath()
         {
-            return "http://" + HttpContext.Current.Request.Url.Host + ":" + HttpContext.Current.Request.Url.Port + "/Content/menus/";
+            return "http://" + HttpContext.Current.Request.Url.Host + ":" + HttpContext.Current.Request.Url.Port + Constants.MenusDir;
         }
 
         //constructs full URL of menu site
         public static string GetFullUrl(string menuDartUrl)
         {
-            return "http://" + HttpContext.Current.Request.Url.Host + ":" + HttpContext.Current.Request.Url.Port + "/Content/menus/" + menuDartUrl + "/" + Constants.OutputFile;
+            return "http://" + HttpContext.Current.Request.Url.Host + ":" + HttpContext.Current.Request.Url.Port + Constants.MenusDir + menuDartUrl + "/" + Constants.OutputFile;
+        }
+
+        //constructs full URL of preview menu site
+        public static string GetFullUrlPreview(string menuDartUrl)
+        {
+            return "http://" + HttpContext.Current.Request.Url.Host + ":" + HttpContext.Current.Request.Url.Port + Constants.PreviewMenusDir + menuDartUrl + "/" + Constants.OutputFile;
         }
 
         //constructs full URL of menu site's logo
         public static string GetMenuLogoUrl(string menuDartUrl)
         {
-            return "http://" + HttpContext.Current.Request.Url.Host + ":" + HttpContext.Current.Request.Url.Port + "/Content/menus/" + menuDartUrl + "/" + "index_files" + "/" + Constants.LogoFileName;
+            return "http://" + HttpContext.Current.Request.Url.Host + ":" + HttpContext.Current.Request.Url.Port + Constants.MenusDir + menuDartUrl + "/" + "index_files" + "/" + Constants.LogoFileName;
         }
 
         //constructs full URL of menu site's temp logo
         public static string GetMenuLogoTmpUrl(string menuDartUrl)
         {
-            return "http://" + HttpContext.Current.Request.Url.Host + ":" + HttpContext.Current.Request.Url.Port + "/Content/menus/" + menuDartUrl + "/" + "index_files" + "/" + Constants.LogoTmpFileName;
+            return "http://" + HttpContext.Current.Request.Url.Host + ":" + HttpContext.Current.Request.Url.Port + Constants.MenusDir + menuDartUrl + "/" + "index_files" + "/" + Constants.LogoTmpFileName;
         }
 
         public static void RemoveDirectory(string menuDartUrl)
         {
-            string filepath = HttpContext.Current.Server.MapPath("~/Content/menus/" + menuDartUrl + "/");
+            string filepath = HttpContext.Current.Server.MapPath(Constants.MenusPath + menuDartUrl + "/");
 
             if (Directory.Exists(filepath))
             {
@@ -153,6 +167,41 @@ namespace MenuDart.Controllers
                     //exception is sometimes thrown when dir is not empty. Remove directory again.
                 //}
             }
+        }
+
+        public static void DeactivateDirectory(string menuDartUrl)
+        {
+            string filepath = HttpContext.Current.Server.MapPath(Constants.MenusPath + menuDartUrl + "/");
+
+            if (Directory.Exists(filepath))
+            {
+                string[] files = Directory.GetFiles(filepath);
+
+                // Remove all the files (menu file) but leave the index dir intact
+                foreach (string s in files)
+                {
+                    System.IO.File.Delete(s);
+                }
+            }
+        }
+
+        //generates random 5-digit alphanumeric for temp directories
+        public static string GetRandomId()
+        {
+            bool uniqueFound = false;
+            string randomId = string.Empty;
+
+            while (!uniqueFound)
+            {
+                randomId = Guid.NewGuid().ToString().Substring(0, 5);
+
+                if (!Directory.Exists(HttpContext.Current.Server.MapPath(Controllers.Constants.PreviewMenusPath + randomId + "/")))
+                {
+                    uniqueFound = true;
+                }
+            }
+
+            return randomId;
         }
     }
 }

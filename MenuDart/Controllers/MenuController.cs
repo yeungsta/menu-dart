@@ -204,7 +204,7 @@ namespace MenuDart.Controllers
                 string indexFilesPath = HttpContext.Server.MapPath(Constants.MenusPath + menu.MenuDartUrl + "/" + Constants.IndexFilesDir);
                 string templatesPath = HttpContext.Server.MapPath((Constants.TemplatesPath + menu.Template + "/"));
 
-                Utilities.CopyDirTo(templatesPath, indexFilesPath);
+                Utilities.CopyDirTo(templatesPath, indexFilesPath, true);
             }
 
             //pass template list to view
@@ -564,8 +564,8 @@ namespace MenuDart.Controllers
             db.Entry(menu).State = EntityState.Modified;
             db.SaveChanges();
 
-            //delete the menu directory from public directory
-            Utilities.RemoveDirectory(menu.MenuDartUrl);
+            //deactivate the menu directory (delete menu but not index files)
+            Utilities.DeactivateDirectory(menu.MenuDartUrl);
 
             return RedirectToAction("Index", "Dashboard");
         }
@@ -584,8 +584,11 @@ namespace MenuDart.Controllers
                     return HttpNotFound();
                 }
 
+                //set menu as active
+                menu.Active = true;
+
                 V1 composer = new V1(menu);
-                // re-compose/re-publish the menu
+                // re-compose the menu
                 composer.CreateMenu();
 
                 ActivateViewModel activateViewData = new ActivateViewModel();
@@ -593,8 +596,6 @@ namespace MenuDart.Controllers
                 activateViewData.Name = menu.Name;
                 activateViewData.Url = Utilities.GetFullUrl(menu.MenuDartUrl);
 
-                //set menu as active
-                menu.Active = true;
                 db.Entry(menu).State = EntityState.Modified;
                 db.SaveChanges();
 
@@ -623,11 +624,12 @@ namespace MenuDart.Controllers
                 if (menu.Active)
                 {
                     V1 composer = new V1(menu);
-                    // re-compose/re-publish the menu
+                    // re-compose the menu
                     composer.CreateMenu();
 
                     ActivateViewModel activateViewData = new ActivateViewModel();
                     activateViewData.Name = menu.Name;
+                    activateViewData.MenuId = id;
                     activateViewData.Url = Utilities.GetFullUrl(menu.MenuDartUrl);
                     activateViewData.ReturnUrl = ReturnUrl;
 
@@ -635,8 +637,8 @@ namespace MenuDart.Controllers
                 }
                 else
                 {
-                    //menu not activated; cannot publish! TODO: ask user to activate?
-                    return View();
+                    //menu not activated; cannot publish
+                    return RedirectToAction("PublishNotActive", new { ReturnUrl = ReturnUrl, menuName = menu.Name, id = id });
                 }
             }
             catch
@@ -646,11 +648,95 @@ namespace MenuDart.Controllers
         }
 
         //
-        // GET: /Menu/Preview/5
+        // GET: /Menu/PublishNotActive/5
 
-        public ActionResult Preview(string url, int id = 0)
+        public ActionResult PublishNotActive(string ReturnUrl, string menuName, int id = 0)
         {
-            ViewBag.Url = url;
+            ActivateViewModel activateViewData = new ActivateViewModel();
+            activateViewData.Name = menuName;
+            activateViewData.MenuId = id;
+            activateViewData.ReturnUrl = ReturnUrl;
+
+            return View(activateViewData);
+        }
+
+        //
+        // GET: /Menu/ViewActiveMenu/5
+        //
+        public ActionResult ViewActiveMenu(int id = 0)
+        {
+            if ((id == 0) || !Utilities.IsThisMyMenu(id, db, User))
+            {
+                return RedirectToAction("MenuBuilderAccessViolation");
+            }
+
+            Menu menu = db.Menus.Find(id);
+
+            if (menu == null)
+            {
+                return HttpNotFound();
+            }
+
+            //menu should already exist
+            ViewBag.Url = Utilities.GetFullUrl(menu.MenuDartUrl);
+
+            return View();
+        }
+
+        //
+        // GET: /Menu/PreviewMenu/5
+        //
+        //create temporary menu for previewing
+        public ActionResult PreviewMenu(int id = 0)
+        {
+            bool createNewTempDir = false;
+
+            if ((id == 0) || !Utilities.IsThisMyMenu(id, db, User))
+            {
+                return RedirectToAction("MenuBuilderAccessViolation");
+            }
+
+            Menu menu = db.Menus.Find(id);
+
+            if (menu == null)
+            {
+                return HttpNotFound();
+            }
+
+            V1 composer = new V1(menu);
+            string randomId = string.Empty;
+
+            //check if a preview key/URL exists for this session
+            if (this.HttpContext.Session[Constants.SessionPreviewKey] != null)
+            {
+                randomId = this.HttpContext.Session[Constants.SessionPreviewKey].ToString();
+                string directoryPath = HttpContext.Server.MapPath(Controllers.Constants.PreviewMenusPath + randomId + "/");
+
+                //check if preview location still exists
+                if (Directory.Exists(directoryPath))
+                {
+                    composer.UpdateTempMenu(randomId);
+                }
+                else
+                {
+                    createNewTempDir = true;
+                }
+            }
+            else
+            {
+                createNewTempDir = true;
+            }
+
+            if (createNewTempDir)
+            {
+                randomId = composer.CreateTempMenu();
+
+                //Save preview random key to session cookie so that we'll use
+                //the same temp folder for all previews
+                this.HttpContext.Session[Constants.SessionPreviewKey] = randomId;
+            }
+
+            ViewBag.Url = Utilities.GetFullUrlPreview(randomId);
 
             return View();
         }
@@ -682,8 +768,10 @@ namespace MenuDart.Controllers
         {
             if (ModelState.IsValid)
             {
-                //menu is active by default
-                menuBuilderModel.CurrentMenu.Active = true;
+                //menu is inactive by default at initial creation;
+                //but will be set to active if user decides to publish
+                //at the end of the builder process.
+                menuBuilderModel.CurrentMenu.Active = false;
 
                 //create initial default location
                 List<Location> defaultLocationList = new List<Location>() {
@@ -766,11 +854,11 @@ namespace MenuDart.Controllers
                     cart.AddMenu(menuBuilderModel.CurrentMenu.ID);
                 }
 
-                //Compose the menu for the first time, so user can try it out
+                //Reserve an empty, permanent location/URL
                 V1 composer = new V1(menuBuilderModel.CurrentMenu);
-                composer.CreateMenu();
+                composer.CreateMenuDir();
 
-                return RedirectToAction("MenuBuilder2", new { name = menuBuilderModel.CurrentMenu.Name, url = Utilities.GetFullUrl(menuBuilderModel.CurrentMenu.MenuDartUrl), id = menuBuilderModel.CurrentMenu.ID });
+                return RedirectToAction("MenuBuilder2", new { name = menuBuilderModel.CurrentMenu.Name, id = menuBuilderModel.CurrentMenu.ID });
             }
 
             return View(menuBuilderModel.CurrentMenu);
@@ -782,9 +870,9 @@ namespace MenuDart.Controllers
         // Access is open to all, but jumping out of order and calling this
         // method doesn't create any menu.
 
-        public ActionResult MenuBuilder2(string name, string url, int id)
+        public ActionResult MenuBuilder2(string name, int id)
         {
-            if (string.IsNullOrEmpty(name) || string.IsNullOrEmpty(url))
+            if (string.IsNullOrEmpty(name))
             {
                 return RedirectToAction("MenuBuilderAccessViolation");
             }
@@ -793,7 +881,6 @@ namespace MenuDart.Controllers
                 //TODO: may want to validate name/url so that we they are from us and not
                 //spoofed.
                 ViewBag.Name = name;
-                ViewBag.Url = url;
                 ViewBag.MenuId = id;
 
                 return View();
@@ -851,7 +938,7 @@ namespace MenuDart.Controllers
                 string indexFilesPath = HttpContext.Server.MapPath(Constants.MenusPath + menu.MenuDartUrl + "/" + Constants.IndexFilesDir);
                 string templatesPath = HttpContext.Server.MapPath((Constants.TemplatesPath + menu.Template + "/"));
 
-                Utilities.CopyDirTo(templatesPath, indexFilesPath);
+                Utilities.CopyDirTo(templatesPath, indexFilesPath, true);
 
                 return RedirectToAction("MenuBuilder4", new { id = id });
             }
@@ -1223,12 +1310,8 @@ namespace MenuDart.Controllers
                 return HttpNotFound();
             }
 
+            ViewBag.MenuId = id;
             ViewBag.Name = menu.Name;
-            ViewBag.Url = Utilities.GetFullUrl(menu.MenuDartUrl);
-
-            //Compose the menu
-            V1 composer = new V1(menu);
-            composer.CreateMenu();
 
             return View();
         }

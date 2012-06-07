@@ -10,23 +10,25 @@ namespace MenuDart.Models
     {
         MenuDartDBContext storeDB = new MenuDartDBContext();
         string SessionCartId { get; set; }
+
         public const string CartSessionKey = "SessionId";
 
         public static SessionCart GetCart(HttpContextBase context)
         {
             var cart = new SessionCart();
             cart.SessionCartId = cart.GetCartId(context);
+
             return cart;
         }
 
         // Helper method to simplify session cart calls
-        public static SessionCart GetCart(Controller controller)
+        private static SessionCart GetCart(Controller controller)
         {
             return GetCart(controller.HttpContext);
         }
 
         // We're using HttpContextBase to allow access to cookies.
-        public string GetCartId(HttpContextBase context)
+        private string GetCartId(HttpContextBase context)
         {
             if (context.Session[CartSessionKey] == null)
             {
@@ -72,7 +74,7 @@ namespace MenuDart.Models
             //in case there are more than one
             foreach (TempMenu tempMenu in tempMenus)
             {
-                //don't need to keep temp menu?
+                //todo: don't need to keep temp menu?
                 //item.SessionId = userName;
 
                 //set owner-less menu in DB to owner
@@ -90,6 +92,5 @@ namespace MenuDart.Models
                 storeDB.SaveChanges();
             }
         }
-
     }
 }
