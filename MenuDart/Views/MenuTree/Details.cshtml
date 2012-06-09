@@ -5,22 +5,27 @@
 }
 
 @section Scripts {
-
 	<script src="http://code.jquery.com/jquery-1.6.4.min.js"></script>
     <script type="text/javascript">
         // do not handle links via ajax by default; Turn off ajax
         $(document).bind("mobileinit", function () { $.mobile.ajaxEnabled = false; });
     </script>
-	<script src="http://code.jquery.com/mobile/1.0/jquery.mobile-1.0.min.js"></script>
 	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.0/jquery.mobile-1.0.min.css" />
-}
-
+    <link rel="stylesheet" href="@Url.Content("~/Content/templates/base/index_files/template.css")" type="text/css" />
+	<script src="http://code.jquery.com/mobile/1.0/jquery.mobile-1.0.min.js"></script>
 }
 
 <div data-role="page">
 	<div data-role="header">
 		<div data-role="navbar">
-			<center><h2>Menu Builder</h2></center>
+            @if (!string.IsNullOrEmpty(ViewBag.LevelTitle))
+            {
+		        <center><h2>@ViewBag.LevelTitle</h2></center>
+            }
+            else if (string.IsNullOrEmpty(ViewBag.UpLevel) || (ViewBag.Parent == "0"))
+            {
+                <text><center><h2>@ViewBag.Name</h2></center></text>
+            }
 		</div><!-- /navbar -->
 	</div><!-- /header -->
 
@@ -30,44 +35,11 @@
             <text><h2>You're almost done! Now create and organize your menu items.</h2>
             <h3>Just add Categories, then Items. Click on Categories to add more in them.</h3></text>
         }
-        else if (ViewBag.Source == "MenuEditor")
-        {
-            <text>
-            <h2>Edit your menu items.</h2>
-            <h3>
-            @Html.ActionLink("Basic Info", "Edit", "Menu", new { id = ViewBag.MenuId }, null) | 
-            @Html.ActionLink("Theme", "Edit2", "Menu", new { id = ViewBag.MenuId }, null) | 
-            @Html.ActionLink("About", "Edit3", "Menu", new { id = ViewBag.MenuId }, null) | 
-            @Html.ActionLink("Logo", "Edit4", "Menu", new { id = ViewBag.MenuId }, null) | 
-            @Html.ActionLink("Location", "Edit5", "Menu", new { id = ViewBag.MenuId }, null) | 
-            @Html.ActionLink("Hours", "Edit6", "Menu", new { id = ViewBag.MenuId }, null) | 
-            @Html.ActionLink("Contact", "Edit7", "Menu", new { id = ViewBag.MenuId }, null) | 
-            @Html.ActionLink("Menu Items", "Details", "MenuTree", new { id = ViewBag.MenuId, parent = 0, idx = -1, source = "MenuEditor" }, null) |
-            @Html.ActionLink("Preview", "PreviewMenu", "Menu", new { id = ViewBag.MenuId }, null) |
-            @Html.ActionLink("Publish", "Publish", "Menu", new { ReturnUrl = "/Details/" + ViewBag.MenuId, id = ViewBag.MenuId }, null)
-            </h3>
-            </text>
-        }
 
-        @if (!string.IsNullOrEmpty(ViewBag.UpLevel) && (ViewBag.Parent != "0"))
-        {
-            @Html.ActionLink("Back one level", "Details", "MenuTree", new { id = ViewBag.MenuId, parent = ViewBag.UpLevel, idx = -1 }, null)
-        }
-        else
-        {
-            <text><b>This is the main level.</b></text>
-        }
-        <br>
-        <hr />
-        <br>
-        @if (!string.IsNullOrEmpty(ViewBag.LevelTitle))
-        {
-		    <center><h3>@ViewBag.LevelTitle:</h3></center>
-        }
         @if (!string.IsNullOrEmpty(ViewBag.Text))
         {
 		<center>@Html.Raw(ViewBag.Text)<br>
-            @Html.ActionLink("Delete", "DeleteText", new { id = ViewBag.MenuId, parent = ViewBag.Parent }, null)
+            @Html.ActionLink("Delete", "DeleteText", new { id = ViewBag.MenuId, parent = ViewBag.Parent } )
             @Html.ActionLink("Edit", "EditText", new { id = ViewBag.MenuId, parent = ViewBag.Parent }, null)
         </center>
         }
@@ -95,7 +67,7 @@
             }
             else
             {
-                <li><a href="@ViewBag.MenuId?parent=@ViewBag.Parent&idx=@(i)">@Model[i].Title</a>
+                <li><a href="@ViewBag.MenuId?parent=@ViewBag.Parent&idx=@(i)&ReturnUrl=@ViewBag.ReturnUrl">@Model[i].Title</a>
                 <p>
                     &nbsp;&nbsp;&nbsp;&nbsp;
                     @Html.ActionLink("Delete", "Delete", new { id = ViewBag.MenuId, parent = ViewBag.Parent, idx = i }, null)
@@ -114,13 +86,24 @@
         <br />
         <br />
         <hr />
+        @if (!string.IsNullOrEmpty(ViewBag.UpLevel) && (ViewBag.Parent != "0"))
+        {
+            @Html.ActionLink("Back one level", "Details", "MenuTree", new { id = ViewBag.MenuId, parent = ViewBag.UpLevel, idx = -1, ReturnUrl = ViewBag.ReturnUrl }, null)
+        }
+        else
+        {
+            <text><b>This is the main level.</b></text>
+        }
+        <br />
         @if (ViewBag.Source == "MenuBuilder")
         {
             @Html.ActionLink("I'm Done with the Menu!", "MenuBuilder9", "Menu", new { id = ViewBag.MenuId }, null)		    	
         }
-        else if (ViewBag.Source == "MenuEditor")
+        else
         {
-            @Html.ActionLink("Back to Dashboard", "Index", "Dashboard")
+            @Html.ActionLink("Back to Editor", (string)ViewBag.ReturnUrl, "Menu")
+            <text><b>or just "Close" button?</b></text><br />
+            @Html.ActionLink("Preview", "PreviewMenu", "Menu", new { id = ViewBag.MenuId }, null)
         }
 	</div><!-- /content -->
 </div>

@@ -15,6 +15,7 @@ namespace MenuDart.Controllers
         private MenuDartDBContext db = new MenuDartDBContext();
         private const string FirstLink = "1-1";
         private const string FirstLinkSuffix = "-1";
+
         //
         // GET: /MenuTree/
 
@@ -26,7 +27,7 @@ namespace MenuDart.Controllers
         //
         // GET: /MenuTree/Details/5
         [Authorize]
-        public ActionResult Details(string parent, int idx, string source, int id = 0)
+        public ActionResult Details(string parent, int idx, string source, string ReturnUrl, int id = 0)
         {
             //we need a parent ID in order to know what to display
             if (!string.IsNullOrEmpty(parent))
@@ -44,8 +45,10 @@ namespace MenuDart.Controllers
                 }
 
                 ViewBag.MenuId = id;
+                ViewBag.Name = menu.Name;
                 ViewBag.Parent = parent;
                 ViewBag.Source = source;
+                ViewBag.ReturnUrl = ReturnUrl;
 
                 List<MenuNode> currentMenuTree = V1.DeserializeMenuTree(menu.MenuTree);
 
