@@ -7,11 +7,14 @@ using System.Web.Routing;
 using System.Web.Security;
 using System.Net.Mail;
 using MenuDart.Models;
+using MenuDart.PayPalSvc;
 
 namespace MenuDart.Controllers
 {
     public class AccountController : Controller
     {
+        private MenuDartDBContext db = new MenuDartDBContext();
+
         //
         // GET: /Account/LogOn
 
@@ -83,12 +86,31 @@ namespace MenuDart.Controllers
         {
             if (ModelState.IsValid)
             {
-                // Attempt to register the user
+                // Attempt to create the user account
                 MembershipCreateStatus createStatus;
                 Membership.CreateUser(model.Email, model.Password, model.Email, null, null, true, null, out createStatus);
 
                 if (createStatus == MembershipCreateStatus.Success)
                 {
+                    //create user info entry
+                    IOrderedQueryable<UserInfo> userFound = from userInfo in db.UserInfo
+                                                            where userInfo.Name == model.Email
+                                                            orderby userInfo.Name ascending
+                                                            select userInfo;
+
+                    if ((userFound == null) || (userFound.Count() == 0))
+                    {
+                        UserInfo newUserInfo = new UserInfo();
+                        newUserInfo.Name = model.Email;
+                        newUserInfo.Subscribed = false;
+                        newUserInfo.TrialEnded = false;
+                        newUserInfo.PayPalProfileId = string.Empty;
+                        newUserInfo.PayPalProfileStatus = string.Empty;
+
+                        db.UserInfo.Add(newUserInfo);
+                        db.SaveChanges();
+                    }
+
                     //set temp menu to owner
                     MigrateSessionCart(model.Email);
 

@@ -92,6 +92,17 @@ namespace MenuDart.Models
         public System.DateTime DateCreated { get; set; }
     }
 
+    public class UserInfo
+    {
+        public int ID { get; set; }
+        [Required]
+        public string Name { get; set; }
+        public bool Subscribed { get; set; }
+        public bool TrialEnded { get; set; }
+        public string PayPalProfileId { get; set; }
+        public string PayPalProfileStatus { get; set; }
+    }
+
     public class MenuDartDBContext : DbContext
     {
         public DbSet<Menu> Menus { get; set; }
@@ -106,5 +117,6 @@ namespace MenuDart.Models
         public DbSet<MenuNode> MenuTree { get; set; }
 
         public DbSet<TempMenu> TempMenus { get; set; }
+        public DbSet<UserInfo> UserInfo { get; set; }
     }
 }

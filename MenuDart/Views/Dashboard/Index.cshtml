@@ -3,6 +3,7 @@
 @{
     ViewBag.Title = "Dashboard";
     int activeCount = 0;
+    int monthlyBill = 0;
 }
 
 <h2>Your Dashboard (@Model.Email)</h2>
@@ -68,6 +69,8 @@
 
         </td>
     </tr>
+    
+    monthlyBill = activeCount * 7;
 }
 </table>
 <br />
@@ -76,9 +79,26 @@
 <br />
 <h3>Billing</h3>
 <p>
-    You are currently subscribed with @activeCount active menu(s). [@Html.ActionLink("Subscribe", "Index", "Dashboard") / @Html.ActionLink("Unsubscribe", "Index", "Dashboard") ]
-    <br />
-    You are currently on a free month trial, which ends on 1/23/12.
+    
+
+    @if (!@Model.TrialEnded)
+    {
+        <text>
+        You are currently on a free month trial, which ends on 1/23/12. Or you can go ahead and @Html.ActionLink("activate your menu(s) if you'd like.", "Subscribe", "Subscription", new { email = Model.Email, quantity = activeCount }, null)
+        </text> 
+    }
+    else if (@Model.Subscribed)
+    {
+        <text>
+        You currently have @activeCount active menu(s) for a total of $@monthlyBill per month. (@activeCount x $7 = $@monthlyBill) [@Html.ActionLink("Deactivate all menu(s)", "Unsubscribe", "Subscription", new { email = Model.Email, quantity = activeCount }, null)]
+        </text>
+    }
+    else
+    {
+        <text>
+        You do not have any active menus. You do not have any charges. [@Html.ActionLink("Activate all menu(s)", "Subscribe", "Subscription", new { email = Model.Email, quantity = activeCount }, null)]
+        </text>        
+    }    
 </p>
 
 <h3>Account</h3>

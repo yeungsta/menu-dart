@@ -42,9 +42,26 @@ namespace MenuDart.Controllers
                     return HttpNotFound();
                 }
 
+                //retrieve user info entry
+                IOrderedQueryable<UserInfo> userFound = from userInfo in db.UserInfo
+                                                        where userInfo.Name == currentUser.Email
+                                                        orderby userInfo.Name ascending
+                                                        select userInfo;
+
+                //there must be a user info entry found
+                if ((userFound == null) || (userFound.Count() == 0))
+                {
+                    return HttpNotFound();
+                }
+
+                //should only be one in the list
+                IList<UserInfo> userInfoList = userFound.ToList();
+
                 DashboardModel model = new DashboardModel();
                 model.Menus = menus.ToList();
                 model.Email = currentUser.Email;
+                model.TrialEnded = userInfoList[0].TrialEnded;
+                model.Subscribed = userInfoList[0].Subscribed;
 
                 return View(model);
             }

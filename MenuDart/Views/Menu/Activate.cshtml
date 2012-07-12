@@ -1,12 +1,33 @@
-﻿@model MenuDart.Models.ActivateViewModel
+﻿@model MenuDart.Models.Menu
 
 @{
-    ViewBag.Title = "Menu Activated";
+    ViewBag.Title = "Activate";
 }
 
-<h2>@Model.Name's Menu is Activated!
-<p>It's located At:<br />@Html.ActionLink(@Model.Url, "ViewActiveMenu", "Menu", new { id = @Model.MenuId, url = @Model.Url }, null)
+<h2>Activate @Model.Name?</h2>
+
+<h3>
+@if (ViewBag.NumActiveMenus <= 1)
+{
+    <text>
+    By continuing, you will be prompted with a PayPal recurring billing agreement for your @Model.Name menu at $@ViewBag.NewTotal a month.
+    </text>
+}
+else
+{
+    <text>
+    By continuing, your current billing agreement will first be cancelled, then you will be prompted with a modified
+    billing agreement for your total of @ViewBag.NumActiveMenus active menu(s) at $@ViewBag.NewTotal a month.
+    </text>
+}
 <p>
-@Html.ActionLink("Back to Dashboard", "Index", "Dashboard")
-</p>
-</h2>
+*You can always deactivate your menu anytime.
+</h3>
+
+@using (Html.BeginForm()) {
+    <p>
+        @Html.Hidden("ActiveCount", (object)ViewBag.NumActiveMenus)
+        <input type="submit" value="Activate" /> |
+        @Html.ActionLink("Back to Dashboard", "Index", "Dashboard")
+    </p>
+}

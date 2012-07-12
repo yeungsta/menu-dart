@@ -543,6 +543,30 @@ namespace MenuDart.Controllers
                 return HttpNotFound();
             }
 
+            //find out how many remaining active menus this owner has
+            IOrderedQueryable<Menu> allMenus = from allMenu in db.Menus
+                                               where allMenu.Owner == menu.Owner
+                                               orderby allMenu.Name ascending
+                                               select allMenu;
+
+            if (allMenus == null)
+            {
+                return HttpNotFound();
+            }
+
+            int activeCount = 0;
+
+            foreach (Menu activeMenu in allMenus)
+            {
+                if (activeMenu.Active)
+                {
+                    activeCount++;
+                }
+            }
+
+            ViewBag.NumActiveMenus = activeCount - 1;
+            ViewBag.NewTotal = (activeCount - 1) * 7;
+
             return View(menu);
         }
 
@@ -550,7 +574,7 @@ namespace MenuDart.Controllers
         // POST: /Menu/Deactivate/5
 
         [HttpPost, ActionName("Deactivate")]
-        public ActionResult DeactivateConfirmed(int id = 0)
+        public ActionResult DeactivateConfirmed(int ActiveCount, int id = 0)
         {
             Menu menu = db.Menus.Find(id);
 
@@ -558,6 +582,8 @@ namespace MenuDart.Controllers
             {
                 return HttpNotFound();
             }
+
+            //TODO: might want to actually deactivate only after the paypal process goes thru successfully.
 
             //set menu as deactivated
             menu.Active = false;
@@ -567,7 +593,8 @@ namespace MenuDart.Controllers
             //deactivate the menu directory (delete menu but not index files)
             Utilities.DeactivateDirectory(menu.MenuDartUrl);
 
-            return RedirectToAction("Index", "Dashboard");
+            //update PayPal subscription
+            return RedirectToAction("ModifySubscription", "Subscription", new { subscribeAction = Constants.DeactivateOne, email = menu.Owner, quantity = ActiveCount });
         }
 
         //
@@ -575,36 +602,84 @@ namespace MenuDart.Controllers
 
         public ActionResult Activate(int id = 0)
         {
-            try
-            {
-                Menu menu = db.Menus.Find(id);
+            Menu menu = db.Menus.Find(id);
 
-                if (menu == null)
+            if (menu == null)
+            {
+                return HttpNotFound();
+            }
+
+            //find out how many active menus this owner already has
+            IOrderedQueryable<Menu> allMenus = from allMenu in db.Menus
+                                               where allMenu.Owner == menu.Owner
+                                               orderby allMenu.Name ascending
+                                               select allMenu;
+
+            if (allMenus == null)
+            {
+                return HttpNotFound();
+            }
+
+            int activeCount = 0;
+
+            foreach (Menu activeMenu in allMenus)
+            {
+                if (activeMenu.Active)
                 {
-                    return HttpNotFound();
+                    activeCount++;
                 }
-
-                //set menu as active
-                menu.Active = true;
-
-                V1 composer = new V1(menu);
-                // re-compose the menu
-                composer.CreateMenu();
-
-                ActivateViewModel activateViewData = new ActivateViewModel();
-                activateViewData.MenuId = id;
-                activateViewData.Name = menu.Name;
-                activateViewData.Url = Utilities.GetFullUrl(menu.MenuDartUrl);
-
-                db.Entry(menu).State = EntityState.Modified;
-                db.SaveChanges();
-
-                return View(activateViewData);
             }
-            catch
+
+            ViewBag.NumActiveMenus = activeCount + 1;
+            ViewBag.NewTotal = (activeCount + 1) * 7;
+
+            return View(menu);
+        }
+
+        //
+        // POST: /Menu/Activate/5
+
+        [HttpPost, ActionName("Activate")]
+        public ActionResult ActivateConfirmed(int ActiveCount, int id = 0)
+        {
+            Menu menu = db.Menus.Find(id);
+
+            if (menu == null)
             {
-                return View();
+                return HttpNotFound();
             }
+
+            //TODO: might want to actually activate only after the paypal process goes thru successfully.
+
+            //set menu as active
+            menu.Active = true;
+
+            V1 composer = new V1(menu);
+            // re-compose the menu
+            composer.CreateMenu();
+
+            /*
+            ActivateViewModel activateViewData = new ActivateViewModel();
+            activateViewData.MenuId = id;
+            activateViewData.Name = menu.Name;
+            activateViewData.Url = Utilities.GetFullUrl(menu.MenuDartUrl);
+            */
+
+            db.Entry(menu).State = EntityState.Modified;
+            db.SaveChanges();
+
+            if (ActiveCount == 1)
+            {
+                //first active menu, so start subscription
+                return RedirectToAction("Subscribe", "Subscription", new { email = menu.Owner, quantity = ActiveCount });
+            }
+            else
+            {
+                //there's already an active menu, so update PayPal subscription
+                return RedirectToAction("ModifySubscription", "Subscription", new { subscribeAction = Constants.ActivateOne, email = menu.Owner, quantity = ActiveCount });
+            }
+
+            //return View(activateViewData);
         }
 
         //

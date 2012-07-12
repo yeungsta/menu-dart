@@ -39,6 +39,8 @@
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
     <Reference Include="System.Web.Mvc, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Web.WebPages, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Web.Helpers, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
@@ -71,6 +73,7 @@
     <Compile Include="Controllers\LocationsController.cs" />
     <Compile Include="Controllers\MenuController.cs" />
     <Compile Include="Controllers\MenuTreeController.cs" />
+    <Compile Include="Controllers\SubscriptionController.cs" />
     <Compile Include="Controllers\TemplateController.cs" />
     <Compile Include="Controllers\TempMenuController.cs" />
     <Compile Include="Controllers\Utilities.cs" />
@@ -86,6 +89,11 @@
     <Compile Include="Models\MenuEditorViewModels.cs" />
     <Compile Include="Models\SessionCart.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Service References\PayPalSvc\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\fileuploader.css" />
@@ -129,6 +137,187 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\modernizr-1.7.js" />
     <Content Include="Scripts\modernizr-1.7.min.js" />
+    <None Include="Service References\PayPalSvc\configuration91.svcinfo">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\PayPalSvc\configuration.svcinfo">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\PayPalSvc\MenuDart.PayPalSvc.AddressVerifyResponseType.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PayPalSvc\MenuDart.PayPalSvc.BAUpdateResponseType.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PayPalSvc\MenuDart.PayPalSvc.BillOutstandingAmountResponseType.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PayPalSvc\MenuDart.PayPalSvc.BillUserResponseType.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PayPalSvc\MenuDart.PayPalSvc.BMButtonSearchResponseType.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PayPalSvc\MenuDart.PayPalSvc.BMCreateButtonResponseType.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PayPalSvc\MenuDart.PayPalSvc.BMGetButtonDetailsResponseType.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PayPalSvc\MenuDart.PayPalSvc.BMGetInventoryResponseType.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PayPalSvc\MenuDart.PayPalSvc.BMManageButtonStatusResponseType.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PayPalSvc\MenuDart.PayPalSvc.BMSetInventoryResponseType.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PayPalSvc\MenuDart.PayPalSvc.BMUpdateButtonResponseType.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PayPalSvc\MenuDart.PayPalSvc.CancelRecoupResponseType.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PayPalSvc\MenuDart.PayPalSvc.CompleteRecoupResponseType.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PayPalSvc\MenuDart.PayPalSvc.CreateBillingAgreementResponseType.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PayPalSvc\MenuDart.PayPalSvc.CreateMobilePaymentResponseType.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PayPalSvc\MenuDart.PayPalSvc.CreateRecurringPaymentsProfileResponseType.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PayPalSvc\MenuDart.PayPalSvc.CustomSecurityHeaderType.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PayPalSvc\MenuDart.PayPalSvc.DoAuthorizationResponseType.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PayPalSvc\MenuDart.PayPalSvc.DoCancelResponseType.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PayPalSvc\MenuDart.PayPalSvc.DoCaptureResponseType.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PayPalSvc\MenuDart.PayPalSvc.DoDirectPaymentResponseType.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PayPalSvc\MenuDart.PayPalSvc.DoExpressCheckoutPaymentResponseType.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PayPalSvc\MenuDart.PayPalSvc.DoMobileCheckoutPaymentResponseType.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PayPalSvc\MenuDart.PayPalSvc.DoNonReferencedCreditResponseType.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PayPalSvc\MenuDart.PayPalSvc.DoReauthorizationResponseType.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PayPalSvc\MenuDart.PayPalSvc.DoReferenceTransactionResponseType.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PayPalSvc\MenuDart.PayPalSvc.DoUATPAuthorizationResponseType.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PayPalSvc\MenuDart.PayPalSvc.DoUATPExpressCheckoutPaymentResponseType.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PayPalSvc\MenuDart.PayPalSvc.DoVoidResponseType.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PayPalSvc\MenuDart.PayPalSvc.EnterBoardingResponseType.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PayPalSvc\MenuDart.PayPalSvc.ExecuteCheckoutOperationsResponseType.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PayPalSvc\MenuDart.PayPalSvc.ExternalRememberMeOptOutResponseType.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PayPalSvc\MenuDart.PayPalSvc.GetAccessPermissionDetailsResponseType.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PayPalSvc\MenuDart.PayPalSvc.GetAuthDetailsResponseType.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PayPalSvc\MenuDart.PayPalSvc.GetBalanceResponseType.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PayPalSvc\MenuDart.PayPalSvc.GetBillingAgreementCustomerDetailsResponseType.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PayPalSvc\MenuDart.PayPalSvc.GetBoardingDetailsResponseType.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PayPalSvc\MenuDart.PayPalSvc.GetExpressCheckoutDetailsResponseType.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PayPalSvc\MenuDart.PayPalSvc.GetIncentiveEvaluationResponseType.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PayPalSvc\MenuDart.PayPalSvc.GetMobileStatusResponseType.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PayPalSvc\MenuDart.PayPalSvc.GetPalDetailsResponseType.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PayPalSvc\MenuDart.PayPalSvc.GetRecurringPaymentsProfileDetailsResponseType.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PayPalSvc\MenuDart.PayPalSvc.GetTransactionDetailsResponseType.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PayPalSvc\MenuDart.PayPalSvc.InitiateRecoupResponseType.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PayPalSvc\MenuDart.PayPalSvc.ManagePendingTransactionStatusResponseType.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PayPalSvc\MenuDart.PayPalSvc.ManageRecurringPaymentsProfileStatusResponseType.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PayPalSvc\MenuDart.PayPalSvc.MassPayResponseType.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PayPalSvc\MenuDart.PayPalSvc.RefundTransactionResponseType.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PayPalSvc\MenuDart.PayPalSvc.ReverseTransactionResponseType.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PayPalSvc\MenuDart.PayPalSvc.SetAccessPermissionsResponseType.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PayPalSvc\MenuDart.PayPalSvc.SetAuthFlowParamResponseType.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PayPalSvc\MenuDart.PayPalSvc.SetCustomerBillingAgreementResponseType.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PayPalSvc\MenuDart.PayPalSvc.SetExpressCheckoutResponseType.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PayPalSvc\MenuDart.PayPalSvc.SetMobileCheckoutResponseType.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PayPalSvc\MenuDart.PayPalSvc.TransactionSearchResponseType.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PayPalSvc\MenuDart.PayPalSvc.UpdateAccessPermissionsResponseType.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PayPalSvc\MenuDart.PayPalSvc.UpdateRecurringPaymentsProfileResponseType.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PayPalSvc\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -160,6 +349,13 @@
     <Content Include="Views\Shared\_LogOnPartial.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Web.config" />
+    <Content Include="Views\Subscription\Failed.cshtml" />
+    <Content Include="Views\Subscription\Cancelled.cshtml" />
+    <Content Include="Views\Subscription\Completed.cshtml" />
+    <Content Include="Views\Subscription\Unsubscribe.cshtml" />
+    <Content Include="Views\Subscription\ModifySubscription.cshtml" />
+    <Content Include="Views\Subscription\ActivateCompleted.cshtml" />
+    <Content Include="Views\Subscription\DeactivateCompleted.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -348,6 +544,24 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Menu\ViewActiveMenu.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadataStorage Include="Service References\PayPalSvc\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\PayPalSvc\CoreComponentTypes.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\PayPalSvc\eBLBaseComponents.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\PayPalSvc\EnhancedDataTypes.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\PayPalSvc\PayPalSvc.wsdl" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />

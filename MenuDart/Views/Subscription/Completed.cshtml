@@ -1,0 +1,14 @@
+﻿@{
+    ViewBag.Title = "Subscription Completed!";
+}
+
+<h2>Subscription Completed!</h2>
+
+<p>
+@ViewBag.Email
+<p>
+Profile ID: @ViewBag.ProfileId
+<br />
+Profile Status: @ViewBag.ProfileStatus
+<p>
+@Html.ActionLink("Back to Dashboard", "Index", "Dashboard")

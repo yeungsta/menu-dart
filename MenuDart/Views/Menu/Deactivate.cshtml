@@ -8,12 +8,29 @@
 
 <h3>Are you sure you want to deactivate the menu for @Model.Name?
 <p>
-It won't be permanently removed, but it also will no longer be viewable by your customers, or anyone, in fact.
+If you continue, your menu won't be permanently removed, but it will no longer be viewable by your customers (or anyone).
 <p>
-You can always re-activate this menu when you choose. You are only charged for active menus.</h3>
+@if (ViewBag.NumActiveMenus == 0)
+{
+    <text>
+    By continuing, your current billing agreement will be cancelled and you will no longer be charged by
+    MenuDart.com (since you will not have any more active menus).
+    </text>
+}
+else
+{
+    <text>
+    By continuing, your current billing agreement will first be cancelled, then you will be prompted with a modified
+    billing agreement for your remaining @ViewBag.NumActiveMenus active menu(s) at $@ViewBag.NewTotal a month.
+    </text>
+}
+<p>
+*Remember, you can always re-activate your menu anytime.
+</h3>
 
 @using (Html.BeginForm()) {
     <p>
+        @Html.Hidden("ActiveCount", (object)ViewBag.NumActiveMenus)
         <input type="submit" value="Deactivate" /> |
         @Html.ActionLink("Back to Dashboard", "Index", "Dashboard")
     </p>

@@ -28,5 +28,18 @@ namespace MenuDart.Controllers
         public const string OutputFile = "index.html";
         public const string SupportEmailAddress = "support@menudart.com";
         public const string SessionPreviewKey = "PreviewId";
+        //PayPal
+        public const string PayPalApiUsername = "james_1339990989_biz_api1.menudart.com";
+        public const string PayPalApiPassword = "1339991013";
+        public const string PayPalApiSignature = "AxyiOd4RoQv.VfrED.7XMPHKc6NHAkJdAh6GWE6tIzsfagOaryGPvMPJ";
+        public const string PayPalApiVersion = "89.0";
+        public const double PayPalApiSubscriptionAmount = 7.00;
+        public const string PayPalApiSubscriptionDescription = "MenuDart Subscription";
+        public const int PayPalApiMaxFailedPayments = 1;
+        public const string PayPalExpressCheckoutUrlSandbox = "https://www.sandbox.paypal.com/cgi-bin/webscr?cmd=_express-checkout&token=";
+        //subscription actions
+        public const string ActivateOne = "ActivateOne";
+        public const string DeactivateOne = "DeactivateOne";
+        public const string SubscribeAll = "SubscribeAll";
     }
 }
