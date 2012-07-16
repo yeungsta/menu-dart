@@ -1,11 +1,9 @@
-﻿@model MenuDart.Models.ActivateViewModel
-
-@{
+﻿@{
     ViewBag.Title = "Menu Activated";
 }
 
-<h2>@Model.Name's Menu is Activated!
-<p>It's located At:<br />@Html.ActionLink(@Model.Url, "ViewActiveMenu", "Menu", new { id = @Model.MenuId, url = @Model.Url }, null)
+<h2>The menu for @TempData["Name"] is Activated!
+<p>It's located at:<br />@Html.ActionLink(TempData["Url"].ToString(), "ViewActiveMenu", "Menu", new { id = TempData["Id"] }, null)
 </h2>
 <p>
 @Html.ActionLink("Back to Dashboard", "Index", "Dashboard")

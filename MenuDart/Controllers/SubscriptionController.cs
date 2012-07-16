@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Data;
 using MenuDart.Models;
+using MenuDart.Composer;
 using MenuDart.PayPalSvc;
 
 namespace MenuDart.Controllers
@@ -22,29 +23,176 @@ namespace MenuDart.Controllers
         }
 
         //
-        // GET: /Subscription/Subscribe
+        // GET: /Menu/Activate/5
 
-        public ActionResult Subscribe(string email, int quantity)
+        public ActionResult Activate(int id = 0)
         {
-            string returnURL = Utilities.PrependUrl("/Subscription/Completed?subscribeAction=" + Constants.SubscribeAll + "&email=" + email + "&quantity=" + quantity);
-            string cancelURL = Utilities.PrependUrl("/Subscription/Cancelled"); ;
+            Menu menu = db.Menus.Find(id);
 
-            string token = ECSetExpressCheckout(email, returnURL, cancelURL, quantity);
-            
-            if (!string.IsNullOrEmpty(token))
+            if (menu == null)
             {
-                return Redirect(Constants.PayPalExpressCheckoutUrlSandbox + token);
+                return HttpNotFound();
             }
 
-            return RedirectToAction("Failed");
+            //find out how many active menus this owner already has
+            IOrderedQueryable<Menu> allMenus = from allMenu in db.Menus
+                                               where allMenu.Owner == menu.Owner
+                                               orderby allMenu.Name ascending
+                                               select allMenu;
+
+            if (allMenus == null)
+            {
+                return HttpNotFound();
+            }
+
+            int activeCount = 0;
+
+            foreach (Menu activeMenu in allMenus)
+            {
+                if (activeMenu.Active)
+                {
+                    activeCount++;
+                }
+            }
+
+            //display to user what the new billing will be
+            ViewBag.NumActiveMenus = activeCount + 1;
+            ViewBag.NewTotal = (activeCount + 1) * 7;
+            ViewBag.Email = menu.Owner;
+
+            return View(menu);
         }
 
         //
-        // GET: /Subscription/Unsubscribe
+        // POST: /Menu/Activate/5
 
-        public ActionResult Unsubscribe(string email, int quantity)
+        [HttpPost, ActionName("Activate")]
+        public ActionResult ActivateConfirmed(int ActiveCount, string Email, int id = 0)
         {
-            UserInfo userInfo = GetUserInfo(email);
+            if (ActiveCount == 1)
+            {
+                //this is first active menu, so start subscription
+                return RedirectToAction("Subscribe", "Subscription", new { id = id, subscribeAction = Constants.ActivateOne, email = Email, quantity = ActiveCount });
+            }
+            else
+            {
+                //there's already a previous active menu, so modify current PayPal subscription
+                return RedirectToAction("ModifySubscription", "Subscription", new { id = id, subscribeAction = Constants.ActivateOne, email = Email, quantity = ActiveCount });
+            }
+        }
+
+        //
+        // GET: /Menu/ActivateAll/5
+
+        public ActionResult ActivateAll(string email, int quantity)
+        {
+            //display to user what the billing will be
+            ViewBag.NumActiveMenus = quantity;
+            ViewBag.NewTotal = quantity * 7;
+            ViewBag.Email = email;
+
+            return View();
+        }
+
+        //
+        // POST: /Menu/ActivateAll/5
+
+        [HttpPost, ActionName("ActivateAll")]
+        public ActionResult ActivateAllConfirmed(string Email, int Quantity)
+        {
+            return RedirectToAction("Subscribe", "Subscription", new { id = 0, subscribeAction = Constants.SubscribeAll, email = Email, quantity = Quantity });
+        }
+
+        //
+        // GET: /Menu/Deactivate/5
+
+        public ActionResult Deactivate(int id = 0)
+        {
+            Menu menu = db.Menus.Find(id);
+
+            if (menu == null)
+            {
+                return HttpNotFound();
+            }
+
+            //find out how many remaining active menus this owner has
+            IOrderedQueryable<Menu> allMenus = from allMenu in db.Menus
+                                               where allMenu.Owner == menu.Owner
+                                               orderby allMenu.Name ascending
+                                               select allMenu;
+
+            if (allMenus == null)
+            {
+                return HttpNotFound();
+            }
+
+            int activeCount = 0;
+
+            foreach (Menu activeMenu in allMenus)
+            {
+                if (activeMenu.Active)
+                {
+                    activeCount++;
+                }
+            }
+
+            ViewBag.NumActiveMenus = activeCount - 1;
+            ViewBag.NewTotal = (activeCount - 1) * 7;
+            ViewBag.Email = menu.Owner;
+
+            return View(menu);
+        }
+
+        //
+        // POST: /Menu/Deactivate/5
+
+        [HttpPost, ActionName("Deactivate")]
+        public ActionResult DeactivateConfirmed(int ActiveCount, string Email, int id = 0)
+        {
+            //update PayPal subscription
+            return RedirectToAction("ModifySubscription", "Subscription", new { id = id, subscribeAction = Constants.DeactivateOne, email = Email, quantity = ActiveCount });
+        }
+
+        //
+        // GET: /Subscription/DeactivateAll
+        //deactivate all menus and cancel billing agreement
+
+        public ActionResult DeactivateAll(string email)
+        {
+            //find out how many active menus this owner has
+            IOrderedQueryable<Menu> allMenus = from allMenu in db.Menus
+                                               where allMenu.Owner == email
+                                               orderby allMenu.Name ascending
+                                               select allMenu;
+
+            if (allMenus == null)
+            {
+                return HttpNotFound();
+            }
+
+            int activeCount = 0;
+
+            foreach (Menu activeMenu in allMenus)
+            {
+                if (activeMenu.Active)
+                {
+                    activeCount++;
+                }
+            }
+
+            ViewBag.NumActiveMenus = activeCount;
+            ViewBag.Email = email;
+
+            return View();
+        }
+
+        //
+        // POST: /Menu/DeactivateAll/5
+
+        [HttpPost, ActionName("DeactivateAll")]
+        public ActionResult DeactivateAllConfirmed(string Email)
+        {
+            UserInfo userInfo = GetUserInfo(Email);
 
             //there must be a user info entry found
             if (userInfo == null)
@@ -60,11 +208,52 @@ namespace MenuDart.Controllers
                 userInfo.Subscribed = false;
                 userInfo.PayPalProfileStatus = RecurringPaymentsProfileStatusType.CancelledProfile.ToString();
 
-                //save changes to DB
                 db.Entry(userInfo).State = EntityState.Modified;
-                db.SaveChanges(); 
 
-                return View();
+                //set all menu(s) this owner has as inactive
+                IOrderedQueryable<Menu> allMenus = from allMenu in db.Menus
+                                                   where allMenu.Owner == Email
+                                                   orderby allMenu.Name ascending
+                                                   select allMenu;
+
+                if (allMenus == null)
+                {
+                    return HttpNotFound();
+                }
+
+                foreach (Menu singleMenu in allMenus)
+                {
+                    //set menu as deactivated
+                    singleMenu.Active = false;
+
+                    //deactivate the menu directory (delete menu but not index files)
+                    Utilities.DeactivateDirectory(singleMenu.MenuDartUrl);
+
+                    db.Entry(singleMenu).State = EntityState.Modified;
+                }
+
+                //save changes to DB
+                db.SaveChanges();
+
+                return RedirectToAction("DeactivateAllCompleted");
+            }
+
+            return RedirectToAction("Failed");
+        }
+
+        //
+        // GET: /Subscription/Subscribe
+
+        public ActionResult Subscribe(int id, string subscribeAction, string email, int quantity)
+        {
+            string returnURL = Utilities.PrependUrl("/Subscription/Completed?subscribeAction=" + subscribeAction + "&id=" + id + "&email=" + email + "&quantity=" + quantity);
+            string cancelURL = Utilities.PrependUrl("/Subscription/Cancelled");
+
+            string token = ECSetExpressCheckout(email, returnURL, cancelURL, quantity);
+
+            if (!string.IsNullOrEmpty(token))
+            {
+                return Redirect(Constants.PayPalExpressCheckoutUrlSandbox + token);
             }
 
             return RedirectToAction("Failed");
@@ -73,7 +262,7 @@ namespace MenuDart.Controllers
         //
         // GET: /Subscription/ModifySubscription
 
-        public ActionResult ModifySubscription(string subscribeAction, string email, int quantity)
+        public ActionResult ModifySubscription(int id, string subscribeAction, string email, int quantity)
         {
             UserInfo userInfo = GetUserInfo(email);
 
@@ -95,17 +284,40 @@ namespace MenuDart.Controllers
                     userInfo.Subscribed = false;
                     userInfo.PayPalProfileStatus = RecurringPaymentsProfileStatusType.CancelledProfile.ToString();
 
-                    //save changes to DB
                     db.Entry(userInfo).State = EntityState.Modified;
+
+                    //get menu attributes
+                    Menu menu = db.Menus.Find(id);
+
+                    if (menu == null)
+                    {
+                        return HttpNotFound();
+                    }
+
+                    //if deactivating a menu, set as inactive in menu DB
+                    if (subscribeAction == Constants.DeactivateOne)
+                    {
+                        //set menu as deactivated
+                        menu.Active = false;
+                        db.Entry(menu).State = EntityState.Modified;
+
+                        //deactivate the menu directory (delete menu but not index files)
+                        Utilities.DeactivateDirectory(menu.MenuDartUrl);
+                    }
+
+                    //save changes to DB
                     db.SaveChanges();
+
+                    //for view display
+                    ViewBag.Name = menu.Name;
 
                     return View();
                 }
                 else
                 {
                     //create a new, updated payment profile
-                    string returnURL = Utilities.PrependUrl("/Subscription/Completed?subscribeAction=" + subscribeAction + "&email=" + email + "&quantity=" + quantity);
-                    string cancelURL = Utilities.PrependUrl("/Subscription/Cancelled"); ;
+                    string returnURL = Utilities.PrependUrl("/Subscription/Completed?subscribeAction=" + subscribeAction + "&id=" + id + "&email=" + email + "&quantity=" + quantity);
+                    string cancelURL = Utilities.PrependUrl("/Subscription/Cancelled");
 
                     string token = ECSetExpressCheckout(email, returnURL, cancelURL, quantity);
 
@@ -125,7 +337,7 @@ namespace MenuDart.Controllers
         // GET: /Subscription/Completed
         // called by PayPal after a successful subscription signup
 
-        public ActionResult Completed(string subscribeAction, string email, int quantity, string token)
+        public ActionResult Completed(string subscribeAction, int id, string email, int quantity, string token)
         {
             if (!string.IsNullOrEmpty(token))
             {
@@ -146,16 +358,81 @@ namespace MenuDart.Controllers
                     userInfo.Subscribed = true;
                     userInfo.PayPalProfileId = profile.ProfileID;
                     userInfo.PayPalProfileStatus = profile.ProfileStatus.ToString();
-
-                    //save changes to DB
+   
                     db.Entry(userInfo).State = EntityState.Modified;
+
+                    if (subscribeAction == Constants.SubscribeAll)
+                    {
+                        //set all menu(s) this owner has as active
+                        IOrderedQueryable<Menu> allMenus = from allMenu in db.Menus
+                                                           where allMenu.Owner == email
+                                                           orderby allMenu.Name ascending
+                                                           select allMenu;
+
+                        if (allMenus == null)
+                        {
+                            return HttpNotFound();
+                        }
+
+                        foreach (Menu singleMenu in allMenus)
+                        {
+                            //set menu as active
+                            singleMenu.Active = true;
+
+                            V1 composer = new V1(singleMenu);
+                            // re-compose the menu
+                            composer.CreateMenu();
+
+                            db.Entry(singleMenu).State = EntityState.Modified;
+                        }
+
+                        //For default View() only
+                        ViewBag.ProfileId = profile.ProfileID;
+                        ViewBag.ProfileStatus = profile.ProfileStatus.ToString();
+                    }
+                    else 
+                    {
+                        Menu menu = db.Menus.Find(id);
+
+                        if (menu == null)
+                        {
+                            return HttpNotFound();
+                        }
+
+                        //if deactivating a menu, set as inactive in menu DB
+                        if (subscribeAction == Constants.DeactivateOne)
+                        {
+                            //set menu as deactivated
+                            menu.Active = false;
+
+                            //deactivate the menu directory (delete menu but not index files)
+                            Utilities.DeactivateDirectory(menu.MenuDartUrl);
+
+                            db.Entry(menu).State = EntityState.Modified;
+                        }
+                        else if (subscribeAction == Constants.ActivateOne)
+                        {
+                            //set menu as active
+                            menu.Active = true;
+
+                            V1 composer = new V1(menu);
+                            // re-compose the menu
+                            composer.CreateMenu();
+
+                            db.Entry(menu).State = EntityState.Modified;
+                        }
+
+                        //for view display. Use TempData since we're
+                        //using RedirectToAction() as opposed to View()
+                        TempData["Id"] = id;
+                        TempData["Name"] = menu.Name;
+                        TempData["Url"] = Utilities.GetFullUrl(menu.MenuDartUrl);
+                    }
+
+                    //save all changes to DB
                     db.SaveChanges();
 
-                    //for view display
-                    ViewBag.Email = email;
-                    ViewBag.ProfileId = profile.ProfileID;
-                    ViewBag.ProfileStatus = profile.ProfileStatus.ToString();
-
+                    //send to appropriate view
                     switch (subscribeAction)
                     {
                         case Constants.ActivateOne:
@@ -199,6 +476,14 @@ namespace MenuDart.Controllers
         // GET: /Subscription/DeactivateCompleted
 
         public ActionResult DeactivateCompleted()
+        {
+            return View();
+        }
+
+        //
+        // GET: /Subscription/DeactivateAllCompleted
+
+        public ActionResult DeactivateAllCompleted()
         {
             return View();
         }

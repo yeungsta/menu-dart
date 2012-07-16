@@ -1,0 +1,20 @@
+﻿@{
+    ViewBag.Title = "Deactivate All Menu(s)?";
+}
+
+<h3>Are you sure you want to deactivate @ViewBag.NumActiveMenus active menu(s)?
+<p>
+If you continue, your menu(s) won't be permanently removed, but they will no longer be viewable by your customers (or anyone).
+<p>
+By continuing, your current billing agreement will be cancelled and you will no longer be charged by MenuDart.com (since you will not have any more active menus).
+<p>
+*Remember, you can always re-activate your menu(s) anytime.
+</h3>
+
+@using (Html.BeginForm()) {
+    <p>
+        @Html.Hidden("Email", (object)ViewBag.Email)
+        <input type="submit" value="DeactivateAll" \> |
+        @Html.ActionLink("Back to Dashboard", "Index", "Dashboard")
+    </p>
+}

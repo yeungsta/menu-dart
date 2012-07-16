@@ -1,0 +1,20 @@
+﻿@{
+    ViewBag.Title = "Activate All Menu(s)?";
+}
+
+<h2>Activate all menu(s)?</h2>
+
+<h3>
+By continuing, you will be prompted with a PayPal recurring billing agreement for @ViewBag.NumActiveMenus menu(s) at $@ViewBag.NewTotal a month.
+<p>
+*You can always deactivate your menu(s) anytime.
+</h3>
+
+@using (Html.BeginForm()) {
+    <p>
+        @Html.Hidden("Email", (object)ViewBag.Email)
+        @Html.Hidden("Quantity", (object)ViewBag.NumActiveMenus)
+        <input type="submit" value="ActivateAll" /> |
+        @Html.ActionLink("Back to Dashboard", "Index", "Dashboard")
+    </p>
+}

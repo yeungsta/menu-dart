@@ -352,10 +352,12 @@
     <Content Include="Views\Subscription\Failed.cshtml" />
     <Content Include="Views\Subscription\Cancelled.cshtml" />
     <Content Include="Views\Subscription\Completed.cshtml" />
-    <Content Include="Views\Subscription\Unsubscribe.cshtml" />
+    <Content Include="Views\Subscription\DeactivateAllCompleted.cshtml" />
     <Content Include="Views\Subscription\ModifySubscription.cshtml" />
     <Content Include="Views\Subscription\ActivateCompleted.cshtml" />
     <Content Include="Views\Subscription\DeactivateCompleted.cshtml" />
+    <Content Include="Views\Subscription\DeactivateAll.cshtml" />
+    <Content Include="Views\Subscription\ActivateAll.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -396,7 +398,7 @@
     <Content Include="Views\Template\Delete.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Menu\Activate.cshtml" />
+    <Content Include="Views\Subscription\Activate.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Locations\Index.cshtml" />
@@ -510,7 +512,7 @@
     <Content Include="Views\Dashboard\SendFeedbackSuccess.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Menu\Deactivate.cshtml" />
+    <Content Include="Views\Subscription\Deactivate.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Menu\MenuBuilderAccessViolation.cshtml" />
