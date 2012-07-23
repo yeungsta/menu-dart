@@ -13,6 +13,7 @@ namespace MenuDart.Models
         public string Email { get; set; }
         public bool TrialEnded { get; set; }
         public bool Subscribed { get; set; }
+        public bool CouponActive { get; set; }
         public string Feedback { get; set; }
         public IEnumerable<MenuDart.Models.Menu> Menus { get; set; } 
     }

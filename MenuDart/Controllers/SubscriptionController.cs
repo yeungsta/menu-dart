@@ -13,6 +13,23 @@ namespace MenuDart.Controllers
     public class SubscriptionController : Controller
     {
         private MenuDartDBContext db = new MenuDartDBContext();
+        static private CustomSecurityHeaderType m_credentials;
+
+        //
+        // static constructor
+
+        static SubscriptionController()
+        {
+            m_credentials = new CustomSecurityHeaderType
+            {
+                Credentials = new UserIdPasswordType
+                {
+                    Username = Constants.PayPalApiUsername,
+                    Password = Constants.PayPalApiPassword,
+                    Signature = Constants.PayPalApiSignature,
+                }
+            };
+        }
 
         //
         // GET: /Subscription/
@@ -236,6 +253,69 @@ namespace MenuDart.Controllers
                 db.SaveChanges();
 
                 return RedirectToAction("DeactivateAllCompleted");
+            }
+
+            return RedirectToAction("Failed");
+        }
+
+        //
+        // GET: /Menu/Suspend
+        //suspend subscription to all menu(s)
+
+        public ActionResult Suspend(string email)
+        {
+            UserInfo userInfo = GetUserInfo(email);
+
+            //there must be a user info entry found
+            if (userInfo == null)
+            {
+                return RedirectToAction("Failed");
+            }
+
+            ManageRecurringPaymentsProfileStatusResponseDetailsType profile = SuspendRecurringPaymentsProfile(userInfo.PayPalProfileId);
+
+            if ((profile != null) && (profile.ProfileID == userInfo.PayPalProfileId))
+            {
+                //true because menus are still active even though the billing is suspended.
+                userInfo.Subscribed = true; 
+                userInfo.PayPalProfileStatus = RecurringPaymentsProfileStatusType.SuspendedProfile.ToString();
+
+                db.Entry(userInfo).State = EntityState.Modified;
+                //save changes to DB
+                db.SaveChanges();
+
+                return RedirectToAction("SuspendCompleted");
+            }
+
+            return RedirectToAction("Failed");
+        }
+
+        //
+        // GET: /Menu/Unsuspend
+        //un-suspend subscription to all menu(s)
+
+        public ActionResult Unsuspend(string email)
+        {
+            UserInfo userInfo = GetUserInfo(email);
+
+            //there must be a user info entry found
+            if (userInfo == null)
+            {
+                return RedirectToAction("Failed");
+            }
+
+            ManageRecurringPaymentsProfileStatusResponseDetailsType profile = UnsuspendRecurringPaymentsProfile(userInfo.PayPalProfileId);
+
+            if ((profile != null) && (profile.ProfileID == userInfo.PayPalProfileId))
+            {
+                userInfo.Subscribed = true;
+                userInfo.PayPalProfileStatus = RecurringPaymentsProfileStatusType.ActiveProfile.ToString();
+
+                db.Entry(userInfo).State = EntityState.Modified;
+                //save changes to DB
+                db.SaveChanges();
+
+                return RedirectToAction("UnsuspendCompleted");
             }
 
             return RedirectToAction("Failed");
@@ -488,27 +568,100 @@ namespace MenuDart.Controllers
             return View();
         }
 
-        private CustomSecurityHeaderType CreateCredentials()
+        //
+        // GET: /Subscription/SuspendCompleted
+
+        public ActionResult SuspendCompleted()
         {
-            CustomSecurityHeaderType credentials = new CustomSecurityHeaderType
+            return View();
+        }
+
+        //
+        // GET: /Subscription/UnsuspendCompleted
+
+        public ActionResult UnsuspendCompleted()
+        {
+            return View();
+        }
+
+        //
+        // POST: /Subscription/PayPalIpnListener
+
+        public ActionResult PayPalIpnListener()
+        {
+            //TODO: create IPN Listener
+
+            return View();
+        }
+
+        //
+        // GET: /Subscription/SyncAccounts
+        //Gives a real-time comparison of active subscriptions with PayPal's database
+        //to see if there are any discrepancies.
+
+        public ActionResult SyncAccounts()
+        {
+            IEnumerable<UserInfo> userInfoList = db.UserInfo.AsEnumerable<UserInfo>();
+            IList<SyncAccountsViewModel> userCancelList = new List<SyncAccountsViewModel>();
+
+            foreach (UserInfo user in userInfoList)
             {
-                Credentials = new UserIdPasswordType
+                if (!string.IsNullOrEmpty(user.PayPalProfileId))
                 {
-                    Username = Constants.PayPalApiUsername,
-                    Password = Constants.PayPalApiPassword,
-                    Signature = Constants.PayPalApiSignature,
+                    GetRecurringPaymentsProfileDetailsResponseDetailsType details = 
+                        GetRecurringPaymentsProfileDetails(user.PayPalProfileId);
 
+                    if (details != null)
+                    {
+                        //Generally the case we're looking for are subscribed users in 
+                        //MenuDart that somehow actually have their PayPal subscription
+                        //cancelled/expired/suspended.
+                        if ((user.PayPalProfileStatus == RecurringPaymentsProfileStatusType.ActiveProfile.ToString()) &&
+                            (user.PayPalProfileStatus != details.ProfileStatus.ToString()))
+                        {
+                            switch (details.ProfileStatus)
+                            {
+                                case RecurringPaymentsProfileStatusType.CancelledProfile:
+                                    //user probably cancelled profile from PayPal.com
+                                    //TODO: may want to send email to user to fix?
+                                case RecurringPaymentsProfileStatusType.ExpiredProfile:
+                                    //user's profile expired (shouldn't happen with our recurring profiles)
+                                case RecurringPaymentsProfileStatusType.SuspendedProfile:
+                                    //user's profile got suspended, maybe because of an invalid credit card, etc.?
+                                    userCancelList.Add(new SyncAccountsViewModel { UserInfo = user, PayPalProfileStatus = details.ProfileStatus.ToString() });
+                                    //TODO: may want to send email to user to ask if they really intended to cancel MenuDart?
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        //lookup to PayPal didn't work. Possible invalid profile ID.
+                        userCancelList.Add(new SyncAccountsViewModel { UserInfo = user, PayPalProfileStatus = details.ProfileStatus.ToString() });
+                    }
                 }
-            };
+            }
 
-            return credentials;
+            return View(userCancelList);
+        }
+
+        private CustomSecurityHeaderType GetCredentials()
+        {
+            if (m_credentials != null)
+            {
+                return m_credentials;
+            }
+
+            return null;
         }
 
         private string ECSetExpressCheckout(string email, string returnURL, string cancelURL, int quantity)
         {
             using (PayPalAPIAAInterfaceClient client = new PayPalAPIAAInterfaceClient())
             {
-                CustomSecurityHeaderType credentials = CreateCredentials();
+                CustomSecurityHeaderType credentials = GetCredentials();
 
                 // Create the payment details.
                 BasicAmountType basicAmount = new BasicAmountType();
@@ -584,7 +737,7 @@ namespace MenuDart.Controllers
         {
             using (PayPalAPIAAInterfaceClient client = new PayPalAPIAAInterfaceClient())
             {
-                CustomSecurityHeaderType credentials = CreateCredentials();
+                CustomSecurityHeaderType credentials = GetCredentials();
 
                 // Create the payment details.
                 BasicAmountType basicAmount = new BasicAmountType();
@@ -640,16 +793,16 @@ namespace MenuDart.Controllers
             return null;
         }
 
-        private ManageRecurringPaymentsProfileStatusResponseDetailsType CancelRecurringPaymentsProfile(string profileID)
+        private ManageRecurringPaymentsProfileStatusResponseDetailsType ECManageRecurringPaymentsProfileStatus(StatusChangeActionType statusAction, string note, string profileID)
         {
             using (PayPalAPIAAInterfaceClient client = new PayPalAPIAAInterfaceClient())
             {
-                CustomSecurityHeaderType credentials = CreateCredentials();
+                CustomSecurityHeaderType credentials = GetCredentials();
 
                 ManageRecurringPaymentsProfileStatusRequestDetailsType details = new ManageRecurringPaymentsProfileStatusRequestDetailsType();
-                details.Action = StatusChangeActionType.Cancel;
+                details.Action = statusAction;
                 details.ProfileID = profileID;
-                details.Note = "MenuDart subscription cancellation via MenuDart.com";
+                details.Note = note;
 
                 ManageRecurringPaymentsProfileStatusRequestType reqType = new ManageRecurringPaymentsProfileStatusRequestType();
                 reqType.ManageRecurringPaymentsProfileStatusRequestDetails = details;
@@ -670,11 +823,35 @@ namespace MenuDart.Controllers
             return null;
         }
 
+        private ManageRecurringPaymentsProfileStatusResponseDetailsType CancelRecurringPaymentsProfile(string profileID)
+        {
+            return ECManageRecurringPaymentsProfileStatus(
+                StatusChangeActionType.Cancel,
+                "MenuDart subscription cancellation via MenuDart.com",
+                profileID);
+        }
+
+        private ManageRecurringPaymentsProfileStatusResponseDetailsType SuspendRecurringPaymentsProfile(string profileID)
+        {
+            return ECManageRecurringPaymentsProfileStatus(
+                StatusChangeActionType.Suspend,
+                "MenuDart subscription suspended via MenuDart.com: " + "Courtesy 1-month coupon applied.",
+                profileID);
+        }
+
+        private ManageRecurringPaymentsProfileStatusResponseDetailsType UnsuspendRecurringPaymentsProfile(string profileID)
+        {
+            return ECManageRecurringPaymentsProfileStatus(
+                StatusChangeActionType.Reactivate,
+                "MenuDart subscription un-suspended via MenuDart.com: " + "Courtesy 1-month coupon expired.",
+                profileID);
+        }
+
         private UpdateRecurringPaymentsProfileResponseDetailsType ECUpdateRecurringPaymentsProfile(string profileID, int quantity)
         {
             using (PayPalAPIAAInterfaceClient client = new PayPalAPIAAInterfaceClient())
             {
-                CustomSecurityHeaderType credentials = CreateCredentials();
+                CustomSecurityHeaderType credentials = GetCredentials();
 
                 // Create the payment details.
                 BasicAmountType basicAmount = new BasicAmountType();
@@ -699,6 +876,31 @@ namespace MenuDart.Controllers
                 if (response.Ack == AckCodeType.Success)
                 {
                     return response.UpdateRecurringPaymentsProfileResponseDetails;
+                }
+            }
+
+            return null;
+        }
+
+        private GetRecurringPaymentsProfileDetailsResponseDetailsType GetRecurringPaymentsProfileDetails(string profileID)
+        {
+            using (PayPalAPIAAInterfaceClient client = new PayPalAPIAAInterfaceClient())
+            {
+                CustomSecurityHeaderType credentials = GetCredentials();
+
+                GetRecurringPaymentsProfileDetailsRequestType reqType = new GetRecurringPaymentsProfileDetailsRequestType();
+                reqType.ProfileID = profileID;
+                reqType.Version = Constants.PayPalApiVersion;
+
+                // Create the request object.
+                GetRecurringPaymentsProfileDetailsReq request = new GetRecurringPaymentsProfileDetailsReq();
+                request.GetRecurringPaymentsProfileDetailsRequest = reqType;
+
+                GetRecurringPaymentsProfileDetailsResponseType response = client.GetRecurringPaymentsProfileDetails(ref credentials, request);
+
+                if (response.Ack == AckCodeType.Success)
+                {
+                    return response.GetRecurringPaymentsProfileDetailsResponseDetails;
                 }
             }
 

@@ -82,6 +82,7 @@
     </Compile>
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\ActivateViewModel.cs" />
+    <Compile Include="Models\SyncAccountsViewModel.cs" />
     <Compile Include="Models\DashboardModel.cs" />
     <Compile Include="Models\MD.cs" />
     <Compile Include="Models\MDInitializer.cs" />
@@ -358,6 +359,9 @@
     <Content Include="Views\Subscription\DeactivateCompleted.cshtml" />
     <Content Include="Views\Subscription\DeactivateAll.cshtml" />
     <Content Include="Views\Subscription\ActivateAll.cshtml" />
+    <Content Include="Views\Subscription\SyncAccounts.cshtml" />
+    <Content Include="Views\Subscription\SuspendCompleted.cshtml" />
+    <Content Include="Views\Subscription\UnsuspendCompleted.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

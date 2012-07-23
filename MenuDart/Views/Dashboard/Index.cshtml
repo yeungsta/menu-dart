@@ -37,7 +37,8 @@
             @Html.DisplayFor(modelItem => item.City)
         </td>
         <td>
-            @if (@item.Active) {
+            @if (@item.Active)
+            {
                 activeCount++;
                 <text>Yes</text>
             }
@@ -50,7 +51,8 @@
             300
         </td>
         <td>
-            @if (@item.Active) {
+            @if (@item.Active)
+            {
                 <text>
                 @Html.ActionLink("View", "ViewActiveMenu", "Menu", new { id = item.ID }, null) |
                 @Html.ActionLink("Edit Menu", "Edit", "Menu", new { id = item.ID }, null) |
@@ -70,7 +72,7 @@
         </td>
     </tr>
     
-    monthlyBill = activeCount * 7;
+            monthlyBill = activeCount * 7;
 }
 </table>
 <br />
@@ -89,9 +91,18 @@
     }
     else if (@Model.Subscribed)
     {
-        <text>
-        You currently have @activeCount active menu(s) for a total of $@monthlyBill per month. (@activeCount x $7 = $@monthlyBill) [@Html.ActionLink("Deactivate all menu(s)", "DeactivateAll", "Subscription", new { email = Model.Email }, null)]
-        </text>
+        if (@Model.CouponActive)
+        {
+            <text>
+            You currently have @activeCount active menu(s) but no charges: You are currently on a courtesy 1-month coupon that will expire on [date]. [@Html.ActionLink("Reactivate", "Unsuspend", "Subscription", new { email = Model.Email }, null)]
+            </text>
+        }
+        else
+        {
+            <text>
+            You currently have @activeCount active menu(s) for a total of $@monthlyBill per month. (@activeCount x $7 = $@monthlyBill) [@Html.ActionLink("Deactivate all menu(s)", "DeactivateAll", "Subscription", new { email = Model.Email }, null) | @Html.ActionLink("Suspend", "Suspend", "Subscription", new { email = Model.Email }, null)]
+            </text>            
+        }
     }
     else
     {

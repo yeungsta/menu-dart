@@ -1,0 +1,64 @@
+﻿@model IList<MenuDart.Models.SyncAccountsViewModel>           
+
+@{
+    ViewBag.Title = "Account Synchronization";
+}
+
+<h2>PayPal Account Synchronization</h2>
+<p>
+@Model.Count() account(s) were Cancelled/Expired/Suspended on PayPal and need to be investigated.
+<p>
+<table>
+    <tr>
+        <th>
+            ID
+        </th>
+        <th>
+            Name
+        </th>
+        <th>
+            Subscribed
+        </th>
+        <th>
+            Trial Ended
+        </th>
+        <th>
+            DB Profile ID
+        </th>
+        <th>
+            DB Profile Status
+        </th>
+        <th>
+            PayPal's Profile Status
+        </th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.UserInfo.ID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.UserInfo.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.UserInfo.Subscribed)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.UserInfo.TrialEnded)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.UserInfo.PayPalProfileId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.UserInfo.PayPalProfileStatus)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PayPalProfileStatus)
+        </td>
+    </tr>
+}
+</table>
+
+<p>
+@Html.ActionLink("Back to Main", "Index", "Home")
