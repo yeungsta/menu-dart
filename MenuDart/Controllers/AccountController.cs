@@ -219,7 +219,8 @@ namespace MenuDart.Controllers
                     }
                     catch (Exception e)
                     {
-                        string hi = e.Message;
+                        Utilities.LogAppError("Sending reset email failed.", e);
+
                         ModelState.AddModelError("", "The system could not email you your password reset. Please try again later or contact Support.");
 
                         //something failed, redisplay form
@@ -281,8 +282,9 @@ namespace MenuDart.Controllers
                     //if temp password passed in is correct, then we will be able to update it:
                     resetPasswordSucceeded = currentUser.ChangePassword(model.TempPassword, model.NewPassword);
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
+                    Utilities.LogAppError("Reset password failed.", e);
                     resetPasswordSucceeded = false;
                 }
 
@@ -313,6 +315,7 @@ namespace MenuDart.Controllers
 
         public ActionResult ResetPasswordFailed()
         {
+            Utilities.LogAppError("Reset password failed.");
             return View();
         }
 

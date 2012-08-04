@@ -48,6 +48,7 @@ namespace MenuDart.Controllers
 
             if (menu == null)
             {
+                Utilities.LogAppError("Could not find menu.");
                 return HttpNotFound();
             }
 
@@ -59,6 +60,7 @@ namespace MenuDart.Controllers
 
             if (allMenus == null)
             {
+                Utilities.LogAppError("Could not retrieve menus of owner.");
                 return HttpNotFound();
             }
 
@@ -129,6 +131,7 @@ namespace MenuDart.Controllers
 
             if (menu == null)
             {
+                Utilities.LogAppError("Could not find menu.");
                 return HttpNotFound();
             }
 
@@ -140,6 +143,7 @@ namespace MenuDart.Controllers
 
             if (allMenus == null)
             {
+                Utilities.LogAppError("Could not retrieve menus of owner.");
                 return HttpNotFound();
             }
 
@@ -184,6 +188,7 @@ namespace MenuDart.Controllers
 
             if (allMenus == null)
             {
+                Utilities.LogAppError("Could not retrieve menus of owner.");
                 return HttpNotFound();
             }
 
@@ -214,6 +219,7 @@ namespace MenuDart.Controllers
             //there must be a user info entry found
             if (userInfo == null)
             {
+                Utilities.LogAppError("Can't retrieve user info.");
                 return RedirectToAction("Failed");
             }
 
@@ -235,6 +241,7 @@ namespace MenuDart.Controllers
 
                 if (allMenus == null)
                 {
+                    Utilities.LogAppError("Could not retrieve menus of owner.");
                     return HttpNotFound();
                 }
 
@@ -255,6 +262,7 @@ namespace MenuDart.Controllers
                 return RedirectToAction("DeactivateAllCompleted");
             }
 
+            Utilities.LogAppError("Canceling payment profile from PayPal failed.");
             return RedirectToAction("Failed");
         }
 
@@ -269,6 +277,7 @@ namespace MenuDart.Controllers
             //there must be a user info entry found
             if (userInfo == null)
             {
+                Utilities.LogAppError("Can't retrieve user info.");	
                 return RedirectToAction("Failed");
             }
 
@@ -287,6 +296,7 @@ namespace MenuDart.Controllers
                 return RedirectToAction("SuspendCompleted");
             }
 
+            Utilities.LogAppError("Suspending payment profile from PayPal failed.");
             return RedirectToAction("Failed");
         }
 
@@ -301,6 +311,7 @@ namespace MenuDart.Controllers
             //there must be a user info entry found
             if (userInfo == null)
             {
+                Utilities.LogAppError("Can't retrieve user info.");	
                 return RedirectToAction("Failed");
             }
 
@@ -318,6 +329,7 @@ namespace MenuDart.Controllers
                 return RedirectToAction("UnsuspendCompleted");
             }
 
+            Utilities.LogAppError("Unsuspending payment profile from PayPal failed.");
             return RedirectToAction("Failed");
         }
 
@@ -336,6 +348,7 @@ namespace MenuDart.Controllers
                 return Redirect(Constants.PayPalExpressCheckoutUrlSandbox + token);
             }
 
+            Utilities.LogAppError("Subscribe failed: Could not start Express Checkout on PayPal.");
             return RedirectToAction("Failed");
         }
 
@@ -349,6 +362,7 @@ namespace MenuDart.Controllers
             //there must be a user info entry found
             if (userInfo == null)
             {
+                Utilities.LogAppError("Can't retrieve user info.");	
                 return RedirectToAction("Failed");
             }
 
@@ -406,10 +420,12 @@ namespace MenuDart.Controllers
                         return Redirect(Constants.PayPalExpressCheckoutUrlSandbox + token);
                     }
 
+                    Utilities.LogAppError("Modify subscription failed: Could not start Express Checkout on PayPal.");
                     return RedirectToAction("Failed");
                 }
             }
 
+            Utilities.LogAppError("Canceling payment profile from PayPal failed.");
             return RedirectToAction("Failed");
         }
 
@@ -431,6 +447,7 @@ namespace MenuDart.Controllers
                     //there must be a user info entry found
                     if (userInfo == null)
                     {
+                        Utilities.LogAppError("Can't retrieve user info.");	
                         return RedirectToAction("Failed");
                     }
 
@@ -451,6 +468,7 @@ namespace MenuDart.Controllers
 
                         if (allMenus == null)
                         {
+                            Utilities.LogAppError("Could not retrieve menus of owner.");
                             return HttpNotFound();
                         }
 
@@ -476,6 +494,7 @@ namespace MenuDart.Controllers
 
                         if (menu == null)
                         {
+                            Utilities.LogAppError("Could not retrieve menu.");
                             return HttpNotFound();
                         }
 
@@ -525,6 +544,7 @@ namespace MenuDart.Controllers
                 }
             }
 
+            Utilities.LogAppError("Could not complete transaction on PayPal.");
             return RedirectToAction("Failed");
         }
 
@@ -639,6 +659,7 @@ namespace MenuDart.Controllers
                     else
                     {
                         //lookup to PayPal didn't work. Possible invalid profile ID.
+                        Utilities.LogAppError("Could not find payment profile on PayPal.");
                         userCancelList.Add(new SyncAccountsViewModel { UserInfo = user, PayPalProfileStatus = details.ProfileStatus.ToString() });
                     }
                 }

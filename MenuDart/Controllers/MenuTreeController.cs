@@ -41,6 +41,7 @@ namespace MenuDart.Controllers
 
                 if (menu == null)
                 {
+                    Utilities.LogAppError("Could not find menu.");
                     return HttpNotFound();
                 }
 
@@ -182,6 +183,7 @@ namespace MenuDart.Controllers
 
                     if (menu == null)
                     {
+                        Utilities.LogAppError("Could not find menu.");
                         return HttpNotFound();
                     }
 
@@ -278,6 +280,7 @@ namespace MenuDart.Controllers
 
                     if (menu == null)
                     {
+                        Utilities.LogAppError("Could not find menu.");
                         return HttpNotFound();
                     }
 
@@ -352,6 +355,7 @@ namespace MenuDart.Controllers
 
                     if (menu == null)
                     {
+                        Utilities.LogAppError("Could not find menu.");
                         return HttpNotFound();
                     }
 
@@ -406,6 +410,7 @@ namespace MenuDart.Controllers
 
                 if (menu == null)
                 {
+                    Utilities.LogAppError("Could not find menu.");
                     return HttpNotFound();
                 }
 
@@ -450,6 +455,7 @@ namespace MenuDart.Controllers
 
                     if (menu == null)
                     {
+                        Utilities.LogAppError("Could not find menu.");
                         return HttpNotFound();
                     }
 
@@ -502,6 +508,7 @@ namespace MenuDart.Controllers
 
                 if (menu == null)
                 {
+                    Utilities.LogAppError("Could not find menu.");
                     return HttpNotFound();
                 }
 
@@ -546,6 +553,7 @@ namespace MenuDart.Controllers
 
                     if (menu == null)
                     {
+                        Utilities.LogAppError("Could not find menu.");
                         return HttpNotFound();
                     }
 
@@ -598,6 +606,7 @@ namespace MenuDart.Controllers
 
                 if (menu == null)
                 {
+                    Utilities.LogAppError("Could not find menu.");
                     return HttpNotFound();
                 }
 
@@ -636,6 +645,7 @@ namespace MenuDart.Controllers
 
                     if (menu == null)
                     {
+                        Utilities.LogAppError("Could not find menu.");
                         return HttpNotFound();
                     }
 
@@ -687,6 +697,7 @@ namespace MenuDart.Controllers
 
                 if (menu == null)
                 {
+                    Utilities.LogAppError("Could not find menu.");
                     return HttpNotFound();
                 }
 
@@ -720,6 +731,7 @@ namespace MenuDart.Controllers
 
             if (menu == null)
             {
+                Utilities.LogAppError("Could not find menu.");
                 return HttpNotFound();
             }
 
@@ -760,6 +772,7 @@ namespace MenuDart.Controllers
 
                 if (menu == null)
                 {
+                    Utilities.LogAppError("Could not find menu.");
                     return HttpNotFound();
                 }
 
@@ -792,6 +805,7 @@ namespace MenuDart.Controllers
 
             if (menu == null)
             {
+                Utilities.LogAppError("Could not find menu.");
                 return HttpNotFound();
             }
 

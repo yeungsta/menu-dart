@@ -15,6 +15,7 @@ namespace MenuDart.Controllers
 
         public ActionResult About()
         {
+            Utilities.LogAppError("Test exception.");
             return View();
         }
     }

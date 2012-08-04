@@ -26,8 +26,9 @@ namespace MenuDart.Controllers
             {
                 currentUser = Membership.GetUser(User.Identity.Name, true /* userIsOnline */);
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                Utilities.LogAppError("Could not retrieve user account.", e);
                 return HttpNotFound();
             }
 
@@ -40,6 +41,7 @@ namespace MenuDart.Controllers
 
                 if (menus == null)
                 {
+                    Utilities.LogAppError("Could not retrieve menu.");
                     return HttpNotFound();
                 }
 
@@ -52,6 +54,7 @@ namespace MenuDart.Controllers
                 //there must be a user info entry found
                 if ((userFound == null) || (userFound.Count() == 0))
                 {
+                    Utilities.LogAppError("Could not retrieve user info.");
                     return HttpNotFound();
                 }
 
@@ -85,6 +88,7 @@ namespace MenuDart.Controllers
                 return RedirectToAction("SendFeedbackSuccess");
             }
 
+            Utilities.LogAppError("Could not send out feedback from user dashbaord.");
             // something failed, redisplay form
             return View(model);
         }

@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using System.IO;
 using System.Security.Principal;
 using MenuDart.Models;
+using Elmah;
 
 namespace MenuDart.Controllers
 {
@@ -67,9 +68,10 @@ namespace MenuDart.Controllers
                     {
                         System.IO.File.Copy(s, destFile, overwrite);
                     }
-                    catch (Exception)
+                    catch (Exception e)
                     {
                         //ignore exceptions about existing files
+                        Utilities.LogAppError("Exception thrown while trying to copy files to destination folder.", e);
                     }
                 }
             }
@@ -143,8 +145,8 @@ namespace MenuDart.Controllers
 
             if (Directory.Exists(filepath))
             {
-                //try
-                //{
+                try
+                {
                     string[] files = Directory.GetFiles(filepath);
                     string[] dirs = Directory.GetDirectories(filepath);
 
@@ -161,11 +163,12 @@ namespace MenuDart.Controllers
                     }
 
                     Directory.Delete(filepath, true);
-                //}
-                //catch
-                //{
+                }
+                catch (Exception e)
+                {
                     //exception is sometimes thrown when dir is not empty. Remove directory again.
-                //}
+                    Utilities.LogAppError("Exception thrown while trying to remove a directory.", e);
+                }
             }
         }
 
@@ -202,6 +205,16 @@ namespace MenuDart.Controllers
             }
 
             return randomId;
+        }
+
+        public static void LogAppError(string message)
+        {
+            ErrorSignal.FromCurrentContext().Raise(new Elmah.ApplicationException(message));
+        }
+
+        public static void LogAppError(string message, Exception e)
+        {
+            ErrorSignal.FromCurrentContext().Raise(new Elmah.ApplicationException(message, e));
         }
     }
 }
