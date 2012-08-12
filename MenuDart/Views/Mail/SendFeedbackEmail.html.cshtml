@@ -1,0 +1,11 @@
+﻿@using ActionMailer.Net.Mvc
+@model string
+
+@{
+    ViewBag.Title = "Customer Feedback Received";
+    Layout = "../Shared/EmailLayout.cshtml";
+}
+
+@Html.Raw(Model)
+
+

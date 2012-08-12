@@ -10,7 +10,9 @@ namespace MenuDart.Models
     {
         [Required]
         [DataType(DataType.EmailAddress)]
+        public int ID { get; set; }
         public string Email { get; set; }
+        public double SignUpDate { get; set; }     //Unix Timestamp
         public bool TrialEnded { get; set; }
         public bool Subscribed { get; set; }
         public bool CouponActive { get; set; }

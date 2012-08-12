@@ -145,4 +145,35 @@
             <input type="submit" value="Send" />
         </p>
 }
+   
+<!-- Intercom.io Tracking -->
+<script id="IntercomSettingsScriptTag">
+    var intercomSettings = {
+        app_id: '4v9tw6zz',
+        email: '@Model.Email', // TODO: User's e-mail address
+        created_at: @Model.SignUpDate, // TODO: User's sign-up date, Unix timestamp
+        user_id: '@Model.ID', // TODO: Unique user identifier that will not change
+        custom_data: {
+            'Subscribed': '@Model.Subscribed',
+            'Active Menus': @activeCount
+        }
+    };
+</script>
+<script>
+    (function () {
+        function async_load() {
+            var s = document.createElement('script');
+            s.type = 'text/javascript'; s.async = true;
+            s.src = 'https://api.intercom.io/api/js/library.js';
+            var x = document.getElementsByTagName('script')[0];
+            x.parentNode.insertBefore(s, x);
+        }
+        if (window.attachEvent) {
+            window.attachEvent('onload', async_load);
+        } else {
+            window.addEventListener('load', async_load, false);
+        }
+    })();
+</script>
+
 

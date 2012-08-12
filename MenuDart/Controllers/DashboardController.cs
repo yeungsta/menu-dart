@@ -64,11 +64,16 @@ namespace MenuDart.Controllers
                 DashboardModel model = new DashboardModel();
                 model.Menus = menus.ToList();
                 model.Email = currentUser.Email;
+                model.ID = userInfoList[0].ID;
                 model.TrialEnded = userInfoList[0].TrialEnded;
                 model.Subscribed = userInfoList[0].Subscribed;
                 //coupon is active if the profile status is suspended while user is subscribed
                 model.CouponActive = ((userInfoList[0].PayPalProfileStatus == RecurringPaymentsProfileStatusType.SuspendedProfile.ToString())
                     && (userInfoList[0].Subscribed));
+
+                //convert creation date to Unix Time
+                TimeSpan ts = (currentUser.CreationDate - new DateTime(1970, 1, 1, 0, 0, 0));
+                model.SignUpDate = ts.TotalSeconds;                
 
                 return View(model);
             }
@@ -103,21 +108,15 @@ namespace MenuDart.Controllers
 
         private static void SendFeedbackEmail(string userEmail, string feedback)
         {
-            string htmlFeedback = feedback.Replace(Constants.NewLine2, Constants.Break);
+            string htmlFeedback = userEmail + " says:<br><br>" + feedback.Replace(Constants.NewLine2, Constants.Break);
 
-            MailMessage email = new MailMessage();
-
-            email.From = new MailAddress(userEmail);
-            email.To.Add(new MailAddress(Constants.SupportEmailAddress));
-            email.Subject = htmlFeedback.Substring(0, 15);
-            email.IsBodyHtml = true;
-            email.Body = userEmail + " says:<br><br>" + htmlFeedback;
-
-            //TODO: configure SMTP host
-            //SmtpClient smtpClient = new SmtpClient();          
-            //smtpClient.Send(email);
-            string tempFile = @"c:\\temp\\menudart_customer_feedback.htm";
-            System.IO.File.WriteAllText(tempFile, email.Body);
+            try //TODO: remove for Production SMTP
+            {
+                new MailController().SendFeedbackEmail(userEmail, htmlFeedback).Deliver();
+            }
+            catch
+            {
+            } 
         }
     }
 }

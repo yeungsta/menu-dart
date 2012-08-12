@@ -42,6 +42,21 @@ namespace MenuDart.Controllers
             return false;
         }
 
+        public static IOrderedQueryable<Menu> GetAllMenus(string owner, MenuDartDBContext db)
+        {
+            IOrderedQueryable<Menu> allMenus = from allMenu in db.Menus
+                                               where allMenu.Owner == owner
+                                               orderby allMenu.Name ascending
+                                               select allMenu;
+
+            if (allMenus == null)
+            {
+                Utilities.LogAppError("Could not retrieve all menus for owner: " + owner);
+            }
+
+            return allMenus;
+        }
+
         //Copies source directory + files to a destination directory.
         //If destination directory doesn't exist, it will be created.
         public static void CopyDirTo(string srcPatch, string destPath, bool overwrite)

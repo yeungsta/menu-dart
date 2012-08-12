@@ -88,7 +88,7 @@ namespace MenuDart.Controllers
             {
                 // Attempt to create the user account
                 MembershipCreateStatus createStatus;
-                Membership.CreateUser(model.Email, model.Password, model.Email, null, null, true, null, out createStatus);
+                MembershipUser creationInfo = Membership.CreateUser(model.Email, model.Password, model.Email, null, null, true, null, out createStatus);
 
                 if (createStatus == MembershipCreateStatus.Success)
                 {
@@ -116,6 +116,15 @@ namespace MenuDart.Controllers
 
                     FormsAuthentication.SetAuthCookie(model.Email, false /* createPersistentCookie */);
 
+                    //Email welcome message to user
+                    try //TODO: remove try/catch when using real SMTP server in production
+                    {
+                        new MailController().SendSignUpEmail(model.Email).Deliver();
+                    }
+                    catch
+                    {
+                    }       
+
                     if (Url.IsLocalUrl(returnUrl) && returnUrl.Length > 1 && returnUrl.StartsWith("/")
                         && !returnUrl.StartsWith("//") && !returnUrl.StartsWith("/\\"))
                     {
@@ -123,7 +132,8 @@ namespace MenuDart.Controllers
                     }
                     else
                     {
-                        return RedirectToAction("Index", "Home");
+                        //send to Dashboard by default
+                        return RedirectToAction("Index", "Dashboard");
                     }
                 }
                 else
@@ -214,7 +224,17 @@ namespace MenuDart.Controllers
                 {
                     try
                     {
-                        SendResetEmail(currentUser);
+                        //send email to user with password reset
+                        string resetLink = Utilities.PrependUrl("/Account/ResetPassword/?username=" + currentUser.Email + "&reset=" + HashResetParams(currentUser.Email, currentUser.ProviderUserKey.ToString()));
+
+                        try //TODO: remove try/catch when using real SMTP server in production
+                        {
+                            new MailController().SendPasswordResetEmail(currentUser.Email, resetLink).Deliver();
+                        }
+                        catch
+                        {
+                        } 
+
                         return RedirectToAction("StartResetSuccess");
                     }
                     catch (Exception e)
@@ -318,7 +338,7 @@ namespace MenuDart.Controllers
             Utilities.LogAppError("Reset password failed.");
             return View();
         }
-
+/*
         public static void SendResetEmail(MembershipUser user)
         {
             MailMessage email = new MailMessage();
@@ -338,7 +358,7 @@ namespace MenuDart.Controllers
             string tempFile = @"c:\\temp\\menudart_password_reset_email.htm";
             System.IO.File.WriteAllText(tempFile, email.Body);
         }
-
+*/
         //Method to hash parameters to generate the Reset URL
         public static string HashResetParams(string username, string guid)
         {
@@ -378,12 +398,15 @@ namespace MenuDart.Controllers
                     return "The user name provided is invalid. Please check the value and try again.";
 
                 case MembershipCreateStatus.ProviderError:
+                    Utilities.LogAppError("An authentication provider error occurred while trying to create a new user.");
                     return "The authentication provider returned an error. Please verify your entry and try again. If the problem persists, please contact your system administrator.";
 
                 case MembershipCreateStatus.UserRejected:
+                    Utilities.LogAppError("An user rejected error occurred while trying to create a new user.");
                     return "The user creation request has been canceled. Please verify your entry and try again. If the problem persists, please contact your system administrator.";
 
                 default:
+                    Utilities.LogAppError("An unknown error occurred while trying to create a new user.");
                     return "An unknown error occurred. Please verify your entry and try again. If the problem persists, please contact your system administrator.";
             }
         }

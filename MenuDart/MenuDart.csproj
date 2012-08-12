@@ -34,6 +34,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ActionMailer.Net">
+      <HintPath>..\packages\ActionMailer.0.7.0\lib\Net40\ActionMailer.Net.dll</HintPath>
+    </Reference>
+    <Reference Include="ActionMailer.Net.Mvc">
+      <HintPath>..\packages\ActionMailer.0.7.0\lib\Net40\ActionMailer.Net.Mvc.dll</HintPath>
+    </Reference>
     <Reference Include="Elmah, Version=1.2.14706.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>bin\Elmah.dll</HintPath>
@@ -75,6 +81,7 @@
     <Compile Include="Controllers\DashboardController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LocationsController.cs" />
+    <Compile Include="Controllers\MailController.cs" />
     <Compile Include="Controllers\MenuController.cs" />
     <Compile Include="Controllers\MenuTreeController.cs" />
     <Compile Include="Controllers\SubscriptionController.cs" />
@@ -86,6 +93,8 @@
     </Compile>
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\ActivateViewModel.cs" />
+    <Compile Include="Models\SendActivateEmailViewModel.cs" />
+    <Compile Include="Models\SendPasswordResetEmailViewModel.cs" />
     <Compile Include="Models\SyncAccountsViewModel.cs" />
     <Compile Include="Models\DashboardModel.cs" />
     <Compile Include="Models\MD.cs" />
@@ -367,6 +376,12 @@
     <Content Include="Views\Subscription\SyncAccounts.cshtml" />
     <Content Include="Views\Subscription\SuspendCompleted.cshtml" />
     <Content Include="Views\Subscription\UnsuspendCompleted.cshtml" />
+    <Content Include="Views\Mail\SendPasswordResetEmail.html.cshtml" />
+    <Content Include="Views\Shared\EmailLayout.cshtml" />
+    <Content Include="Views\Mail\SendSignUpEmail.html.cshtml" />
+    <Content Include="Views\Mail\SendActivateEmail.html.cshtml" />
+    <Content Include="Views\Mail\SendDeactivateEmail.html.cshtml" />
+    <Content Include="Views\Mail\SendFeedbackEmail.html.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

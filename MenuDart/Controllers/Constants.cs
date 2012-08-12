@@ -38,8 +38,12 @@ namespace MenuDart.Controllers
         public const int PayPalApiMaxFailedPayments = 1;
         public const string PayPalExpressCheckoutUrlSandbox = "https://www.sandbox.paypal.com/cgi-bin/webscr?cmd=_express-checkout&token=";
         //subscription actions
+        public const int CostPerMenu = 7;
         public const string ActivateOne = "ActivateOne";
         public const string DeactivateOne = "DeactivateOne";
         public const string SubscribeAll = "SubscribeAll";
+        //email
+        public const string ReplyEmail = "no-reply@menudart.com";
+        public const string SupportEmail = "support@menudart.com";
     }
 }

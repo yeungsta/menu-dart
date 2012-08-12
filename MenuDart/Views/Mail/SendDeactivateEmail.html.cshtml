@@ -1,0 +1,65 @@
+﻿@using ActionMailer.Net.Mvc
+@model MenuDart.Models.SendDeactivateEmailViewModel
+
+@{
+    ViewBag.Title = "Your Menu Is Deactivated";
+    Layout = "../Shared/EmailLayout.cshtml";
+}
+
+<h2>Hey there @Model.Email,</h2>
+<p>
+
+@if (Model.RemainingActiveMenus.Count() > 0)
+{
+    <text>
+    Your menu has been deactivated. Your current deactivated menu(s):
+    <p>
+    </text>
+        
+    foreach (var item in Model.DeactivatedMenus)
+    {
+        @item.MenuName<text><br></text>
+    }
+        
+    <text>
+    <p>
+     Remember, can always re-activate your menu(s) at anytime.
+     <p>
+     Your remaining active menu(s) are:
+    <p>
+    </text>
+    
+    foreach (var item in Model.RemainingActiveMenus)
+    {
+         @item.MenuName
+         <text> (</text>@item.MenuLink<text>) <br></text>
+    }
+    
+    <text>
+    <p>
+    Starting today, your monthly MenuDart bill is only $@Model.MonthlyBill per month ($7 per menu). Please contact us if you have any questions.
+    </text>
+}
+else
+{
+    <text>
+    You have deactivated your menu(s). Starting today, you will no longer have a MenuDart bill.
+    <p>
+    Remember, can always re-activate your menu(s) at anytime:
+    <p>
+    </text>
+    
+    foreach (var item in Model.DeactivatedMenus)
+    {
+         @item.MenuName<text><br></text>
+    }
+    
+    <text>
+    <p>
+    Please contact us if you have any questions.
+    </text>
+}
+<p>
+Happy to serve you,
+<br>
+Your Friends at MenuDart

@@ -53,16 +53,8 @@ namespace MenuDart.Controllers
             }
 
             //find out how many active menus this owner already has
-            IOrderedQueryable<Menu> allMenus = from allMenu in db.Menus
-                                               where allMenu.Owner == menu.Owner
-                                               orderby allMenu.Name ascending
-                                               select allMenu;
-
-            if (allMenus == null)
-            {
-                Utilities.LogAppError("Could not retrieve menus of owner.");
-                return HttpNotFound();
-            }
+            IOrderedQueryable<Menu> allMenus = Utilities.GetAllMenus(menu.Owner, db);
+            if (allMenus == null) { return HttpNotFound(); }
 
             int activeCount = 0;
 
@@ -136,16 +128,8 @@ namespace MenuDart.Controllers
             }
 
             //find out how many remaining active menus this owner has
-            IOrderedQueryable<Menu> allMenus = from allMenu in db.Menus
-                                               where allMenu.Owner == menu.Owner
-                                               orderby allMenu.Name ascending
-                                               select allMenu;
-
-            if (allMenus == null)
-            {
-                Utilities.LogAppError("Could not retrieve menus of owner.");
-                return HttpNotFound();
-            }
+            IOrderedQueryable<Menu> allMenus = Utilities.GetAllMenus(menu.Owner, db);
+            if (allMenus == null) { return HttpNotFound(); }
 
             int activeCount = 0;
 
@@ -181,16 +165,8 @@ namespace MenuDart.Controllers
         public ActionResult DeactivateAll(string email)
         {
             //find out how many active menus this owner has
-            IOrderedQueryable<Menu> allMenus = from allMenu in db.Menus
-                                               where allMenu.Owner == email
-                                               orderby allMenu.Name ascending
-                                               select allMenu;
-
-            if (allMenus == null)
-            {
-                Utilities.LogAppError("Could not retrieve menus of owner.");
-                return HttpNotFound();
-            }
+            IOrderedQueryable<Menu> allMenus = Utilities.GetAllMenus(email, db);
+            if (allMenus == null) { return HttpNotFound(); }
 
             int activeCount = 0;
 
@@ -234,16 +210,13 @@ namespace MenuDart.Controllers
                 db.Entry(userInfo).State = EntityState.Modified;
 
                 //set all menu(s) this owner has as inactive
-                IOrderedQueryable<Menu> allMenus = from allMenu in db.Menus
-                                                   where allMenu.Owner == Email
-                                                   orderby allMenu.Name ascending
-                                                   select allMenu;
+                IOrderedQueryable<Menu> allMenus = Utilities.GetAllMenus(Email, db);
+                if (allMenus == null) { return HttpNotFound(); }
 
-                if (allMenus == null)
-                {
-                    Utilities.LogAppError("Could not retrieve menus of owner.");
-                    return HttpNotFound();
-                }
+                //list of menu names and links for confirmation email
+                //remaining active menus will be empty since we're deactivating all
+                IList<MenuAndLink> remainingActiveMenusAndLinks = new List<MenuAndLink>();
+                IList<MenuAndLink> deactivatedMenusAndLinks = new List<MenuAndLink>();
 
                 foreach (Menu singleMenu in allMenus)
                 {
@@ -254,10 +227,25 @@ namespace MenuDart.Controllers
                     Utilities.DeactivateDirectory(singleMenu.MenuDartUrl);
 
                     db.Entry(singleMenu).State = EntityState.Modified;
+
+                    //info for confirmation email
+                    MenuAndLink item = new MenuAndLink();
+                    item.MenuName = singleMenu.Name;
+                    item.MenuLink = Utilities.GetFullUrl(singleMenu.MenuDartUrl);
+                    deactivatedMenusAndLinks.Add(item);
                 }
 
                 //save changes to DB
                 db.SaveChanges();
+
+                //send confirmation email to user
+                try //TODO: remove for Production SMTP
+                {
+                    new MailController().SendDeactivateEmail(Email, 0, remainingActiveMenusAndLinks, deactivatedMenusAndLinks).Deliver();
+                }
+                catch
+                {
+                }
 
                 return RedirectToAction("DeactivateAllCompleted");
             }
@@ -402,6 +390,35 @@ namespace MenuDart.Controllers
                     //save changes to DB
                     db.SaveChanges();
 
+                    //gather info for confirmation email
+                    IOrderedQueryable<Menu> allMenus = Utilities.GetAllMenus(email, db);
+                    if (allMenus == null) { return HttpNotFound(); }
+
+                    //list of menu names and links for confirmation email
+                    //remaining active menus will be empty since we've deactivated the last one
+                    IList<MenuAndLink> remainingActiveMenusAndLinks = new List<MenuAndLink>();
+                    IList<MenuAndLink> deactivatedMenusAndLinks = new List<MenuAndLink>();
+
+                    foreach (Menu singleMenu in allMenus)
+                    {
+                        if (!singleMenu.Active)
+                        {
+                            MenuAndLink item = new MenuAndLink();
+                            item.MenuName = singleMenu.Name;
+                            item.MenuLink = Utilities.GetFullUrl(singleMenu.MenuDartUrl);
+                            deactivatedMenusAndLinks.Add(item);
+                        }
+                    }
+
+                    //send confirmation email to user
+                    try //TODO: remove for Production SMTP
+                    {
+                        new MailController().SendDeactivateEmail(email, quantity, remainingActiveMenusAndLinks, deactivatedMenusAndLinks).Deliver();
+                    }
+                    catch
+                    {
+                    }
+
                     //for view display
                     ViewBag.Name = menu.Name;
 
@@ -432,6 +449,7 @@ namespace MenuDart.Controllers
         //
         // GET: /Subscription/Completed
         // called by PayPal after a successful subscription signup
+        // Handles single activates/deactivates, and multi-activate
 
         public ActionResult Completed(string subscribeAction, int id, string email, int quantity, string token)
         {
@@ -461,16 +479,13 @@ namespace MenuDart.Controllers
                     if (subscribeAction == Constants.SubscribeAll)
                     {
                         //set all menu(s) this owner has as active
-                        IOrderedQueryable<Menu> allMenus = from allMenu in db.Menus
-                                                           where allMenu.Owner == email
-                                                           orderby allMenu.Name ascending
-                                                           select allMenu;
+                        IOrderedQueryable<Menu> allMenus = Utilities.GetAllMenus(email, db);
+                        if (allMenus == null) { return HttpNotFound(); }
 
-                        if (allMenus == null)
-                        {
-                            Utilities.LogAppError("Could not retrieve menus of owner.");
-                            return HttpNotFound();
-                        }
+                        //list of menu names and links for confirmation email
+                        IList<MenuAndLink> justActivatedMenusAndLinks = new List<MenuAndLink>();
+                        //not used by view when all menus are activated, so just keep empty
+                        IList<MenuAndLink> totalActivatedMenusAndLinks = new List<MenuAndLink>();
 
                         foreach (Menu singleMenu in allMenus)
                         {
@@ -482,6 +497,21 @@ namespace MenuDart.Controllers
                             composer.CreateMenu();
 
                             db.Entry(singleMenu).State = EntityState.Modified;
+
+                            //info for confirmation email
+                            MenuAndLink item = new MenuAndLink();
+                            item.MenuName = singleMenu.Name;
+                            item.MenuLink = Utilities.GetFullUrl(singleMenu.MenuDartUrl);
+                            justActivatedMenusAndLinks.Add(item);
+                        }
+
+                        //send confirmation email to user
+                        try //TODO: remove for Production SMTP
+                        {
+                            new MailController().SendActivateEmail(email, quantity * Constants.CostPerMenu, justActivatedMenusAndLinks, totalActivatedMenusAndLinks).Deliver();
+                        }
+                        catch
+                        {
                         }
 
                         //For default View() only
@@ -508,6 +538,39 @@ namespace MenuDart.Controllers
                             Utilities.DeactivateDirectory(menu.MenuDartUrl);
 
                             db.Entry(menu).State = EntityState.Modified;
+
+                            //get status of all menus this owner has
+                            IOrderedQueryable<Menu> allMenus = Utilities.GetAllMenus(email, db);
+                            if (allMenus == null) { return HttpNotFound(); }
+
+                            //list of menu names and links for confirmation email
+                            IList<MenuAndLink> remainingActiveMenusAndLinks = new List<MenuAndLink>();
+                            IList<MenuAndLink> deactivatedMenusAndLinks = new List<MenuAndLink>();
+
+                            foreach (Menu singleMenu in allMenus)
+                            {
+                                MenuAndLink item = new MenuAndLink();
+                                item.MenuName = singleMenu.Name;
+                                item.MenuLink = Utilities.GetFullUrl(singleMenu.MenuDartUrl);
+
+                                if (singleMenu.Active)
+                                {
+                                    remainingActiveMenusAndLinks.Add(item);
+                                }
+                                else
+                                {
+                                    deactivatedMenusAndLinks.Add(item);
+                                }
+                            }
+
+                            //send confirmation email to user
+                            try //TODO: remove for Production SMTP
+                            {
+                                new MailController().SendDeactivateEmail(email, quantity * Constants.CostPerMenu, remainingActiveMenusAndLinks, deactivatedMenusAndLinks).Deliver();
+                            }
+                            catch
+                            {
+                            }
                         }
                         else if (subscribeAction == Constants.ActivateOne)
                         {
@@ -519,6 +582,40 @@ namespace MenuDart.Controllers
                             composer.CreateMenu();
 
                             db.Entry(menu).State = EntityState.Modified;
+
+                            //for confirmation email
+                            IList<MenuAndLink> justActivatedMenusAndLinks = new List<MenuAndLink>();
+                            IList<MenuAndLink> totalActivatedMenusAndLinks = new List<MenuAndLink>();
+
+                            MenuAndLink item = new MenuAndLink();
+                            item.MenuName = menu.Name;
+                            item.MenuLink = Utilities.GetFullUrl(menu.MenuDartUrl);
+                            justActivatedMenusAndLinks.Add(item);
+
+                            //get total list of activated menus
+                            IOrderedQueryable<Menu> allMenus = Utilities.GetAllMenus(email, db);
+                            if (allMenus == null) { return HttpNotFound(); }
+
+                            foreach (Menu singleMenu in allMenus)
+                            {
+                                item = new MenuAndLink();
+                                item.MenuName = singleMenu.Name;
+                                item.MenuLink = Utilities.GetFullUrl(singleMenu.MenuDartUrl);
+
+                                if (singleMenu.Active)
+                                {
+                                    totalActivatedMenusAndLinks.Add(item);
+                                }
+                            }
+
+                            //send confirmation email to user
+                            try //TODO: remove for Production SMTP
+                            {
+                                new MailController().SendActivateEmail(email, quantity * Constants.CostPerMenu, justActivatedMenusAndLinks, totalActivatedMenusAndLinks).Deliver();
+                            }
+                            catch
+                            {
+                            }
                         }
 
                         //for view display. Use TempData since we're

@@ -1,0 +1,66 @@
+﻿@using ActionMailer.Net.Mvc
+@model MenuDart.Models.SendActivateEmailViewModel
+
+@{
+    ViewBag.Title = "Your Menu Is Activated!";
+    Layout = "../Shared/EmailLayout.cshtml";
+}
+
+<h2>Hey there @Model.Email,</h2>
+<p>
+
+@if (Model.MenusJustActivated.Count() > 1)
+{
+    <text>
+    Hooray, you've just activated menu(s)! Your current active menu(s) are:
+    <p>
+    </text>
+    
+    foreach (var item in Model.MenusJustActivated)
+    {
+         @item.MenuName
+         <text> (</text>@item.MenuLink<text>) <br></text>
+    }
+    
+    <text>
+    <p>
+    Starting today, your monthly MenuDart bill is only $@Model.MonthlyBill per month ($7 per menu). Please contact us if you have any questions.
+    </text> 
+}
+else
+{
+    <text>
+    Hooray, your @Model.MenusJustActivated[0].MenuName menu is now activated!
+    <p>
+    Remember, the link to @Model.MenusJustActivated[0].MenuName is @Model.MenusJustActivated[0].MenuLink.
+    <p>
+    </text>
+
+    if (Model.AllActivatedMenus.Count() > 1)
+    {
+        <text>
+        Your current active menu(s) are:
+        <p>
+        </text>
+            
+        foreach (var item in Model.AllActivatedMenus)
+        {
+             @item.MenuName
+             <text> (</text>@item.MenuLink<text>) <br></text>
+        }
+            
+        <text>
+        Starting today, your monthly MenuDart bill is only $@Model.MonthlyBill per month ($7 per menu). Please contact us if you have any questions. 
+        </text>
+    }
+    else
+    {
+        <text>
+        Starting today, your monthly MenuDart bill is only $@Model.MonthlyBill per month. Please contact us if you have any questions.
+        </text>       
+    }
+}
+<p>
+Happy to serve you,
+<br>
+Your Friends at MenuDart
