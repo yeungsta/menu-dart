@@ -104,6 +104,7 @@ namespace MenuDart.Controllers
                         newUserInfo.Name = model.Email;
                         newUserInfo.Subscribed = false;
                         newUserInfo.TrialEnded = false;
+                        newUserInfo.TrialExpWarningSent = false;
                         newUserInfo.PayPalProfileId = string.Empty;
                         newUserInfo.PayPalProfileStatus = string.Empty;
 
@@ -338,27 +339,7 @@ namespace MenuDart.Controllers
             Utilities.LogAppError("Reset password failed.");
             return View();
         }
-/*
-        public static void SendResetEmail(MembershipUser user)
-        {
-            MailMessage email = new MailMessage();
 
-            email.From = new MailAddress("noreply@menudart.com");
-            email.To.Add(new MailAddress(user.Email));
-
-            email.Subject = "MenuDart Password Reset";
-            email.IsBodyHtml = true;
-            string link = Utilities.PrependUrl("/Account/ResetPassword/?username=" + user.Email + "&reset=" + HashResetParams(user.Email, user.ProviderUserKey.ToString()));
-            email.Body = "<p>" + user.Email + ", please click the following link to reset your password at MenuDart.com:<p><a href='" + link + "'>" + link + "</a></p>";
-            email.Body += "<p>If you did not request a password reset, you do not need to take any action.</p>";
-            
-            //TODO: configure SMTP host
-            //SmtpClient smtpClient = new SmtpClient();          
-            //smtpClient.Send(email);
-            string tempFile = @"c:\\temp\\menudart_password_reset_email.htm";
-            System.IO.File.WriteAllText(tempFile, email.Body);
-        }
-*/
         //Method to hash parameters to generate the Reset URL
         public static string HashResetParams(string username, string guid)
         {

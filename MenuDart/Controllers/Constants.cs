@@ -45,5 +45,8 @@ namespace MenuDart.Controllers
         //email
         public const string ReplyEmail = "no-reply@menudart.com";
         public const string SupportEmail = "support@menudart.com";
+        //misc
+        public const int TrialPeriodDays = 31; //30 days + 1 grace day
+        public const int TrialExpWarningDays = 25; //warn 5 days ahead of expiration
     }
 }

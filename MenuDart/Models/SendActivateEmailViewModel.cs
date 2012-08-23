@@ -30,4 +30,12 @@ namespace MenuDart.Models
         public IList<MenuAndLink> RemainingActiveMenus { get; set; }
         public IList<MenuAndLink> DeactivatedMenus { get; set; }
     }
+
+    public class SendTrialExpiredEmailViewModel
+    {
+        public string Email { get; set; }
+
+        //List of menu names and their links
+        public IList<MenuAndLink> DeactivatedMenus { get; set; }
+    }
 }

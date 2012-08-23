@@ -1,0 +1,16 @@
+Exporting:
+
+- right-click Database (MenuDart) and select Tasks->Export Data.
+- export with column names on first row.
+- export following tables: ELMAH_Error, Menus, Templates, UserInfoes.
+
+Importing:
+
+- right-click Database (MenuDart) and select Tasks-Import Data.
+- select following tables: ELMAH_Error, Menus, Templates, UserInfoes
+- Edit mappings on each table: Select "Delete rows in destination table" 
+in order to create a new ID for each row and conserve unused IDs.
+- For ELMAH_Error, change the Destination of the Sequence column to <ignore> because
+this column is read-only.
+- For Menus, Templates, and UserInfoes, change the Destination of the ID column to <ignore> because
+this column is read-only.

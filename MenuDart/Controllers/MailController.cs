@@ -74,8 +74,31 @@ namespace MenuDart.Controllers
             return Email("SendFeedbackEmail", htmlfeedback);
         }
 
-        //TODO: Email for when trial is about to expire
+        public EmailResult SendTrialExpiredEmail(string email, IList<MenuAndLink> deactivatedMenus)
+        {
+            To.Add(email);
+            From = Constants.ReplyEmail;
+            Subject = "Your 30-day free trial has expired. Activate your mobile menu!";
 
-        //TODO: Email to encourage activating a dormant menu
+            SendTrialExpiredEmailViewModel viewModel = new SendTrialExpiredEmailViewModel();
+            viewModel.Email = email;
+            viewModel.DeactivatedMenus = deactivatedMenus;
+
+            return Email("SendTrialExpiredEmail", viewModel);
+        }
+
+        //Email for when trial is about to expire
+        public EmailResult SendTrialWarningEmail(string email, IList<MenuAndLink> deactivatedMenus)
+        {
+            To.Add(email);
+            From = Constants.ReplyEmail;
+            Subject = "Your 30-day free trial is expiring soon. Activate your mobile menu!";
+
+            SendTrialExpiredEmailViewModel viewModel = new SendTrialExpiredEmailViewModel();
+            viewModel.Email = email;
+            viewModel.DeactivatedMenus = deactivatedMenus;
+
+            return Email("SendTrialWarningEmail", viewModel);
+        }
     }
 }

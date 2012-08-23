@@ -1,0 +1,30 @@
+﻿@using ActionMailer.Net.Mvc
+@model MenuDart.Models.SendTrialExpiredEmailViewModel
+
+@{
+    ViewBag.Title = "Your 30-day free trial is expiring very soon. Activate your mobile menu!";
+    Layout = "../Shared/EmailLayout.cshtml";
+}
+
+<h2>Hey there @Model.Email,</h2>
+<p>
+We just want to let you know that your MenuDart 30-day free trial is expiring in a few days! 
+
+@if (Model.DeactivatedMenus.Count() > 0)
+{
+    <text>
+    Should you allow your trial to expire, your mobile menu(s) will be deactivated and no longer viewable by your customers:
+    <p>
+    </text>
+    
+    foreach (var item in Model.DeactivatedMenus)
+    {
+         @item.MenuName<text> (</text>@item.MenuLink<text>) <br></text>
+    }
+}
+<p>
+Keep your mobile menu activated today! MenuDart is still only $7 a month; Start immediately by signing in and activating your menu.
+<p>
+Happy to serve you,
+<br>
+Your Friends at MenuDart

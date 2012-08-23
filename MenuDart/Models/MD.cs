@@ -99,6 +99,7 @@ namespace MenuDart.Models
         public string Name { get; set; }
         public bool Subscribed { get; set; }
         public bool TrialEnded { get; set; }
+        public bool TrialExpWarningSent { get; set; }
         public string PayPalProfileId { get; set; }
         public string PayPalProfileStatus { get; set; }
     }
