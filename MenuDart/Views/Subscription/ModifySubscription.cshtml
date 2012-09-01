@@ -2,8 +2,16 @@
     ViewBag.Title = "Menu Deactivated";
 }
 
-<h2>@ViewBag.Name Deactivated</h2>
-
-<h2>You do not have any active menus. You will no longer be billed by MenuDart.com.</h2>
+<div class="hero-unit">
+<center>
+<h1>@ViewBag.Name is Deactivated.</h1>
+<br>
 <p>
-@Html.ActionLink("Back to Dashboard", "Index", "Dashboard")
+You do not have any active menus. You will no longer be billed by MenuDart.com.
+</center>
+<p>
+<br />
+<div>
+    @Html.ActionLink("Back to Dashboard", "Index", "Dashboard")
+</div>
+</div> <!-- hero -->

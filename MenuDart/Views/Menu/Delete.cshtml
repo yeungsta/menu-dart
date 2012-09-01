@@ -4,106 +4,22 @@
     ViewBag.Title = "Delete";
 }
 
-<h2>Remove @Model.Name Permanently?</h2>
+<div class="hero-unit">
+<center><h1>Remove @Model.Name?</h1>
 
-<h3>Are you sure you want to remove the menu for @Model.Name? It will be permanently removed
-and will NOT be able to be recovered.
+<h3>Are you sure you want to permanently remove the menu for @Model.Name?
+<br>
+It will no longer be able to be recovered.
 <p>
 Or maybe you just want to deactivate it? It won't be live, but won't be removed either.</h3>
-
 @using (Html.BeginForm()) {
-    <p>
-        <input type="submit" value="Remove For Good" /> |
-        @Html.ActionLink("Back to Dashboard", "Index", "Dashboard")
-    </p>
+    <div class="form-actions">
+        <button type="submit" value="Remove For Good" class="btn btn-large btn-primary"><i class="icon-ok icon-white"></i> Remove</button>
+        <a class="btn btn-primary btn-large" href="@Url.Action("Index", "Dashboard")"><i class="icon-remove icon-white"></i> Cancel</a>
+    </div>    
 }
-
-<fieldset>
-    <legend>Menu</legend>
-
-    <div class="display-label">Name</div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.Name)
-    </div>
-
-    <div class="display-label">City</div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.City)
-    </div>
-
-    <div class="display-label">Phone</div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.Phone)
-    </div>
-
-    <div class="display-label">Active</div>
-    <div class="display-field">
-        @Html.DisplayTextFor(model => model.Active)
-    </div>
-
-    <div class="display-label">Website</div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.Website)
-    </div>
-
-    <div class="display-label">AboutTitle</div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.AboutTitle)
-    </div>
-
-    <div class="display-label">AboutText</div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.AboutText)
-    </div>
-
-    <div class="display-label">Email</div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.Email)
-    </div>
-
-    <div class="display-label">Facebook</div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.Facebook)
-    </div>
-
-    <div class="display-label">Twitter</div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.Twitter)
-    </div>
-
-    <div class="display-label">Yelp</div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.Yelp)
-    </div>
-
-    <div class="display-label">Locations</div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.Locations)
-    </div>
-
-    <div class="display-label">Template</div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.Template)
-    </div>
-
-    <div class="display-label">Owner</div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.Owner)
-    </div>
-
-    <div class="display-label">MenuDartUrl</div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.MenuDartUrl)
-    </div>
-
-    <div class="display-label">MenuTree</div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.MenuTree)
-    </div>
-</fieldset>
-@using (Html.BeginForm()) {
-    <p>
-        <input type="submit" value="Delete" /> |
-        @Html.ActionLink("Back to List", "Index")
-    </p>
-}
+</center>
+<div>
+    @Html.ActionLink("Back to Dashboard", "Index", "Dashboard")
+</div>
+</div> <!-- hero -->

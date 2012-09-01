@@ -1,21 +1,31 @@
 ﻿@{
-    ViewBag.Title = "MenuBuilder2";
+    ViewBag.Title = "MenuDart. Easy Mobile Menus. Menu Builder.";
 }
 
-<h2>Hooray for instant gratification!</h2>
-<h3>
-You've just created a mobile-friendly restaurant menu for @ViewBag.Name.<p>
-It's already available to @Html.ActionLink("preview here.", "PreviewMenu", "Menu", new { id = ViewBag.MenuId }, null)
-<p>
-You can see how useful it looks, but some of your info is still missing (mainly your menu items!)
-<br />
-So when you're ready, let's add more information and customize it a bit...
-@if (Request.IsAuthenticated)
-{
-@Html.ActionLink("Continue and Select a Template", "MenuBuilder3", "Menu", new { id = ViewBag.MenuId }, null)
-}
-else
-{
-@Html.ActionLink("First, Log On/Create Account", "LogOn", "Account", new { ReturnUrl = "/Menu/MenuBuilder3/" + ViewBag.MenuId }, null)
-}
-</h3>
+      <!-- Main hero unit for a primary marketing message or call to action -->
+      <div class="hero-unit">
+        <center><h1>Menu Builder.</h1>
+        <br>
+        <h2>Hooray for instant gratification!</h2>
+        <p>
+        You've just created a mobile-friendly restaurant menu for @ViewBag.Name.
+        <p>
+        It's already available @Html.ActionLink("to preview here.", "PreviewMenu", "Menu", new { id = ViewBag.MenuId }, new { @target = "_blank" })
+        <br>
+        (Using a smartphone or pocket mobile device, surf to this site to see it in its full mobile-glory.)
+        <p>
+        You can see how it looks, but some of your info still needs to be filled out (mainly your menu items!)
+        <br>
+        So when you're ready, let's add more info and customize it a bit!
+        <p>
+        <p>
+        @if (Request.IsAuthenticated)
+        {
+            <a class="btn btn-primary btn-large" href="@Url.Action("MenuBuilder3", "Menu", new { id = ViewBag.MenuId })">Select a Template <i class="icon-chevron-right icon-white"></i></a>
+        }
+        else
+        {
+            <a class="btn btn-primary btn-large" href="@Url.Action("Register", "Account")">Create Free Account <i class="icon-chevron-right icon-white"></i></a>
+        }
+        </center>
+      </div> <!-- hero -->

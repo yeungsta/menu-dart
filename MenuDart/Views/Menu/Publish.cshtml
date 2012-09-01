@@ -4,11 +4,21 @@
     ViewBag.Title = "Publish Menu";
 }
 
-<h2>@Model.Name's Menu has been published!
+<div class="hero-unit">
+<center>
+<h1>@Model.Name has been published.</h1>
+<br />
+
+<h2>
 <p>You can check it out at:<br />
 @Html.ActionLink(Model.Url, "ViewActiveMenu", "Menu", new { id = Model.MenuId, url = Model.Url }, null)
 <p>
-@Html.ActionLink("Back to Editor", Model.ReturnUrl, "Menu") |
-@Html.ActionLink("Dashboard", "Index", "Dashboard")
-</p>
 </h2>
+
+</center>
+
+<div>
+    @Html.ActionLink("Back to Editor", Model.ReturnUrl, "Menu")
+</div>
+</div> <!-- hero -->
+

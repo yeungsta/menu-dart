@@ -9,7 +9,9 @@
 <p>
     @Html.ActionLink("Delete All Older Than 48 Hours", "DeleteAll")
 </p>
-<table>
+
+<table class="table table-bordered table-striped table-hover">
+<thead>
     <tr>
         <th>
             DateCreated
@@ -22,7 +24,8 @@
         </th>
         <th></th>
     </tr>
-
+</thead>
+<tbody>
 @foreach (var item in Model) {
     <tr>
         <td>
@@ -41,5 +44,7 @@
         </td>
     </tr>
 }
-
+</tbody>
 </table>
+<p>
+@Html.ActionLink("Back to Admin", "James", "Home")

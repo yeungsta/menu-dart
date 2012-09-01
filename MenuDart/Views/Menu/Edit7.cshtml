@@ -4,28 +4,32 @@
     ViewBag.Title = "Edit Contact Info";
 }
 
-<h2>Edit @Model.Name</h2>
-<h3>
-@Html.ActionLink("Basic Info", "Edit", "Menu", new { id = Model.MenuId }, null) | 
-@Html.ActionLink("Theme", "Edit2", "Menu", new { id = Model.MenuId }, null) | 
-@Html.ActionLink("About", "Edit3", "Menu", new { id = Model.MenuId }, null) | 
-@Html.ActionLink("Logo", "Edit4", "Menu", new { id = Model.MenuId }, null) | 
-@Html.ActionLink("Location", "Edit5", "Menu", new { id = Model.MenuId }, null) | 
-@Html.ActionLink("Hours", "Edit6", "Menu", new { id = Model.MenuId }, null) | 
-@Html.ActionLink("Contact", "Edit7", "Menu", new { id = Model.MenuId }, null) | 
-@Html.ActionLink("Menu Items", "Details", "MenuTree", new { id = Model.MenuId, parent = 0, idx = -1, source = "MenuEditor", ReturnUrl = "/Edit7/" + Model.MenuId }, null) |
+<div class="hero-unit">
+<center>
+<h1>Edit @Model.Name.</h1>
+<br>
+<h4>
+@MenuDart.Controllers.MenuExtensions.EditMenuItem(Html, "Basic Info", "Edit", "Menu", new { id = Model.MenuId }) |
+@MenuDart.Controllers.MenuExtensions.EditMenuItem(Html, "Theme", "Edit2", "Menu", new { id = Model.MenuId }) |
+@MenuDart.Controllers.MenuExtensions.EditMenuItem(Html, "About", "Edit3", "Menu", new { id = Model.MenuId }) |
+@MenuDart.Controllers.MenuExtensions.EditMenuItem(Html, "Logo", "Edit4", "Menu", new { id = Model.MenuId }) |
+@MenuDart.Controllers.MenuExtensions.EditMenuItem(Html, "Location", "Edit5", "Menu", new { id = Model.MenuId }) |
+@MenuDart.Controllers.MenuExtensions.EditMenuItem(Html, "Hours", "Edit6", "Menu", new { id = Model.MenuId }) |
+@MenuDart.Controllers.MenuExtensions.EditMenuItem(Html, "Contact", "Edit7", "Menu", new { id = Model.MenuId }) |
+@Html.ActionLink("Menu Items", "Details", "MenuTree", new { id = Model.MenuId, parent = 0, idx = -1, source = "MenuEditor", ReturnUrl = "/Edit/" + Model.MenuId }, null) |
 @Html.ActionLink("Preview", "PreviewMenu", "Menu", new { id = Model.MenuId }, null) |
-@Html.ActionLink("Publish", "Publish", "Menu", new { ReturnUrl = "/Edit7/" + Model.MenuId, id = Model.MenuId }, null)
-</h3>
-
+@Html.ActionLink("Publish", "Publish", "Menu", new { ReturnUrl = "/Edit/" + Model.MenuId, id = Model.MenuId }, null)
+</h4>
+</center>
+<br />
 <script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
 <script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
 
-@using (Html.BeginForm())
+@using (Html.BeginForm("Edit7", "Menu", FormMethod.Post, new { @class = "form-horizontal" }))
 {
     @Html.ValidationSummary(true)
     <fieldset>
-        <legend>Contact</legend>
+        <legend>Edit your restaurant's contact & social media information on this page.</legend>
 
         @Html.HiddenFor(model => model.Name)
         @Html.HiddenFor(model => model.MenuId)
@@ -43,47 +47,50 @@
             @Html.HiddenFor(model => model.Locations[i].State)
             @Html.HiddenFor(model => model.Locations[i].Zip)
              
-            <div class="editor-label">
-                @Html.LabelFor(model => model.Locations[i].Phone)
+            <div class="control-group">
+                <label class="control-label">@Html.LabelFor(model => model.Locations[i].Phone, "Phone")</label>
+                <div class="controls">
+                    @Html.TextBoxFor(model => model.Locations[i].Phone, new { @class = "input-xlarge", style = "width: 300px;" })
+                    @Html.ValidationMessageFor(model => model.Locations[i].Phone)
+                </div>
             </div>
-            <div class="editor-field">
-                @Html.TextBoxFor(model => model.Locations[i].Phone, new { style = "width: 300px;" })
-                @Html.ValidationMessageFor(model => model.Locations[i].Phone)
-            </div>
-            <div class="editor-label">
-                @Html.LabelFor(model => model.Locations[i].Email)
-            </div>
-            <div class="editor-field">
-                @Html.TextBoxFor(model => model.Locations[i].Email, new { style = "width: 300px;" })
-                @Html.ValidationMessageFor(model => model.Locations[i].Email)
-            </div>            
-            <div class="editor-label">
-                @Html.LabelFor(model => model.Locations[i].Facebook)
-            </div>
-            <div class="editor-field">
-                @Html.TextBoxFor(model => model.Locations[i].Facebook, new { style = "width: 500px;" })
-                @Html.ValidationMessageFor(model => model.Locations[i].Facebook)
-            </div>
-            <div class="editor-label">
-                @Html.LabelFor(model => model.Locations[i].Twitter)
-            </div>
-            <div class="editor-field">
-                @Html.TextBoxFor(model => model.Locations[i].Twitter, new { style = "width: 500px;" })
-                @Html.ValidationMessageFor(model => model.Locations[i].Twitter)
-            </div>
-            <div class="editor-label">
-                @Html.LabelFor(model => model.Locations[i].Yelp)
-            </div>
-            <div class="editor-field">
-                @Html.TextBoxFor(model => model.Locations[i].Yelp, new { style = "width: 500px;" })
-                @Html.ValidationMessageFor(model => model.Locations[i].Yelp)
-            </div>
+            <div class="control-group">
+                <label class="control-label">@Html.LabelFor(model => model.Locations[i].Email, "Email")</label>
+                <div class="controls">
+                    @Html.TextBoxFor(model => model.Locations[i].Email, new { @class = "input-xlarge", style = "width: 300px;" })
+                    @Html.ValidationMessageFor(model => model.Locations[i].Email)
+                </div>
+            </div>                         
+              <div class="control-group">
+                <label class="control-label">@Html.LabelFor(model => model.Locations[i].Yelp, "Yelp")</label>
+                <div class="controls">
+                    @Html.TextBoxFor(model => model.Locations[i].Yelp, new { @class = "input-xlarge", style = "width: 500px;" })
+                    @Html.ValidationMessageFor(model => model.Locations[i].Yelp)
+                  <p class="help-block"></p>
+                </div>
+              </div>
+              <div class="control-group">
+                <label class="control-label">@Html.LabelFor(model => model.Locations[i].Facebook, "Facebook")</label>
+                <div class="controls">
+                    @Html.TextBoxFor(model => model.Locations[i].Facebook, new { @class = "input-xlarge", style = "width: 500px;" })
+                    @Html.ValidationMessageFor(model => model.Locations[i].Facebook)
+                  <p class="help-block"></p>
+                </div>
+              </div>            
+              <div class="control-group">
+                <label class="control-label">@Html.LabelFor(model => model.Locations[i].Twitter, "Twitter")</label>
+                <div class="controls">
+                    @Html.TextBoxFor(model => model.Locations[i].Twitter, new { @class = "input-xlarge", style = "width: 500px;" })
+                    @Html.ValidationMessageFor(model => model.Locations[i].Twitter)
+                  <p class="help-block"></p>
+                </div>
+              </div>
         }
 
-        <p>
-            <input type="submit" value="Save" />
-            @Html.ActionLink("Cancel", "Index", "Dashboard")
-        </p>
+        <div class="form-actions">
+            <button type="submit" value="Save" class="btn btn-large btn-primary"><i class="icon-ok icon-white"></i> Save</button>
+            <a class="btn btn-primary btn-large" href="@Url.Action("Index", "Dashboard")"><i class="icon-remove icon-white"></i> Cancel</a>
+        </div>
     </fieldset>
 }
 
@@ -91,3 +98,4 @@
     @Html.ActionLink("Back to Dashboard", "Index", "Dashboard")
 </div>
 
+</div> <!-- hero -->

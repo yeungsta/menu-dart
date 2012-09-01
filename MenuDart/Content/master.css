@@ -1,0 +1,125 @@
+
+/* Hero subtitle */
+.titleDl {
+    margin-bottom: 10px;
+}
+
+.titleSubTitle {
+    font-size: 20px;
+}
+
+.titleSubDesc {
+    margin-top: 4px;    
+    font-size: 16px;
+    line-height: 22px;
+    margin-bottom: 10px;
+}
+
+/* icons */
+i.iphone {
+    background-image: url("images/32-iphone.png");
+    background-repeat:no-repeat;    
+    height: 28px;
+    width: 29px;        
+    /* width: 16px; */
+    display: block;
+    float: left;
+}
+
+i.imac {
+    background-image: url("images/174-imac.png");
+    background-repeat:no-repeat;    
+    height: 24px;
+    width: 29px;    
+    /* width: 26px; */
+    display: block;
+    float: left;
+}
+
+i.food {
+    background-image: url("images/125-food.png");
+    background-repeat:no-repeat;    
+    height: 23px;
+    width: 29px;
+    display: block;
+    float: left;
+}
+
+i.todo {
+    background-image: url("images/117-todo.png");
+    background-repeat:no-repeat;    
+    height: 19px;
+    width: 29px;    
+    /* width: 18px; */
+    display: block;
+    float: left;
+}
+
+i.gear {
+    background-image: url("images/19-gear.png");
+    background-repeat:no-repeat;    
+    height: 26px;
+    width: 29px;    
+    /* width: 26px; */
+    display: block;
+    float: left;
+}
+
+/* feature page */
+.features p {
+    margin-left: 38px;
+    color: #888;
+    margin-bottom: 24px;   
+}
+
+.features h3 {
+    margin-left: 38px;
+    margin-bottom: 10px;      
+    display: block;    
+    font-size: 22px;
+}
+
+/* misc */
+
+.menuNode {
+    border: 1px solid black;
+    background-color: #ccc;
+    margin: 10px;
+    padding: 5px;
+}
+
+/* iphone preview/view page */
+
+.iphoneTable
+{
+	border-collapse: collapse;
+	border-spacing: 0;
+	margin: 0;
+	padding: 0;
+	border: 0;   
+}
+
+.iphone 
+{
+    border: 0px solid #000;
+    padding: 0 0 0 0;
+}
+
+.iphone img
+{
+    display: block;
+    border-width: 0px;
+}
+
+.iphone iframe
+{
+    display: block;
+    border-width: 0px;    
+}
+
+/* menu editor */
+.activeEditorMenuItem
+{
+    padding: 5px;
+    background-color: #383838;
+}

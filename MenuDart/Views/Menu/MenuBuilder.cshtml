@@ -1,56 +1,60 @@
 ﻿@model MenuDart.Models.MenuBuilderViewModel
 
 @{
-    ViewBag.Title = "MenuDart Builder";
+    ViewBag.Title = "MenuDart. Easy Mobile Menus. Menu Builder.";
 }
 
-<h2>Welcome to the MenuDart Builder!</h2>
+      <!-- Main hero unit for a primary marketing message or call to action -->
+      <div class="hero-unit">
+        <center><h1>Menu Builder.</h1></center>
+        <br>
+        <center>Building your own mobile menu is a cinch. Enter the following info, and you can immediately view your menu:</center>
+        <br>
+        <p>
+        @using (Html.BeginForm("MenuBuilder", "Menu", FormMethod.Post, new { @class = "form-horizontal" }))
+        {
+            @Html.ValidationSummary(true)
+                    <fieldset>
+                      @Html.HiddenFor(model => model.CurrentMenu.ID)
+                      <div class="control-group">
+                        <label class="control-label">@Html.LabelFor(model => model.CurrentMenu.Name, "Restaurant name")</label>
+                        <div class="controls">
+                            @Html.TextBoxFor(model => model.CurrentMenu.Name, new { @class = "input-xlarge", style = "width: 300px;" })
+                            @Html.ValidationMessageFor(model => model.CurrentMenu.Name)
+                          <p class="help-block">Required.</p>
+                        </div>
+                      </div>
+                      <div class="control-group">
+                        <label class="control-label">@Html.LabelFor(model => model.CurrentMenu.City, "City")</label>
+                        <div class="controls">
+                            @Html.TextBoxFor(model => model.CurrentMenu.City, new { @class = "input-xlarge", style = "width: 300px;" })
+                            @Html.ValidationMessageFor(model => model.CurrentMenu.City)
+                          <p class="help-block">Required.</p>
+                        </div>
+                      </div>
+                      <div class="control-group">
+                        <label class="control-label">@Html.LabelFor(model => model.CurrentMenu.Phone, "Phone number")</label>
+                        <div class="controls">
+                            @Html.TextBoxFor(model => model.CurrentMenu.Phone, new { @class = "input-xlarge", style = "width: 300px;" })
+                            @Html.ValidationMessageFor(model => model.CurrentMenu.Phone)
+                          <p class="help-block">If your restaurant has one.</p>
+                        </div>
+                      </div>
+                      <div class="control-group">
+                        <label class="control-label">@Html.LabelFor(model => model.CurrentMenu.Website, "Website")</label>
+                        <div class="controls">
+                            @Html.TextBoxFor(model => model.CurrentMenu.Website, new { @class = "input-xlarge", style = "width: 500px;" })
+                            @Html.ValidationMessageFor(model => model.CurrentMenu.Website)
+                          <p class="help-block">If your restaurant has one.</p>
+                        </div>
+                      </div>                   
+                    <div class="form-actions">
+                      <button type="submit" value="Create" class="btn btn-large btn-primary">Create!</button>
+                    </div>            
+                    </fieldset>
+            }
+        </p>
+      </div> <!-- hero -->
 
 <script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
 <script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
-
-@using (Html.BeginForm())
-{
-    @Html.ValidationSummary(true)
-    <fieldset>
-        <legend></legend>
-             
-            @Html.HiddenFor(model => model.CurrentMenu.ID)
-
-            <div class="editor-label">
-                @Html.LabelFor(model => model.CurrentMenu.Name, "Restaurant's name")
-            </div>
-            <div class="editor-field">
-                @Html.TextBoxFor(model => model.CurrentMenu.Name, new { style = "width: 300px;" })
-                @Html.ValidationMessageFor(model => model.CurrentMenu.Name)
-            </div>
-
-            <div class="editor-label">
-                @Html.LabelFor(model => model.CurrentMenu.City, "City restaurant is in")
-            </div>
-            <div class="editor-field">
-                @Html.TextBoxFor(model => model.CurrentMenu.City, new { style = "width: 300px;" })
-                @Html.ValidationMessageFor(model => model.CurrentMenu.City)
-            </div>
-
-            <div class="editor-label">
-                @Html.LabelFor(model => model.CurrentMenu.Phone, "Restaurant's phone number")
-            </div>
-            <div class="editor-field">
-                @Html.TextBoxFor(model => model.CurrentMenu.Phone, new { style = "width: 300px;" })
-                @Html.ValidationMessageFor(model => model.CurrentMenu.Phone)
-            </div>
-
-            <div class="editor-label">
-                @Html.LabelFor(model => model.CurrentMenu.Website, "Restaurant's current website address (if you have one)")
-            </div>
-            <div class="editor-field">
-                @Html.TextBoxFor(model => model.CurrentMenu.Website, new { style = "width: 500px;" })
-                @Html.ValidationMessageFor(model => model.CurrentMenu.Website)
-            </div>
-
-        <p>
-            <input type="submit" value="Create" />
-        </p>
-    </fieldset>
-}

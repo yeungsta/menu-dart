@@ -1,15 +1,13 @@
 ﻿@model IEnumerable<MenuDart.Models.Menu>
 
 @{
-    ViewBag.Title = "Menus";
+    ViewBag.Title = "All Menus";
 }
 
-<h2>Menus (@Model.Count())</h2>
+<h2>All Menus (@Model.Count())</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table>
+<table class="table table-bordered table-striped table-hover">
+<thead>
     <tr>
         <th>
             ID
@@ -31,7 +29,8 @@
         </th>
         <th></th>
     </tr>
-
+</thead>
+<tbody>
 @foreach (var item in Model) {
     <tr>
         <td>
@@ -68,5 +67,7 @@
         </td>
     </tr>
 }
-
+</tbody>
 </table>
+<p>
+@Html.ActionLink("Back to Admin", "James", "Home")

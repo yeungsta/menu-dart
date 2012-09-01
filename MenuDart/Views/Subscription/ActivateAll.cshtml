@@ -2,19 +2,28 @@
     ViewBag.Title = "Activate All Menu(s)?";
 }
 
-<h2>Activate all menu(s)?</h2>
-
+<div class="hero-unit">
+<center>
+<h1>Activate all menu(s)?</h1>
+<br>
 <h3>
 By continuing, you will be prompted with a PayPal recurring billing agreement for @ViewBag.NumActiveMenus menu(s) at $@ViewBag.NewTotal a month.
 <p>
-*You can always deactivate your menu(s) anytime.
+(You can always deactivate your menu(s) anytime.)
 </h3>
 
 @using (Html.BeginForm()) {
-    <p>
         @Html.Hidden("Email", (object)ViewBag.Email)
         @Html.Hidden("Quantity", (object)ViewBag.NumActiveMenus)
-        <input type="submit" value="ActivateAll" /> |
-        @Html.ActionLink("Back to Dashboard", "Index", "Dashboard")
-    </p>
+
+        <div class="form-actions">
+            <button type="submit" value="ActivateAll" class="btn btn-large btn-primary"><i class="icon-ok icon-white"></i> Activate All</button>
+            <a class="btn btn-primary btn-large" href="@Url.Action("Index", "Dashboard")"><i class="icon-remove icon-white"></i> Cancel</a>
+        </div>
 }
+</center>
+
+<div>
+    @Html.ActionLink("Back to Dashboard", "Index", "Dashboard")
+</div>
+</div> <!-- hero -->

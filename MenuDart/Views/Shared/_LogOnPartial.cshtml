@@ -1,7 +1,9 @@
 ﻿@if(Request.IsAuthenticated) {
-    <text>Welcome <strong>@User.Identity.Name</strong>!
-    [ @Html.ActionLink("Sign Out", "LogOff", "Account") ]</text>
+    @MenuDart.Controllers.MenuExtensions.MenuItem(Html, "Your Dashboard", "Index", "Dashboard")
+    <li>@Html.ActionLink("Log Out " + User.Identity.Name, "LogOff", "Account")</li>
 }
-else {
-    @:[ @Html.ActionLink("Sign In", "LogOn", "Account") ]
+else
+{ 
+    @MenuDart.Controllers.MenuExtensions.MenuItem(Html, "Sign Up, Free!", "Register", "Account")
+    @MenuDart.Controllers.MenuExtensions.MenuItem(Html, "Log In", "LogOn", "Account")
 }

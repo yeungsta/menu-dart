@@ -4,8 +4,9 @@
     ViewBag.Title = "Activate";
 }
 
-<h2>Activate @Model.Name?</h2>
-
+<div class="hero-unit">
+<center><h1>Activate @Model.Name.</h1>
+<br>
 <h3>
 @if (ViewBag.NumActiveMenus <= 1)
 {
@@ -21,14 +22,22 @@ else
     </text>
 }
 <p>
-*You can always deactivate your menu anytime.
+(You can always deactivate your menu anytime.)
 </h3>
 
-@using (Html.BeginForm()) {
-    <p>
-        @Html.Hidden("ActiveCount", (object)ViewBag.NumActiveMenus)
-        @Html.Hidden("Email", (object)ViewBag.Email)
-        <input type="submit" value="Activate" /> |
-        @Html.ActionLink("Back to Dashboard", "Index", "Dashboard")
-    </p>
+@using (Html.BeginForm("Activate", "Subscription", FormMethod.Post))
+{
+    @Html.Hidden("ActiveCount", (object)ViewBag.NumActiveMenus)
+    @Html.Hidden("Email", (object)ViewBag.Email)
+
+    <div class="form-actions">
+        <button type="submit" value="Activate" class="btn btn-large btn-primary"><i class="icon-ok icon-white"></i> Activate</button>
+        <a class="btn btn-primary btn-large" href="@Url.Action("Index", "Dashboard")"><i class="icon-remove icon-white"></i> Cancel</a>
+    </div>
 }
+</center>
+
+<div>
+    @Html.ActionLink("Back to Dashboard", "Index", "Dashboard")
+</div>
+</div> <!-- hero -->

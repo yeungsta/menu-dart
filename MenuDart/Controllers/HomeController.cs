@@ -10,7 +10,32 @@ namespace MenuDart.Controllers
 {
     public class HomeController : Controller
     {
+        //home page
         public ActionResult Index()
+        {
+            return View();
+        }
+
+        //features page
+        public ActionResult Features()
+        {
+            return View();
+        }
+
+        //using it page
+        public ActionResult Using()
+        {
+            return View();
+        }
+
+        //pricing page
+        public ActionResult Pricing()
+        {
+            return View();
+        }
+
+        //admin page
+        public ActionResult James()
         {
             return View();
         }

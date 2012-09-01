@@ -633,10 +633,9 @@ namespace MenuDart.Controllers
         {
             bool createNewTempDir = false;
 
-            if ((id == 0) || !Utilities.IsThisMyMenu(id, db, User))
-            {
-                return RedirectToAction("MenuBuilderAccessViolation");
-            }
+            //We don't want to check if this menu
+            //belongs to the owner here because we 
+            //have anonymous users previewing menus
 
             Menu menu = db.Menus.Find(id);
 
@@ -804,7 +803,7 @@ namespace MenuDart.Controllers
                 return RedirectToAction("MenuBuilder2", new { name = menuBuilderModel.CurrentMenu.Name, id = menuBuilderModel.CurrentMenu.ID });
             }
 
-            return View(menuBuilderModel.CurrentMenu);
+            return View(menuBuilderModel);
         }
 
         //

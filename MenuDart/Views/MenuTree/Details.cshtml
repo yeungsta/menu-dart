@@ -1,7 +1,7 @@
 ﻿@model List<MenuDart.Models.MenuNode>
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "MenuDart. Easy Mobile Menus. Menu Builder.";
 }
 
 @section Scripts {
@@ -16,6 +16,21 @@
 }
 
 <div data-role="page">
+
+      <!-- Main hero unit for a primary marketing message or call to action -->
+      <div class="hero-unit">
+        <center><h1>Menu Builder.</h1></center>
+        @if (ViewBag.Source == "MenuBuilder")
+        {
+            <text>
+            <br>
+            <center>Wow, you're at the last step already! But it's <strong>very important</strong> since you'll be listing your menu items.
+            <br>Just create and organize categories, then menu items. Click on categories to edit them.
+            </text>
+        }
+        <p>
+        </center>
+
 	<div data-role="header">
 		<div data-role="navbar">
             @if (!string.IsNullOrEmpty(ViewBag.LevelTitle))
@@ -30,12 +45,6 @@
 	</div><!-- /header -->
 
 	<div data-role="content">
-        @if (ViewBag.Source == "MenuBuilder")
-        {
-            <text><h2>You're almost done! Now create and organize your menu items.</h2>
-            <h3>Just add Categories, then Items. Click on Categories to add more in them.</h3></text>
-        }
-
         @if (!string.IsNullOrEmpty(ViewBag.Text))
         {
 		<center>@Html.Raw(ViewBag.Text)<br>
@@ -97,7 +106,18 @@
         <br />
         @if (ViewBag.Source == "MenuBuilder")
         {
-            @Html.ActionLink("I'm Done with the Menu!", "MenuBuilder9", "Menu", new { id = ViewBag.MenuId }, null)		    	
+            <text>
+            <hr>
+            <p>
+            <a class="btn btn-primary btn-large" href="@Url.Action("MenuBuilder9", "Menu", new { id = ViewBag.MenuId }, null)">Finish <i class="icon-chevron-right icon-white"></i></a>
+            </p>
+            <br>
+                You're almost there!
+                <div class="progress progress-striped">
+                  <div class="bar" style="width: 97%;">
+                  </div>
+                </div>
+            </text>            
         }
         else
         {
@@ -106,4 +126,6 @@
             @Html.ActionLink("Preview", "PreviewMenu", "Menu", new { id = ViewBag.MenuId }, null)
         }
 	</div><!-- /content -->
-</div>
+
+      </div> <!-- hero -->
+</div> <!-- data-role="page" -->

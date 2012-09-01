@@ -1,22 +1,32 @@
 ﻿@{
-    ViewBag.Title = "MenuBuilder5";
+    ViewBag.Title = "MenuDart. Easy Mobile Menus. Menu Builder.";
 }
 
-
-<h2>How many locations does your restaurant have?</h2>
-
-@using (Html.BeginForm()) {
-    <fieldset>
-        <legend>Step 4</legend>
-
-        <div class="editor-label">
-            @Html.Label("Number of Locations")
-        </div>
-        <div class="editor-field">
-            @Html.DropDownList("numLocations", ViewData["numList"] as SelectList)
-        </div>
+      <!-- Main hero unit for a primary marketing message or call to action -->
+      <div class="hero-unit">
+        <center><h1>Menu Builder.</h1></center>
+        <br>
+        <center>How many locations does your restaurant have?</center>
+        <br>
         <p>
-            <input type="submit" value="Next" />
+        @using (Html.BeginForm("MenuBuilder5", "Menu", FormMethod.Post, new { @class = "form-horizontal" }))
+        {
+            <fieldset>
+              <div class="control-group">
+                <label class="control-label">@Html.Label("Number of Locations")</label>
+                <div class="controls">
+                    @Html.DropDownList("numLocations", ViewData["numList"] as SelectList, new { @class = "input-xlarge" })
+                </div>
+              </div>                  
+            <div class="form-actions">
+              <button type="submit" value="Next" class="btn btn-large btn-primary">Next <i class="icon-chevron-right icon-white"></i></button>
+            </div>            
+            </fieldset>
+        }
         </p>
-    </fieldset>
-}
+            You're half-way there! Isn't this easy?
+            <div class="progress progress-striped">
+              <div class="bar" style="width: 50%;">
+              </div>
+            </div>
+      </div> <!-- hero -->

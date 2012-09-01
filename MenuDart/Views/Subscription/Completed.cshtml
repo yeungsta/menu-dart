@@ -2,11 +2,18 @@
     ViewBag.Title = "Subscription Completed!";
 }
 
-<h2>Subscription to all Menu(s) Completed!</h2>
-
+<div class="hero-unit">
+<center>
+<h1>Subscription to all Menu(s) Completed.</h1>
+<br />
 <p>
 Profile ID: @ViewBag.ProfileId
 <br />
 Profile Status: @ViewBag.ProfileStatus
+</center>
 <p>
-@Html.ActionLink("Back to Dashboard", "Index", "Dashboard")
+<br />
+<div>
+    @Html.ActionLink("Back to Dashboard", "Index", "Dashboard")
+</div>
+</div> <!-- hero -->

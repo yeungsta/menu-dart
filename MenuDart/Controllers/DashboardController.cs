@@ -89,8 +89,13 @@ namespace MenuDart.Controllers
         {
             if (ModelState.IsValid)
             {
-                SendFeedbackEmail(model.Email, model.Feedback);
-                return RedirectToAction("SendFeedbackSuccess");
+                if (!string.IsNullOrEmpty(model.Feedback))
+                {
+                    SendFeedbackEmail(model.Email, model.Feedback);
+                    return RedirectToAction("SendFeedbackSuccess");
+                }
+
+                return View(model);
             }
 
             Utilities.LogAppError("Could not send out feedback from user dashbaord.");
@@ -108,15 +113,18 @@ namespace MenuDart.Controllers
 
         private static void SendFeedbackEmail(string userEmail, string feedback)
         {
-            string htmlFeedback = userEmail + " says:<br><br>" + feedback.Replace(Constants.NewLine2, Constants.Break);
+            if (!string.IsNullOrEmpty(feedback))
+            {
+                string htmlFeedback = userEmail + " says:<br><br>" + feedback.Replace(Constants.NewLine2, Constants.Break);
 
-            try //TODO: remove for Production SMTP
-            {
-                new MailController().SendFeedbackEmail(userEmail, htmlFeedback).Deliver();
+                try //TODO: remove for Production SMTP
+                {
+                    new MailController().SendFeedbackEmail(userEmail, htmlFeedback).Deliver();
+                }
+                catch
+                {
+                }
             }
-            catch
-            {
-            } 
         }
     }
 }

@@ -2,8 +2,15 @@
     ViewBag.Title = "Menu Activated";
 }
 
-<h2>The menu for @TempData["Name"] is Activated!
-<p>It's located at:<br />@Html.ActionLink(TempData["Url"].ToString(), "ViewActiveMenu", "Menu", new { id = TempData["Id"] }, null)
+<div class="hero-unit">
+<center><h1>@TempData["Name"] is Activated.</h1>
+<br>
+<p>Congratulations! The menu is located at:<br />@Html.ActionLink(TempData["Url"].ToString(), "ViewActiveMenu", "Menu", new { id = TempData["Id"] }, null)
 </h2>
+</center>
 <p>
-@Html.ActionLink("Back to Dashboard", "Index", "Dashboard")
+<br />
+<div>
+    @Html.ActionLink("Back to Dashboard", "Index", "Dashboard")
+</div>
+</div> <!-- hero -->

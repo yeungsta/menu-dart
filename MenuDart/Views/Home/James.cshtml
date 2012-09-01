@@ -1,0 +1,31 @@
+﻿@{
+    ViewBag.Title = "MenuDart Admin Page";
+}
+
+<div class="hero-unit">
+<center>
+<h1>Admin.</h1>
+</center>
+<br />
+<p>
+    @Html.ActionLink("Menu Builder", "MenuBuilder", "Menu", null, null)
+</p>
+<p>
+    @Html.ActionLink("All Menus", "Index", "Menu")
+</p>
+<p>
+    @Html.ActionLink("Templates", "Index", "Template")
+</p>
+<p>
+    @Html.ActionLink("Temporary Menus (Unowned)", "Index", "TempMenu")
+</p>
+<p>
+    @Html.ActionLink("Compare Accounts Status with PayPal", "SyncAccounts", "Subscription")
+</p>
+<p>
+    @Html.ActionLink("Kick off scheduled jobs", "KickOff", "JobScheduler")
+</p>
+<p>
+    <a href="../elmah.axd">Error Log</a>
+</p>
+</div> <!-- hero -->

@@ -2,10 +2,17 @@
     ViewBag.Title = "Menu Deactivated";
 }
 
-<h2>@TempData["Name"] Deactivated</h2>
+<div class="hero-unit">
+<center><h1>@TempData["Name"] is Deactivated.</h1>
+<br>
 <p>
 Your @TempData["Name"] menu is no longer viewable by your customers.
 <p>
 Your resulting new billing agreement has been created.
+</center>
 <p>
-@Html.ActionLink("Back to Dashboard", "Index", "Dashboard")
+<br />
+<div>
+    @Html.ActionLink("Back to Dashboard", "Index", "Dashboard")
+</div>
+</div> <!-- hero -->

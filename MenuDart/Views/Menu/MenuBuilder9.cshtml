@@ -1,13 +1,27 @@
 ﻿@{
-    ViewBag.Title = "MenuBuilder9";
+    ViewBag.Title = "MenuDart. Easy Mobile Menus. Menu Builder.";
 }
 
-<h2>Congrats, you're finally done!</h2>
-<h3>
-You can now check out your finished restaurant menu for @ViewBag.Name.<p>
-It's available to @Html.ActionLink("preview here.", "PreviewMenu", "Menu", new { id = ViewBag.MenuId }, null)
-<p>
-Now check out these ways to connect your menu to your website and link to other sites:
-<p></p>
-@Html.ActionLink("Go to your Dashboard", "Index", "Dashboard")
-</h3>
+      <!-- Main hero unit for a primary marketing message or call to action -->
+      <div class="hero-unit">
+        <center><h1>Congrats, you're done!</h1></center>
+        <br>
+        <div class="progress progress-striped active">
+          <div class="bar" style="width: 100%;">
+          </div>
+        </div>         
+        <p>
+        You can now check out your finished mobile restaurant menu for @ViewBag.Name.
+        <br>
+        It's available to @Html.ActionLink("preview here.", "PreviewMenu", "Menu", new { id = ViewBag.MenuId }, null)
+        <br>
+        (Using a smartphone or pocket mobile device, surf to this site to see it in its full mobile-glory.)
+        <p>
+        Now check out these ways to connect your menu to your website and link to Yelp (and other sites):
+        </p>
+        <br>
+        <p><a class="btn btn-primary btn-large" href="@Url.Action("Using", "Home")">Use your menu <i class="icon-chevron-right icon-white"></i></a></p>
+        <br>
+        <hr>
+        @Html.ActionLink("Go to your dashboard", "Index", "Dashboard")
+      </div> <!-- hero -->

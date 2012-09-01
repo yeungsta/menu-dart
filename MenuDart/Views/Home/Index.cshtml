@@ -1,28 +1,65 @@
 ﻿@{
-    ViewBag.Title = "MenuDart";
+    ViewBag.Title = "MenuDart. Easy Mobile Menus.";
 }
 
-<p>
-    @Html.ActionLink("Try it now!", "MenuBuilder", "Menu", null, null)
-</p>
+      <!-- Main hero unit for a primary marketing message or call to action -->
+      <div class="hero-unit">
+        <div class="row">  
+          <div class="span4">
+            <img src="@Url.Content("~/Content/images/mobile.png")">
+          </div>
+          <div class="span6">
+            <h1>Make Your Restaurant<br> <strong>Menu Mobile</strong>.<br>For The Price Of A Burger.</h1>
+            <dl class="titleDl">
+              <dt class="titleSubTitle">It's super easy.</dt>
+              <dd class="titleSubDesc">You created your own business. Create your mobile menu too.</dd>
+              <dt class="titleSubTitle">It's free for 30 days.</dt>
+              <dd class="titleSubDesc">No credit card required to try. If you find it makes your life easier, continue for 7 bucks a month, no commitment. Really.</dd>           
+            </dl>
+            <p><a class="btn btn-primary btn-large" href="@Url.Action("MenuBuilder", "Menu")">Create menu now <i class="icon-chevron-right icon-white"></i></a></p>
+          </div>
+        </div>
+      </div>
 
-<br />
-<h2>Admin</h2>
-<p>
-    @Html.ActionLink("Menus", "Index", "Menu")
-</p>
-<p>
-    @Html.ActionLink("Templates", "Index", "Template")
-</p>
-<p>
-    @Html.ActionLink("Temporary Menus (Not owned)", "Index", "TempMenu")
-</p>
-<p>
-    @Html.ActionLink("Compare Accounts Status with PayPal", "SyncAccounts", "Subscription")
-</p>
-<p>
-    @Html.ActionLink("Kick off scheduled jobs", "KickOff", "JobScheduler")
-</p>
-<p>
-    <a href="elmah.axd">Error Log</a>
-</p>
+      <!-- Example row of columns -->
+      <div class="row">
+        <div class="span4">
+          <h2>What can it do for me?</h2>
+           <p>Try for 30 days free, no subscription required.</p>
+          <p><a class="btn" href="@Url.Action("Features", "Home")">View Features &raquo;</a></p>
+        </div>
+        <div class="span4">
+          <h2>I've created it. What next?</h2>
+           <p>You can now add your mobile menu to your restaurant's Yelp page,
+           add a link to your existing website, or forward mobile visitors from your website.
+           Don't fret, we'll show you <em>exactly</em> how to do it!</p>
+          <p><a class="btn" href="@Url.Action("Using", "Home")">Using Your Menu &raquo;</a></p>
+       </div>
+        <div class="span4">
+          <h2>Allright, but how much?</h2>
+          <p>Try for 30 days free, no credit card required.
+          Then, if you like MenuDart, it's just 7 bucks a month for as long as you use it.
+          No commitment, cancel anytime, instantly.</p>
+          <p><a class="btn" href="@Url.Action("Pricing", "Home")">View Pricing &raquo;</a></p>
+        </div>
+      </div>
+
+      <hr class="soften">
+        
+      <div class="container">
+        <div class="span12">
+          <h2>But don't take our word for it.</h2>
+          <blockquote>
+            <p>Wow. That was damn easy. And damn cheap.</p>
+            <small>Chef Michael Shafer, Owner, <a href="http://www.menudart.com/depot/" target="_blank">Depot Restaurant</a>, Torrance, California</small>
+          </blockquote>
+           <blockquote class="pull-right">
+            <p>MenuDart got my mobile menu created within an hour, and on Yelp within a day. Thank you!</p>
+            <small>Lisa Keegan, Owner, <a href="http://www.menudart.com" target="_blank">Keegan's Pub</a>, Torrance, California</small>
+          </blockquote>
+          <blockquote class="pull-left">
+            <p>I love how I can update my own menu, anytime. No more relying on my website guy.</p>
+            <small>Atlanta Lonnerath, Owner, <a href="http://www.menudart.com" target="_blank">America's Best Coffee</a>, Arlington, Texas</small>
+          </blockquote>           
+        </div>        
+      </div>
