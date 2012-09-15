@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
- 
+using MenuDart.Composer;
+
 namespace MenuDart.Models
 {
     public partial class SessionCart
@@ -85,6 +86,10 @@ namespace MenuDart.Models
 
                 //remove temp menu
                 storeDB.TempMenus.Remove(tempMenu);
+
+                //Reserve an empty, permanent location/URL
+                V1 composer = new V1(menu);
+                composer.CreateMenuDir();
             }
 
             if (tempMenus.Count() > 0)

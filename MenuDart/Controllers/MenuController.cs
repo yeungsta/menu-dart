@@ -203,12 +203,6 @@ namespace MenuDart.Controllers
                 //save menu to DB
                 db.Entry(menu).State = EntityState.Modified;
                 db.SaveChanges();
-
-                //Update index_html directory with new CSS template file
-                string indexFilesPath = HttpContext.Server.MapPath(Constants.MenusPath + menu.MenuDartUrl + "/" + Constants.IndexFilesDir);
-                string templatesPath = HttpContext.Server.MapPath((Constants.TemplatesPath + menu.Template + "/"));
-
-                Utilities.CopyDirTo(templatesPath, indexFilesPath, true);
             }
 
             //pass template list to view
@@ -309,7 +303,7 @@ namespace MenuDart.Controllers
             logoViewData.MenuDartUrl = menu.MenuDartUrl;
 
             //check if logo exists for display
-            string logoPath = HttpContext.Server.MapPath(Constants.MenusPath + menu.MenuDartUrl + "/" + Constants.IndexFilesDir + "/" + Constants.LogoFileName);
+            string logoPath = HttpContext.Server.MapPath(Constants.MenusPath + menu.MenuDartUrl + "/" + Constants.LogoFileName);
 
             if (System.IO.File.Exists(logoPath))
             {
@@ -317,7 +311,7 @@ namespace MenuDart.Controllers
             }
 
             //check if temp logo exists for display
-            string logoTmpPath = HttpContext.Server.MapPath(Constants.MenusPath + menu.MenuDartUrl + "/" + Constants.IndexFilesDir + "/" + Constants.LogoTmpFileName);
+            string logoTmpPath = HttpContext.Server.MapPath(Constants.MenusPath + menu.MenuDartUrl + "/" + Constants.LogoTmpFileName);
 
             if (System.IO.File.Exists(logoTmpPath))
             {
@@ -629,7 +623,7 @@ namespace MenuDart.Controllers
         // GET: /Menu/PreviewMenu/5
         //
         //create temporary menu for previewing
-        public ActionResult PreviewMenu(int id = 0)
+        public ActionResult PreviewMenu(bool useSampleLogo, int id = 0)
         {
             bool createNewTempDir = false;
 
@@ -657,7 +651,7 @@ namespace MenuDart.Controllers
                 //check if preview location still exists
                 if (Directory.Exists(directoryPath))
                 {
-                    composer.UpdateTempMenu(randomId);
+                    composer.UpdateTempMenu(randomId, useSampleLogo);
                 }
                 else
                 {
@@ -671,7 +665,7 @@ namespace MenuDart.Controllers
 
             if (createNewTempDir)
             {
-                randomId = composer.CreateTempMenu();
+                randomId = composer.CreateTempMenu(useSampleLogo);
 
                 //Save preview random key to session cookie so that we'll use
                 //the same temp folder for all previews
@@ -796,10 +790,6 @@ namespace MenuDart.Controllers
                     cart.AddMenu(menuBuilderModel.CurrentMenu.ID);
                 }
 
-                //Reserve an empty, permanent location/URL
-                V1 composer = new V1(menuBuilderModel.CurrentMenu);
-                composer.CreateMenuDir();
-
                 return RedirectToAction("MenuBuilder2", new { name = menuBuilderModel.CurrentMenu.Name, id = menuBuilderModel.CurrentMenu.ID });
             }
 
@@ -877,11 +867,9 @@ namespace MenuDart.Controllers
                 db.Entry(menu).State = EntityState.Modified;
                 db.SaveChanges();
 
-                //Update index_html directory with new CSS template file
-                string indexFilesPath = HttpContext.Server.MapPath(Constants.MenusPath + menu.MenuDartUrl + "/" + Constants.IndexFilesDir);
-                string templatesPath = HttpContext.Server.MapPath((Constants.TemplatesPath + menu.Template + "/"));
-
-                Utilities.CopyDirTo(templatesPath, indexFilesPath, true);
+                //Reserve an empty, permanent location/URL
+                V1 composer = new V1(menu);
+                composer.CreateMenuDir();
 
                 return RedirectToAction("MenuBuilder4", new { id = id });
             }
@@ -909,7 +897,7 @@ namespace MenuDart.Controllers
             }
 
             //check if logo exists for display
-            string logoPath = HttpContext.Server.MapPath(Constants.MenusPath + menu.MenuDartUrl + "/" + Constants.IndexFilesDir + "/" + Constants.LogoFileName);
+            string logoPath = HttpContext.Server.MapPath(Constants.MenusPath + menu.MenuDartUrl + "/" + Constants.LogoFileName);
 
             if (System.IO.File.Exists(logoPath))
             {
@@ -1282,7 +1270,7 @@ namespace MenuDart.Controllers
         {
             if (!string.IsNullOrEmpty(menuDartUrl))
             {
-                string indexFilesPath = HttpContext.Server.MapPath(Constants.MenusPath + menuDartUrl + "/" + Constants.IndexFilesDir);
+                string indexFilesPath = HttpContext.Server.MapPath(Constants.MenusPath + menuDartUrl);
                 var file = string.Empty;
 
                 try
@@ -1344,7 +1332,7 @@ namespace MenuDart.Controllers
                 return HttpNotFound();
             }
 
-            string indexFilesPath = HttpContext.Server.MapPath(Constants.MenusPath + menu.MenuDartUrl + "/" + Constants.IndexFilesDir);
+            string indexFilesPath = HttpContext.Server.MapPath(Constants.MenusPath + menu.MenuDartUrl);
             string currentLogo = Path.Combine(indexFilesPath, Constants.LogoFileName);
             string tempLogo = Path.Combine(indexFilesPath, Constants.LogoTmpFileName);
 
@@ -1376,7 +1364,7 @@ namespace MenuDart.Controllers
                 return HttpNotFound();
             }
 
-            string indexFilesPath = HttpContext.Server.MapPath(Constants.MenusPath + menu.MenuDartUrl + "/" + Constants.IndexFilesDir);
+            string indexFilesPath = HttpContext.Server.MapPath(Constants.MenusPath + menu.MenuDartUrl);
             string currentLogo = Path.Combine(indexFilesPath, Constants.LogoFileName);
             string tempLogo = Path.Combine(indexFilesPath, Constants.LogoTmpFileName);
 
@@ -1401,9 +1389,9 @@ namespace MenuDart.Controllers
 
         private string CreateMenuDartUrl(string name, string city)
         {
-            //Create unique menudart URL          
+            //Create unique menudart URL. Replace all spaces with dashes.      
             string tempUrl = (name.Replace(' ', '-') +
-                "-" + city).ToLower();
+                "-" + city.Replace(' ', '-')).ToLower();
 
             //remove unwanted chars
             tempUrl = tempUrl.Replace(",", "");

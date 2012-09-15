@@ -9,7 +9,8 @@ using MenuDart.Models;
 
 namespace MenuDart.Controllers
 {
-    [Authorize(Roles = "Administrator")]
+    //TODO: re-add admin when launched
+    //[Authorize(Roles = "Administrator")]
     public class TempMenuController : Controller
     {
         private MenuDartDBContext db = new MenuDartDBContext();

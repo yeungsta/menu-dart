@@ -49,14 +49,12 @@
                             });
                         });     
                     </script>
-        <a class="btn btn-primary btn-large">Upload Your Logo <i class="icon-arrow-up icon-white"></i></a>
-        <br>
-        <br />
         @if (!string.IsNullOrEmpty(ViewBag.LogoUrl))
         {
-            @Html.ActionLink("I Don't Need a Logo Now (You can always add one later)", "LogoRemove", "Menu", new { ReturnUrl = "MenuBuilder4", id = @Model.ID }, null)
+            @Html.ActionLink("Remove Logo. (You can always add another one later)", "LogoRemove", "Menu", new { ReturnUrl = "MenuBuilder4", id = @Model.ID }, null)
         }
         </center></p>
+        <br>
         <p>
         @using (Html.BeginForm("MenuBuilder4", "Menu", FormMethod.Post, new { @class = "form-horizontal" }))
         {

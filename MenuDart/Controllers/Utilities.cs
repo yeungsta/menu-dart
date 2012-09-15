@@ -57,6 +57,7 @@ namespace MenuDart.Controllers
             return allMenus;
         }
 
+/*
         //Copies source directory + files to a destination directory.
         //If destination directory doesn't exist, it will be created.
         public static void CopyDirTo(string srcPatch, string destPath, bool overwrite)
@@ -91,6 +92,7 @@ namespace MenuDart.Controllers
                 }
             }
         }
+*/
 
         //Creates Google map link
         public static string CreateMapLink(string address, string state, string zip)
@@ -145,13 +147,13 @@ namespace MenuDart.Controllers
         //constructs full URL of menu site's logo
         public static string GetMenuLogoUrl(string menuDartUrl)
         {
-            return "http://" + HttpContext.Current.Request.Url.Host + ":" + HttpContext.Current.Request.Url.Port + Constants.MenusDir + menuDartUrl + "/" + "index_files" + "/" + Constants.LogoFileName;
+            return "http://" + HttpContext.Current.Request.Url.Host + ":" + HttpContext.Current.Request.Url.Port + Constants.MenusDir + menuDartUrl + "/" + Constants.LogoFileName;
         }
 
         //constructs full URL of menu site's temp logo
         public static string GetMenuLogoTmpUrl(string menuDartUrl)
         {
-            return "http://" + HttpContext.Current.Request.Url.Host + ":" + HttpContext.Current.Request.Url.Port + Constants.MenusDir + menuDartUrl + "/" + "index_files" + "/" + Constants.LogoTmpFileName;
+            return "http://" + HttpContext.Current.Request.Url.Host + ":" + HttpContext.Current.Request.Url.Port + Constants.MenusDir + menuDartUrl + "/" + Constants.LogoTmpFileName;
         }
 
         public static void RemoveDirectory(string menuDartUrl)

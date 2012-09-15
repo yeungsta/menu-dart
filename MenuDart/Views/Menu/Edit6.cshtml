@@ -17,7 +17,7 @@
 @MenuDart.Controllers.MenuExtensions.EditMenuItem(Html, "Hours", "Edit6", "Menu", new { id = Model.MenuId }) |
 @MenuDart.Controllers.MenuExtensions.EditMenuItem(Html, "Contact", "Edit7", "Menu", new { id = Model.MenuId }) |
 @Html.ActionLink("Menu Items", "Details", "MenuTree", new { id = Model.MenuId, parent = 0, idx = -1, source = "MenuEditor", ReturnUrl = "/Edit/" + Model.MenuId }, null) |
-@Html.ActionLink("Preview", "PreviewMenu", "Menu", new { id = Model.MenuId }, null) |
+@Html.ActionLink("Preview", "PreviewMenu", "Menu", new { id = Model.MenuId, useSampleLogo = false }, null) |
 @Html.ActionLink("Publish", "Publish", "Menu", new { ReturnUrl = "/Edit/" + Model.MenuId, id = Model.MenuId }, null)
 </h4>
 </center>

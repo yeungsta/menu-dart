@@ -123,7 +123,7 @@
         {
             @Html.ActionLink("Back to Editor", (string)ViewBag.ReturnUrl, "Menu")
             <text><b>or just "Close" button?</b></text><br />
-            @Html.ActionLink("Preview", "PreviewMenu", "Menu", new { id = ViewBag.MenuId }, null)
+            @Html.ActionLink("Preview", "PreviewMenu", "Menu", new { id = ViewBag.MenuId, useSampleLogo = false }, null)
         }
 	</div><!-- /content -->
 

@@ -155,58 +155,81 @@ namespace MenuDart.Composer
             m_menu = menu;
         }
 
-        //creates a preview of the menu in a random, temp directory
+        //creates a preview of the menu in a new random, temp directory
         //
         //returns unique menu directory ID
-        public string CreateTempMenu()
+        public string CreateTempMenu(bool useSampleLogo)
         {
             //create a temporary location to create menu
             string randomId = Utilities.GetRandomId();
             string filepath = HttpContext.Current.Server.MapPath(Controllers.Constants.PreviewMenusPath + randomId + "/");
 
-            //write menu string to file
-            WriteToFile(RenderMenu(), filepath);
-
-            //copy base index files to temp dir
-            CopyBaseIndexFiles(filepath + Controllers.Constants.IndexFilesDir);
-
-            //if existing inactive logo file exists, copy to preview area
-            if (LogoExists())
+            if (!Directory.Exists(filepath))
             {
-                string logoPath = HttpContext.Current.Server.MapPath(Controllers.Constants.MenusPath + m_menu.MenuDartUrl + "/" + Constants.LogoPath);
-
-                System.IO.File.Copy(logoPath, filepath + Controllers.Constants.IndexFilesDir + "/" + Controllers.Constants.LogoFileName, true);
+                Directory.CreateDirectory(filepath);
             }
 
-            //copy template file
-            CopyTemplateFile(filepath + Controllers.Constants.IndexFilesDir);
+            //copy a sample logo
+            if (useSampleLogo)
+            {
+                CopySampleLogoFile(filepath);
+            }
+            else
+            {
+                //if existing inactive logo file exists from previous activity, copy to preview area
+                string menuPath = HttpContext.Current.Server.MapPath(Controllers.Constants.MenusPath + m_menu.MenuDartUrl);
+                if (LogoExists(menuPath))
+                {
+                    string logoPath = menuPath + "/" + Constants.ActiveLogoPath;
+
+                    System.IO.File.Copy(logoPath, filepath + Controllers.Constants.LogoFileName, true);
+                }
+                else //clear any old logo file
+                {
+                    RemoveLogoFile(filepath);
+                }
+            }
+
+            //write menu string to file
+            WriteToFile(RenderMenu(filepath), filepath);
 
             // return random menu directory ID
             return randomId;
         }
 
         //updates a preview of the menu in an existing temp directory
-        public void UpdateTempMenu(string randomId)
+        public void UpdateTempMenu(string randomId, bool useSampleLogo)
         {
             //set temporary location
             string filepath = HttpContext.Current.Server.MapPath(Controllers.Constants.PreviewMenusPath + randomId + "/");
 
-            //write menu string to file
-            WriteToFile(RenderMenu(), filepath);
-
-            //if existing inactive logo file exists, copy to preview area
-            if (LogoExists())
+            //copy a sample logo
+            if (useSampleLogo)
             {
-                string logoPath = HttpContext.Current.Server.MapPath(Controllers.Constants.MenusPath + m_menu.MenuDartUrl + "/" + Constants.LogoPath);
+                CopySampleLogoFile(filepath);
+            }
+            else
+            {
+                //if existing inactive logo file exists from previous activity, copy to preview area
+                string menuPath = HttpContext.Current.Server.MapPath(Controllers.Constants.MenusPath + m_menu.MenuDartUrl);
 
-                System.IO.File.Copy(logoPath, filepath + Controllers.Constants.IndexFilesDir + "/" + Controllers.Constants.LogoFileName, true);
+                if (LogoExists(menuPath))
+                {
+                    string logoPath = menuPath + "/" + Constants.ActiveLogoPath;
+
+                    System.IO.File.Copy(logoPath, filepath + Controllers.Constants.LogoFileName, true);
+                }
+                else //clear any old logo file
+                {
+                    RemoveLogoFile(filepath);
+                }
             }
 
-            //copy template file
-            CopyTemplateFile(filepath + Controllers.Constants.IndexFilesDir);
+            //write menu string to file
+            WriteToFile(RenderMenu(filepath), filepath);
         }
 
-        //create a new file location (reserving menu URL) and copy base CSS/logo files.
+        //create a new file location (reserving menu URL)
         //
         //returns URL to menu
         public string CreateMenuDir()
@@ -215,8 +238,11 @@ namespace MenuDart.Composer
             string filepath = HttpContext.Current.Server.MapPath(Controllers.Constants.MenusPath + m_menu.MenuDartUrl + "/");
             string urlpath = Utilities.GetFullUrl(m_menu.MenuDartUrl);
 
-            //copy base index files if initial creation
-            CopyBaseIndexFiles(filepath + Controllers.Constants.IndexFilesDir);
+            //create directory
+            if (!Directory.Exists(filepath))
+            {
+                Directory.CreateDirectory(filepath);
+            }
 
             // return URL to menu
             return urlpath;
@@ -232,10 +258,7 @@ namespace MenuDart.Composer
             string urlpath = Utilities.GetFullUrl(m_menu.MenuDartUrl);
 
             //write menu string to file
-            WriteToFile(RenderMenu(), filepath);
-
-            //copy template file
-            CopyTemplateFile(filepath + Controllers.Constants.IndexFilesDir);
+            WriteToFile(RenderMenu(filepath), filepath);
 
             // return URL to menu
             return urlpath;
@@ -246,7 +269,7 @@ namespace MenuDart.Composer
         #region private members
 
         //actual menu HTML creation/rendering
-        private string RenderMenu()
+        private string RenderMenu(string filepath)
         {
             StringWriter stringWriter = new StringWriter();
 
@@ -258,7 +281,7 @@ namespace MenuDart.Composer
                 CreateMain(writer);
                 writer.WriteLine();
                 writer.WriteLine();
-                CreateAbout(writer);
+                CreateAbout(writer, filepath);
                 writer.WriteLine();
                 writer.WriteLine();
                 CreateContact(writer);
@@ -299,8 +322,18 @@ namespace MenuDart.Composer
                     AddMeta(writer, "apple-mobile-web-app-capable", "yes");
                     AddMeta(writer, "apple-mobile-web-app-status-bar-style", "black");
                     AddLink(writer, "stylesheet", Constants.JqueryMobileCss, null);
-                    AddLink(writer, "stylesheet", "index_files/master.css", "text/css");
-                    AddLink(writer, "stylesheet", "index_files/template.css", "text/css");
+                    AddLink(writer, "stylesheet", Constants.MasterCssPath, "text/css");
+
+                    //if a template is defined, add template stylesheet
+                    if (!string.IsNullOrEmpty(m_menu.Template))
+                    {
+                        AddLink(writer, "stylesheet", Constants.TemplateCssPath + Constants.TemplateCssName + m_menu.Template.ToLower() + Constants.CssExtension, "text/css");
+                    }
+                    else
+                    {
+                        AddLink(writer, "stylesheet", Constants.TemplateCssPath + Constants.TemplateCssName + Constants.DefaultTemplate + Constants.CssExtension, "text/css");
+                    }
+
                     AddScript(writer, Constants.Jquery);
                     AddScript(writer, Constants.JqueryMobile);
             writer.RenderEndTag();
@@ -333,7 +366,7 @@ namespace MenuDart.Composer
             writer.RenderEndTag();
         }
 
-        private void CreateAbout(HtmlTextWriter writer)
+        private void CreateAbout(HtmlTextWriter writer, string filepath)
         {
             BeginPage(writer, MenuBarItems.About.ToString(), "bodyBg");
             BeginHeader(writer);
@@ -343,7 +376,7 @@ namespace MenuDart.Composer
             writer.RenderEndTag();
             writer.WriteLine();
             BeginContent(writer);
-                AddLogoTitle(writer);
+                AddLogoTitle(writer, filepath);
                 writer.WriteLine();
                 AddStory(writer);
             writer.RenderEndTag();
@@ -380,32 +413,51 @@ namespace MenuDart.Composer
             }
         }
 
-        private bool LogoExists()
+        //check if logo file exists in this path location
+        private bool LogoExists(string filepath)
         {
-            string filepath = HttpContext.Current.Server.MapPath(Controllers.Constants.MenusPath + m_menu.MenuDartUrl + "/" + Constants.LogoPath);
+            string logoPath = filepath + "/" + Constants.ActiveLogoPath;
 
-            return File.Exists(filepath);
+            return File.Exists(logoPath);
         }
 
-        //copies CSS and logo file (if there doesn't exist one)
-        private void CopyBaseIndexFiles(string destinationPath)
+        //copies sample logo file (if there doesn't already exist one)
+        private void CopySampleLogoFile(string destinationPath)
         {
-            //default base template files
-            string templatesPath = HttpContext.Current.Server.MapPath(Controllers.Constants.BaseTemplatesPath);
+            //default sample logo file
+            string sampleLogoFile = HttpContext.Current.Server.MapPath(Controllers.Constants.SampleLogoPath);
 
-            //copy all base template files (but don't overwrite logo if one exists) to menu
-            Utilities.CopyDirTo(templatesPath, destinationPath, false);
-        }
+            string destFile = Path.Combine(destinationPath, Controllers.Constants.LogoFileName);
 
-        //copies template file (if defined)
-        private void CopyTemplateFile(string destinationPath)
-        {
-            //if a template is defined, copy template file to menu
-            if (!string.IsNullOrEmpty(m_menu.Template))
+            try
             {
-                string templatesPath = HttpContext.Current.Server.MapPath((Controllers.Constants.TemplatesPath + m_menu.Template + "/"));
+                //do not overwrite an existing logo file
+                System.IO.File.Copy(sampleLogoFile, destFile, false);
+            }
+            catch (Exception e)
+            {
+                //ignore exceptions about existing files
+                Utilities.LogAppError("Exception thrown while trying to copy files to destination folder.", e);
+            }
+        }
 
-                Utilities.CopyDirTo(templatesPath, destinationPath, true);
+        //removes any previous logo file (if there exists one)
+        private void RemoveLogoFile(string destinationPath)
+        {
+            //copy file (but don't overwrite logo if one exists) to menu
+            string destFile = Path.Combine(destinationPath, Controllers.Constants.LogoFileName);
+
+            try
+            {
+                if (System.IO.File.Exists(destFile))
+                {
+                    System.IO.File.Delete(destFile);
+                }
+            }
+            catch (Exception e)
+            {
+                //ignore exceptions
+                Utilities.LogAppError("Exception thrown while trying to remove logo file in folder.", e);
             }
         }
 
@@ -738,20 +790,19 @@ namespace MenuDart.Composer
             writer.RenderEndTag();
         }
 
-        private void AddLogoTitle(HtmlTextWriter writer)
+        private void AddLogoTitle(HtmlTextWriter writer, string filepath)
         {
             writer.AddAttribute(HtmlTextWriterAttribute.Class, "center");
             writer.RenderBeginTag(HtmlTextWriterTag.Div);
 
-            if (LogoExists())
+            if (LogoExists(filepath))
             {
-                writer.AddAttribute(HtmlTextWriterAttribute.Src, Constants.LogoPath);
+                writer.AddAttribute(HtmlTextWriterAttribute.Src, Constants.ActiveLogoPath);
                 writer.AddAttribute(HtmlTextWriterAttribute.Class, "logo");
                 writer.RenderBeginTag(HtmlTextWriterTag.Img);
                 writer.RenderEndTag();
+                writer.WriteLine();
             }
-
-            writer.WriteLine();
 
             if (!string.IsNullOrEmpty(m_menu.AboutTitle))
             {
@@ -915,25 +966,7 @@ namespace MenuDart.Composer
         {
             AddBtn(writer, "Yelp", link, Constants.YelpIcon, "insetBtn", "y", Constants.BlankTarget);
         }
-/*
-        private string GetRandomId()
-        {
-            bool uniqueFound = false;
-            string randomId = string.Empty;
 
-            while (!uniqueFound)
-            {
-                randomId = Guid.NewGuid().ToString().Substring(0, 5);
-
-                if (!Directory.Exists(HttpContext.Current.Server.MapPath(Controllers.Constants.PreviewMenusPath + randomId + "/")))
-                {
-                    uniqueFound = true;
-                }
-            }
-
-            return randomId;
-        }
-*/
         #endregion private members
     }
 }

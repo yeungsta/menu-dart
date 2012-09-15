@@ -10,7 +10,7 @@
         <p>
         You've just created a mobile-friendly restaurant menu for @ViewBag.Name.
         <p>
-        It's already available @Html.ActionLink("to preview here.", "PreviewMenu", "Menu", new { id = ViewBag.MenuId }, new { @target = "_blank" })
+        It's already available @Html.ActionLink("to preview here.", "PreviewMenu", "Menu", new { id = ViewBag.MenuId, useSampleLogo = true }, new { @target = "_blank" })
         <br>
         (Using a smartphone or pocket mobile device, surf to this site to see it in its full mobile-glory.)
         <p>
