@@ -139,7 +139,7 @@ namespace MenuDart.Controllers
                                         //set menu as deactivated
                                         singleMenu.Active = false;
 
-                                        //deactivate the menu directory (delete menu but not index files)
+                                        //deactivate the menu directory (delete menu but not logo file)
                                         Utilities.DeactivateDirectory(singleMenu.MenuDartUrl);
 
                                         db.Entry(singleMenu).State = EntityState.Modified;

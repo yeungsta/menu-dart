@@ -302,6 +302,23 @@ namespace MenuDart.Controllers
             logoViewData.Name = menu.Name;
             logoViewData.MenuDartUrl = menu.MenuDartUrl;
 
+#if UseAmazonS3
+            //check if logo exists for display
+            string logoPath = menu.MenuDartUrl + "/" + Constants.LogoFileName;
+
+            if (Utilities.IsObjectExistS3(logoPath))
+            {
+                logoViewData.LogoUrl = Utilities.GetFullUrl(menu.MenuDartUrl) + "/" + Constants.LogoFileName;
+            }
+
+            //check if temp logo exists for display
+            string logoTmpPath = menu.MenuDartUrl + "/" + Constants.LogoTmpFileName;
+
+            if (Utilities.IsObjectExistS3(logoTmpPath))
+            {
+                logoViewData.LogoTmpUrl = Utilities.GetFullUrl(menu.MenuDartUrl) + "/" + Constants.LogoTmpFileName;
+            }
+#else
             //check if logo exists for display
             string logoPath = HttpContext.Server.MapPath(Constants.MenusPath + menu.MenuDartUrl + "/" + Constants.LogoFileName);
 
@@ -317,7 +334,7 @@ namespace MenuDart.Controllers
             {
                 logoViewData.LogoTmpUrl = Utilities.GetMenuLogoTmpUrl(menu.MenuDartUrl);
             }
-
+#endif
             return View(logoViewData);
         }
 
@@ -559,12 +576,12 @@ namespace MenuDart.Controllers
                 {
                     V1 composer = new V1(menu);
                     // re-compose the menu
-                    composer.CreateMenu();
+                    string fullURL = composer.CreateMenu();
 
                     ActivateViewModel activateViewData = new ActivateViewModel();
                     activateViewData.Name = menu.Name;
                     activateViewData.MenuId = id;
-                    activateViewData.Url = Utilities.GetFullUrl(menu.MenuDartUrl);
+                    activateViewData.Url = fullURL;
                     activateViewData.ReturnUrl = ReturnUrl;
 
                     return View(activateViewData);
@@ -867,10 +884,11 @@ namespace MenuDart.Controllers
                 db.Entry(menu).State = EntityState.Modified;
                 db.SaveChanges();
 
+/*
                 //Reserve an empty, permanent location/URL
                 V1 composer = new V1(menu);
                 composer.CreateMenuDir();
-
+*/
                 return RedirectToAction("MenuBuilder4", new { id = id });
             }
 
@@ -1264,13 +1282,18 @@ namespace MenuDart.Controllers
             return View();
         }
 
+        //LogoUpload is called by the uploader Javascript
         [HttpPost]
         [Authorize]
         public ActionResult LogoUpload(string qqfile, string menuDartUrl, bool replaceCurrent)
         {
             if (!string.IsNullOrEmpty(menuDartUrl))
             {
+#if UseAmazonS3
+                string indexFilesPath = menuDartUrl;
+#else
                 string indexFilesPath = HttpContext.Server.MapPath(Constants.MenusPath + menuDartUrl);
+#endif
                 var file = string.Empty;
 
                 try
@@ -1289,17 +1312,31 @@ namespace MenuDart.Controllers
 
                     if (replaceCurrent)
                     {
+#if UseAmazonS3
+                        file = indexFilesPath + "/" + Constants.LogoFileName;
+#else
                         file = Path.Combine(indexFilesPath, Constants.LogoFileName);
+#endif
                     }
                     else
                     {
+#if UseAmazonS3
+                        file = indexFilesPath + "/" + Constants.LogoTmpFileName;
+#else
                         //save logo temporarily (until directed to replace)
-                        file = Path.Combine(indexFilesPath, Constants.LogoTmpFileName);        
+                        file = Path.Combine(indexFilesPath, Constants.LogoTmpFileName);
+#endif
                     }
 
                     var buffer = new byte[stream.Length];
                     stream.Read(buffer, 0, buffer.Length);
+
+#if UseAmazonS3
+                    //write logo file to S3
+                    Utilities.WriteStreamToS3(stream, file);
+#else
                     System.IO.File.WriteAllBytes(file, buffer);
+#endif
                 }
                 catch (Exception ex)
                 {
@@ -1332,6 +1369,16 @@ namespace MenuDart.Controllers
                 return HttpNotFound();
             }
 
+#if UseAmazonS3        
+            string tmpLogoPath = menu.MenuDartUrl + "/" + Constants.LogoTmpFileName;
+            string logoPath = menu.MenuDartUrl + "/" + Constants.LogoFileName;
+
+            //check if temp logo exists
+            if (Utilities.IsObjectExistS3(tmpLogoPath))
+            {
+                Utilities.RenameObjectInS3(tmpLogoPath, logoPath);
+            }
+#else
             string indexFilesPath = HttpContext.Server.MapPath(Constants.MenusPath + menu.MenuDartUrl);
             string currentLogo = Path.Combine(indexFilesPath, Constants.LogoFileName);
             string tempLogo = Path.Combine(indexFilesPath, Constants.LogoTmpFileName);
@@ -1341,7 +1388,7 @@ namespace MenuDart.Controllers
                 System.IO.File.Copy(tempLogo, currentLogo, true);
                 System.IO.File.Delete(tempLogo);
             }
-
+#endif
             return RedirectToAction("Edit4", new { id = id });
         }
 
@@ -1364,6 +1411,15 @@ namespace MenuDart.Controllers
                 return HttpNotFound();
             }
 
+#if UseAmazonS3
+            string logoPath = menu.MenuDartUrl + "/" + Constants.LogoFileName;
+
+            //check if temp logo exists
+            if (Utilities.IsObjectExistS3(logoPath))
+            {
+                Utilities.RemoveObjectFromS3(logoPath);
+            }
+#else
             string indexFilesPath = HttpContext.Server.MapPath(Constants.MenusPath + menu.MenuDartUrl);
             string currentLogo = Path.Combine(indexFilesPath, Constants.LogoFileName);
             string tempLogo = Path.Combine(indexFilesPath, Constants.LogoTmpFileName);
@@ -1377,7 +1433,7 @@ namespace MenuDart.Controllers
             {
                 System.IO.File.Delete(currentLogo);
             }
-
+#endif
             return RedirectToAction(ReturnUrl, new { id = id });
         }
 
@@ -1406,6 +1462,9 @@ namespace MenuDart.Controllers
             if (matches > 0)
             {
                 tempUrl += "-" + (matches + 1).ToString();
+
+                //TODO: might want to check if tempUrl is still taken at this point,
+                //in case a previous index number was removed and reassigned...
             }
 
             return tempUrl;

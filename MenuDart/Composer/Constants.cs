@@ -21,12 +21,12 @@ namespace MenuDart.Composer
 
         //file paths
         public const string ActiveLogoPath = "logo.png";
-        public const string DefaultLogoPath = "../../shared/images/logo.png";
-        public const string MasterCssPath = "../../shared/master.css";
-        public const string TemplateCssPath = "../../shared/templates/";
+        public const string MasterCssPath = "../shared/master.css";
+        public const string TemplateCssPath = "../shared/templates/";
         public const string TemplateCssName = "template_";
         public const string CssExtension = ".css";
         public const string DefaultTemplate = "ice";
+        public const string SampleLogoPath = "../shared/images/logo.png";
 
         //jQuery Mobile
         public const string DataRole = "data-role";

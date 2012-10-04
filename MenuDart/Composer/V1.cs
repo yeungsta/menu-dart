@@ -13,7 +13,6 @@ namespace MenuDart.Composer
 {
     public class V1
     {
-
         private Menu m_menu;
         private List<MenuNode> m_menuTree;
         private List<Location> m_locations;
@@ -169,6 +168,7 @@ namespace MenuDart.Composer
                 Directory.CreateDirectory(filepath);
             }
 
+#if !UseAmazonS3
             //copy a sample logo
             if (useSampleLogo)
             {
@@ -178,6 +178,7 @@ namespace MenuDart.Composer
             {
                 //if existing inactive logo file exists from previous activity, copy to preview area
                 string menuPath = HttpContext.Current.Server.MapPath(Controllers.Constants.MenusPath + m_menu.MenuDartUrl);
+
                 if (LogoExists(menuPath))
                 {
                     string logoPath = menuPath + "/" + Constants.ActiveLogoPath;
@@ -186,12 +187,17 @@ namespace MenuDart.Composer
                 }
                 else //clear any old logo file
                 {
-                    RemoveLogoFile(filepath);
+                    RemoveLogoFileFromTemp(filepath);
                 }
             }
+#endif
 
             //write menu string to file
-            WriteToFile(RenderMenu(filepath), filepath);
+#if UseAmazonS3
+            WriteToFile(RenderMenu(m_menu.MenuDartUrl, true, useSampleLogo), filepath);
+#else
+            WriteToFile(RenderMenu(filepath, true, useSampleLogo), filepath);
+#endif
 
             // return random menu directory ID
             return randomId;
@@ -202,7 +208,7 @@ namespace MenuDart.Composer
         {
             //set temporary location
             string filepath = HttpContext.Current.Server.MapPath(Controllers.Constants.PreviewMenusPath + randomId + "/");
-
+#if !UseAmazonS3
             //copy a sample logo
             if (useSampleLogo)
             {
@@ -221,14 +227,20 @@ namespace MenuDart.Composer
                 }
                 else //clear any old logo file
                 {
-                    RemoveLogoFile(filepath);
+                    RemoveLogoFileFromTemp(filepath);
                 }
             }
+#endif
 
             //write menu string to file
-            WriteToFile(RenderMenu(filepath), filepath);
+#if UseAmazonS3
+            WriteToFile(RenderMenu(m_menu.MenuDartUrl, true, useSampleLogo), filepath);
+#else
+            WriteToFile(RenderMenu(filepath, true, useSampleLogo), filepath);
+#endif
         }
 
+/* Not used anymore?
         //create a new file location (reserving menu URL)
         //
         //returns URL to menu
@@ -247,19 +259,26 @@ namespace MenuDart.Composer
             // return URL to menu
             return urlpath;
         }
-
+*/
         //creates menu in active location
         //
         //returns URL to menu
         public string CreateMenu()
         {
-            //active directories
-            string filepath = HttpContext.Current.Server.MapPath(Controllers.Constants.MenusPath + m_menu.MenuDartUrl + "/");
+#if UseAmazonS3
             string urlpath = Utilities.GetFullUrl(m_menu.MenuDartUrl);
 
-            //write menu string to file
-            WriteToFile(RenderMenu(filepath), filepath);
+            //write menu string to S3
+            Utilities.WritePlainTextObjectToS3(RenderMenu(m_menu.MenuDartUrl, false, false), m_menu.MenuDartUrl + "/index.html");
+#else
+            string urlpath = Utilities.GetFullUrl(m_menu.MenuDartUrl);
 
+            //active directories
+            string filepath = HttpContext.Current.Server.MapPath(Controllers.Constants.MenusPath + m_menu.MenuDartUrl + "/");
+
+            //write menu string to file
+            WriteToFile(RenderMenu(filepath, false, false), filepath);
+#endif
             // return URL to menu
             return urlpath;
         }
@@ -269,7 +288,8 @@ namespace MenuDart.Composer
         #region private members
 
         //actual menu HTML creation/rendering
-        private string RenderMenu(string filepath)
+        //filepath is path to the logo file
+        private string RenderMenu(string filepath, bool isPreview, bool useSampleLogo)
         {
             StringWriter stringWriter = new StringWriter();
 
@@ -281,7 +301,7 @@ namespace MenuDart.Composer
                 CreateMain(writer);
                 writer.WriteLine();
                 writer.WriteLine();
-                CreateAbout(writer, filepath);
+                CreateAbout(writer, filepath, isPreview, useSampleLogo);
                 writer.WriteLine();
                 writer.WriteLine();
                 CreateContact(writer);
@@ -366,7 +386,7 @@ namespace MenuDart.Composer
             writer.RenderEndTag();
         }
 
-        private void CreateAbout(HtmlTextWriter writer, string filepath)
+        private void CreateAbout(HtmlTextWriter writer, string filepath, bool isPreview, bool useSampleLogo)
         {
             BeginPage(writer, MenuBarItems.About.ToString(), "bodyBg");
             BeginHeader(writer);
@@ -376,7 +396,7 @@ namespace MenuDart.Composer
             writer.RenderEndTag();
             writer.WriteLine();
             BeginContent(writer);
-                AddLogoTitle(writer, filepath);
+            AddLogoTitle(writer, filepath, isPreview, useSampleLogo);
                 writer.WriteLine();
                 AddStory(writer);
             writer.RenderEndTag();
@@ -418,9 +438,21 @@ namespace MenuDart.Composer
         {
             string logoPath = filepath + "/" + Constants.ActiveLogoPath;
 
+#if UseAmazonS3
+            return Utilities.IsObjectExistS3(logoPath);
+#else    
+            return File.Exists(logoPath);
+#endif
+        }
+/*
+        //check if logo file exists in current temp location
+        private bool LogoExistsInTemp(string filepath)
+        {
+            string logoPath = filepath + Constants.ActiveLogoPath;
+
             return File.Exists(logoPath);
         }
-
+*/
         //copies sample logo file (if there doesn't already exist one)
         private void CopySampleLogoFile(string destinationPath)
         {
@@ -442,7 +474,7 @@ namespace MenuDart.Composer
         }
 
         //removes any previous logo file (if there exists one)
-        private void RemoveLogoFile(string destinationPath)
+        private void RemoveLogoFileFromTemp(string destinationPath)
         {
             //copy file (but don't overwrite logo if one exists) to menu
             string destFile = Path.Combine(destinationPath, Controllers.Constants.LogoFileName);
@@ -790,18 +822,25 @@ namespace MenuDart.Composer
             writer.RenderEndTag();
         }
 
-        private void AddLogoTitle(HtmlTextWriter writer, string filepath)
+        private void AddLogoTitle(HtmlTextWriter writer, string filepath, bool isPreview, bool useSampleLogo)
         {
             writer.AddAttribute(HtmlTextWriterAttribute.Class, "center");
             writer.RenderBeginTag(HtmlTextWriterTag.Div);
 
-            if (LogoExists(filepath))
+            if (useSampleLogo)
             {
-                writer.AddAttribute(HtmlTextWriterAttribute.Src, Constants.ActiveLogoPath);
-                writer.AddAttribute(HtmlTextWriterAttribute.Class, "logo");
-                writer.RenderBeginTag(HtmlTextWriterTag.Img);
-                writer.RenderEndTag();
-                writer.WriteLine();
+                AddSampleLogo(writer);
+            }
+            else if (LogoExists(filepath))
+            {
+                if (isPreview)
+                {
+                    AddDirectLogo(writer, filepath);
+                }
+                else
+                {
+                    AddLogo(writer);
+                }
             }
 
             if (!string.IsNullOrEmpty(m_menu.AboutTitle))
@@ -812,6 +851,36 @@ namespace MenuDart.Composer
             }
 
             writer.RenderEndTag();
+        }
+
+        private void AddLogo(HtmlTextWriter writer)
+        {
+            writer.AddAttribute(HtmlTextWriterAttribute.Src, Constants.ActiveLogoPath);
+            writer.AddAttribute(HtmlTextWriterAttribute.Class, "logo");
+            writer.RenderBeginTag(HtmlTextWriterTag.Img);
+            writer.RenderEndTag();
+            writer.WriteLine();
+        }
+
+        //references the direct S3 source
+        private void AddDirectLogo(HtmlTextWriter writer, string filepath)
+        {
+            string logoUrl = Utilities.GetFullUrl(filepath) + "/" + Controllers.Constants.LogoFileName;
+            writer.AddAttribute(HtmlTextWriterAttribute.Src, logoUrl);
+            writer.AddAttribute(HtmlTextWriterAttribute.Class, "logo");
+            writer.RenderBeginTag(HtmlTextWriterTag.Img);
+            writer.RenderEndTag();
+            writer.WriteLine();
+        }
+
+        //references the direct sample logo
+        private void AddSampleLogo(HtmlTextWriter writer)
+        {
+            writer.AddAttribute(HtmlTextWriterAttribute.Src, Constants.SampleLogoPath);
+            writer.AddAttribute(HtmlTextWriterAttribute.Class, "logo");
+            writer.RenderBeginTag(HtmlTextWriterTag.Img);
+            writer.RenderEndTag();
+            writer.WriteLine();
         }
 
         private void AddStory(HtmlTextWriter writer)

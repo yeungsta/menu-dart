@@ -223,7 +223,7 @@ namespace MenuDart.Controllers
                     //set menu as deactivated
                     singleMenu.Active = false;
 
-                    //deactivate the menu directory (delete menu but not index files)
+                    //deactivate the menu directory (delete menu but not logo file)
                     Utilities.DeactivateDirectory(singleMenu.MenuDartUrl);
 
                     db.Entry(singleMenu).State = EntityState.Modified;
@@ -383,7 +383,7 @@ namespace MenuDart.Controllers
                         menu.Active = false;
                         db.Entry(menu).State = EntityState.Modified;
 
-                        //deactivate the menu directory (delete menu but not index files)
+                        //deactivate the menu directory (delete menu but not logo file)
                         Utilities.DeactivateDirectory(menu.MenuDartUrl);
                     }
 
@@ -494,14 +494,14 @@ namespace MenuDart.Controllers
 
                             V1 composer = new V1(singleMenu);
                             // re-compose the menu
-                            composer.CreateMenu();
+                            string fullURL = composer.CreateMenu();
 
                             db.Entry(singleMenu).State = EntityState.Modified;
 
                             //info for confirmation email
                             MenuAndLink item = new MenuAndLink();
                             item.MenuName = singleMenu.Name;
-                            item.MenuLink = Utilities.GetFullUrl(singleMenu.MenuDartUrl);
+                            item.MenuLink = fullURL;
                             justActivatedMenusAndLinks.Add(item);
                         }
 
@@ -534,7 +534,7 @@ namespace MenuDart.Controllers
                             //set menu as deactivated
                             menu.Active = false;
 
-                            //deactivate the menu directory (delete menu but not index files)
+                            //deactivate the menu directory (delete menu but not logo file)
                             Utilities.DeactivateDirectory(menu.MenuDartUrl);
 
                             db.Entry(menu).State = EntityState.Modified;
@@ -579,7 +579,7 @@ namespace MenuDart.Controllers
 
                             V1 composer = new V1(menu);
                             // re-compose the menu
-                            composer.CreateMenu();
+                            string fullURL = composer.CreateMenu();
 
                             db.Entry(menu).State = EntityState.Modified;
 
@@ -589,7 +589,7 @@ namespace MenuDart.Controllers
 
                             MenuAndLink item = new MenuAndLink();
                             item.MenuName = menu.Name;
-                            item.MenuLink = Utilities.GetFullUrl(menu.MenuDartUrl);
+                            item.MenuLink = fullURL;
                             justActivatedMenusAndLinks.Add(item);
 
                             //get total list of activated menus

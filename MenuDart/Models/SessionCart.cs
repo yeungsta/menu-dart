@@ -86,10 +86,11 @@ namespace MenuDart.Models
 
                 //remove temp menu
                 storeDB.TempMenus.Remove(tempMenu);
-
+/*
                 //Reserve an empty, permanent location/URL
                 V1 composer = new V1(menu);
                 composer.CreateMenuDir();
+ */ 
             }
 
             if (tempMenus.Count() > 0)
