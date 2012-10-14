@@ -162,12 +162,6 @@ namespace MenuDart.Controllers
             return "http://" + HttpContext.Current.Request.Url.Host + ":" + HttpContext.Current.Request.Url.Port + Constants.MenusDir + menuDartUrl + "/" + Constants.LogoFileName;
         }
 
-        //constructs full URL of menu site's temp logo
-        public static string GetMenuLogoTmpUrl(string menuDartUrl)
-        {
-            return "http://" + HttpContext.Current.Request.Url.Host + ":" + HttpContext.Current.Request.Url.Port + Constants.MenusDir + menuDartUrl + "/" + Constants.LogoTmpFileName;
-        }
-
         //delete entire directory and contents
         public static void RemoveDirectory(string menuDartUrl)
         {

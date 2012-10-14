@@ -35,7 +35,6 @@ namespace MenuDart.Models
         public string Name { get; set; }
         public string MenuDartUrl { get; set; }
         public string LogoUrl { get; set; }
-        public string LogoTmpUrl { get; set; }
     }
 
     public class MenuEditorLocationViewModel

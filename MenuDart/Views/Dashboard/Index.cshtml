@@ -23,8 +23,7 @@
                   <th>Name</th>
                   <th>City</th>
                   <th>Active</th>
-                  <th>Hits this month @Html.ActionLink("(History)", "Index", "Dashboard")</th>
-                  <th></th>
+                  <th>Actions</th>
                 </tr>
               </thead>
               <tbody>
@@ -44,7 +43,6 @@
                            <text><span class="badge badge-important">No</span></text> 
                         }
                       </td>
-                      <td>300</td>
                       <td>
                         @if (@item.Active)
                         {
@@ -105,8 +103,7 @@
           <br>
           <dt>Account</dt>
           <dd>Need to change your password? @Html.ActionLink("Do it here", "ChangePassword", "Account").
-          <br><br>
-            <input type="checkbox"> Email me my menu stats/hits at the beginning of each month.
+          <br>
           </dd>
           <br>
           <dt>Talk to us</dt>

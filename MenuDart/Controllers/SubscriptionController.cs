@@ -87,7 +87,7 @@ namespace MenuDart.Controllers
             }
             else
             {
-                //there's already a previous active menu, so modify current PayPal subscription
+                //there's already a previous active menu, so modify current subscription
                 return RedirectToAction("ModifySubscription", "Subscription", new { id = id, subscribeAction = Constants.ActivateOne, email = Email, quantity = ActiveCount });
             }
         }

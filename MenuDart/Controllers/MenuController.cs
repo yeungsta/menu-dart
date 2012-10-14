@@ -310,14 +310,6 @@ namespace MenuDart.Controllers
             {
                 logoViewData.LogoUrl = Utilities.GetFullUrl(menu.MenuDartUrl) + "/" + Constants.LogoFileName;
             }
-
-            //check if temp logo exists for display
-            string logoTmpPath = menu.MenuDartUrl + "/" + Constants.LogoTmpFileName;
-
-            if (Utilities.IsObjectExistS3(logoTmpPath))
-            {
-                logoViewData.LogoTmpUrl = Utilities.GetFullUrl(menu.MenuDartUrl) + "/" + Constants.LogoTmpFileName;
-            }
 #else
             //check if logo exists for display
             string logoPath = HttpContext.Server.MapPath(Constants.MenusPath + menu.MenuDartUrl + "/" + Constants.LogoFileName);
@@ -1285,7 +1277,7 @@ namespace MenuDart.Controllers
         //LogoUpload is called by the uploader Javascript
         [HttpPost]
         [Authorize]
-        public ActionResult LogoUpload(string qqfile, string menuDartUrl, bool replaceCurrent)
+        public ActionResult LogoUpload(string qqfile, string menuDartUrl)
         {
             if (!string.IsNullOrEmpty(menuDartUrl))
             {
@@ -1310,23 +1302,11 @@ namespace MenuDart.Controllers
                         //Webkit, Mozilla
                     }
 
-                    if (replaceCurrent)
-                    {
 #if UseAmazonS3
                         file = indexFilesPath + "/" + Constants.LogoFileName;
 #else
                         file = Path.Combine(indexFilesPath, Constants.LogoFileName);
 #endif
-                    }
-                    else
-                    {
-#if UseAmazonS3
-                        file = indexFilesPath + "/" + Constants.LogoTmpFileName;
-#else
-                        //save logo temporarily (until directed to replace)
-                        file = Path.Combine(indexFilesPath, Constants.LogoTmpFileName);
-#endif
-                    }
 
                     var buffer = new byte[stream.Length];
                     stream.Read(buffer, 0, buffer.Length);
@@ -1348,48 +1328,6 @@ namespace MenuDart.Controllers
             }
 
             return Json(new { success = false, message = "No URL path." }, "application/json");
-        }
-
-        //
-        // GET: /Menu/LogoReplace/5
-        // replace current logo with temp one
-        [Authorize]
-        public ActionResult LogoReplace(int id = 0)
-        {
-            if ((id == 0) || !Utilities.IsThisMyMenu(id, db, User))
-            {
-                return RedirectToAction("MenuBuilderAccessViolation");
-            }
-
-            Menu menu = db.Menus.Find(id);
-
-            if (menu == null)
-            {
-                Utilities.LogAppError("Could not find menu.");
-                return HttpNotFound();
-            }
-
-#if UseAmazonS3        
-            string tmpLogoPath = menu.MenuDartUrl + "/" + Constants.LogoTmpFileName;
-            string logoPath = menu.MenuDartUrl + "/" + Constants.LogoFileName;
-
-            //check if temp logo exists
-            if (Utilities.IsObjectExistS3(tmpLogoPath))
-            {
-                Utilities.RenameObjectInS3(tmpLogoPath, logoPath);
-            }
-#else
-            string indexFilesPath = HttpContext.Server.MapPath(Constants.MenusPath + menu.MenuDartUrl);
-            string currentLogo = Path.Combine(indexFilesPath, Constants.LogoFileName);
-            string tempLogo = Path.Combine(indexFilesPath, Constants.LogoTmpFileName);
-
-            if (System.IO.File.Exists(tempLogo))
-            {
-                System.IO.File.Copy(tempLogo, currentLogo, true);
-                System.IO.File.Delete(tempLogo);
-            }
-#endif
-            return RedirectToAction("Edit4", new { id = id });
         }
 
         //
