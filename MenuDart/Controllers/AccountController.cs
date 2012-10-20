@@ -7,7 +7,6 @@ using System.Web.Routing;
 using System.Web.Security;
 using System.Net.Mail;
 using MenuDart.Models;
-using MenuDart.PayPalSvc;
 
 namespace MenuDart.Controllers
 {
@@ -105,8 +104,8 @@ namespace MenuDart.Controllers
                         newUserInfo.Subscribed = false;
                         newUserInfo.TrialEnded = false;
                         newUserInfo.TrialExpWarningSent = false;
-                        newUserInfo.PayPalProfileId = string.Empty;
-                        newUserInfo.PayPalProfileStatus = string.Empty;
+                        newUserInfo.PaymentCustomerId = string.Empty;
+                        newUserInfo.PaymentCustomerStatus = string.Empty;
 
                         db.UserInfo.Add(newUserInfo);
                         db.SaveChanges();

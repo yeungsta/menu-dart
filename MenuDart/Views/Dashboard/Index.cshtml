@@ -72,13 +72,7 @@
           <br>
           <dt>Billing</dt>
           <dd>
-            @if (!@Model.TrialEnded)
-            {
-                <text>
-                You are currently on a <span class="badge badge-warning">free 1-month trial</span>, which ends on 1/23/12. Or you can go ahead and @Html.ActionLink("activate all your menu(s) if you'd like.", "ActivateAll", "Subscription", new { email = Model.Email, quantity = @Model.Menus.Count() }, null)
-                </text> 
-            }
-            else if (@Model.Subscribed)
+            @if (@Model.Subscribed)
             {
                 if (@Model.CouponActive)
                 {
@@ -89,9 +83,15 @@
                 else
                 {
                     <text>
-                    You are currently <span class="badge badge-success">subscribed with @activeCount</span> active menu(s) for a total of $@monthlyBill per month. (@activeCount x $7 = $@monthlyBill) [@Html.ActionLink("Deactivate all menu(s)", "DeactivateAll", "Subscription", new { email = Model.Email }, null) | @Html.ActionLink("Suspend", "Suspend", "Subscription", new { email = Model.Email }, null)]
+                    You are currently <span class="badge badge-success">subscribed with @activeCount</span> active menu(s) for a total of $@monthlyBill per month. (@activeCount x $7 = $@monthlyBill) [@Html.ActionLink("Deactivate all menu(s)", "DeactivateAll", "Subscription", new { email = Model.Email }, null)]
                     </text>            
                 }
+            }
+            else if (!@Model.TrialEnded)
+            {
+                <text>
+                You are currently on a <span class="badge badge-warning">free 1-month trial</span>, which ends on 1/23/12. Or you can go ahead and @Html.ActionLink("activate all your menu(s) if you'd like.", "ActivateAll", "Subscription", new { email = Model.Email, quantity = @Model.Menus.Count() }, null)
+                </text> 
             }
             else
             {

@@ -6,7 +6,6 @@ using System.Web.Mvc;
 using System.Web.Security;
 using System.Net.Mail;
 using MenuDart.Models;
-using MenuDart.PayPalSvc;
 
 namespace MenuDart.Controllers
 {
@@ -67,9 +66,9 @@ namespace MenuDart.Controllers
                 model.ID = userInfoList[0].ID;
                 model.TrialEnded = userInfoList[0].TrialEnded;
                 model.Subscribed = userInfoList[0].Subscribed;
-                //coupon is active if the profile status is suspended while user is subscribed
-                model.CouponActive = ((userInfoList[0].PayPalProfileStatus == RecurringPaymentsProfileStatusType.SuspendedProfile.ToString())
-                    && (userInfoList[0].Subscribed));
+
+                //TODO: coupon is active if ?
+                model.CouponActive = false;
 
                 //convert creation date to Unix Time
                 TimeSpan ts = (currentUser.CreationDate - new DateTime(1970, 1, 1, 0, 0, 0));

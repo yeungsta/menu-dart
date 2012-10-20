@@ -11,7 +11,7 @@
 @if (ViewBag.NumActiveMenus <= 1)
 {
     <text>
-    By continuing, you will be prompted with a PayPal recurring billing agreement for your @Model.Name menu at $@ViewBag.NewTotal a month.
+    By continuing, you will be prompted with a recurring billing agreement for @Model.Name menu at $@ViewBag.NewTotal a month.
     </text>
 }
 else
@@ -31,7 +31,17 @@ else
     @Html.Hidden("Email", (object)ViewBag.Email)
 
     <div class="form-actions">
-        <button type="submit" value="Activate" class="btn btn-large btn-primary"><i class="icon-ok icon-white"></i> Activate</button>
+        @if (ViewBag.NumActiveMenus <= 1)
+        {
+          <script src="https://button.stripe.com/v1/button.js" class="stripe-button"
+                  data-key="pk_0AQ27F6Upi3VpRUBHAPDlR9o4GnM6"
+                  data-amount="700"
+                  data-label="Pay"></script>
+        }
+        else
+        {
+            <button type="submit" value="Activate" class="btn btn-large btn-primary"><i class="icon-ok icon-white"></i> Activate</button>           
+        }
         <a class="btn btn-primary btn-large" href="@Url.Action("Index", "Dashboard")"><i class="icon-remove icon-white"></i> Cancel</a>
     </div>
 }

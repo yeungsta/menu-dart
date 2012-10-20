@@ -100,8 +100,8 @@ namespace MenuDart.Models
         public bool Subscribed { get; set; }
         public bool TrialEnded { get; set; }
         public bool TrialExpWarningSent { get; set; }
-        public string PayPalProfileId { get; set; }
-        public string PayPalProfileStatus { get; set; }
+        public string PaymentCustomerId { get; set; }
+        public string PaymentCustomerStatus { get; set; }
     }
 
     public class MenuDartDBContext : DbContext
