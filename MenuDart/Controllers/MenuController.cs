@@ -108,41 +108,46 @@ namespace MenuDart.Controllers
         [Authorize]
         public ActionResult Edit(MenuEditorBasicViewModel basicInfo, int id = 0)
         {
-            if ((id == 0) || !Utilities.IsThisMyMenu(id, db, User))
-            {
-                return RedirectToAction("MenuBuilderAccessViolation");
-            }
-
             if (ModelState.IsValid)
             {
-                Menu menu = db.Menus.Find(id);
-
-                if (menu == null)
+                if ((id == 0) || !Utilities.IsThisMyMenu(id, db, User))
                 {
-                    return HttpNotFound();
+                    return RedirectToAction("MenuBuilderAccessViolation");
                 }
 
-                //if name or city is updated, need to update new URL
-                if ((menu.Name != basicInfo.Name) || (menu.City != basicInfo.City))
+                if (ModelState.IsValid)
                 {
-                    menu.Name = basicInfo.Name;
-                    menu.City = basicInfo.City;
-                    menu.MenuDartUrl = CreateMenuDartUrl(basicInfo.Name, basicInfo.City);
+                    Menu menu = db.Menus.Find(id);
 
-                    //TODO: notify user of new URL when saving
+                    if (menu == null)
+                    {
+                        return HttpNotFound();
+                    }
+
+                    //if name or city is updated, need to update new URL
+                    if ((menu.Name != basicInfo.Name) || (menu.City != basicInfo.City))
+                    {
+                        menu.Name = basicInfo.Name;
+                        menu.City = basicInfo.City;
+                        menu.MenuDartUrl = CreateMenuDartUrl(basicInfo.Name, basicInfo.City);
+
+                        //TODO: notify user of new URL when saving
+                    }
+
+                    //update basic info fields
+                    menu.Phone = basicInfo.Phone;
+                    menu.Website = basicInfo.Website;
+
+                    //save changes
+                    db.Entry(menu).State = EntityState.Modified;
+                    db.SaveChanges();
                 }
-                
-                //update basic info fields
-                menu.Phone = basicInfo.Phone;
-                menu.Website = basicInfo.Website;
 
-                //save changes
-                db.Entry(menu).State = EntityState.Modified;
-                db.SaveChanges();
+                //create view model
+                basicInfo.MenuId = id;
+                return View(basicInfo);
             }
 
-            //create view model
-            basicInfo.MenuId = id;
             return View(basicInfo);
         }
 
@@ -624,6 +629,7 @@ namespace MenuDart.Controllers
 
             //menu should already exist
             ViewBag.Url = Utilities.GetFullUrl(menu.MenuDartUrl);
+            ViewBag.MenuId = id;
 
             return View();
         }
@@ -682,6 +688,9 @@ namespace MenuDart.Controllers
             }
 
             ViewBag.Url = Utilities.GetFullUrlPreview(randomId);
+            ViewBag.MenuId = id;
+            //if using sample logo, this is coming from the menu builder
+            ViewBag.MenuBuilderPreview = useSampleLogo;
 
             return View();
         }
@@ -872,6 +881,18 @@ namespace MenuDart.Controllers
                 //set template value
                 menu.Template = template;
 
+                //In MenuBuilder step 1, we supplied dummy phone and website values in order
+                //for the sample menu to look good (filled out). Now if the user didn't fill
+                //these fields out, we want to clear out the dummy values.
+                if (menu.Website == Composer.Constants.DefaultWebsite)
+                {
+                    menu.Website = null;
+                }
+                if (menu.Phone == Composer.Constants.DefaultPhone)
+                {
+                    menu.Phone = null;
+                }
+
                 //save menu to DB
                 db.Entry(menu).State = EntityState.Modified;
                 db.SaveChanges();
@@ -906,6 +927,15 @@ namespace MenuDart.Controllers
                 return HttpNotFound();
             }
 
+#if UseAmazonS3
+            //check if logo exists for display
+            string logoPath = menu.MenuDartUrl + "/" + Constants.LogoFileName;
+
+            if (Utilities.IsObjectExistS3(logoPath))
+            {
+                ViewBag.LogoUrl = Utilities.GetFullUrl(menu.MenuDartUrl) + "/" + Constants.LogoFileName;
+            }
+#else
             //check if logo exists for display
             string logoPath = HttpContext.Server.MapPath(Constants.MenusPath + menu.MenuDartUrl + "/" + Constants.LogoFileName);
 
@@ -913,7 +943,7 @@ namespace MenuDart.Controllers
             {
                 ViewBag.LogoUrl = Utilities.GetMenuLogoUrl(menu.MenuDartUrl);
             }
-
+#endif
             return View(menu);
         }
 

@@ -6,37 +6,21 @@
 <center>
 <h1>Edit @Model.Name.</h1>
 <br>
-<h4>
-@MenuDart.Controllers.MenuExtensions.EditMenuItem(Html, "Basic Info", "Edit", "Menu", new { id = Model.MenuId }) |
-@MenuDart.Controllers.MenuExtensions.EditMenuItem(Html, "Theme", "Edit2", "Menu", new { id = Model.MenuId }) |
-@MenuDart.Controllers.MenuExtensions.EditMenuItem(Html, "About", "Edit3", "Menu", new { id = Model.MenuId }) |
-@MenuDart.Controllers.MenuExtensions.EditMenuItem(Html, "Logo", "Edit4", "Menu", new { id = Model.MenuId }) |
-@MenuDart.Controllers.MenuExtensions.EditMenuItem(Html, "Location", "Edit5", "Menu", new { id = Model.MenuId }) |
-@MenuDart.Controllers.MenuExtensions.EditMenuItem(Html, "Hours", "Edit6", "Menu", new { id = Model.MenuId }) |
-@MenuDart.Controllers.MenuExtensions.EditMenuItem(Html, "Contact", "Edit7", "Menu", new { id = Model.MenuId }) |
-@Html.ActionLink("Menu Items", "Details", "MenuTree", new { id = Model.MenuId, parent = 0, idx = -1, source = "MenuEditor", ReturnUrl = "/Edit/" + Model.MenuId }, null) |
-@Html.ActionLink("Preview", "PreviewMenu", "Menu", new { id = Model.MenuId, useSampleLogo = false }, null) |
-@Html.ActionLink("Publish", "Publish", "Menu", new { ReturnUrl = "/Edit/" + Model.MenuId, id = Model.MenuId }, null)
-</h4>
+@Html.Partial("_EditorMenubar")
 </center>
 <br />
-
-<script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
-<script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
 
 @using (Html.BeginForm("Edit4", "Menu", FormMethod.Post, new { @class = "form-horizontal" }))
 {
     @Html.ValidationSummary(true)
     <fieldset>
-        <legend>Update your restaurant's logo on this page.</legend>
-        <br />
+        <center>
         @if (string.IsNullOrEmpty(Model.LogoUrl))
         {
             <text><b>No logo currently specified.</b></text>
         }
         else
         {
-            <text>Current:<br /></text>
             <img src="@Model.LogoUrl" />          
         }
 
@@ -75,8 +59,9 @@
 
         @if (!string.IsNullOrEmpty(Model.LogoUrl))
         {
-            @Html.ActionLink("I Don't Need a Logo", "LogoRemove", "Menu", new { ReturnUrl = "Edit4", id = @Model.MenuId }, null)
+            @Html.ActionLink("Remove Logo", "LogoRemove", "Menu", new { ReturnUrl = "Edit4", id = @Model.MenuId }, null)
         }
+        </center>
     </fieldset>
 }
 

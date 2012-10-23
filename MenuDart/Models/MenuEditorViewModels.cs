@@ -3,13 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.ComponentModel.DataAnnotations;
 
 namespace MenuDart.Models
 {
     public class MenuEditorBasicViewModel
     {
         public int MenuId { get; set; }
+        [Required(ErrorMessage = "You must enter a restaurant name.")]
         public string Name { get; set; }
+        [Required(ErrorMessage = "You must enter the city of your restaurant.")]
         public string City { get; set; }
         public string Phone { get; set; }
         public string Website { get; set; }

@@ -11,9 +11,9 @@ namespace MenuDart.Models
     public class Menu
     {
         public int ID { get; set; }
-        [Required]
+        [Required(ErrorMessage = "You must enter a restaurant name.")]
         public string Name { get; set; }
-        [Required]
+        [Required(ErrorMessage = "You must enter the city of your restaurant.")]
         public string City { get; set; }
         public bool Active { get; set; }
         public string Website { get; set; }
@@ -40,15 +40,22 @@ namespace MenuDart.Models
         public string Title { get; set; }
         public string Address { get; set; }
         public string City { get; set; }
+        [RegularExpression(@"^[A-Za-z]{2}", ErrorMessage = "State must be a 2-character abbreviation.")]
         public string State { get; set; }
+        [RegularExpression(@"^\d{5}", ErrorMessage = "Zip code must be a 5-digit number.")]
         public string Zip { get; set; }
         public string MapImgUrl { get; set; }
         public string MapLink { get; set; }
         public string Hours { get; set; }
+        [DataType(DataType.PhoneNumber)]
         public string Phone { get; set; }
+        [DataType(DataType.EmailAddress)]
         public string Email { get; set; }
+        [DataType(DataType.Url)]
         public string Facebook { get; set; }
+        [DataType(DataType.Url)]
         public string Twitter { get; set; }
+        [DataType(DataType.Url)]
         public string Yelp { get; set; }
     }
 

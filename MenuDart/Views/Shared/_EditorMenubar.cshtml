@@ -1,0 +1,12 @@
+﻿<legend><h4>
+@MenuDart.Controllers.MenuExtensions.EditMenuItem(Html, "Basic Info", "Edit", "Menu", new { id = Model.MenuId }) |
+@MenuDart.Controllers.MenuExtensions.EditMenuItem(Html, "Theme", "Edit2", "Menu", new { id = Model.MenuId }) |
+@MenuDart.Controllers.MenuExtensions.EditMenuItem(Html, "About", "Edit3", "Menu", new { id = Model.MenuId }) |
+@MenuDart.Controllers.MenuExtensions.EditMenuItem(Html, "Logo", "Edit4", "Menu", new { id = Model.MenuId }) |
+@MenuDart.Controllers.MenuExtensions.EditMenuItem(Html, "Location", "Edit5", "Menu", new { id = Model.MenuId }) |
+@MenuDart.Controllers.MenuExtensions.EditMenuItem(Html, "Hours", "Edit6", "Menu", new { id = Model.MenuId }) |
+@MenuDart.Controllers.MenuExtensions.EditMenuItem(Html, "Contact", "Edit7", "Menu", new { id = Model.MenuId }) |
+@Html.ActionLink("Menu Items", "Details", "MenuTree", new { id = Model.MenuId, parent = 0, idx = -1, source = "MenuEditor", ReturnUrl = "/Edit/" + Model.MenuId }, null) |
+@Html.ActionLink("Preview", "PreviewMenu", "Menu", new { id = Model.MenuId, useSampleLogo = false }, null) |
+@Html.ActionLink("Publish", "Publish", "Menu", new { ReturnUrl = "/Edit/" + Model.MenuId, id = Model.MenuId }, null)
+</h4></legend>

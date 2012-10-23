@@ -32,10 +32,20 @@
 
 <br />
 <h4>
-You can also use a smartphone to surf to this menu and check it out in its full mobile-glory at:
+View menu on your mobile device by pointing your browser to this site:
 <br />
 <br />
-@ViewBag.Url
+<a href="@ViewBag.Url" target="_blank">@ViewBag.Url</a>
 </h4>
 </center>
+
+@if (!ViewBag.MenuBuilderPreview)
+{
+    <text><br /><br />
+    Want to change something in your menu? @Html.ActionLink("Edit your menu.", "Edit", "Menu", new { id = ViewBag.MenuId }, null)
+    <br />
+    @Html.ActionLink("Back to Dashboard", "Index", "Dashboard")
+    </text>
+}
+
 </div> <!-- hero -->

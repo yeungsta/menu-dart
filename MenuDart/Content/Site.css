@@ -278,21 +278,22 @@ div#title {
 /* Styles for validation helpers
 -----------------------------------------------------------*/
 .field-validation-error {
-    color: #ff0000;
+    color: red;
 }
 
 .field-validation-valid {
     display: none;
 }
 
-.input-validation-error {
-    border: 1px solid #ff0000;
+.input-validation-error 
+{
+    border: 1px solid red;
     background-color: #ffeeee;
 }
 
 .validation-summary-errors {
     font-weight: bold;
-    color: #ff0000;
+    color: red;
 }
 
 .validation-summary-valid {

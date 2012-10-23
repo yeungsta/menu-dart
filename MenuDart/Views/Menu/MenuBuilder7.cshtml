@@ -8,7 +8,7 @@
       <div class="hero-unit">
         <center><h1>Menu Builder.</h1></center>
         <br>
-        <center>Now fill out business hours:</center>
+        <center><h4>Now fill out business hours:</h4></center>
         <br>
         <p>
         @using (Html.BeginForm("MenuBuilder7", "Menu", FormMethod.Post, new { @class = "form-horizontal" }))
@@ -17,7 +17,10 @@
             <fieldset>
             @for (int i = 0; i < Model.Count; i++)
             {
-            <h3>Location @(i + 1):</h3>
+                if (Model.Count > 1)
+                {
+                    <h4>Location @(i + 1):</h4>
+                }
               <div class="control-group">
                 <label class="control-label">@Html.LabelFor(model => Model[i].Hours, "Business hours")</label>
                 <div class="controls">
@@ -32,13 +35,10 @@
             </fieldset>
         }
         </p>
-            Just a couple more steps!
-            <div class="progress progress-striped">
+            <div class="progress progress-striped active">
               <div class="bar" style="width: 80%;">
               </div>
             </div>
       </div> <!-- hero -->
 
-<script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
-<script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
-
+      @Html.Partial("_FormValidation")
