@@ -69,18 +69,22 @@ namespace MenuDart.Models
         //[Display(Name = "User name")]
         //public string UserName { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "You must enter a valid email address.")]
         [DataType(DataType.EmailAddress)]
         [Display(Name = "Email address")]
         public string Email { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "You must enter a password.")]
         [DataType(DataType.Password)]
         [Display(Name = "Password")]
         public string Password { get; set; }
 
         [Display(Name = "Remember me?")]
         public bool RememberMe { get; set; }
+
+        public string ReturnAction { get; set; }
+        public string ReturnController { get; set; }
+        public int ReturnMenuId { get; set; }
     }
 
     public class RegisterModel
@@ -89,12 +93,12 @@ namespace MenuDart.Models
         //[Display(Name = "User name")]
         //public string UserName { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "You must enter a valid email address.")]
         [DataType(DataType.EmailAddress)]
         [Display(Name = "Email address")]
         public string Email { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "You must enter a password.")]
         [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
         [DataType(DataType.Password)]
         [Display(Name = "Password")]
@@ -104,5 +108,9 @@ namespace MenuDart.Models
         [Display(Name = "Confirm password")]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
+
+        public string ReturnAction { get; set; }
+        public string ReturnController { get; set; }
+        public int ReturnMenuId { get; set; }
     }
 }

@@ -35,14 +35,16 @@ else
         {
           <script src="https://button.stripe.com/v1/button.js" class="stripe-button"
                   data-key="pk_0AQ27F6Upi3VpRUBHAPDlR9o4GnM6"
-                  data-amount="700"
-                  data-label="Pay"></script>
+                  data-amount="700">
+          </script>
+          <br />
+          <a class="btn" href="@Url.Action("Index", "Dashboard")"><i class="icon-remove"></i> Cancel</a>
         }
         else
         {
-            <button type="submit" value="Activate" class="btn btn-large btn-primary"><i class="icon-ok icon-white"></i> Activate</button>           
+            <button type="submit" value="Activate" class="btn btn-large btn-primary"><i class="icon-ok icon-white"></i> Activate</button>
+            <a class="btn btn-large" href="@Url.Action("Index", "Dashboard")"><i class="icon-remove"></i> Cancel</a>
         }
-        <a class="btn btn-primary btn-large" href="@Url.Action("Index", "Dashboard")"><i class="icon-remove icon-white"></i> Cancel</a>
     </div>
 }
 </center>

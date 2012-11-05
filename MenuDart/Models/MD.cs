@@ -16,6 +16,7 @@ namespace MenuDart.Models
         [Required(ErrorMessage = "You must enter the city of your restaurant.")]
         public string City { get; set; }
         public bool Active { get; set; }
+        public bool ChangesUnpublished { get; set; }
         public string Website { get; set; }
         public string AboutTitle { get; set; }
         public string AboutText { get; set; }

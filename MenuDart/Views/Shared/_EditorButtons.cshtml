@@ -1,0 +1,26 @@
+﻿<button type="submit" value="Save" name="save_btn" class="btn btn-large btn-primary" disabled><i class="icon-ok icon-white"></i> Save</button>
+<a class="btn btn-large disabled" id="cancel_btn" href="javascript: void(0)"><i class="icon-remove"></i> Cancel</a>
+<ul class="pull-right">
+    <a class="btn btn-large btn-warning" href="@Url.Action("PreviewMenu", "Menu", new { id = Model.MenuId, useSampleLogo = false }, null)"><i class="icon-picture icon-white"></i> Preview</a>
+    @if (Model.ChangesUnpublished)
+    {
+        <a class="btn btn-large btn-success" href="@Url.Action("Publish", "Menu", new { ReturnUrl = "/Edit/" + Model.MenuId, id = Model.MenuId }, null)"><i class="icon-arrow-up icon-white"></i> Publish</a>
+    }
+    else
+    {
+        <a class="btn btn-large btn-success disabled" href="javascript: void(0)"><i class="icon-arrow-up icon-white"></i> Publish</a>        
+    }
+</ul>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('.input-xlarge').keyup(function (e) {
+            //ignore if the tab key is pressed
+            if(e.keyCode == 9) return false;
+            //else enable save and cancel buttons
+            document.editor_form.save_btn.disabled = false;
+            document.getElementById("cancel_btn").className = document.getElementById("cancel_btn").className.replace(/(?:^|\s)disabled(?!\S)/g, '');
+            document.getElementById("cancel_btn").href = "";
+        });
+    });
+</script>

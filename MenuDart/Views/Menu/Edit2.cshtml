@@ -12,7 +12,7 @@
 </center>
 <br />
 
-@using (Html.BeginForm("Edit2", "Menu", FormMethod.Post, new { @class = "form-horizontal" }))
+@using (Html.BeginForm("Edit2", "Menu", FormMethod.Post, new { @class = "form-horizontal", @name = "editor_form" }))
 {
     @Html.ValidationSummary(true)
     <fieldset>
@@ -24,8 +24,29 @@
         </div> 
 
         <div class="form-actions">
-            <button type="submit" value="Save" class="btn btn-large btn-primary"><i class="icon-ok icon-white"></i> Save</button>
-            <a class="btn btn-primary btn-large" href="@Url.Action("Index", "Dashboard")"><i class="icon-remove icon-white"></i> Cancel</a>
+            <button type="submit" value="Save" name="save_btn" class="btn btn-large btn-primary" disabled><i class="icon-ok icon-white"></i> Save</button>
+            <a class="btn btn-large disabled" id="cancel_btn" href="javascript: void(0)"><i class="icon-remove"></i> Cancel</a>
+            <ul class="pull-right">
+                <a class="btn btn-large btn-warning" href="@Url.Action("PreviewMenu", "Menu", new { id = Model.MenuId, useSampleLogo = false }, null)"><i class="icon-picture icon-white"></i> Preview</a>
+                @if (Model.ChangesUnpublished)
+                {
+                    <a class="btn btn-large btn-success" href="@Url.Action("Publish", "Menu", new { ReturnUrl = "/Edit/" + Model.MenuId, id = Model.MenuId }, null)"><i class="icon-arrow-up icon-white"></i> Publish</a>
+                }
+                else
+                {
+                    <a class="btn btn-large btn-success disabled" href="javascript: void(0)"><i class="icon-arrow-up icon-white"></i> Publish</a>        
+                }
+            </ul>
+
+            <script type="text/javascript">
+                $(document).ready(function () {
+                        $('.input-xlarge').change(function () {
+                        //else enable save and cancel buttons
+                        document.editor_form.save_btn.disabled = false;
+                        document.getElementById("cancel_btn").className = document.getElementById("cancel_btn").className.replace(/(?:^|\s)disabled(?!\S)/g, '');
+                        document.getElementById("cancel_btn").href = "";});
+                });
+            </script>
         </div>
     </fieldset>
 }

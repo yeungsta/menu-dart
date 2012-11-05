@@ -502,14 +502,19 @@ namespace MenuDart.Controllers
         private bool CancelStripeSubscription(UserInfo userInfo)
         {
             var customerService = new StripeCustomerService();
+            DateTime? periodEnd;
+            DateTime? periodStart;
 
             try
             {
+                //cancels subscription at the end of the current period
                 StripeSubscription stripeSubscription = customerService.CancelSubscription(userInfo.PaymentCustomerId);
 
                 //save profile ID and profile status with user info
                 userInfo.Subscribed = false;
                 userInfo.PaymentCustomerStatus = stripeSubscription.Status;
+                periodEnd = stripeSubscription.PeriodEnd;
+                periodStart = stripeSubscription.PeriodStart;
 
                 db.Entry(userInfo).State = EntityState.Modified;
             }
@@ -530,9 +535,23 @@ namespace MenuDart.Controllers
                 //refund the charge (if paid)
                 if (charge.Paid.HasValue && charge.Paid.Value)
                 {
-                    //int? refundAmount = charge.AmountInCents - charge.FeeInCents;
-                    //don't deduct Stripe fees
-                    int? refundAmount = charge.AmountInCents;
+                    int daysIntoPeriod = 0;
+
+                    if (DateTime.Today.Date > periodStart.Value)
+                    {
+                        daysIntoPeriod = periodEnd.Value.Subtract(DateTime.Today.Date).Days;
+                    }
+
+                    int numDaysInPeriod = periodEnd.Value.Date.Subtract(periodStart.Value.Date).Days;
+                    float ratePerDayInCents = charge.AmountInCents.Value / numDaysInPeriod;
+
+                    float amountOwed = daysIntoPeriod * ratePerDayInCents;
+
+                    int? refundAmount = 0;
+
+                    //round amount to nearest int
+                    refundAmount = charge.AmountInCents.Value - Convert.ToInt32(amountOwed);
+                    
                     StripeCharge stripeCharge = chargeService.Refund(charge.Id, refundAmount);
                 }
             }

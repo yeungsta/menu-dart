@@ -17,9 +17,14 @@ namespace MenuDart.Controllers
         //
         // GET: /Account/LogOn
 
-        public ActionResult LogOn(string ReturnUrl)
+        public ActionResult LogOn(string returnAction, string returnController, int menuID = 0)
         {
-            ViewBag.ReturnUrl = ReturnUrl;
+            if (!string.IsNullOrEmpty(returnAction) && !string.IsNullOrEmpty(returnController))
+            {
+                ViewBag.ReturnAction = returnAction;
+                ViewBag.ReturnController = returnController;
+                ViewBag.MenuID = menuID;
+            }
 
             return View();
         }
@@ -28,7 +33,7 @@ namespace MenuDart.Controllers
         // POST: /Account/LogOn
 
         [HttpPost]
-        public ActionResult LogOn(LogOnModel model, string returnUrl)
+        public ActionResult LogOn(LogOnModel model)
         {
             if (ModelState.IsValid)
             {
@@ -38,10 +43,10 @@ namespace MenuDart.Controllers
                     MigrateSessionCart(model.Email);
 
                     FormsAuthentication.SetAuthCookie(model.Email, model.RememberMe);
-                    if (Url.IsLocalUrl(returnUrl) && returnUrl.Length > 1 && returnUrl.StartsWith("/")
-                        && !returnUrl.StartsWith("//") && !returnUrl.StartsWith("/\\"))
+
+                    if (!string.IsNullOrEmpty(model.ReturnAction) && !string.IsNullOrEmpty(model.ReturnController))
                     {
-                        return Redirect(returnUrl);
+                        return RedirectToAction(model.ReturnAction, model.ReturnController, new { id = model.ReturnMenuId });
                     }
                     else
                     {
@@ -72,8 +77,15 @@ namespace MenuDart.Controllers
         //
         // GET: /Account/Register
 
-        public ActionResult Register()
+        public ActionResult Register(string returnAction, string returnController, int menuID = 0)
         {
+            if (!string.IsNullOrEmpty(returnAction) && !string.IsNullOrEmpty(returnController))
+            {
+                ViewBag.ReturnAction = returnAction;
+                ViewBag.ReturnController = returnController;
+                ViewBag.MenuID = menuID;
+            }
+
             return View();
         }
 
@@ -81,7 +93,7 @@ namespace MenuDart.Controllers
         // POST: /Account/Register
 
         [HttpPost]
-        public ActionResult Register(RegisterModel model, string returnUrl)
+        public ActionResult Register(RegisterModel model)
         {
             if (ModelState.IsValid)
             {
@@ -123,12 +135,11 @@ namespace MenuDart.Controllers
                     }
                     catch
                     {
-                    }       
+                    }
 
-                    if (Url.IsLocalUrl(returnUrl) && returnUrl.Length > 1 && returnUrl.StartsWith("/")
-                        && !returnUrl.StartsWith("//") && !returnUrl.StartsWith("/\\"))
+                    if (!string.IsNullOrEmpty(model.ReturnAction) && !string.IsNullOrEmpty(model.ReturnController))
                     {
-                        return Redirect(returnUrl);
+                        return RedirectToAction(model.ReturnAction, model.ReturnController, new { id = model.ReturnMenuId });
                     }
                     else
                     {

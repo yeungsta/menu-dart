@@ -62,6 +62,20 @@
             @Html.ActionLink("Remove Logo", "LogoRemove", "Menu", new { ReturnUrl = "Edit4", id = @Model.MenuId }, null)
         }
         </center>
+        <div class="form-actions">
+            <b>* Logo changes take immediate effect. Publishing is not needed.</b>
+            <ul class="pull-right">
+                <a class="btn btn-large btn-warning" href="@Url.Action("PreviewMenu", "Menu", new { id = Model.MenuId, useSampleLogo = false }, null)"><i class="icon-picture icon-white"></i> Preview</a>
+                @if (Model.ChangesUnpublished)
+                {
+                    <a class="btn btn-large btn-success" href="@Url.Action("Publish", "Menu", new { ReturnUrl = "/Edit/" + Model.MenuId, id = Model.MenuId }, null)"><i class="icon-arrow-up icon-white"></i> Publish</a>
+                }
+                else
+                {
+                    <a class="btn btn-large btn-success disabled" href="javascript: void(0)"><i class="icon-arrow-up icon-white"></i> Publish</a>        
+                }
+            </ul>
+        </div>
     </fieldset>
 }
 

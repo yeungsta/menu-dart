@@ -12,7 +12,7 @@
 </center>
 <br />
 
-@using (Html.BeginForm("Edit7", "Menu", FormMethod.Post, new { @class = "form-horizontal" }))
+@using (Html.BeginForm("Edit7", "Menu", FormMethod.Post, new { @class = "form-horizontal", @name = "editor_form" }))
 {
     @Html.ValidationSummary(true)
     <fieldset>
@@ -76,8 +76,7 @@
         }
 
         <div class="form-actions">
-            <button type="submit" value="Save" class="btn btn-large btn-primary"><i class="icon-ok icon-white"></i> Save</button>
-            <a class="btn btn-primary btn-large" href="@Url.Action("Index", "Dashboard")"><i class="icon-remove icon-white"></i> Cancel</a>
+            @Html.Partial("_EditorButtons")
         </div>
     </fieldset>
 }

@@ -17,8 +17,12 @@ By continuing, you will be prompted with a recurring billing agreement for @View
         @Html.Hidden("Quantity", (object)ViewBag.NumActiveMenus)
 
         <div class="form-actions">
-            <button type="submit" value="ActivateAll" class="btn btn-large btn-primary"><i class="icon-ok icon-white"></i> Activate All</button>
-            <a class="btn btn-primary btn-large" href="@Url.Action("Index", "Dashboard")"><i class="icon-remove icon-white"></i> Cancel</a>
+              <script src="https://button.stripe.com/v1/button.js" class="stripe-button"
+                      data-key="pk_0AQ27F6Upi3VpRUBHAPDlR9o4GnM6"
+                      data-amount="700">
+              </script>
+              <br />
+              <a class="btn" href="@Url.Action("Index", "Dashboard")"><i class="icon-remove"></i> Cancel</a>
         </div>
 }
 </center>

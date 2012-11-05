@@ -42,9 +42,11 @@
                         <div class="controls">
                             @Html.TextBoxFor(model => model.CurrentMenu.Website, new { @class = "input-xlarge", style = "width: 500px;" })
                             @Html.ValidationMessageFor(model => model.CurrentMenu.Website)
-                            <p class="help-block">* Required</p>
                         </div>
-                      </div>                
+                      </div>
+                        <div class="control-group">
+                            <label class="control-label"><b>* Required</b></label>
+                        </div>                                   
                     <div class="form-actions">
                       <button type="submit" value="Create" class="btn btn-large btn-primary">Create!</button>
                     </div>            

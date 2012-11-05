@@ -16,12 +16,14 @@ namespace MenuDart.Models
         public string City { get; set; }
         public string Phone { get; set; }
         public string Website { get; set; }
+        public bool ChangesUnpublished { get; set; }
     }
 
     public class MenuEditorThemeViewModel
     {
         public int MenuId { get; set; }
         public string Name { get; set; }
+        public bool ChangesUnpublished { get; set; }
     }
 
     public class MenuEditorAboutViewModel
@@ -30,6 +32,7 @@ namespace MenuDart.Models
         public string Name { get; set; }
         public string AboutTitle { get; set; }
         public string AboutText { get; set; }
+        public bool ChangesUnpublished { get; set; }
     }
 
     public class MenuEditorLogoViewModel
@@ -38,6 +41,7 @@ namespace MenuDart.Models
         public string Name { get; set; }
         public string MenuDartUrl { get; set; }
         public string LogoUrl { get; set; }
+        public bool ChangesUnpublished { get; set; }
     }
 
     public class MenuEditorLocationViewModel
@@ -45,5 +49,6 @@ namespace MenuDart.Models
         public int MenuId { get; set; }
         public string Name { get; set; }
         public List<Location> Locations { get; set; }
+        public bool ChangesUnpublished { get; set; }
     }
 }

@@ -917,6 +917,13 @@ namespace MenuDart.Composer
                     writer.Write(" " + location.Zip);
                     writer.Write(Constants.Paragraph);
                     writer.WriteLine();
+
+                    //recreate Google map link (in case location has changed)
+                    location.MapLink = Utilities.CreateMapLink(location.Address, location.City, location.Zip);
+
+                    //recreate Google map image link (in case location has changed)
+                    location.MapImgUrl = Utilities.CreateMapImgLink(location.Address, location.City, location.Zip);
+
                     if (!string.IsNullOrEmpty(location.MapImgUrl) && !string.IsNullOrEmpty(location.MapLink))
                     {
                         AddMap(writer, location.MapLink, location.MapImgUrl);

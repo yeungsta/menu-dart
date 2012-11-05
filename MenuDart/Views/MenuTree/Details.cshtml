@@ -122,7 +122,10 @@
         {
             @Html.ActionLink("Back to Editor", (string)ViewBag.ReturnUrl, "Menu")
             <text><b>or just "Close" button?</b></text><br />
-            @Html.ActionLink("Preview", "PreviewMenu", "Menu", new { id = ViewBag.MenuId, useSampleLogo = false }, null)
+            <ul class="pull-right">
+                <a class="btn btn-large btn-warning" href="@Url.Action("PreviewMenu", "Menu", new { id = ViewBag.MenuId, useSampleLogo = false }, null)"><i class="icon-picture icon-white"></i> Preview</a>
+                <a class="btn btn-large btn-success" href="@Url.Action("Publish", "Menu", new { ReturnUrl = "/Edit/" + ViewBag.MenuId, id = ViewBag.MenuId }, null)"><i class="icon-arrow-up icon-white"></i> Publish</a>
+            </ul>
         }
 	</div><!-- /content -->
 

@@ -96,6 +96,7 @@ namespace MenuDart.Controllers
             basicViewData.City = menu.City;
             basicViewData.Phone = menu.Phone;
             basicViewData.Website = menu.Website;
+            basicViewData.ChangesUnpublished = menu.ChangesUnpublished;
 
             return View(basicViewData);
         }
@@ -138,13 +139,18 @@ namespace MenuDart.Controllers
                     menu.Phone = basicInfo.Phone;
                     menu.Website = basicInfo.Website;
 
+                    //mark menu as dirty
+                    menu.ChangesUnpublished = true;
+                    //for view
+                    basicInfo.ChangesUnpublished = menu.ChangesUnpublished;
+
                     //save changes
                     db.Entry(menu).State = EntityState.Modified;
                     db.SaveChanges();
                 }
 
-                //create view model
-                basicInfo.MenuId = id;
+                //update view model
+                basicInfo.MenuId = id;             
                 return View(basicInfo);
             }
 
@@ -176,6 +182,7 @@ namespace MenuDart.Controllers
             MenuEditorThemeViewModel themeViewData = new MenuEditorThemeViewModel();
             themeViewData.MenuId = menu.ID;
             themeViewData.Name = menu.Name;
+            themeViewData.ChangesUnpublished = menu.ChangesUnpublished;
 
             return View(themeViewData);
         }
@@ -205,6 +212,9 @@ namespace MenuDart.Controllers
                 //set template value
                 menu.Template = template;
 
+                //mark menu as dirty
+                menu.ChangesUnpublished = true;
+
                 //save menu to DB
                 db.Entry(menu).State = EntityState.Modified;
                 db.SaveChanges();
@@ -217,6 +227,7 @@ namespace MenuDart.Controllers
             MenuEditorThemeViewModel themeViewData = new MenuEditorThemeViewModel();
             themeViewData.MenuId = menu.ID;
             themeViewData.Name = menu.Name;
+            themeViewData.ChangesUnpublished = menu.ChangesUnpublished;
 
             return View(themeViewData);
         }
@@ -245,6 +256,7 @@ namespace MenuDart.Controllers
             aboutViewData.Name = menu.Name;
             aboutViewData.AboutTitle = menu.AboutTitle;
             aboutViewData.AboutText = menu.AboutText;
+            aboutViewData.ChangesUnpublished = menu.ChangesUnpublished;
 
             return View(aboutViewData);
         }
@@ -274,10 +286,15 @@ namespace MenuDart.Controllers
                 //update about info fields
                 menu.AboutTitle = aboutInfo.AboutTitle;
                 menu.AboutText = aboutInfo.AboutText;
+                //mark menu as dirty
+                menu.ChangesUnpublished = true;
 
                 //save menu to DB
                 db.Entry(menu).State = EntityState.Modified;
                 db.SaveChanges();
+
+                //for view
+                aboutInfo.ChangesUnpublished = menu.ChangesUnpublished;
             }
 
             return View(aboutInfo);
@@ -306,6 +323,7 @@ namespace MenuDart.Controllers
             logoViewData.MenuId = menu.ID;
             logoViewData.Name = menu.Name;
             logoViewData.MenuDartUrl = menu.MenuDartUrl;
+            logoViewData.ChangesUnpublished = menu.ChangesUnpublished;
 
 #if UseAmazonS3
             //check if logo exists for display
@@ -358,6 +376,7 @@ namespace MenuDart.Controllers
             locationViewData.MenuId = menu.ID;
             locationViewData.Name = menu.Name;
             locationViewData.Locations = V1.DeserializeLocations(menu.Locations);
+            locationViewData.ChangesUnpublished = menu.ChangesUnpublished;
 
             return View(locationViewData);
         }
@@ -386,10 +405,15 @@ namespace MenuDart.Controllers
 
                 //set serialized locations back into menu
                 menu.Locations = V1.SerializeLocations(locationInfo.Locations);
+                //mark menu as dirty
+                menu.ChangesUnpublished = true;
 
                 //save menu to DB
                 db.Entry(menu).State = EntityState.Modified;
                 db.SaveChanges();
+
+                //for view
+                locationInfo.ChangesUnpublished = menu.ChangesUnpublished;
             }
 
             return View(locationInfo);
@@ -418,6 +442,7 @@ namespace MenuDart.Controllers
             locationViewData.MenuId = menu.ID;
             locationViewData.Name = menu.Name;
             locationViewData.Locations = V1.DeserializeLocations(menu.Locations);
+            locationViewData.ChangesUnpublished = menu.ChangesUnpublished;
 
             return View(locationViewData);
         }
@@ -447,9 +472,15 @@ namespace MenuDart.Controllers
                 //set serialized locations back into menu
                 menu.Locations = V1.SerializeLocations(locationInfo.Locations);
 
+                //mark menu as dirty
+                menu.ChangesUnpublished = true;
+
                 //save menu to DB
                 db.Entry(menu).State = EntityState.Modified;
                 db.SaveChanges();
+
+                //for view
+                locationInfo.ChangesUnpublished = menu.ChangesUnpublished;
             }
 
             return View(locationInfo);
@@ -478,6 +509,7 @@ namespace MenuDart.Controllers
             locationViewData.MenuId = menu.ID;
             locationViewData.Name = menu.Name;
             locationViewData.Locations = V1.DeserializeLocations(menu.Locations);
+            locationViewData.ChangesUnpublished = menu.ChangesUnpublished;
 
             return View(locationViewData);
         }
@@ -507,9 +539,15 @@ namespace MenuDart.Controllers
                 //set serialized locations back into menu
                 menu.Locations = V1.SerializeLocations(locationInfo.Locations);
 
+                //mark menu as dirty
+                menu.ChangesUnpublished = true;
+
                 //save menu to DB
                 db.Entry(menu).State = EntityState.Modified;
                 db.SaveChanges();
+
+                //for view
+                locationInfo.ChangesUnpublished = menu.ChangesUnpublished;
             }
 
             return View(locationInfo);
@@ -574,6 +612,13 @@ namespace MenuDart.Controllers
                     V1 composer = new V1(menu);
                     // re-compose the menu
                     string fullURL = composer.CreateMenu();
+
+                    //reset dirty flag
+                    menu.ChangesUnpublished = false;
+
+                    //save changes
+                    db.Entry(menu).State = EntityState.Modified;
+                    db.SaveChanges();
 
                     ActivateViewModel activateViewData = new ActivateViewModel();
                     activateViewData.Name = menu.Name;

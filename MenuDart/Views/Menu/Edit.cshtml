@@ -11,7 +11,7 @@
 @Html.Partial("_EditorMenubar")
 </center>
 <br>
-@using (Html.BeginForm("Edit", "Menu", FormMethod.Post, new { @class = "form-horizontal" }))
+@using (Html.BeginForm("Edit", "Menu", FormMethod.Post, new { @class = "form-horizontal", @name = "editor_form" }))
 {
     @Html.ValidationSummary(true)
     <fieldset>
@@ -44,14 +44,15 @@
             <div class="controls">
                 @Html.TextBoxFor(model => model.Website, new { @class = "input-xlarge", style = "width: 500px;" })
                 @Html.ValidationMessageFor(model => model.Website)
-                <p class="help-block">* Required</p>
             </div>
         </div>
-        <div class="form-actions">
-            <button type="submit" value="Save" class="btn btn-large btn-primary"><i class="icon-ok icon-white"></i> Save</button>
-            <a class="btn btn-primary btn-large" href="@Url.Action("Index", "Dashboard")"><i class="icon-remove icon-white"></i> Cancel</a>
+        <div class="control-group">
+            <label class="control-label"><b>* Required</b></label>
         </div>
-    </fieldset>
+        <div class="form-actions">
+            @Html.Partial("_EditorButtons")
+        </div>
+    </fieldset>   
 }
 
 <div>
