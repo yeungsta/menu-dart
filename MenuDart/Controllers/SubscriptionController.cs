@@ -539,7 +539,7 @@ namespace MenuDart.Controllers
 
                     if (DateTime.Today.Date > periodStart.Value)
                     {
-                        daysIntoPeriod = periodEnd.Value.Subtract(DateTime.Today.Date).Days;
+                        daysIntoPeriod = DateTime.Today.Date.Subtract(periodStart.Value).Days;
                     }
 
                     int numDaysInPeriod = periodEnd.Value.Date.Subtract(periodStart.Value.Date).Days;

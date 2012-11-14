@@ -117,6 +117,7 @@
   <ItemGroup>
     <Content Include="Content\bootstrap-responsive.css" />
     <Content Include="Content\bootstrap.css" />
+    <Content Include="Content\menu-item-editor.css" />
     <Content Include="Content\fileuploader.css" />
     <Content Include="Content\images\loading.gif" />
     <Content Include="Content\master.css" />

@@ -50,6 +50,7 @@ namespace MenuDart.Controllers
                 ViewBag.Parent = parent;
                 ViewBag.Source = source;
                 ViewBag.ReturnUrl = ReturnUrl;
+                ViewBag.ChangesUnpublished = menu.ChangesUnpublished;
 
                 List<MenuNode> currentMenuTree = V1.DeserializeMenuTree(menu.MenuTree);
 
@@ -164,6 +165,7 @@ namespace MenuDart.Controllers
         public ActionResult Create(string parent, int id = 0)
         {
             ViewBag.Parent = parent;
+            ViewBag.MenuId = id;
 
             return View();
         } 
@@ -177,7 +179,7 @@ namespace MenuDart.Controllers
             //we need a parent in order to know where to create these menu nodes
             if (!string.IsNullOrEmpty(parent))
             {
-                if (ModelState.IsValid)
+                if ((ModelState.IsValid) && (!string.IsNullOrEmpty(newMenuNode.Title)))
                 {
                     Menu menu = db.Menus.Find(id);
 
@@ -244,12 +246,19 @@ namespace MenuDart.Controllers
                         menu.MenuTree = V1.SerializeMenuTree(newMenuNodeList);
                     }
 
+                    //mark menu as dirty
+                    menu.ChangesUnpublished = true;
+
                     //save menu in DB
                     db.Entry(menu).State = EntityState.Modified;
                     db.SaveChanges();
 
                     return RedirectToAction("Details", new { id = id, parent = parent, idx = -1 });
                 }
+
+                //send it back to the form
+                ViewBag.Parent = parent;
+                ViewBag.MenuId = id;
 
                 return View(newMenuNode);
             }
@@ -274,7 +283,7 @@ namespace MenuDart.Controllers
             //we need a parent in order to know where to create these menu nodes
             if (!string.IsNullOrEmpty(parent))
             {
-                if (ModelState.IsValid)
+                if ((ModelState.IsValid) && (!string.IsNullOrEmpty(newMenuLeaf.Title)))
                 {
                     Menu menu = db.Menus.Find(id);
 
@@ -319,12 +328,19 @@ namespace MenuDart.Controllers
                         menu.MenuTree = V1.SerializeMenuTree(newMenuNodes);
                     }
 
+                    //mark menu as dirty
+                    menu.ChangesUnpublished = true;
+
                     //save menu to DB
                     db.Entry(menu).State = EntityState.Modified;
                     db.SaveChanges();
 
                     return RedirectToAction("Details", new { id = id, parent = parent, idx = -1 });
                 }
+
+                //send it back to the form
+                ViewBag.Parent = parent;
+                ViewBag.MenuId = id;
 
                 return View(newMenuLeaf);
             }
@@ -349,7 +365,7 @@ namespace MenuDart.Controllers
             //we need a parent in order to know where to add the text
             if (!string.IsNullOrEmpty(parent))
             {
-                if (ModelState.IsValid)
+                if ((ModelState.IsValid) && (!string.IsNullOrEmpty(newNode.Text)))
                 {
                     Menu menu = db.Menus.Find(id);
 
@@ -385,12 +401,18 @@ namespace MenuDart.Controllers
                         menu.MenuTree = V1.SerializeMenuTree(currentMenuTree);
                     }
 
+                    //mark menu as dirty
+                    menu.ChangesUnpublished = true;
+
                     //save menu to DB
                     db.Entry(menu).State = EntityState.Modified;
                     db.SaveChanges();
 
                     return RedirectToAction("Details", new { id = id, parent = parent, idx = -1 });
                 }
+
+                ViewBag.MenuId = id;
+                ViewBag.Parent = parent;
 
                 return View(newNode);
             }
@@ -416,6 +438,7 @@ namespace MenuDart.Controllers
 
                 ViewBag.MenuId = id;
                 ViewBag.Parent = parent;
+                ViewBag.Idx = idx;
 
                 List<MenuNode> currentMenuTree = V1.DeserializeMenuTree(menu.MenuTree);
 
@@ -449,7 +472,7 @@ namespace MenuDart.Controllers
             //we need a parent ID in order to know where to edit
             if (!string.IsNullOrEmpty(parent))
             {
-                if (ModelState.IsValid)
+                if ((ModelState.IsValid) && (!string.IsNullOrEmpty(editedMenuNode.Title)))
                 {
                     Menu menu = db.Menus.Find(id);
 
@@ -483,12 +506,20 @@ namespace MenuDart.Controllers
                     //serialize back into the menu
                     menu.MenuTree = V1.SerializeMenuTree(currentMenuTree);
 
+                    //mark menu as dirty
+                    menu.ChangesUnpublished = true;
+
                     //save menu in DB
                     db.Entry(menu).State = EntityState.Modified;
                     db.SaveChanges();
 
                     return RedirectToAction("Details", new { id = id, parent = parent, idx = -1 });
                 }
+
+                //send it back to the form
+                ViewBag.Parent = parent;
+                ViewBag.MenuId = id;
+                ViewBag.Idx = idx;
 
                 return View(editedMenuNode);
             }
@@ -514,6 +545,7 @@ namespace MenuDart.Controllers
 
                 ViewBag.MenuId = id;
                 ViewBag.Parent = parent;
+                ViewBag.Idx = idx;
 
                 List<MenuNode> currentMenuTree = V1.DeserializeMenuTree(menu.MenuTree);
 
@@ -547,7 +579,7 @@ namespace MenuDart.Controllers
             //we need a parent ID in order to know where to edit
             if (!string.IsNullOrEmpty(parent))
             {
-                if (ModelState.IsValid)
+                if ((ModelState.IsValid) && (!string.IsNullOrEmpty(newMenuLeaf.Title)))
                 {
                     Menu menu = db.Menus.Find(id);
 
@@ -581,12 +613,20 @@ namespace MenuDart.Controllers
                     //serialize back into the menu
                     menu.MenuTree = V1.SerializeMenuTree(currentMenuTree);
 
+                    //mark menu as dirty
+                    menu.ChangesUnpublished = true;
+
                     //save menu
                     db.Entry(menu).State = EntityState.Modified;
                     db.SaveChanges();
 
                     return RedirectToAction("Details", new { id = id, parent = parent, idx = -1 });
                 }
+
+                //send it back to the form
+                ViewBag.Parent = parent;
+                ViewBag.MenuId = id;
+                ViewBag.Idx = idx;
 
                 return View(newMenuLeaf);
             }
@@ -639,7 +679,7 @@ namespace MenuDart.Controllers
             //we need a parent ID in order to know where to edit
             if (!string.IsNullOrEmpty(parent))
             {
-                if (ModelState.IsValid)
+                if ((ModelState.IsValid) && (!string.IsNullOrEmpty(editedMenuNode.Text)))
                 {
                     Menu menu = db.Menus.Find(id);
 
@@ -672,12 +712,18 @@ namespace MenuDart.Controllers
                     //serialize back into the menu
                     menu.MenuTree = V1.SerializeMenuTree(currentMenuTree);
 
+                    //mark menu as dirty
+                    menu.ChangesUnpublished = true;
+
                     //save menu to DB
                     db.Entry(menu).State = EntityState.Modified;
                     db.SaveChanges();
 
                     return RedirectToAction("Details", new { id = id, parent = parent, idx = -1 });
                 }
+
+                ViewBag.MenuId = id;
+                ViewBag.Parent = parent;
 
                 return View(editedMenuNode);
             }
@@ -753,6 +799,9 @@ namespace MenuDart.Controllers
             //serialize back into the menu
             menu.MenuTree = V1.SerializeMenuTree(currentMenuTree);
 
+            //mark menu as dirty
+            menu.ChangesUnpublished = true;
+
             //save menu to DB
             db.Entry(menu).State = EntityState.Modified;
             db.SaveChanges();
@@ -825,6 +874,9 @@ namespace MenuDart.Controllers
 
             //serialize back into the menu
             menu.MenuTree = V1.SerializeMenuTree(currentMenuTree);
+
+            //mark menu as dirty
+            menu.ChangesUnpublished = true;
 
             //save menu
             db.Entry(menu).State = EntityState.Modified;

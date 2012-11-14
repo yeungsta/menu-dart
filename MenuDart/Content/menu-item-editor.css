@@ -1,0 +1,162 @@
+﻿/*----------------------------------------------------------
+Specific styles for menu item editor. Because there are
+conflicts between Bootstrap and jQuery Mobile styles.
+----------------------------------------------------------*/
+
+a:link {
+    text-decoration: none;
+}
+
+a:visited 
+{
+    color: White;
+}
+
+a:hover {
+    text-decoration: none;
+}
+
+a:active {
+}
+
+.hero-unit
+{
+    padding: 100px 200px 0px 200px;
+}
+
+.hierarchy-link
+{
+    color: Red;
+}
+
+hr {
+    border-top: 1px solid #E5E5E5;
+    border-bottom: 0px;
+}
+
+.ui-body-c .ui-link 
+{
+    text-decoration: none;
+    text-shadow: none;
+}
+
+.ui-body-c .ui-link:visited 
+{
+    text-decoration: none;
+    text-shadow: none;
+}
+
+.ui-body-c .ui-link:active 
+{
+    text-decoration: none;
+    text-shadow: none;
+}
+
+.ui-body-c .ui-link:hover 
+{
+    text-decoration: none;
+    text-shadow: none;
+}
+
+/* styles below match those of the menu's master.css */
+.logo {
+    border: solid 2px #000;
+}
+
+.ui-header .ui-btn-left {
+    top: 1.4em;
+}
+
+.ui-li-has-count .ui-li-count {
+    border: 0px solid;
+    background: transparent;
+    font-size: 1em;
+    color: #2F3E46;
+}
+
+.ui-li-heading 
+{
+    white-space: normal;
+    margin-right: 1em;
+    font-size: 1.5em;
+}
+
+.ui-li-static .ui-li-heading
+{
+    font-size: 1.15em;
+    color: #2F3E46;
+}
+
+.ui-li-desc {
+    white-space: normal;
+    margin-right: 1em;
+    font-weight: lighter;
+    color: #2F3E46;
+    text-shadow: none;
+}
+
+.ui-li 
+{
+    border-right-width: 1px;
+    border-left-width: 1px;
+}
+
+div.mapImg img{
+    border: solid 2px #000;
+}
+
+.insetBtn{
+    margin-right: 40px;
+    margin-left: 40px;
+}
+
+.menuDartFooter {
+    font-size: 0.75em;
+    margin: 0 10px 5px 0;
+}
+
+.center {
+	text-align:center;
+}
+
+.headerBar h2 {
+    margin-top: 0.7em;
+    margin-bottom: 0.7em;  
+}
+
+.ui-header 
+{
+    padding: 10px 0px 10px 0px;
+    border-radius: 4px 4px 0px 0px;
+    -webkit-border-radius: 4px 4px 0px 0px;
+    -moz-border-radius: 4px 4px 0px 0px;       
+}
+
+body
+{
+    background-color: #EEE;
+}
+
+body .theme
+{
+    padding: 25px 30px 30px 30px;
+    
+    font-size: 1.5em;
+    background: grey; /*{a-bar-background-color}*/
+    color: white;
+	text-shadow: 0 /*{a-bar-shadow-x}*/ -1px /*{a-bar-shadow-y}*/ 1px /*{a-bar-shadow-radius}*/ #111 /*{a-bar-shadow-color}*/;
+
+    background-color: grey;
+	background-image: -webkit-gradient(linear, 0 0, 100% 0, color-stop(.1, rgba(255, 255, 255, .2)), color-stop(.1, transparent), to(transparent));
+	background-image: -moz-linear-gradient(0, rgba(255, 255, 255, .2) 1px, transparent 1px, transparent);
+	background-image: -o-linear-gradient(0, rgba(255, 255, 255, .2) 1px, transparent 1px, transparent);
+	background-image: linear-gradient(0, rgba(255, 255, 255, .2) 1px, transparent 1px, transparent);
+	
+	-webkit-background-size: 10px;
+	-moz-background-size: 10px;
+	background-size: 10px;
+
+    border-radius: 0px 0px 4px 4px;
+    -webkit-border-radius: 0px 0px 4px 4px;
+    -moz-border-radius: 0px 0px 4px 4px; 	
+}

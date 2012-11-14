@@ -2,6 +2,7 @@
 
 @{
     ViewBag.Title = "MenuDart. Easy Mobile Menus. Menu Builder.";
+    string tempId;
 }
 
 @section Scripts {
@@ -10,124 +11,244 @@
         // do not handle links via ajax by default; Turn off ajax
         $(document).bind("mobileinit", function () { $.mobile.ajaxEnabled = false; });
     </script>
-	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.0/jquery.mobile-1.0.min.css" />
-    <link rel="stylesheet" href="@Url.Content("~/Content/templates/base/index_files/template.css")" type="text/css" />
-	<script src="http://code.jquery.com/mobile/1.0/jquery.mobile-1.0.min.js"></script>
+	<!--<link rel="stylesheet" href="http://code.jquery.com/mobile/1.0/jquery.mobile-1.0.min.css" />-->
+    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.css" />
+	<!--<script src="http://code.jquery.com/mobile/1.0/jquery.mobile-1.0.min.js"></script>-->
+    <script src="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.js"></script>
+    <link href="@Url.Content("~/Content/menu-item-editor.css")" rel="stylesheet">
 }
 
-<div data-role="page">
+ <div data-role="page">
 
       <!-- Main hero unit for a primary marketing message or call to action -->
       <div class="hero-unit">
-        <center><h1>Menu Builder.</h1></center>
+
         @if (ViewBag.Source == "MenuBuilder")
         {
             <text>
+            <center><h1>Menu Builder.</h1></center>
             <br>
             <center><h4>You're at the last step! But it's an <i>important</i> step since you'll be entering your menu items.
             <br>First create categories, then create menu items within those categories. Click on categories to edit them.
             </h4></center>
             </text>
         }
+        else
+        {
+            <br />
+            <br />
+            <center>
+            <h1>Edit @ViewBag.Name.</h1>
+            <br>
+            <legend><h4>
+            @MenuDart.Controllers.MenuExtensions.EditMenuItem(Html, "Basic Info", "Edit", "Menu", new { id = ViewBag.MenuId }) |
+            @MenuDart.Controllers.MenuExtensions.EditMenuItem(Html, "Theme", "Edit2", "Menu", new { id = ViewBag.MenuId }) |
+            @MenuDart.Controllers.MenuExtensions.EditMenuItem(Html, "About", "Edit3", "Menu", new { id = ViewBag.MenuId }) |
+            @MenuDart.Controllers.MenuExtensions.EditMenuItem(Html, "Logo", "Edit4", "Menu", new { id = ViewBag.MenuId }) |
+            @MenuDart.Controllers.MenuExtensions.EditMenuItem(Html, "Location", "Edit5", "Menu", new { id = ViewBag.MenuId }) |
+            @MenuDart.Controllers.MenuExtensions.EditMenuItem(Html, "Hours", "Edit6", "Menu", new { id = ViewBag.MenuId }) |
+            @MenuDart.Controllers.MenuExtensions.EditMenuItem(Html, "Contact", "Edit7", "Menu", new { id = ViewBag.MenuId }) |
+            @MenuDart.Controllers.MenuExtensions.EditMenuItem(Html, "Menu Items", "Details", "MenuTree", new { id = ViewBag.MenuId, parent = 0, idx = -1, source = "MenuEditor", ReturnUrl = "/Edit/" + ViewBag.MenuId })
+            </h4></legend>
+            </center>                  
+        }
         <br>
-
-	<div data-role="header">
-		<div data-role="navbar">
-            @if (!string.IsNullOrEmpty(ViewBag.LevelTitle))
+        <br>
+	    <div data-role="header">
+		    <div data-role="navbar">
+                @if (!string.IsNullOrEmpty(ViewBag.LevelTitle))
+                {
+		            <center><h2>@ViewBag.LevelTitle</h2></center>
+                }
+                else if (string.IsNullOrEmpty(ViewBag.UpLevel) || (ViewBag.Parent == "0"))
+                {
+                    <text><center><h2>@ViewBag.Name</h2></center></text>
+                }
+		    </div><!-- /navbar -->
+	    </div><!-- /header -->
+	
+	    <div data-role="content" class="theme">
+            @if (!string.IsNullOrEmpty(ViewBag.Text))
             {
-		        <center><h2>@ViewBag.LevelTitle</h2></center>
+		    <center>@Html.Raw(ViewBag.Text)</center>
             }
-            else if (string.IsNullOrEmpty(ViewBag.UpLevel) || (ViewBag.Parent == "0"))
-            {
-                <text><center><h2>@ViewBag.Name</h2></center></text>
-            }
-		</div><!-- /navbar -->
-	</div><!-- /header -->
 
-	<div data-role="content">
-        @if (!string.IsNullOrEmpty(ViewBag.Text))
-        {
-		<center>@Html.Raw(ViewBag.Text)<br>
-            @Html.ActionLink("Delete", "DeleteText", new { id = ViewBag.MenuId, parent = ViewBag.Parent } )
-            @Html.ActionLink("Edit", "EditText", new { id = ViewBag.MenuId, parent = ViewBag.Parent }, null)
-        </center>
-        }
-        else if (ViewBag.Parent != "0")
-        {
-            <center>@Html.ActionLink("Add Text", "CreateText", new { id = ViewBag.MenuId, parent = ViewBag.Parent }, null)</center>
-        }
-		<ul data-role="listview" data-inset="true">
+		    <ul data-role="listview" data-inset="true">
 
-        @for (int i = 0; i < Model.Count; i++)
-        {
-            if (Model[i] is MenuDart.Models.MenuLeaf)
+            @for (int i = 0; i < Model.Count; i++)
             {
-                MenuDart.Models.MenuLeaf currentItem = Model[i] as MenuDart.Models.MenuLeaf;
+                if (Model[i] is MenuDart.Models.MenuLeaf)
+                {
+                    MenuDart.Models.MenuLeaf currentItem = Model[i] as MenuDart.Models.MenuLeaf;
                 
-                <li>
-					<h3>@currentItem.Title</h3>
-					<p>@currentItem.Description</p>
-					<span class="ui-li-count">@currentItem.Price</span>
-                    <p>
-                        @Html.ActionLink("Delete", "Delete", new { id = ViewBag.MenuId, parent = ViewBag.Parent, idx = i }, null)
-                        @Html.ActionLink("Edit", "EditItem", new { id = ViewBag.MenuId, parent = ViewBag.Parent, idx = i }, null)
-                    </p>
-				</li>       
+                    <li>
+					    <h3>@currentItem.Title</h3>
+					    <p>@currentItem.Description</p>
+					    <span class="ui-li-count">@currentItem.Price</span>
+				    </li>       
+                }
+                else
+                {
+                    <li><a href="@ViewBag.MenuId?parent=@ViewBag.Parent&idx=@(i)&ReturnUrl=@ViewBag.ReturnUrl"><h3>@Model[i].Title</h3></a></li>
+                }
             }
-            else
-            {
-                <li><a href="@ViewBag.MenuId?parent=@ViewBag.Parent&idx=@(i)&ReturnUrl=@ViewBag.ReturnUrl">@Model[i].Title</a>
-                <p>
-                    &nbsp;&nbsp;&nbsp;&nbsp;
-                    @Html.ActionLink("Delete", "Delete", new { id = ViewBag.MenuId, parent = ViewBag.Parent, idx = i }, null)
-                    @Html.ActionLink("Edit", "Edit", new { id = ViewBag.MenuId, parent = ViewBag.Parent, idx = i }, null)
-                </p>
-                </li>
-            }
-        }
 
-		</ul>
+		    </ul>
 
-        @Html.ActionLink("Add Category", "Create", "MenuTree", new { id = ViewBag.MenuId, parent = ViewBag.Parent }, null)
+            <a href="#addMenu" data-rel="popup" data-role="button" data-inline="true" data-icon="plus">Add</a>
+		    <div data-role="popup" id="addMenu" data-theme="a">
+				    <ul data-role="listview" data-inset="true" style="min-width:210px;" data-theme="b">
+                        <li data-role="divider" data-theme="a">Add</li>
+
+                        @if (string.IsNullOrEmpty(ViewBag.Text) && (ViewBag.Parent != "0"))
+                        {
+                            <li><a href="@Url.Action("CreateText", "MenuTree", new { id = ViewBag.MenuId, parent = ViewBag.Parent }, null)">Title text</a></li>
+                        }
+
+					    <li data-icon="plus"><a href="@Url.Action("Create", "MenuTree", new { id = ViewBag.MenuId, parent = ViewBag.Parent }, null)">Category</a></li>
+					    <li data-icon="plus"><a href="@Url.Action("CreateItem", "MenuTree", new { id = ViewBag.MenuId, parent = ViewBag.Parent }, null)">Item</a></li>
+				    </ul>
+		    </div>
+
+            <a href="#removeMenu" data-rel="popup" data-role="button" data-inline="true" data-icon="delete">Remove</a>
+		    <div data-role="popup" id="removeMenu" data-theme="a">
+			    <ul data-role="listview" data-inset="true" style="min-width:210px;" data-theme="b">
+                <li data-role="divider" data-theme="a">Remove</li>
+
+                @if (!string.IsNullOrEmpty(ViewBag.Text))
+                {
+                    <li data-icon="delete"><a href="#DeleteTitleWarning" data-rel="popup" data-position-to="window" data-transition="pop">Title text</a></li>
+ 
+                    //create a warning
+		            <div data-role="popup" id="DeleteTitleWarning" data-overlay-theme="a" data-theme="c" style="width:400px;" class="ui-corner-all">
+			            <div data-role="header" data-theme="a" class="ui-corner-top">
+				            <h1>Delete Title?</h1>
+			            </div>
+			            <div data-role="content" data-theme="b" class="ui-corner-bottom ui-content">
+				            <h3 class="ui-title">Are you sure you want to delete the title text?</h3>
+				            <p>This action cannot be undone.</p>
+                            <a class="btn btn-large" href="#" data-rel="back"><i class="icon-remove"></i> Cancel</a>   
+                            <a class="btn btn-large btn-warning" href="@Url.Action("DeleteTextConfirmed", "MenuTree", new { id = ViewBag.MenuId, parent = ViewBag.Parent }, null)"><i class="icon-picture icon-white"></i> Delete</a>
+			            </div>
+		            </div>                 
+                }
+            
+                @for (int i = 0; i < Model.Count; i++)
+                {
+                    if (Model[i] is MenuDart.Models.MenuLeaf)
+                    {
+                        MenuDart.Models.MenuLeaf currentItem = Model[i] as MenuDart.Models.MenuLeaf;
+
+                        tempId = "DeleteWarning" + i;
+                        <li data-icon="delete"><a href="#@tempId" data-rel="popup" data-position-to="window" data-transition="pop">@currentItem.Title</a></li>
+               
+                        //create a warning
+		                <div data-role="popup" id="@tempId" data-overlay-theme="a" data-theme="c" style="width:400px;" class="ui-corner-all">
+			                <div data-role="header" data-theme="a" class="ui-corner-top">
+				                <h1>Delete Item?</h1>
+			                </div>
+			                <div data-role="content" data-theme="b" class="ui-corner-bottom ui-content">
+				                <h3 class="ui-title">Are you sure you want to delete "@currentItem.Title"?</h3>
+				                <p>This action cannot be undone.</p>
+                                <a class="btn btn-large" href="#" data-rel="back"><i class="icon-remove"></i> Cancel</a>  
+                                <a class="btn btn-large btn-warning" href="@Url.Action("DeleteConfirmed", "MenuTree", new { id = ViewBag.MenuId, parent = ViewBag.Parent, idx = i }, null)"><i class="icon-picture icon-white"></i> Delete</a>
+			                </div>
+		                </div>                 
+                    }
+                    else
+                    {
+                        tempId = "DeleteWarning" + i;
+                        <li data-icon="delete"><a href="#@tempId" data-rel="popup" data-position-to="window" data-transition="pop">@Model[i].Title</a></li>
+ 
+                        //create a warning
+		                <div data-role="popup" id="@tempId" data-overlay-theme="a" data-theme="c" style="width:400px;" class="ui-corner-all">
+			                <div data-role="header" data-theme="a" class="ui-corner-top">
+				                <h1>Delete Category?</h1>
+			                </div>
+			                <div data-role="content" data-theme="b" class="ui-corner-bottom ui-content">
+				                <h3 class="ui-title">Are you sure you want to delete "@Model[i].Title" and all its sub-items?</h3>
+				                <p>This action cannot be undone.</p>
+                                <a class="btn btn-large" href="#" data-rel="back"><i class="icon-remove"></i> Cancel</a>   
+                                <a class="btn btn-large btn-warning" href="@Url.Action("DeleteConfirmed", "MenuTree", new { id = ViewBag.MenuId, parent = ViewBag.Parent, idx = i }, null)"><i class="icon-picture icon-white"></i> Delete</a>
+			                </div>
+		                </div>      
+                    }
+                } 
+			    </ul>
+		    </div>
+
+            <a href="#editMenu" data-rel="popup" data-role="button" data-inline="true" data-icon="grid">Edit</a>
+		    <div data-role="popup" id="editMenu" data-theme="a">
+			    <ul data-role="listview" data-inset="true" style="min-width:210px;" data-theme="b">
+                <li data-role="divider" data-theme="a">Edit</li>
+
+                @if (!string.IsNullOrEmpty(ViewBag.Text))
+                {
+                    <li data-icon="grid"><a href="@Url.Action("EditText", "MenuTree", new { id = ViewBag.MenuId, parent = ViewBag.Parent }, null)">Title text</a></li>
+                }
+            
+                @for (int i = 0; i < Model.Count; i++)
+                {
+                    if (Model[i] is MenuDart.Models.MenuLeaf)
+                    {
+                        MenuDart.Models.MenuLeaf currentItem = Model[i] as MenuDart.Models.MenuLeaf;
+                
+					    <li data-icon="grid"><a href="@Url.Action("EditItem", "MenuTree", new { id = ViewBag.MenuId, parent = ViewBag.Parent, idx = i }, null)">@currentItem.Title</a></li>    
+                    }
+                    else
+                    {
+					    <li data-icon="grid"><a href="@Url.Action("Edit", "MenuTree", new { id = ViewBag.MenuId, parent = ViewBag.Parent, idx = i }, null)">@Model[i].Title</a></li>
+                    }
+                }
+			    </ul>
+		    </div>
+	    </div><!-- /content -->
         <br />
-        @Html.ActionLink("Add Item", "CreateItem", "MenuTree", new { id = ViewBag.MenuId, parent = ViewBag.Parent }, null)
-        <br />
-        <br />
-        <br />
-        <hr />
+
         @if (!string.IsNullOrEmpty(ViewBag.UpLevel) && (ViewBag.Parent != "0"))
         {
-            @Html.ActionLink("Back one level", "Details", "MenuTree", new { id = ViewBag.MenuId, parent = ViewBag.UpLevel, idx = -1, ReturnUrl = ViewBag.ReturnUrl }, null)
+            <a class="btn btn-large btn-primary" href="@Url.Action("Details", "MenuTree", new { id = ViewBag.MenuId, parent = ViewBag.UpLevel, idx = -1, ReturnUrl = ViewBag.ReturnUrl }, null)"><i class="icon-arrow-left icon-white"></i><span style="color:White"> Back one level</span></a>
         }
         else
         {
-            <text><b>This is the main level.</b></text>
+            <text><b><span style="font-size: 1.25em">This is the menu's main level.</span></b></text>
         }
-        <br />
+
         @if (ViewBag.Source == "MenuBuilder")
         {
             <text>
+            <br />
+            <br />
             <hr>
             <p>
             <a class="btn btn-primary btn-large" href="@Url.Action("MenuBuilder9", "Menu", new { id = ViewBag.MenuId }, null)">Finish <i class="icon-chevron-right icon-white"></i></a>
             </p>
             <br>
                 <div class="progress progress-striped active">
-                  <div class="bar" style="width: 97%;">
-                  </div>
+                    <div class="bar" style="width: 97%;">
+                    </div>
                 </div>
             </text>            
         }
         else
         {
-            @Html.ActionLink("Back to Editor", (string)ViewBag.ReturnUrl, "Menu")
-            <text><b>or just "Close" button?</b></text><br />
+            <text>
             <ul class="pull-right">
-                <a class="btn btn-large btn-warning" href="@Url.Action("PreviewMenu", "Menu", new { id = ViewBag.MenuId, useSampleLogo = false }, null)"><i class="icon-picture icon-white"></i> Preview</a>
-                <a class="btn btn-large btn-success" href="@Url.Action("Publish", "Menu", new { ReturnUrl = "/Edit/" + ViewBag.MenuId, id = ViewBag.MenuId }, null)"><i class="icon-arrow-up icon-white"></i> Publish</a>
+                <a class="btn btn-large btn-warning" href="@Url.Action("PreviewMenu", "Menu", new { id = ViewBag.MenuId, useSampleLogo = false }, null)"><i class="icon-picture icon-white"></i><span style="color:White"> Preview</span></a>
+                <!-- <a class="btn btn-large btn-success" href="@Url.Action("Publish", "Menu", new { ReturnUrl = "/Edit/" + ViewBag.MenuId, id = ViewBag.MenuId }, null)"><i class="icon-arrow-up icon-white"></i><span style="color:White"> Publish</span></a> -->
+                @if (ViewBag.ChangesUnpublished)
+                {
+                    <a class="btn btn-large btn-success" href="@Url.Action("Publish", "Menu", new { ReturnUrl = "/Edit/" + ViewBag.MenuId, id = ViewBag.MenuId }, null)"><i class="icon-arrow-up icon-white"></i> Publish</a>
+                }
+                else
+                {
+                    <a class="btn btn-large btn-success disabled" href="javascript: void(0)"><i class="icon-arrow-up icon-white"></i> Publish</a>        
+                }
             </ul>
+            <br />
+            </text>
         }
-	</div><!-- /content -->
 
       </div> <!-- hero -->
-</div> <!-- data-role="page" -->
+      <br />
+ </div> <!-- data-role="page" -->
