@@ -1,0 +1,23 @@
+/* monkish color theme */
+.bodyBg {
+    background: #1C1C1C; /*{a-bar-background-color}*/
+    color: white;
+	text-shadow: 0 /*{a-bar-shadow-x}*/ -1px /*{a-bar-shadow-y}*/ 1px /*{a-bar-shadow-radius}*/ #111 /*{a-bar-shadow-color}*/;
+
+    background-color: #1C1C1C;
+	background-image: -webkit-gradient(linear, 0 0, 100% 0, color-stop(.1, rgba(255, 255, 255, .2)), color-stop(.1, transparent), to(transparent));
+	background-image: -moz-linear-gradient(0, rgba(255, 255, 255, .2) 1px, transparent 1px, transparent);
+	background-image: -o-linear-gradient(0, rgba(255, 255, 255, .2) 1px, transparent 1px, transparent);
+	background-image: linear-gradient(0, rgba(255, 255, 255, .2) 1px, transparent 1px, transparent);
+	
+	-webkit-background-size: 10px;
+	-moz-background-size: 10px;
+	background-size: 10px;
+}
+
+.menuDartFooter a {
+    text-decoration: none;
+    text-shadow: 0 /*{a-bar-shadow-x}*/ -1px /*{a-bar-shadow-y}*/ 1px /*{a-bar-shadow-radius}*/ #111 /*{a-bar-shadow-color}*/;
+    color:white;
+}
+/* End monkish color theme */

@@ -1,0 +1,33 @@
+/* licorice color theme */
+.bodyBg {
+        background: black; /*{a-bar-background-color}*/
+        color: white;
+	text-shadow: 0 /*{a-bar-shadow-x}*/ -1px /*{a-bar-shadow-y}*/ 1px /*{a-bar-shadow-radius}*/ #111 /*{a-bar-shadow-color}*/;
+
+        background-color: black;
+	background-image: -webkit-gradient(linear, 0 0, 100% 0, color-stop(.1, rgba(255, 255, 255, .2)), color-stop(.1, transparent), to(transparent));
+	background-image: -moz-linear-gradient(0, rgba(255, 255, 255, .2) 1px, transparent 1px, transparent);
+	background-image: -o-linear-gradient(0, rgba(255, 255, 255, .2) 1px, transparent 1px, transparent);
+	background-image: linear-gradient(0, rgba(255, 255, 255, .2) 1px, transparent 1px, transparent);
+	
+	-webkit-background-size: 10px;
+	-moz-background-size: 10px;
+	background-size: 10px;
+}
+
+.headerBar {
+        background: maroon /*{a-bar-background-color}*/;
+	background-image: -webkit-gradient(linear, left top, left bottom, from( red /*{a-bar-background-start}*/), to( maroon /*{a-bar-background-end}*/)); /* Saf4+, Chrome */
+	background-image: -webkit-linear-gradient(red /*{a-bar-background-start}*/, maroon /*{a-bar-background-end}*/); /* Chrome 10+, Saf5.1+ */
+	background-image:    -moz-linear-gradient(red /*{a-bar-background-start}*/, maroon /*{a-bar-background-end}*/); /* FF3.6 */
+	background-image:     -ms-linear-gradient(red /*{a-bar-background-start}*/, maroon /*{a-bar-background-end}*/); /* IE10 */
+	background-image:      -o-linear-gradient(red /*{a-bar-background-start}*/, maroon /*{a-bar-background-end}*/); /* Opera 11.10+ */
+	background-image:         linear-gradient(red /*{a-bar-background-start}*/, maroon /*{a-bar-background-end}*/);    
+}
+
+.menuDartFooter a {
+    text-decoration: none;
+    text-shadow: 0 /*{a-bar-shadow-x}*/ -1px /*{a-bar-shadow-y}*/ 1px /*{a-bar-shadow-radius}*/ #111 /*{a-bar-shadow-color}*/;
+    color:white;
+}
+/* End Jalapeno2 color theme */

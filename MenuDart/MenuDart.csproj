@@ -238,7 +238,9 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Content\images\themes\" />
     <Folder Include="Content\menus\" />
+    <Folder Include="Content\previews\shared\" />
     <Folder Include="Content\templates\" />
   </ItemGroup>
   <ItemGroup>

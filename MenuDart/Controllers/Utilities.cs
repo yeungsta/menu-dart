@@ -126,6 +126,68 @@ namespace MenuDart.Controllers
             return (Constants.GoogleMapImgPrefix + noSpacesAddress + "+" + state + "+" + zip + Constants.GoogleMapImgSuffix);
         }
 
+        //Cleans web URLs (remove "http://" or "https://")
+        public static string CleanUrl(string url)
+        {
+            string trimmed = url.Trim();
+
+            if (trimmed.StartsWith(Constants.UrlPrefix))
+            {
+                return trimmed.Replace(Constants.UrlPrefix, "");
+            }
+            else if (trimmed.StartsWith(Constants.UrlSecurePrefix))
+            {
+                return trimmed.Replace(Constants.UrlSecurePrefix, "");
+            }
+
+            return trimmed;
+        }
+
+        //Cleans Twitter usernames (extract username if entire URL)
+        public static string CleanTwitter(string username)
+        {
+            string trimmed = username.Trim();
+
+            if (trimmed.StartsWith(Constants.UrlPrefix))
+            {
+                string[] urlParts = trimmed.Split('/');
+                return urlParts[urlParts.Count() - 1];
+            }
+            else if (trimmed.StartsWith(Constants.UrlSecurePrefix))
+            {
+                string[] urlParts = trimmed.Split('/');
+                return urlParts[urlParts.Count() - 1];
+            }
+
+            return trimmed;
+        }
+
+        //Adds "http://"
+        public static string AddHttpPrefix(string url)
+        {
+            if (!url.StartsWith(Constants.UrlPrefix))
+            {
+                return (Constants.UrlPrefix + url);
+            }
+
+            return url;
+        }
+
+        //Adds "http://www.twitter.com/<username>"
+        public static string AddTwitterPrefix(string username)
+        {
+            if (!username.StartsWith(Constants.UrlPrefix))
+            {
+                return (Constants.TwitterPrefix + username);
+            }
+            else if (!username.StartsWith(Constants.UrlSecurePrefix))
+            {
+                return (Constants.TwitterPrefix + username);
+            }
+
+            return username;
+        }
+
         /* The following methods are for local filesystem */
 
         //constructs full URL of site

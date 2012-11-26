@@ -22,24 +22,33 @@
                     <div class="control-group">
                       <label class="control-label">@Html.LabelFor(m => m.Email, "Your email")</label>
                       <div class="controls">
-                        @Html.TextBoxFor(m => m.Email, new { @class = "input-xlarge", style = "width: 300px;" })
-                        @Html.ValidationMessageFor(m => m.Email)
+                            <div class="input-prepend">
+                            <span class="add-on"><i class="icon-envelope"></i></span>
+                                @Html.TextBoxFor(m => m.Email, new { @class = "input-xlarge", style = "width: 300px;" })
+                                @Html.ValidationMessageFor(m => m.Email)
+                             </div>
                         <p class="help-block">Don't worry, we won't email you for anything <em>but</em> communicating (occasionally) with you.</p>
                       </div>
                     </div>
                     <div class="control-group">
                       <label class="control-label">@Html.LabelFor(m => m.Password, "New password")</label>
                       <div class="controls">
-                        @Html.PasswordFor(m => m.Password, new { @class = "input-xlarge", style = "width: 300px;" })
-                        @Html.ValidationMessageFor(m => m.Password)
+                            <div class="input-prepend">
+                            <span class="add-on"><i class="icon-lock"></i></span>
+                                @Html.PasswordFor(m => m.Password, new { @class = "input-xlarge", style = "width: 300px;" })
+                                @Html.ValidationMessageFor(m => m.Password)
+                            </div>
                         <p class="help-block"></p>
                       </div>
                     </div>
                     <div class="control-group">
                       <label class="control-label">@Html.LabelFor(m => m.ConfirmPassword, "Confirm password")</label>
                       <div class="controls">
-                        @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "input-xlarge", style = "width: 300px;" })
-                        @Html.ValidationMessageFor(m => m.ConfirmPassword)
+                            <div class="input-prepend">
+                            <span class="add-on"><i class="icon-lock"></i></span>
+                                @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "input-xlarge", style = "width: 300px;" })
+                                @Html.ValidationMessageFor(m => m.ConfirmPassword)
+                            </div>
                         <p class="help-block"></p>
                       </div>
                     </div>

@@ -36,8 +36,11 @@
             <div class="control-group">
                 <label class="control-label">@Html.LabelFor(model => model.Price, "Price")</label>
                 <div class="controls">
-                    @Html.TextBoxFor(model => model.Price, new { @class = "input-xlarge", style = "width: 60px;" })
-                    @Html.ValidationMessageFor(model => model.Price)
+                    <div class="input-prepend">
+                    <span class="add-on">$</span>
+                        @Html.TextBoxFor(model => model.Price, new { @class = "input-xlarge", style = "width: 60px;" })
+                        @Html.ValidationMessageFor(model => model.Price)
+                    </div>
                 </div>
             </div>
 

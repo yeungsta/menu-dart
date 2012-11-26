@@ -785,7 +785,7 @@ namespace MenuDart.Composer
         {
             if (!string.IsNullOrEmpty(m_menu.Website))
             {
-                AddBtn(writer, "Go to Regular Website", m_menu.Website + Constants.RegularSiteRedirect, Constants.OrigSiteIcon, "insetBtn", "a", Constants.BlankTarget);
+                AddBtn(writer, "Go to Regular Website", Utilities.AddHttpPrefix(m_menu.Website) + Constants.RegularSiteRedirect, Constants.OrigSiteIcon, "insetBtn", "a", Constants.BlankTarget);
             }
         }
 
@@ -1030,17 +1030,17 @@ namespace MenuDart.Composer
 
         private void AddFacebookBtn(HtmlTextWriter writer, string link)
         {
-            AddBtn(writer, "Facebook", link, Constants.FacebookIcon, "insetBtn", "f", Constants.BlankTarget);
+            AddBtn(writer, "Facebook", Utilities.AddHttpPrefix(link), Constants.FacebookIcon, "insetBtn", "f", Constants.BlankTarget);
         }
 
-        private void AddTwitterBtn(HtmlTextWriter writer, string link)
+        private void AddTwitterBtn(HtmlTextWriter writer, string username)
         {
-            AddBtn(writer, "Twitter", link, Constants.TwitterIcon, "insetBtn", "t", Constants.BlankTarget);
+            AddBtn(writer, "Twitter", Utilities.AddTwitterPrefix(username), Constants.TwitterIcon, "insetBtn", "t", Constants.BlankTarget);
         }
 
         private void AddYelpBtn(HtmlTextWriter writer, string link)
         {
-            AddBtn(writer, "Yelp", link, Constants.YelpIcon, "insetBtn", "y", Constants.BlankTarget);
+            AddBtn(writer, "Yelp", Utilities.AddHttpPrefix(link), Constants.YelpIcon, "insetBtn", "y", Constants.BlankTarget);
         }
 
         #endregion private members

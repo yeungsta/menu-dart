@@ -95,7 +95,7 @@ namespace MenuDart.Controllers
             basicViewData.Name = menu.Name;
             basicViewData.City = menu.City;
             basicViewData.Phone = menu.Phone;
-            basicViewData.Website = menu.Website;
+            basicViewData.Website = Utilities.CleanUrl(menu.Website);
             basicViewData.ChangesUnpublished = menu.ChangesUnpublished;
 
             return View(basicViewData);
@@ -137,7 +137,7 @@ namespace MenuDart.Controllers
 
                     //update basic info fields
                     menu.Phone = basicInfo.Phone;
-                    menu.Website = basicInfo.Website;
+                    menu.Website = Utilities.CleanUrl(basicInfo.Website);
 
                     //mark menu as dirty
                     menu.ChangesUnpublished = true;
@@ -175,14 +175,13 @@ namespace MenuDart.Controllers
                 return HttpNotFound();
             }
 
-            //pass template list to view
-            ViewData["templateList"] = new SelectList(GetTemplates(), menu.Template);
-
             //create view model
             MenuEditorThemeViewModel themeViewData = new MenuEditorThemeViewModel();
             themeViewData.MenuId = menu.ID;
             themeViewData.Name = menu.Name;
             themeViewData.ChangesUnpublished = menu.ChangesUnpublished;
+            themeViewData.Themes = GetTemplates();
+            themeViewData.CurrentTheme = menu.Template;
 
             return View(themeViewData);
         }
@@ -220,14 +219,13 @@ namespace MenuDart.Controllers
                 db.SaveChanges();
             }
 
-            //pass template list to view
-            ViewData["templateList"] = new SelectList(GetTemplates(), menu.Template);
-
             //create view model
             MenuEditorThemeViewModel themeViewData = new MenuEditorThemeViewModel();
             themeViewData.MenuId = menu.ID;
             themeViewData.Name = menu.Name;
             themeViewData.ChangesUnpublished = menu.ChangesUnpublished;
+            themeViewData.Themes = GetTemplates();
+            themeViewData.CurrentTheme = menu.Template;
 
             return View(themeViewData);
         }
@@ -536,6 +534,25 @@ namespace MenuDart.Controllers
                     return HttpNotFound();
                 }
 
+                //cleanup URLs
+                foreach (Location location in locationInfo.Locations)
+                {
+                    if (!string.IsNullOrEmpty(location.Facebook))
+                    {
+                        location.Facebook = Utilities.CleanUrl(location.Facebook);
+                    }
+
+                    if (!string.IsNullOrEmpty(location.Yelp))
+                    {
+                        location.Yelp = Utilities.CleanUrl(location.Yelp);
+                    }
+
+                    if (!string.IsNullOrEmpty(location.Twitter))
+                    {
+                        location.Twitter = Utilities.CleanTwitter(location.Twitter);
+                    }
+                }
+
                 //set serialized locations back into menu
                 menu.Locations = V1.SerializeLocations(locationInfo.Locations);
 
@@ -793,6 +810,12 @@ namespace MenuDart.Controllers
                 {
                     menuBuilderModel.CurrentMenu.Website = Composer.Constants.DefaultWebsite;
                 }
+                else
+                {
+                    menuBuilderModel.CurrentMenu.Website = Utilities.CleanUrl(menuBuilderModel.CurrentMenu.Website);
+                }
+
+
                 if (string.IsNullOrEmpty(menuBuilderModel.CurrentMenu.Phone))
                 {
                     menuBuilderModel.CurrentMenu.Phone = Composer.Constants.DefaultPhone;
@@ -895,9 +918,11 @@ namespace MenuDart.Controllers
                 return RedirectToAction("MenuBuilderAccessViolation");
             }
 
-            ViewData["templateList"] = new SelectList(GetTemplates());
+            //create view model
+            MenuBuilderThemeViewModel themeViewData = new MenuBuilderThemeViewModel();
+            themeViewData.Themes = GetTemplates();
 
-            return View();
+            return View(themeViewData);
         }
 
         //
@@ -942,11 +967,6 @@ namespace MenuDart.Controllers
                 db.Entry(menu).State = EntityState.Modified;
                 db.SaveChanges();
 
-/*
-                //Reserve an empty, permanent location/URL
-                V1 composer = new V1(menu);
-                composer.CreateMenuDir();
-*/
                 return RedirectToAction("MenuBuilder4", new { id = id });
             }
 
@@ -1297,9 +1317,9 @@ namespace MenuDart.Controllers
                     //write new data
                     currentLocations[i].Phone = locations[i].Phone;
                     currentLocations[i].Email = locations[i].Email;	
-                    currentLocations[i].Facebook = locations[i].Facebook;
-                    currentLocations[i].Twitter = locations[i].Twitter;
-                    currentLocations[i].Yelp = locations[i].Yelp;
+                    currentLocations[i].Facebook = Utilities.CleanUrl(locations[i].Facebook);
+                    currentLocations[i].Twitter = Utilities.CleanTwitter(locations[i].Twitter);
+                    currentLocations[i].Yelp = Utilities.CleanUrl(locations[i].Yelp);
                 }
 
                 //set serialized locations back into menu
@@ -1465,6 +1485,7 @@ namespace MenuDart.Controllers
             //remove unwanted chars
             tempUrl = tempUrl.Replace(",", "");
             tempUrl = tempUrl.Replace("'", "");
+            tempUrl = tempUrl.Replace(".", "");
 
             //replace chars with text
             tempUrl = tempUrl.Replace("&", "and");

@@ -2,6 +2,7 @@
            
 @{
     ViewBag.Title = "Edit Theme";
+    int i = 0;
 }
 
 <div class="hero-unit">
@@ -19,7 +20,28 @@
         <div class="control-group">
             <label class="control-label">@Html.Label("Theme")</label>
             <div class="controls">
-                @Html.DropDownList("Template", ViewData["templateList"] as SelectList, new { @class = "input-xlarge" })
+                @foreach (string theme in Model.Themes)
+                {
+                    i++;
+                        
+                    if (theme == Model.CurrentTheme)
+                    {
+                        //set button as selected
+                        <label class="radio inline themeName">@Html.RadioButton("Template", @theme, true, new { @class = "input-xlarge" })@theme<br><img src="@Url.Content("~/Content/images/themes/" + @theme + ".png")" class="img-polaroid selectedImage"></label>
+                    }
+                    else
+                    {
+                        <label class="radio inline themeName">@Html.RadioButton("Template", @theme, new { @class = "input-xlarge" })@theme<br><img src="@Url.Content("~/Content/images/themes/" + @theme + ".png")" class="img-polaroid imageSpacing"></label>                 
+                    }
+
+                    //3 per row
+                    if ((i % 3) == 0)
+                    {
+                        <text>
+                        <br><br>
+                        </text>
+                    }
+                }
             </div>
         </div> 
 

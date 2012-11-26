@@ -32,32 +32,44 @@
               <div class="control-group">
                 <label class="control-label">@Html.LabelFor(model => Model[i].Email, "Email")</label>
                 <div class="controls">
-                    @Html.TextBoxFor(model => Model[i].Email, new { @class = "input-xlarge", style = "width: 300px;" })
-                    @Html.ValidationMessageFor(model => Model[i].Email)
+                    <div class="input-prepend">
+                    <span class="add-on"><i class="icon-envelope"></i></span>
+                        @Html.TextBoxFor(model => Model[i].Email, new { @class = "input-xlarge", style = "width: 300px;" })
+                        @Html.ValidationMessageFor(model => Model[i].Email)
+                    </div>
                   <p class="help-block"></p>
                 </div>
               </div>   
               <div class="control-group">
                 <label class="control-label">@Html.LabelFor(model => Model[i].Yelp, "Yelp page")</label>
                 <div class="controls">
-                    @Html.TextBoxFor(model => Model[i].Yelp, new { @class = "input-xlarge", style = "width: 500px;" })
-                    @Html.ValidationMessageFor(model => Model[i].Yelp)
+                    <div class="input-prepend">
+                    <span class="add-on">http://</span>
+                        @Html.TextBoxFor(model => Model[i].Yelp, new { @class = "input-xlarge", style = "width: 500px;" })
+                        @Html.ValidationMessageFor(model => Model[i].Yelp)
+                    </div>
                   <p class="help-block"></p>
                 </div>
               </div>
               <div class="control-group">
                 <label class="control-label">@Html.LabelFor(model => Model[i].Facebook, "Facebook page")</label>
                 <div class="controls">
-                    @Html.TextBoxFor(model => Model[i].Facebook, new { @class = "input-xlarge", style = "width: 500px;" })
-                    @Html.ValidationMessageFor(model => Model[i].Facebook)
+                    <div class="input-prepend">
+                    <span class="add-on">http://</span>
+                        @Html.TextBoxFor(model => Model[i].Facebook, new { @class = "input-xlarge", style = "width: 500px;" })
+                        @Html.ValidationMessageFor(model => Model[i].Facebook)
+                    </div>
                   <p class="help-block"></p>
                 </div>
               </div>
               <div class="control-group">
                 <label class="control-label">@Html.LabelFor(model => Model[i].Twitter, "Twitter page")</label>
                 <div class="controls">
-                    @Html.TextBoxFor(model => Model[i].Twitter, new { @class = "input-xlarge", style = "width: 500px;" })
-                    @Html.ValidationMessageFor(model => Model[i].Twitter)
+                    <div class="input-prepend">
+                    <span class="add-on">@@</span>
+                        @Html.TextBoxFor(model => Model[i].Twitter, new { @class = "input-xlarge", style = "width: 500px;" })
+                        @Html.ValidationMessageFor(model => Model[i].Twitter)
+                    </div>
                   <p class="help-block"></p>
                 </div>
               </div>

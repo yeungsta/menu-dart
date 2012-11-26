@@ -170,6 +170,27 @@ i.gear {
     line-height: 29px;
 }
 
+.navbar .nav.pull-right .btn {
+    margin-top: 11px;
+}
+
 .navbar .navbar-fixed-top .navbar-inner {
     margin-bottom: 15px;    
+}
+
+.selectedImage  
+{
+    border: 11px solid #08C;
+}
+
+.imageSpacing
+{
+    margin: 10px 10px 10px 10px;
+}
+
+.themeName
+{
+    font-weight: bold;
+    text-align: center;
+    margin: 0px 20px 0px 20px;
 }

@@ -18,6 +18,9 @@ namespace MenuDart.Controllers
         public const int MaxLocations = 8;
         public const string RootLevel = "0";
         public const string RootTitle = "Main Level";
+        public const string UrlPrefix = @"http://";
+        public const string UrlSecurePrefix = @"https://";
+        public const string TwitterPrefix = @"https://www.twitter.com/";
         public const string GoogleMapPrefix = @"http://maps.google.com/maps?q=";
         public const string GoogleMapImgPrefix = @"http://maps.googleapis.com/maps/api/staticmap?size=275x275&maptype=roadmap\&markers=size:mid%7Ccolor:red%7C";
         public const string GoogleMapImgSuffix = @"&sensor=false&zoom=14";

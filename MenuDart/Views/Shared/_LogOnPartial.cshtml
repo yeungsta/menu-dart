@@ -1,9 +1,9 @@
 ﻿@if(Request.IsAuthenticated) {
     @MenuDart.Controllers.MenuExtensions.MenuItem(Html, "Your Dashboard", "Index", "Dashboard")
-    <li>@Html.ActionLink("Log Out " + User.Identity.Name, "LogOff", "Account")</li>
+    <a class="btn btn-danger btn-small" href="@Url.Action("LogOff", "Account")">Log Out @User.Identity.Name</a>
 }
 else
 { 
     @MenuDart.Controllers.MenuExtensions.MenuItem(Html, "Sign Up, Free!", "Register", "Account")
-    @MenuDart.Controllers.MenuExtensions.MenuItem(Html, "Log In", "LogOn", "Account")
+    <a class="btn btn-primary btn-small" href="@Url.Action("LogOn", "Account")">Log In</a>
 }

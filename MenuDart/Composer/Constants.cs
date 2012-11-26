@@ -9,6 +9,7 @@ namespace MenuDart.Composer
     {
         public const string DocType = "<!DOCTYPE html>";
         public const string Jquery = "http://code.jquery.com/jquery-1.6.4.min.js";
+        //TODO: Jquery mobile 1.2 had problems with navbar showing up on bottom of screen.
         public const string JqueryMobile = "http://code.jquery.com/mobile/1.0/jquery.mobile-1.0.min.js";
         public const string JqueryMobileCss = "http://code.jquery.com/mobile/1.0/jquery.mobile-1.0.min.css";
         public const string MenuDartUrl = "http://www.menudart.com";

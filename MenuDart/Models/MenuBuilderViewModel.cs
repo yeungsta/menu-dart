@@ -9,4 +9,9 @@ namespace MenuDart.Models
     {
         public Menu CurrentMenu { get; set; }
     }
+
+    public class MenuBuilderThemeViewModel
+    {
+        public List<string> Themes { get; set; }
+    }
 }

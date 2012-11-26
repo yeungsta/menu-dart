@@ -24,6 +24,8 @@ namespace MenuDart.Models
         public int MenuId { get; set; }
         public string Name { get; set; }
         public bool ChangesUnpublished { get; set; }
+        public List<string> Themes { get; set; }
+        public string CurrentTheme { get; set; }
     }
 
     public class MenuEditorAboutViewModel
