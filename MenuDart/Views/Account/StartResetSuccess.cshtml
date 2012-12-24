@@ -2,8 +2,11 @@
     ViewBag.Title = "StartResetSuccess";
 }
 
-<h2>Reset Link Sent</h2>
+<div class="hero-unit">
+<center><h1>Reset Email Sent.</h1>
+<br>
 <p>
-    A reset link has emailed to you. From there, you can log back in and reset your password.
+    A reset link has emailed to you. From there, you can @Html.ActionLink("log back in", "LogOn", "Account") and reset your password.
 </p>
-@Html.ActionLink("Log On", "LogOn", "Account")
+</center>
+</div> <!-- hero -->

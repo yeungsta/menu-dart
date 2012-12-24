@@ -10,18 +10,10 @@ using MenuDart.Composer;
 
 namespace MenuDart.Controllers
 {
-    //[Authorize(Roles = "Administrator")]
+    [Authorize(Roles = "Administrator")]    //because there is no external interface needed to create Locations. All serialized in the Composer.
     public class LocationsController : Controller
     {
         private MenuDartDBContext db = new MenuDartDBContext();
-
-        //
-        // GET: /Locations/
-
-        public ViewResult Index()
-        {
-            return View(db.Locations.ToList());
-        }
 
         //
         // GET: /Locations/Details/5

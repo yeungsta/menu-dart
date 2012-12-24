@@ -18,6 +18,7 @@ namespace MenuDart.Controllers
         //
         // GET: /Menu/
 
+        [Authorize(Roles = "Administrator")]
         public ViewResult Index()
         {
             ViewBag.UrlPath = Utilities.GetUrlPath();
@@ -27,6 +28,7 @@ namespace MenuDart.Controllers
         //
         // GET: /Menu/Details/5
 
+        [Authorize(Roles = "Administrator")]
         public ActionResult Details(int id = 0)
         {
             Menu menu = db.Menus.Find(id);
@@ -43,6 +45,7 @@ namespace MenuDart.Controllers
         //
         // GET: /Menu/Create
 
+        [Authorize(Roles = "Administrator")]
         public ActionResult Create()
         {
             ViewData["templateList"] = new SelectList(GetTemplates());
@@ -53,6 +56,7 @@ namespace MenuDart.Controllers
         //
         // POST: /Menu/Create
 
+        [Authorize(Roles = "Administrator")]
         [HttpPost]
         public ActionResult Create(Menu menu)
         {
@@ -130,9 +134,10 @@ namespace MenuDart.Controllers
                     {
                         menu.Name = basicInfo.Name;
                         menu.City = basicInfo.City;
+                        //save the current URL for latter use (deleting)
+                        menu.PreviousMenuDartUrl = menu.MenuDartUrl;
+                        //create new URL based on new name/city
                         menu.MenuDartUrl = CreateMenuDartUrl(basicInfo.Name, basicInfo.City);
-
-                        //TODO: notify user of new URL when saving
                     }
 
                     //update basic info fields
@@ -322,6 +327,7 @@ namespace MenuDart.Controllers
             logoViewData.Name = menu.Name;
             logoViewData.MenuDartUrl = menu.MenuDartUrl;
             logoViewData.ChangesUnpublished = menu.ChangesUnpublished;
+            logoViewData.Owner = menu.Owner;
 
 #if UseAmazonS3
             //check if logo exists for display
@@ -572,9 +578,15 @@ namespace MenuDart.Controllers
 
         //
         // GET: /Menu/Delete/5
- 
+
+        [Authorize]
         public ActionResult Delete(int id = 0)
         {
+            if ((id == 0) || !Utilities.IsThisMyMenu(id, db, User))
+            {
+                return RedirectToAction("MenuBuilderAccessViolation");
+            }
+
             Menu menu = db.Menus.Find(id);
 
             if (menu == null)
@@ -589,9 +601,15 @@ namespace MenuDart.Controllers
         //
         // POST: /Menu/Delete/5
 
+        [Authorize]
         [HttpPost, ActionName("Delete")]
         public ActionResult DeleteConfirmed(int id = 0)
-        {            
+        {
+            if ((id == 0) || !Utilities.IsThisMyMenu(id, db, User))
+            {
+                return RedirectToAction("MenuBuilderAccessViolation");
+            }
+ 
             Menu menu = db.Menus.Find(id);
 
             if (menu == null)
@@ -612,8 +630,14 @@ namespace MenuDart.Controllers
         //
         // GET: /Menu/Publish/5
 
+        [Authorize]
         public ActionResult Publish(string ReturnUrl, int id = 0)
         {
+            if ((id == 0) || !Utilities.IsThisMyMenu(id, db, User))
+            {
+                return RedirectToAction("MenuBuilderAccessViolation");
+            }
+
             try
             {
                 Menu menu = db.Menus.Find(id);
@@ -627,8 +651,16 @@ namespace MenuDart.Controllers
                 if (menu.Active)
                 {
                     V1 composer = new V1(menu);
+
                     // re-compose the menu
                     string fullURL = composer.CreateMenu();
+
+                    //remove previous menu directory, if exists
+                    if (!string.IsNullOrEmpty(menu.PreviousMenuDartUrl))
+                    {
+                        Utilities.RemoveDirectory(menu.PreviousMenuDartUrl);
+                        menu.PreviousMenuDartUrl = string.Empty;
+                    }
 
                     //reset dirty flag
                     menu.ChangesUnpublished = false;
@@ -661,6 +693,7 @@ namespace MenuDart.Controllers
         //
         // GET: /Menu/PublishNotActive/5
 
+        [Authorize]
         public ActionResult PublishNotActive(string ReturnUrl, string menuName, int id = 0)
         {
             ActivateViewModel activateViewData = new ActivateViewModel();
@@ -674,6 +707,8 @@ namespace MenuDart.Controllers
         //
         // GET: /Menu/ViewActiveMenu/5
         //
+
+        [Authorize]
         public ActionResult ViewActiveMenu(int id = 0)
         {
             if ((id == 0) || !Utilities.IsThisMyMenu(id, db, User))
@@ -700,13 +735,13 @@ namespace MenuDart.Controllers
         // GET: /Menu/PreviewMenu/5
         //
         //create temporary menu for previewing
+        //
+        // Allow for public access since this is used to preview menus
+        // for guests not logged in
+
         public ActionResult PreviewMenu(bool useSampleLogo, int id = 0)
         {
             bool createNewTempDir = false;
-
-            //We don't want to check if this menu
-            //belongs to the owner here because we 
-            //have anonymous users previewing menus
 
             Menu menu = db.Menus.Find(id);
 
@@ -714,6 +749,16 @@ namespace MenuDart.Controllers
             {
                 Utilities.LogAppError("Could not find menu.");
                 return HttpNotFound();
+            }
+
+            //If menu has an owner, check ownership with logged in user.
+            //Otherwise allow for anonymous users to preview.
+            if (!string.IsNullOrEmpty(menu.Owner))
+            {
+                if ((id == 0) || !Utilities.IsThisMyMenu(id, db, User))
+                {
+                    return RedirectToAction("MenuBuilderAccessViolation");
+                }
             }
 
             V1 composer = new V1(menu);
@@ -764,6 +809,19 @@ namespace MenuDart.Controllers
 
         public ActionResult MenuBuilder()
         {
+            //if current logged in user is on trial
+            if ((Request.IsAuthenticated) && (Utilities.IsUserOnTrial(db, User)))
+            {
+                IOrderedQueryable<Menu> allMenus = Utilities.GetAllMenus(User.Identity.Name, db);
+
+                //if user already has a menu
+                if ((allMenus != null) && (allMenus.Count() != 0))
+                {
+                    //user cannot have more than one menu on free trial
+                    return RedirectToAction("MenuTrialLimit");
+                }
+            }
+
             //create empty menu
             Menu newMenu = new Menu();
 
@@ -785,8 +843,8 @@ namespace MenuDart.Controllers
             if (ModelState.IsValid)
             {
                 //menu is inactive by default at initial creation;
-                //but will be set to active if user decides to publish
-                //at the end of the builder process.
+                //but will be set to active if user signs up for a 
+                //free trial in latter steps.
                 menuBuilderModel.CurrentMenu.Active = false;
 
                 //create initial default location
@@ -908,11 +966,41 @@ namespace MenuDart.Controllers
         //
         // GET: /Menu/MenuBuilder3
         // 
-        //Starting at this step, only authorized users can edit their menu
+        //Starting at this step, only authorized users can continue building their menu
 
         [Authorize]
         public ActionResult MenuBuilder3(int id = 0)
         {
+            //if current logged in user is on trial
+            if ((Request.IsAuthenticated) && (Utilities.IsUserOnTrial(db, User)))
+            {
+                IOrderedQueryable<Menu> allMenus = Utilities.GetAllMenus(User.Identity.Name, db);
+
+                //if user already has an existing menu (not counting the one being created now)
+                if ((allMenus != null) && ((allMenus.Count() - 1) != 0))
+                {
+                    //user cannot have more than one menu on free trial,
+                    //remove current menu
+                    if ((id == 0) || !Utilities.IsThisMyMenu(id, db, User))
+                    {
+                        return RedirectToAction("MenuTrialLimit");
+                    }
+
+                    Menu menu = db.Menus.Find(id);
+
+                    if (menu == null)
+                    {
+                        Utilities.LogAppError("Could not find menu.");
+                        return HttpNotFound();
+                    }
+
+                    db.Menus.Remove(menu);
+                    db.SaveChanges();
+
+                    return RedirectToAction("MenuTrialLimit");
+                }
+            }
+
             if ((id == 0) || !Utilities.IsThisMyMenu(id, db, User))
             {
                 return RedirectToAction("MenuBuilderAccessViolation");
@@ -1355,8 +1443,21 @@ namespace MenuDart.Controllers
                 return HttpNotFound();
             }
 
+            //activate the menu if user is on free trial
+            if (Utilities.IsUserOnTrial(db, User))
+            {
+                if (!Utilities.ActivateMenu(id, menu, User.Identity.Name, 1, db, true))
+                {
+                    return RedirectToAction("Failed");
+                }
+            }
+
+            //save all changes to DB
+            db.SaveChanges();
+
             ViewBag.MenuId = id;
             ViewBag.Name = menu.Name;
+            ViewBag.Active = menu.Active;
 
             return View();
         }
@@ -1372,9 +1473,9 @@ namespace MenuDart.Controllers
         //LogoUpload is called by the uploader Javascript
         [HttpPost]
         [Authorize]
-        public ActionResult LogoUpload(string qqfile, string menuDartUrl)
+        public ActionResult LogoUpload(string qqfile, string menuDartUrl, string owner)
         {
-            if (!string.IsNullOrEmpty(menuDartUrl))
+            if (!string.IsNullOrEmpty(menuDartUrl) && (owner == User.Identity.Name))
             {
 #if UseAmazonS3
                 string indexFilesPath = menuDartUrl;
@@ -1422,7 +1523,7 @@ namespace MenuDart.Controllers
                 return Json(new { success = true }, "text/html");
             }
 
-            return Json(new { success = false, message = "No URL path." }, "application/json");
+            return Json(new { success = false, message = "No URL path or wrong owner." }, "application/json");
         }
 
         //
@@ -1468,6 +1569,22 @@ namespace MenuDart.Controllers
             }
 #endif
             return RedirectToAction(ReturnUrl, new { id = id });
+        }
+
+        //
+        // GET: /Menu/Failed
+
+        public ActionResult Failed()
+        {
+            return View();
+        }
+
+        //
+        // GET: /Menu/MenuTrialLimit
+
+        public ActionResult MenuTrialLimit()
+        {
+            return View();
         }
 
         protected override void Dispose(bool disposing)

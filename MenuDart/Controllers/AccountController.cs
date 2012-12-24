@@ -50,8 +50,15 @@ namespace MenuDart.Controllers
                     }
                     else
                     {
-                        //send to Dashboard by default
-                        return RedirectToAction("Index", "Dashboard");
+                        if (Roles.IsUserInRole(model.Email, "Administrator"))
+                        {
+                            return RedirectToAction("James", "Home");
+                        }
+                        else
+                        {
+                            //send to Dashboard by default
+                            return RedirectToAction("Index", "Dashboard");
+                        }
                     }
                 }
                 else
@@ -206,6 +213,7 @@ namespace MenuDart.Controllers
         //
         // GET: /Account/ChangePasswordSuccess
 
+        [Authorize]
         public ActionResult ChangePasswordSuccess(string email)
         {
             ViewBag.Email = email;

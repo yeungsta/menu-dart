@@ -47,7 +47,8 @@
                         multiple: false,
                         debug: true,
                         params: {
-                            menuDartUrl: '@Model.MenuDartUrl'
+                            menuDartUrl: '@Model.MenuDartUrl',
+                            owner: '@Model.Owner'
                         },
                         onComplete: function (id, fileName, responseJSON) {
                             window.location = '/Menu/Edit4/' + @Model.MenuId;

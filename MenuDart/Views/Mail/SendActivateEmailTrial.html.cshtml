@@ -1,0 +1,19 @@
+﻿@using ActionMailer.Net.Mvc
+@model MenuDart.Models.SendActivateEmailViewModel
+
+@{
+    ViewBag.Title = "Your Menu Is Activated!";
+    Layout = "../Shared/EmailLayout.cshtml";
+}
+
+<h2>Hey there @Model.Email,</h2>
+<p>
+Hooray, your @Model.MenusJustActivated[0].MenuName menu is now activated!
+<p>
+Remember, the link to @Model.MenusJustActivated[0].MenuName is @Model.MenusJustActivated[0].MenuLink.
+<p>
+Your menu is free during your 30-day trial. Please contact us if you have any questions.
+<p>
+Happy to serve you,
+<br>
+Your Friends at MenuDart

@@ -15,18 +15,16 @@ namespace MenuDart.Controllers
         private MenuDartDBContext db = new MenuDartDBContext();
 
         //
-        // GET: /Subscription/
-
-        public ActionResult Index()
-        {
-            return View();
-        }
-
-        //
         // GET: /Menu/Activate/5
 
+        [Authorize]
         public ActionResult Activate(int id = 0)
         {
+            if ((id == 0) || !Utilities.IsThisMyMenu(id, db, User))
+            {
+                return RedirectToAction("MenuBuilderAccessViolation", "Menu");
+            }
+
             Menu menu = db.Menus.Find(id);
 
             if (menu == null)
@@ -60,17 +58,29 @@ namespace MenuDart.Controllers
         //
         // POST: /Menu/Activate/5
 
+        [Authorize]
         [HttpPost, ActionName("Activate")]
         public ActionResult ActivateConfirmed(int ActiveCount, string Email, string stripeToken, int id = 0)
         {
+            if ((id == 0) || !Utilities.IsThisMyMenu(id, db, User))
+            {
+                return RedirectToAction("MenuBuilderAccessViolation", "Menu");
+            }
+
             return RedirectToAction("Subscribe", "Subscription", new { id = id, subscribeAction = Constants.ActivateOne, email = Email, quantity = ActiveCount, token = stripeToken }); 
         }
 
         //
         // GET: /Menu/ActivateAll/5
 
+        [Authorize]
         public ActionResult ActivateAll(string email, int quantity)
         {
+            if (User.Identity.Name != email)
+            {
+                return RedirectToAction("MenuBuilderAccessViolation", "Menu");
+            }
+
             //display to user what the billing will be
             ViewBag.NumActiveMenus = quantity;
             ViewBag.NewTotal = quantity * 7;
@@ -82,17 +92,29 @@ namespace MenuDart.Controllers
         //
         // POST: /Menu/ActivateAll/5
 
+        [Authorize]
         [HttpPost, ActionName("ActivateAll")]
         public ActionResult ActivateAllConfirmed(string Email, int Quantity)
         {
+            if (User.Identity.Name != Email)
+            {
+                return RedirectToAction("MenuBuilderAccessViolation", "Menu");
+            }
+
             return RedirectToAction("Subscribe", "Subscription", new { id = 0, subscribeAction = Constants.ActivateAll, email = Email, quantity = Quantity });
         }
 
         //
         // GET: /Menu/Deactivate/5
 
+        [Authorize]
         public ActionResult Deactivate(int id = 0)
         {
+            if ((id == 0) || !Utilities.IsThisMyMenu(id, db, User))
+            {
+                return RedirectToAction("MenuBuilderAccessViolation", "Menu");
+            }
+
             Menu menu = db.Menus.Find(id);
 
             if (menu == null)
@@ -125,9 +147,15 @@ namespace MenuDart.Controllers
         //
         // POST: /Menu/Deactivate/5
 
+        [Authorize]
         [HttpPost, ActionName("Deactivate")]
         public ActionResult DeactivateConfirmed(int ActiveCount, string Email, int id = 0)
         {
+            if ((id == 0) || !Utilities.IsThisMyMenu(id, db, User))
+            {
+                return RedirectToAction("MenuBuilderAccessViolation", "Menu");
+            }
+
             return RedirectToAction("Subscribe", "Subscription", new { id = id, subscribeAction = Constants.DeactivateOne, email = Email, quantity = ActiveCount }); 
         }
 
@@ -135,8 +163,14 @@ namespace MenuDart.Controllers
         // GET: /Subscription/DeactivateAll
         //deactivate all menus and cancel billing agreement
 
+        [Authorize]
         public ActionResult DeactivateAll(string email)
         {
+            if (User.Identity.Name != email)
+            {
+                return RedirectToAction("MenuBuilderAccessViolation", "Menu");
+            }
+
             //find out how many active menus this owner has
             IOrderedQueryable<Menu> allMenus = Utilities.GetAllMenus(email, db);
             if (allMenus == null) { return HttpNotFound(); }
@@ -160,17 +194,29 @@ namespace MenuDart.Controllers
         //
         // POST: /Menu/DeactivateAll/5
 
+        [Authorize]
         [HttpPost, ActionName("DeactivateAll")]
         public ActionResult DeactivateAllConfirmed(string Email)
         {
+            if (User.Identity.Name != Email)
+            {
+                return RedirectToAction("MenuBuilderAccessViolation", "Menu");
+            }
+
             return RedirectToAction("Subscribe", "Subscription", new { id = 0, subscribeAction = Constants.DeactivateAll, email = Email, quantity = 0 });
         }
 
         //
         // GET: /Subscription/Subscribe
 
+        [Authorize]
         public ActionResult Subscribe(int id, string subscribeAction, string email, int quantity, string token)
         {
+            if ((id == 0) || !Utilities.IsThisMyMenu(id, db, User))
+            {
+                return RedirectToAction("MenuBuilderAccessViolation", "Menu");
+            }
+
             UserInfo userInfo = GetUserInfo(email);
 
             //there must be a user info entry found
@@ -221,7 +267,7 @@ namespace MenuDart.Controllers
                         return RedirectToAction("Failed");
                     }
 
-                    if (!ActivateMenu(id, menu, email, quantity))
+                    if (!Utilities.ActivateMenu(id, menu, email, quantity, db, false))
                     {
                         return RedirectToAction("Failed");
                     }
@@ -287,6 +333,8 @@ namespace MenuDart.Controllers
 
         //
         // GET: /Subscription/Failed
+
+        [Authorize]
         public ActionResult Failed()
         {
             return View();
@@ -295,6 +343,7 @@ namespace MenuDart.Controllers
         //
         // GET: /Subscription/ActivateCompleted
 
+        [Authorize]
         public ActionResult ActivateCompleted()
         {
             return View();
@@ -303,6 +352,7 @@ namespace MenuDart.Controllers
         //
         // GET: /Subscription/ActivateAllCompleted
 
+        [Authorize]
         public ActionResult ActivateAllCompleted()
         {
             return View();
@@ -311,6 +361,7 @@ namespace MenuDart.Controllers
         //
         // GET: /Subscription/DeactivateCompleted
 
+        [Authorize]
         public ActionResult DeactivateCompleted()
         {
             return View();
@@ -319,11 +370,12 @@ namespace MenuDart.Controllers
         //
         // GET: /Subscription/DeactivateAllCompleted
 
+        [Authorize]
         public ActionResult DeactivateAllCompleted()
         {
             return View();
         }
-
+/*
         private bool ActivateMenu(int id, Menu menu, string email, int quantity)
         {
             //set menu as active
@@ -371,7 +423,7 @@ namespace MenuDart.Controllers
 
             return true;
         }
-
+*/
         private bool DeactivateMenu(int id, Menu menu, string email, int quantity)
         {
             //set menu as deactivated

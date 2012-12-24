@@ -16,11 +16,13 @@ namespace MenuDart.Controllers
         //
         // GET: /JobScheduler/
 
+        //TODO: add a password parameter so that not anyone w/ URL can kickoff
         public ActionResult KickOff()
         {
             WarnUpcomingExpiringTrials();
             CheckForExpiredTrials();
-            //CheckExpiredCoupons();
+
+            Utilities.LogAppError("Job scheduler was kicked-off!");
 
             return View();
         }
@@ -168,10 +170,6 @@ namespace MenuDart.Controllers
                 //save all changes to DB
                 db.SaveChanges();
             }
-        }
-
-        private void CheckExpiredCoupons()
-        {
         }
 
         private IList<UserInfo> GetAllUsersOnTrial()

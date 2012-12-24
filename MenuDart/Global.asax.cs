@@ -28,12 +28,14 @@ namespace MenuDart
                 "{controller}/{action}/{id}", // URL with parameters
                 new { controller = "Home", action = "Index", id = UrlParameter.Optional } // Parameter defaults
             );
-
         }
 
         protected void Application_Start()
         {
+#if !Release
+            //Deployed SQL (shared databases) cannot use the SetInitializer below:
             Database.SetInitializer<MenuDartDBContext>(new MDInitializer());
+#endif
 
             AreaRegistration.RegisterAllAreas();
 

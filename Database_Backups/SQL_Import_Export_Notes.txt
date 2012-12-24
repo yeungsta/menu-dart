@@ -2,13 +2,81 @@ Exporting:
 
 - right-click Database (MenuDart) and select Tasks->Export Data.
 - export with column names on first row.
-- export following tables: Menus, Templates, UserInfoes.
+- export following tables: Menus, Templates, UserInfoes, TempMenus, EdmMetadata (if creating for first time).
 
 Importing:
 
 - right-click Database (MenuDart) and select Tasks-Import Data.
-- select following tables: Menus, Templates, UserInfoes
-- Edit mappings on each table: Select "Delete rows in destination table" 
+- select following tables: Menus, Templates, UserInfoes, TempMenus, EdmMetadata (if creating for first time).
+- If creating tables for the first time, use the following SQL Create Table statments:
+1) EdmMetadata:
+
+CREATE TABLE `EdmMetadata` (
+`Id` int,
+`ModelHash` nvarchar(max) (nullable)
+)
+
+2) Menus:
+
+CREATE TABLE `Menus` (
+`ID` int,
+`Name` nvarchar(max),
+`City` nvarchar(max),
+`Active` bit,
+`ChangesUnpublished` bit,
+`Website` nvarchar(max), (nullable)
+`AboutTitle` nvarchar(max), (nullable)
+`AboutText` nvarchar(max), (nullable)
+`Template` nvarchar(max), (nullable)
+`Owner` nvarchar(max), (nullable)
+`MenuDartUrl` nvarchar(max), (nullable)
+`Phone` nvarchar(max), (nullable)
+`Email` nvarchar(max), (nullable)
+`Facebook` nvarchar(max), (nullable)
+`Twitter` nvarchar(max), (nullable)
+`Yelp` nvarchar(max), (nullable)
+`Locations` XML(.), (nullable)
+`MenuTree` XML(.) (nullable)
+)
+
+3) Templates:
+
+CREATE TABLE `Templates` (
+`ID` int,
+`Name` nvarchar(max),
+`HdrTxtClr` nvarchar(max), (nullable)
+`HdrTxtFnt` nvarchar(max), (nullable)
+`HdrClrGrdntTop` nvarchar(max), (nullable)
+`HdrClrGrdntBottom` nvarchar(max), (nullable)
+`BkgndClr` nvarchar(max), (nullable)
+`Stripes` nvarchar(max), (nullable)
+`FtrTxtClr` nvarchar(max), (nullable)
+`FtrLnkClr` nvarchar(max), (nullable)
+`temp` nvarchar(max) (nullable)
+)
+
+4) TempMenus:
+
+CREATE TABLE `TempMenus` (
+`ID` int,
+`SessionId` nvarchar(max), (nullable)
+`MenuId` int,
+`DateCreated` DateTime
+)
+
+5) UserInfoes:
+
+CREATE TABLE `UserInfoes` (
+`ID` int,
+`Name` nvarchar(max),
+`Subscribed` bit,
+`TrialEnded` bit,
+`TrialExpWarningSent` bit,
+`PaymentCustomerId` nvarchar(max), (nullable)
+`PaymentCustomerStatus` nvarchar(max) (nullable)
+)
+
+- If updating existing tables, edit mappings on each table: Select "Delete rows in destination table" 
 in order to create a new ID for each row and conserve unused IDs.
 - For Menus, Templates, and UserInfoes, change the Destination of the ID column to <ignore> because
 this column is read-only.

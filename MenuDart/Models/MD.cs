@@ -23,6 +23,7 @@ namespace MenuDart.Models
         public string Template { get; set; }
         public string Owner { get; set; }
         public string MenuDartUrl { get; set; }
+        public string PreviousMenuDartUrl { get; set; }
         //populated only if one location, or shared across all locations
         public string Phone { get; set; }
         public string Email { get; set; }
@@ -81,15 +82,6 @@ namespace MenuDart.Models
         public int ID { get; set; }
         [Required]
         public string Name { get; set; }
-        public string HdrTxtClr { get; set; }
-        public string HdrTxtFnt { get; set; }
-        public string HdrClrGrdntTop { get; set; }
-        public string HdrClrGrdntBottom { get; set; }
-        public string BkgndClr { get; set; }
-        public string Stripes { get; set; }
-        public string FtrTxtClr { get; set; }
-        public string FtrLnkClr { get; set; }
-        public string temp { get; set; }
     }
 
     public class TempMenu
@@ -116,6 +108,8 @@ namespace MenuDart.Models
     {
         public DbSet<Menu> Menus { get; set; }
         public DbSet<Template> Templates { get; set; }
+        public DbSet<TempMenu> TempMenus { get; set; }
+        public DbSet<UserInfo> UserInfo { get; set; }
 
         //we won't be storing Locations in it's SQL table, however. Just as XML
         //in the Menus table.
@@ -125,7 +119,17 @@ namespace MenuDart.Models
         //in the Menus table.
         public DbSet<MenuNode> MenuTree { get; set; }
 
-        public DbSet<TempMenu> TempMenus { get; set; }
-        public DbSet<UserInfo> UserInfo { get; set; }
+#if Staging  //map to staging database tables
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<Menu>().ToTable("Menus_staging");
+            modelBuilder.Entity<Template>().ToTable("Templates_staging");
+            modelBuilder.Entity<TempMenu>().ToTable("TempMenus_staging");
+            modelBuilder.Entity<UserInfo>().ToTable("UserInfoes_staging");
+        }
+#endif
+
+
     }
 }

@@ -12,7 +12,8 @@ namespace MenuDart.Controllers
         public const string NewLine2 = "\r\n";
         public const string MenusDir = "/Content/menus/";
         public const string MenusPath = "~" + MenusDir;
-        public const string PreviewMenusDir = "/Content/previews/";
+        public const string PreviewMenusDir = "/content/previews/";
+        public const string PreviewMenusStagingDir = "/staging/content/previews/";
         public const string PreviewMenusPath = "~" + PreviewMenusDir;
         public const string SampleLogoPath = "~/Content/menus/shared/images/logo.png";
         public const int MaxLocations = 8;
@@ -40,7 +41,7 @@ namespace MenuDart.Controllers
         public const string ReplyEmail = "no-reply@menudart.com";
         public const string SupportEmail = "support@menudart.com";
         //misc
-        public const int TrialPeriodDays = 31; //30 days + 1 grace day
+        public const int TrialPeriodDays = 30;
         public const int TrialExpWarningDays = 25; //warn 5 days ahead of expiration
         //Amazon S3
         public const string AmazonS3BucketName = "biz.menudart.com";

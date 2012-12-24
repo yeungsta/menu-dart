@@ -35,11 +35,14 @@ namespace MenuDart.Controllers
         }
 
         //admin page
+
+        [Authorize(Roles = "Administrator")]
         public ActionResult James()
         {
             return View();
         }
 
+        [Authorize(Roles = "Administrator")]
         public ActionResult About()
         {
             //Utilities.LogAppError("Test exception.");

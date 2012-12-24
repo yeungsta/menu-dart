@@ -72,7 +72,19 @@ namespace MenuDart.Controllers
 
                 //convert creation date to Unix Time
                 TimeSpan ts = (currentUser.CreationDate - new DateTime(1970, 1, 1, 0, 0, 0));
-                model.SignUpDate = ts.TotalSeconds;                
+                model.SignUpDate = ts.TotalSeconds;
+
+                //provide trial end date if applies
+                if (!userInfoList[0].TrialEnded)
+                {
+                    TimeSpan trialDuration = new TimeSpan(Constants.TrialPeriodDays, 0, 0, 0);
+                    DateTime? endDate = currentUser.CreationDate.Date + trialDuration;
+                    model.TrialEndDate = endDate.Value.Date.ToShortDateString();
+                }
+                else
+                {
+                    model.TrialEndDate = null;
+                }
 
                 return View(model);
             }
@@ -83,6 +95,7 @@ namespace MenuDart.Controllers
         //
         // POST: /Dashboard
 
+        [Authorize]
         [HttpPost]
         public ActionResult Index(DashboardModel model)
         {
@@ -93,19 +106,26 @@ namespace MenuDart.Controllers
                     SendFeedbackEmail(model.Email, model.Feedback);
                     return RedirectToAction("SendFeedbackSuccess");
                 }
-
-                return View(model);
             }
 
-            Utilities.LogAppError("Could not send out feedback from user dashbaord.");
-            // something failed, redisplay form
-            return View(model);
+            // something failed or feedback was empty
+            return RedirectToAction("SendFeedbackFail");
         }
 
         //
         // GET: /Dashboard/SendFeedbackSuccess
 
+        [Authorize]
         public ActionResult SendFeedbackSuccess()
+        {
+            return View();
+        }
+
+        //
+        // GET: /Dashboard/SendFeedbackFail
+
+        [Authorize]
+        public ActionResult SendFeedbackFail()
         {
             return View();
         }

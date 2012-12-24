@@ -9,13 +9,14 @@ using MenuDart.Models;
 
 namespace MenuDart.Controllers
 {
+    [Authorize]
     public class MailController : MailerBase
     {
         public EmailResult SendPasswordResetEmail(string email, string resetLink)
         {
             To.Add(email);
-            From = Constants.ReplyEmail;
-            Subject = "Your MenuDart Password Has Been Reset";
+            From = "Menu Dart <" + Constants.ReplyEmail + ">";
+            Subject = "Your Menu Dart Password Has Been Reset";
             //Attachments.Inline["corplogo.jpg"] = DocMgr.GetContentFileBytes("/images/corp-logo.jpg");
 
             SendPasswordResetEmailViewModel viewModel = new SendPasswordResetEmailViewModel();
@@ -28,8 +29,8 @@ namespace MenuDart.Controllers
         public EmailResult SendSignUpEmail(string email)
         {
             To.Add(email);
-            From = Constants.ReplyEmail;
-            Subject = "Welcome to MenuDart!";
+            From = "Menu Dart Welcome Team <" + Constants.SupportEmail + ">";
+            Subject = "Welcome to Menu Dart!";
 
             return Email("SendSignUpEmail", email);
         }
@@ -37,7 +38,7 @@ namespace MenuDart.Controllers
         public EmailResult SendActivateEmail(string email, int amount, IList<MenuAndLink> menusJustActivated, IList<MenuAndLink> allActivatedMenus)
         {
             To.Add(email);
-            From = Constants.ReplyEmail;
+            From = "Menu Dart <" + Constants.SupportEmail + ">";
             Subject = "Your Menu Is Activated!";
 
             SendActivateEmailViewModel viewModel = new SendActivateEmailViewModel();
@@ -49,10 +50,23 @@ namespace MenuDart.Controllers
             return Email("SendActivateEmail", viewModel);
         }
 
+        public EmailResult SendActivateEmailTrial(string email, IList<MenuAndLink> menusJustActivated)
+        {
+            To.Add(email);
+            From = "Menu Dart <" + Constants.SupportEmail + ">";
+            Subject = "Your Menu Is Activated!";
+
+            SendActivateEmailViewModel viewModel = new SendActivateEmailViewModel();
+            viewModel.Email = email;
+            viewModel.MenusJustActivated = menusJustActivated;
+
+            return Email("SendActivateEmailTrial", viewModel);
+        }
+
         public EmailResult SendDeactivateEmail(string email, int amount, IList<MenuAndLink> remainingActiveMenus, IList<MenuAndLink> deactivatedMenus)
         {
             To.Add(email);
-            From = Constants.ReplyEmail;
+            From = "Menu Dart <" + Constants.SupportEmail + ">";
             Subject = "Your Menu Is Deactivated";
 
             SendDeactivateEmailViewModel viewModel = new SendDeactivateEmailViewModel();
@@ -77,7 +91,7 @@ namespace MenuDart.Controllers
         public EmailResult SendTrialExpiredEmail(string email, IList<MenuAndLink> deactivatedMenus)
         {
             To.Add(email);
-            From = Constants.ReplyEmail;
+            From = "Menu Dart <" + Constants.SupportEmail + ">";
             Subject = "Your 30-day free trial has expired. Activate your mobile menu!";
 
             SendTrialExpiredEmailViewModel viewModel = new SendTrialExpiredEmailViewModel();
@@ -91,7 +105,7 @@ namespace MenuDart.Controllers
         public EmailResult SendTrialWarningEmail(string email, IList<MenuAndLink> deactivatedMenus)
         {
             To.Add(email);
-            From = Constants.ReplyEmail;
+            From = "Menu Dart <" + Constants.SupportEmail + ">";
             Subject = "Your 30-day free trial is expiring soon. Activate your mobile menu!";
 
             SendTrialExpiredEmailViewModel viewModel = new SendTrialExpiredEmailViewModel();

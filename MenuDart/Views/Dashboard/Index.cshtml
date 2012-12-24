@@ -17,7 +17,7 @@
           <dt>Menus <span class="badge badge-info">@Model.Menus.Count()</span></dt>
           <br>
           <dd>
-            <table class="table table-bordered">
+            <table class="table">
               <thead>
                 <tr>
                   <th>Name</th>
@@ -47,18 +47,24 @@
                         @if (@item.Active)
                         {
                             <text>
-                            @Html.ActionLink("View", "ViewActiveMenu", "Menu", new { id = item.ID }, null) |
-                            @Html.ActionLink("Edit Menu", "Edit", "Menu", new { id = item.ID }, null) |
-                            @Html.ActionLink("Deactivate", "Deactivate", "Subscription", new { id = item.ID }, null)
+                            <a class="btn" href="@Url.Action("ViewActiveMenu", "Menu", new { id = item.ID }, null)"><i class="icon-picture"></i> View</a>
+                            <a class="btn" href="@Url.Action("Edit", "Menu", new { id = item.ID }, null)"><i class="icon-pencil"></i> Edit</a>
                             </text>
+ 
+                            if (Model.TrialEnded)
+                            {
+                                <text>
+                                <a class="btn" href="@Url.Action("Deactivate", "Subscription", new { ReturnUrl = "/Edit/" + item.ID, id = item.ID }, null)"><i class="icon-remove"></i> Deactivate</a>
+                                </text>
+                            }
                         }
                         else
                         {
                             <text>
-                            @Html.ActionLink("Preview", "PreviewMenu", "Menu", new { id = item.ID, useSampleLogo = false }, null) |
-                            @Html.ActionLink("Edit Menu", "Edit", "Menu", new { id = item.ID }, null) |
-                            @Html.ActionLink("Activate", "Activate", "Subscription", new { id = item.ID }, null) |
-                            @Html.ActionLink("Trash", "Delete", "Menu", new { id = item.ID }, null)
+                            <a class="btn" href="@Url.Action("PreviewMenu", "Menu", new { id = item.ID, useSampleLogo = false }, null)"><i class="icon-picture"></i> Preview</a>
+                            <a class="btn" href="@Url.Action("Edit", "Menu", new { id = item.ID }, null)"><i class="icon-pencil"></i> Edit</a>
+                            <a class="btn" href="@Url.Action("Activate", "Subscription", new { ReturnUrl = "/Edit/" + item.ID, id = item.ID }, null)"><i class="icon-arrow-up"></i> Activate</a>
+                            <a class="btn" href="@Url.Action("Delete", "Menu", new { id = item.ID }, null)"><i class="icon-trash"></i> Trash</a>
                             </text>
                         }
                       </td>
@@ -67,12 +73,13 @@
                 }               
               </tbody>
             </table>
-            @Html.ActionLink("Create a new menu", "MenuBuilder", "Menu", null, null)        
+            <a class="btn btn-small btn-primary" href="@Url.Action("MenuBuilder", "Menu", null, null)"><i class="icon-plus icon-white"></i> Create new menu</a>        
           </dd>
+          <br>
           <br>
           <dt>Billing</dt>
           <dd>
-            @if (@Model.Subscribed)
+            @if (@Model.Subscribed && @Model.TrialEnded)
             {
                 if (@Model.CouponActive)
                 {
@@ -83,28 +90,44 @@
                 else
                 {
                     <text>
-                    You are currently <span class="badge badge-success">subscribed with @activeCount</span> active menu(s) for a total of $@monthlyBill per month. (@activeCount x $7 = $@monthlyBill) [@Html.ActionLink("Deactivate all menu(s)", "DeactivateAll", "Subscription", new { email = Model.Email }, null)]
-                    </text>            
+                    You are currently <span class="badge badge-success">subscribed with @activeCount</span> active menu(s) for a total of $@monthlyBill per month. (@activeCount x $7 = $@monthlyBill)
+                    </text>
                 }
             }
             else if (!@Model.TrialEnded)
             {
                 <text>
-                You are currently on a <span class="badge badge-warning">free 1-month trial</span>, which ends on 1/23/12. Or you can go ahead and @Html.ActionLink("activate all your menu(s) if you'd like.", "ActivateAll", "Subscription", new { email = Model.Email, quantity = @Model.Menus.Count() }, null)
-                </text> 
+                You are currently on a <span class="badge badge-warning">free 30-day trial</span>
+                </text>
+                
+                if (Model.TrialEndDate != null)
+                {
+                    <text>
+                     which will end on <b>@Model.TrialEndDate</b>. Why not @Html.ActionLink("start your subscription today?", "ActivateAll", "Subscription", new { email = Model.Email, quantity = @Model.Menus.Count() }, null)
+                    </text>
+                }
             }
             else
             {
                 <text>
-                You are currently <span class="badge badge-important">unsubscribed</span> and do not have any active menus. You do not have any charges. [@Html.ActionLink("Activate all menu(s)", "ActivateAll", "Subscription", new { email = Model.Email, quantity = @Model.Menus.Count() }, null)]
-                </text>        
+                You are currently <span class="badge badge-important">unsubscribed</span> and do not have any active menus. You do not have any charges.
+                </text>
+                
+                if (Model.Menus.Count() > 0)
+                {
+                    <text>
+                    Why not put your menu to use @Html.ActionLink("and activate today?", "ActivateAll", "Subscription", new { email = Model.Email, quantity = @Model.Menus.Count() }, null)
+                    </text>
+                }
             }
           </dd>
+          <br>
           <br>
           <dt>Account</dt>
           <dd>Need to change your password? @Html.ActionLink("Do it here", "ChangePassword", "Account").
           <br>
           </dd>
+          <br>
           <br>
           <dt>Talk to us</dt>
           <dd>Have a question? Or just want to give feedback? The MenuDart Support Team loves to talk!
@@ -112,7 +135,7 @@
             Just speak your mind in the form below, and we promise to get back to you over email (email account).
           <br>
             <p>
-                @using (Html.BeginForm("Index", "Dashboard", FormMethod.Post, new { @class = "form-horizontal" }))
+                @using (Html.BeginForm("Index", "Dashboard", FormMethod.Post, new { @class = "form-horizontal", @name = "email_form" }))
                 {
                     @Html.ValidationSummary(true)
                         <fieldset>
@@ -125,7 +148,7 @@
                             </div>
                         </div>
                         <div class="form-actions">
-                          <button type="submit" value="Send" class="btn btn-large btn-primary"><i class="icon-envelope icon-white"></i> Send</button>
+                          <button type="submit" value="Send" name="send_btn" class="btn btn-large btn-primary" disabled><i class="icon-envelope icon-white"></i> Send</button>
                         </div>
                         </fieldset>
                 }
@@ -136,6 +159,17 @@
         <p>
         </p>
       </div> <!-- hero -->
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('.input-xlarge').keyup(function (e) {
+            //ignore if the tab key is pressed
+            if (e.keyCode == 9) return false;
+            //else enable save and cancel buttons
+            document.email_form.send_btn.disabled = false;
+        });
+    });
+</script>
 
 <!-- Intercom.io Tracking -->
 <script id="IntercomSettingsScriptTag">

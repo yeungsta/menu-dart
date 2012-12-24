@@ -13,6 +13,7 @@ namespace MenuDart.Models
         public int ID { get; set; }
         public string Email { get; set; }
         public double SignUpDate { get; set; }     //Unix Timestamp
+        public string TrialEndDate { get; set; }
         public bool TrialEnded { get; set; }
         public bool Subscribed { get; set; }
         public bool CouponActive { get; set; }

@@ -17,14 +17,6 @@ namespace MenuDart.Controllers
         private const string FirstLinkSuffix = "-1";
 
         //
-        // GET: /MenuTree/
-
-        public ViewResult Index()
-        {
-            return View(db.MenuTree.ToList());
-        }
-
-        //
         // GET: /MenuTree/Details/5
         [Authorize]
         public ActionResult Details(string parent, int idx, string source, string ReturnUrl, int id = 0)
@@ -162,8 +154,14 @@ namespace MenuDart.Controllers
         //
         // GET: /MenuTree/Create
 
+        [Authorize]
         public ActionResult Create(string parent, int id = 0)
         {
+            if ((id == 0) || !Utilities.IsThisMyMenu(id, db, User))
+            {
+                return RedirectToAction("MenuBuilderAccessViolation", "Menu");
+            }
+
             ViewBag.Parent = parent;
             ViewBag.MenuId = id;
 
@@ -173,9 +171,15 @@ namespace MenuDart.Controllers
         //
         // POST: /MenuTree/Create
 
+        [Authorize]
         [HttpPost]
         public ActionResult Create(MenuNode newMenuNode, int id, string parent)
         {
+            if ((id == 0) || !Utilities.IsThisMyMenu(id, db, User))
+            {
+                return RedirectToAction("MenuBuilderAccessViolation", "Menu");
+            }
+
             //we need a parent in order to know where to create these menu nodes
             if (!string.IsNullOrEmpty(parent))
             {
@@ -266,8 +270,14 @@ namespace MenuDart.Controllers
             return HttpNotFound();
         }
 
+        [Authorize]
         public ActionResult CreateItem(string parent, int id = 0)
         {
+            if ((id == 0) || !Utilities.IsThisMyMenu(id, db, User))
+            {
+                return RedirectToAction("MenuBuilderAccessViolation", "Menu");
+            }
+
             ViewBag.MenuId = id;
             ViewBag.Parent = parent;
 
@@ -277,9 +287,15 @@ namespace MenuDart.Controllers
         //
         // POST: /MenuTree/CreateItem
 
+        [Authorize]
         [HttpPost]
         public ActionResult CreateItem(MenuLeaf newMenuLeaf, int id, string parent)
         {
+            if ((id == 0) || !Utilities.IsThisMyMenu(id, db, User))
+            {
+                return RedirectToAction("MenuBuilderAccessViolation", "Menu");
+            }
+
             //we need a parent in order to know where to create these menu nodes
             if (!string.IsNullOrEmpty(parent))
             {
@@ -348,8 +364,14 @@ namespace MenuDart.Controllers
             return HttpNotFound();
         }
 
+        [Authorize]
         public ActionResult CreateText(string parent, int id = 0)
         {
+            if ((id == 0) || !Utilities.IsThisMyMenu(id, db, User))
+            {
+                return RedirectToAction("MenuBuilderAccessViolation", "Menu");
+            }
+
             ViewBag.MenuId = id;
             ViewBag.Parent = parent;
 
@@ -359,9 +381,15 @@ namespace MenuDart.Controllers
         //
         // POST: /MenuTree/CreateText
 
+        [Authorize]
         [HttpPost]
         public ActionResult CreateText(MenuNode newNode, int id, string parent)
         {
+            if ((id == 0) || !Utilities.IsThisMyMenu(id, db, User))
+            {
+                return RedirectToAction("MenuBuilderAccessViolation", "Menu");
+            }
+
             //we need a parent in order to know where to add the text
             if (!string.IsNullOrEmpty(parent))
             {
@@ -423,8 +451,14 @@ namespace MenuDart.Controllers
         //
         // GET: /MenuTree/Edit/5
 
+        [Authorize]
         public ActionResult Edit(string parent, int idx, int id = 0)
         {
+            if ((id == 0) || !Utilities.IsThisMyMenu(id, db, User))
+            {
+                return RedirectToAction("MenuBuilderAccessViolation", "Menu");
+            }
+
             //we need a parent ID in order to know where to edit
             if (!string.IsNullOrEmpty(parent))
             {
@@ -465,10 +499,16 @@ namespace MenuDart.Controllers
         //
         // POST: /MenuTree/Edit/5
 
+        [Authorize]
         [HttpPost]
         [ValidateInput(false)]
         public ActionResult Edit(MenuNode editedMenuNode, int id, string parent, int idx)
         {
+            if ((id == 0) || !Utilities.IsThisMyMenu(id, db, User))
+            {
+                return RedirectToAction("MenuBuilderAccessViolation", "Menu");
+            }
+
             //we need a parent ID in order to know where to edit
             if (!string.IsNullOrEmpty(parent))
             {
@@ -530,8 +570,14 @@ namespace MenuDart.Controllers
         //
         // GET: /MenuTree/EditItem/5
 
+        [Authorize]
         public ActionResult EditItem(string parent, int idx, int id = 0)
         {
+            if ((id == 0) || !Utilities.IsThisMyMenu(id, db, User))
+            {
+                return RedirectToAction("MenuBuilderAccessViolation", "Menu");
+            }
+
             //we need a parent ID in order to know where to edit
             if (!string.IsNullOrEmpty(parent))
             {
@@ -572,10 +618,16 @@ namespace MenuDart.Controllers
         //
         // POST: /MenuTree/EditItem/5
 
+        [Authorize]
         [HttpPost]
         [ValidateInput(false)]
         public ActionResult EditItem(MenuLeaf newMenuLeaf, int id, string parent, int idx)
         {
+            if ((id == 0) || !Utilities.IsThisMyMenu(id, db, User))
+            {
+                return RedirectToAction("MenuBuilderAccessViolation", "Menu");
+            }
+
             //we need a parent ID in order to know where to edit
             if (!string.IsNullOrEmpty(parent))
             {
@@ -637,8 +689,14 @@ namespace MenuDart.Controllers
         //
         // GET: /MenuTree/EditText/5
 
+        [Authorize]
         public ActionResult EditText(string parent, int id = 0)
         {
+            if ((id == 0) || !Utilities.IsThisMyMenu(id, db, User))
+            {
+                return RedirectToAction("MenuBuilderAccessViolation", "Menu");
+            }
+
             //we need a parent ID in order to know where to edit
             if (!string.IsNullOrEmpty(parent))
             {
@@ -672,10 +730,16 @@ namespace MenuDart.Controllers
         //
         // POST: /MenuTree/EditText/5
 
+        [Authorize]
         [HttpPost]
         [ValidateInput(false)]
         public ActionResult EditText(MenuNode editedMenuNode, int id, string parent)
         {
+            if ((id == 0) || !Utilities.IsThisMyMenu(id, db, User))
+            {
+                return RedirectToAction("MenuBuilderAccessViolation", "Menu");
+            }
+
             //we need a parent ID in order to know where to edit
             if (!string.IsNullOrEmpty(parent))
             {
@@ -734,8 +798,14 @@ namespace MenuDart.Controllers
         //
         // GET: /MenuTree/Delete/5
 
+        [Authorize]
         public ActionResult Delete(string parent, int idx, int id)
         {
+            if ((id == 0) || !Utilities.IsThisMyMenu(id, db, User))
+            {
+                return RedirectToAction("MenuBuilderAccessViolation", "Menu");
+            }
+
             //we need a parent ID in order to know where to delete
             if (!string.IsNullOrEmpty(parent))
             {
@@ -771,8 +841,14 @@ namespace MenuDart.Controllers
         //
         // POST: /MenuTree/Delete/5
 
+        [Authorize]
         public ActionResult DeleteConfirmed(int id, string parent, int idx)
         {
+            if ((id == 0) || !Utilities.IsThisMyMenu(id, db, User))
+            {
+                return RedirectToAction("MenuBuilderAccessViolation", "Menu");
+            }
+
             Menu menu = db.Menus.Find(id);
 
             if (menu == null)
@@ -812,8 +888,14 @@ namespace MenuDart.Controllers
         //
         // GET: /MenuTree/DeleteText/5
 
+        [Authorize]
         public ActionResult DeleteText(string parent, int id)
         {
+            if ((id == 0) || !Utilities.IsThisMyMenu(id, db, User))
+            {
+                return RedirectToAction("MenuBuilderAccessViolation", "Menu");
+            }
+
             //we need a parent ID in order to know where to delete
             if (!string.IsNullOrEmpty(parent))
             {
@@ -848,8 +930,14 @@ namespace MenuDart.Controllers
         //
         // POST: /MenuTree/DeleteText/5
 
+        [Authorize]
         public ActionResult DeleteTextConfirmed(int id, string parent)
         {
+            if ((id == 0) || !Utilities.IsThisMyMenu(id, db, User))
+            {
+                return RedirectToAction("MenuBuilderAccessViolation", "Menu");
+            }
+
             Menu menu = db.Menus.Find(id);
 
             if (menu == null)

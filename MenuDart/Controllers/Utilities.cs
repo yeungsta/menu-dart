@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
@@ -8,6 +9,7 @@ using System.IO;
 using System.Security.Principal;
 using System.Configuration;
 using MenuDart.Models;
+using MenuDart.Composer;
 using Elmah;
 using Amazon;
 using Amazon.S3;
@@ -18,6 +20,67 @@ namespace MenuDart.Controllers
 {
     public static class Utilities
     {
+        public static bool ActivateMenu(int id, Menu menu, string email, int quantity, MenuDartDBContext db, bool isTrial)
+        {
+            //set menu as active
+            menu.Active = true;
+
+            V1 composer = new V1(menu);
+            // re-compose the menu
+            string fullURL = composer.CreateMenu();
+
+            db.Entry(menu).State = EntityState.Modified;
+
+            //for confirmation email
+            IList<MenuAndLink> justActivatedMenusAndLinks = new List<MenuAndLink>();
+            IList<MenuAndLink> totalActivatedMenusAndLinks = new List<MenuAndLink>();
+
+            MenuAndLink item = new MenuAndLink();
+            item.MenuName = menu.Name;
+            item.MenuLink = fullURL;
+            justActivatedMenusAndLinks.Add(item);
+
+            //get total list of activated menus
+            IOrderedQueryable<Menu> allMenus = Utilities.GetAllMenus(email, db);
+            if (allMenus == null) { return false; }
+
+            foreach (Menu singleMenu in allMenus)
+            {
+                item = new MenuAndLink();
+                item.MenuName = singleMenu.Name;
+                item.MenuLink = Utilities.GetFullUrl(singleMenu.MenuDartUrl);
+
+                if (singleMenu.Active)
+                {
+                    totalActivatedMenusAndLinks.Add(item);
+                }
+            }
+
+            //send confirmation email to user
+            if (isTrial)
+            {
+                try //TODO: remove for Production SMTP
+                {
+                    new MailController().SendActivateEmailTrial(email, justActivatedMenusAndLinks).Deliver();
+                }
+                catch
+                {
+                }
+            }
+            else
+            {          
+                try //TODO: remove for Production SMTP
+                {
+                    new MailController().SendActivateEmail(email, quantity * Constants.CostPerMenu, justActivatedMenusAndLinks, totalActivatedMenusAndLinks).Deliver();
+                }
+                catch
+                {
+                }
+            }
+
+            return true;
+        }
+
         public static bool IsThisMyMenu(int questionedMenuId, MenuDartDBContext db, IPrincipal User)
         {
             //check if admin role
@@ -46,6 +109,33 @@ namespace MenuDart.Controllers
             }
 
             return false;
+        }
+
+        public static bool IsUserOnTrial(MenuDartDBContext db, IPrincipal User)
+        {
+            //retrieve user info entry
+            IOrderedQueryable<UserInfo> userFound = from userInfo in db.UserInfo
+                                                    where userInfo.Name == User.Identity.Name
+                                                    orderby userInfo.Name ascending
+                                                    select userInfo;
+
+            //if there is a user logged in
+            if ((userFound == null) || (userFound.Count() == 0))
+            {
+                return false;
+            }
+
+            //should only be one in the list
+            IList<UserInfo> userInfoList = userFound.ToList();
+
+            if (userInfoList[0].TrialEnded)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
         }
 
         public static IOrderedQueryable<Menu> GetAllMenus(string owner, MenuDartDBContext db)
@@ -103,71 +193,90 @@ namespace MenuDart.Controllers
         //Creates Google map link
         public static string CreateMapLink(string address, string state, string zip)
         {
-            string noSpacesAddress = string.Empty;
+            string cleaned = string.Empty;
 
             if (!string.IsNullOrEmpty(address))
             {
-                noSpacesAddress = address.Replace(' ', '+');
+                cleaned = address.Replace(' ', '+');
+                //google doesn't like '#'
+                cleaned = cleaned.Replace("#", "");
             }
 
-            return (Constants.GoogleMapPrefix + noSpacesAddress + "+" + state + "+" + zip);
+            return (Constants.GoogleMapPrefix + cleaned + "+" + state + "+" + zip);
         }
 
         //Creates Google map image link
         public static string CreateMapImgLink(string address, string state, string zip)
         {
-            string noSpacesAddress = string.Empty;
+            string cleaned = string.Empty;
 
             if (!string.IsNullOrEmpty(address))
             {
-                noSpacesAddress = address.Replace(' ', '+');
+                cleaned = address.Replace(' ', '+');
+                //google doesn't like '#'
+                cleaned = cleaned.Replace("#", "");
             }
 
-            return (Constants.GoogleMapImgPrefix + noSpacesAddress + "+" + state + "+" + zip + Constants.GoogleMapImgSuffix);
+            return (Constants.GoogleMapImgPrefix + cleaned + "+" + state + "+" + zip + Constants.GoogleMapImgSuffix);
         }
 
         //Cleans web URLs (remove "http://" or "https://")
         public static string CleanUrl(string url)
         {
-            string trimmed = url.Trim();
-
-            if (trimmed.StartsWith(Constants.UrlPrefix))
+            if (!string.IsNullOrEmpty(url))
             {
-                return trimmed.Replace(Constants.UrlPrefix, "");
-            }
-            else if (trimmed.StartsWith(Constants.UrlSecurePrefix))
-            {
-                return trimmed.Replace(Constants.UrlSecurePrefix, "");
+                string trimmed = url.Trim();
+
+                if (trimmed.StartsWith(Constants.UrlPrefix))
+                {
+                    return trimmed.Replace(Constants.UrlPrefix, "");
+                }
+                else if (trimmed.StartsWith(Constants.UrlSecurePrefix))
+                {
+                    return trimmed.Replace(Constants.UrlSecurePrefix, "");
+                }
+
+                return trimmed;
             }
 
-            return trimmed;
+            return url;
         }
 
         //Cleans Twitter usernames (extract username if entire URL)
         public static string CleanTwitter(string username)
         {
-            string trimmed = username.Trim();
-
-            if (trimmed.StartsWith(Constants.UrlPrefix))
+            if (!string.IsNullOrEmpty(username))
             {
-                string[] urlParts = trimmed.Split('/');
-                return urlParts[urlParts.Count() - 1];
-            }
-            else if (trimmed.StartsWith(Constants.UrlSecurePrefix))
-            {
-                string[] urlParts = trimmed.Split('/');
-                return urlParts[urlParts.Count() - 1];
+                string trimmed = username.Trim();
+
+                if (trimmed.StartsWith(Constants.UrlPrefix))
+                {
+                    string[] urlParts = trimmed.Split('/');
+                    return urlParts[urlParts.Count() - 1];
+                }
+                else if (trimmed.StartsWith(Constants.UrlSecurePrefix))
+                {
+                    string[] urlParts = trimmed.Split('/');
+                    return urlParts[urlParts.Count() - 1];
+                }
+
+                return trimmed;
             }
 
-            return trimmed;
+            return username;
         }
 
         //Adds "http://"
         public static string AddHttpPrefix(string url)
         {
-            if (!url.StartsWith(Constants.UrlPrefix))
+            if (!string.IsNullOrEmpty(url))
             {
-                return (Constants.UrlPrefix + url);
+                if (!url.StartsWith(Constants.UrlPrefix))
+                {
+                    return (Constants.UrlPrefix + url);
+                }
+
+                return url;
             }
 
             return url;
@@ -176,13 +285,18 @@ namespace MenuDart.Controllers
         //Adds "http://www.twitter.com/<username>"
         public static string AddTwitterPrefix(string username)
         {
-            if (!username.StartsWith(Constants.UrlPrefix))
+            if (!string.IsNullOrEmpty(username))
             {
-                return (Constants.TwitterPrefix + username);
-            }
-            else if (!username.StartsWith(Constants.UrlSecurePrefix))
-            {
-                return (Constants.TwitterPrefix + username);
+                if (!username.StartsWith(Constants.UrlPrefix))
+                {
+                    return (Constants.TwitterPrefix + username);
+                }
+                else if (!username.StartsWith(Constants.UrlSecurePrefix))
+                {
+                    return (Constants.TwitterPrefix + username);
+                }
+
+                return username;
             }
 
             return username;
@@ -215,7 +329,16 @@ namespace MenuDart.Controllers
         //constructs full URL of preview menu site
         public static string GetFullUrlPreview(string menuDartUrl)
         {
+#if Staging
+            return "http://" + HttpContext.Current.Request.Url.Host + Constants.PreviewMenusStagingDir + menuDartUrl;
+#else
+#if !Release
+            //need port number for local deployment
             return "http://" + HttpContext.Current.Request.Url.Host + ":" + HttpContext.Current.Request.Url.Port + Constants.PreviewMenusDir + menuDartUrl + "/" + Constants.OutputFile;
+#else
+            return "http://" + HttpContext.Current.Request.Url.Host + Constants.PreviewMenusDir + menuDartUrl;
+#endif
+#endif
         }
 
         //constructs full URL of menu site's logo
