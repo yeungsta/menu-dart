@@ -9,34 +9,53 @@
 <br>
 <h3>Are you sure you want to deactivate the menu for @Model.Name?
 <p>
-If you continue, your menu won't be permanently removed, but it will no longer be viewable by your customers (or anyone).
+If you continue, it will no longer be viewable by the public online.
 <p>
-@if (ViewBag.NumActiveMenus == 0)
-{
-    <text>
-    By continuing, your current billing agreement will be cancelled and you will no longer be charged by
-    MenuDart.com (since you will not have any more active menus).
-    </text>
-}
-else
-{
-    <text>
-    By continuing, your current billing agreement will first be cancelled, then you will be prompted with a modified
-    billing agreement for your remaining @ViewBag.NumActiveMenus active menu(s) at $@ViewBag.NewTotal a month.
-    </text>
-}
-<p>
-(Remember, you can always re-activate your menu anytime.)
 </h3>
 
-@using (Html.BeginForm()) {
-    @Html.Hidden("ActiveCount", (object)ViewBag.NumActiveMenus)
-    @Html.Hidden("Email", (object)ViewBag.Email)
+@if ((ViewBag.TrialWarning == null) || (!ViewBag.TrialWarning))
+{
+    if (ViewBag.NumActiveMenus == 0)
+    {
+    <text>
+    <h3>
+    By continuing, your current billing agreement will be cancelled and you will no longer be charged by
+    MenuDart.com (since you will not have any more active menus).
+    <p>(Remember, you can always re-activate your menu anytime.)
+    </h3>
+    </text>
+    }
+    else
+    {
+    <text>
+    <h3>
+    By continuing, your current billing agreement will first be cancelled, then you will be prompted with a modified
+    billing agreement for your remaining @ViewBag.NumActiveMenus active menu(s) at $@ViewBag.NewTotal a month.
+    <p>(Remember, you can always re-activate your menu anytime.)
+    </h3>
+    </text>
+    }
+}
+
+@using (Html.BeginForm())
+{
+    if ((ViewBag.TrialWarning != null) && (ViewBag.TrialWarning))
+    {
+        @Html.Hidden("ActiveCount", (object)0)
+        @Html.Hidden("Email", (object)"none")            
+    }
+    else
+    {
+        @Html.Hidden("ActiveCount", (object)ViewBag.NumActiveMenus)
+        @Html.Hidden("Email", (object)ViewBag.Email)
+    }
+
     <div class="form-actions">
         <button type="submit" value="Deactivate" class="btn btn-large btn-primary"><i class="icon-ok icon-white"></i> Deactivate</button>
         <a class="btn btn-large" href="@Url.Action("Index", "Dashboard")"><i class="icon-remove"></i> Cancel</a>
-    </div>    
+    </div>
 }
+
 </center>
 
 <div>

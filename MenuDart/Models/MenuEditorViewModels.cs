@@ -45,6 +45,7 @@ namespace MenuDart.Models
         public string LogoUrl { get; set; }
         public bool ChangesUnpublished { get; set; }
         public string Owner { get; set; }
+        public bool Staging { get; set; }
     }
 
     public class MenuEditorLocationViewModel

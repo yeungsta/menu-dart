@@ -328,6 +328,12 @@ namespace MenuDart.Controllers
             logoViewData.MenuDartUrl = menu.MenuDartUrl;
             logoViewData.ChangesUnpublished = menu.ChangesUnpublished;
             logoViewData.Owner = menu.Owner;
+#if Staging
+            logoViewData.Staging = true;
+#else
+            logoViewData.Staging = false;
+#endif
+
 
 #if UseAmazonS3
             //check if logo exists for display
@@ -844,17 +850,18 @@ namespace MenuDart.Controllers
             {
                 //menu is inactive by default at initial creation;
                 //but will be set to active if user signs up for a 
-                //free trial in latter steps.
+                //free trial (in SessionCart.MigrateMenu()).
                 menuBuilderModel.CurrentMenu.Active = false;
 
                 //create initial default location
                 List<Location> defaultLocationList = new List<Location>() {
-                    new Location() { Address = Composer.Constants.DefaultAddress,
+                    new Location() { 
+                        //Address = Composer.Constants.DefaultAddress,
                         City = menuBuilderModel.CurrentMenu.City,
-                        Hours = Composer.Constants.DefaultHoursHtml,
+                        Hours = Composer.Constants.DefaultHours,
                         MapLink = Utilities.CreateMapLink(string.Empty, menuBuilderModel.CurrentMenu.City, string.Empty),
                         MapImgUrl = Utilities.CreateMapImgLink(string.Empty, menuBuilderModel.CurrentMenu.City, string.Empty),
-                        Twitter = Composer.Constants.DefaultWebsite,
+                        Twitter = Composer.Constants.DefaultTwitter,
                         Yelp = Composer.Constants.DefaultWebsite,
                         Facebook = Composer.Constants.DefaultWebsite,
                         Email = Composer.Constants.DefaultEmail
@@ -954,10 +961,65 @@ namespace MenuDart.Controllers
             }
             else
             {
+                bool createNewTempDir = false;
+                bool useSampleLogo = true;
+
+                Menu menu = db.Menus.Find(id);
+
+                if (menu == null)
+                {
+                    Utilities.LogAppError("Could not find menu.");
+                    return HttpNotFound();
+                }
+
+                //If menu has an owner, check ownership with logged in user.
+                //Otherwise allow for anonymous users to preview.
+                if (!string.IsNullOrEmpty(menu.Owner))
+                {
+                    if ((id == 0) || !Utilities.IsThisMyMenu(id, db, User))
+                    {
+                        return RedirectToAction("MenuBuilderAccessViolation");
+                    }
+                }
+
+                V1 composer = new V1(menu);
+                string randomId = string.Empty;
+
+                //check if a preview key/URL exists for this session
+                if (this.HttpContext.Session[Constants.SessionPreviewKey] != null)
+                {
+                    randomId = this.HttpContext.Session[Constants.SessionPreviewKey].ToString();
+                    string directoryPath = HttpContext.Server.MapPath(Controllers.Constants.PreviewMenusPath + randomId + "/");
+
+                    //check if preview location still exists
+                    if (Directory.Exists(directoryPath))
+                    {
+                        composer.UpdateTempMenu(randomId, useSampleLogo);
+                    }
+                    else
+                    {
+                        createNewTempDir = true;
+                    }
+                }
+                else
+                {
+                    createNewTempDir = true;
+                }
+
+                if (createNewTempDir)
+                {
+                    randomId = composer.CreateTempMenu(useSampleLogo);
+
+                    //Save preview random key to session cookie so that we'll use
+                    //the same temp folder for all previews
+                    this.HttpContext.Session[Constants.SessionPreviewKey] = randomId;
+                }
+
                 //TODO: may want to validate name/url so that we they are from us and not
                 //spoofed.
                 ViewBag.Name = name;
                 ViewBag.MenuId = id;
+                ViewBag.Url = Utilities.GetFullUrlPreview(randomId);
 
                 return View();
             }
@@ -1473,7 +1535,7 @@ namespace MenuDart.Controllers
         //LogoUpload is called by the uploader Javascript
         [HttpPost]
         [Authorize]
-        public ActionResult LogoUpload(string qqfile, string menuDartUrl, string owner)
+        public ActionResult LogoUpload(string qqfile, string menuDartUrl, string owner, int id)
         {
             if (!string.IsNullOrEmpty(menuDartUrl) && (owner == User.Identity.Name))
             {
@@ -1513,6 +1575,25 @@ namespace MenuDart.Controllers
 #else
                     System.IO.File.WriteAllBytes(file, buffer);
 #endif
+                    if ((id == 0) || !Utilities.IsThisMyMenu(id, db, User))
+                    {
+                        return RedirectToAction("MenuBuilderAccessViolation");
+                    }
+
+                    Menu menu = db.Menus.Find(id);
+
+                    if (menu == null)
+                    {
+                        Utilities.LogAppError("Could not find menu.");
+                        return HttpNotFound();
+                    }
+
+                    //set dirty flag
+                    menu.ChangesUnpublished = true;
+
+                    //save changes
+                    db.Entry(menu).State = EntityState.Modified;
+                    db.SaveChanges();
                 }
                 catch (Exception ex)
                 {
@@ -1568,6 +1649,13 @@ namespace MenuDart.Controllers
                 System.IO.File.Delete(currentLogo);
             }
 #endif
+            //set dirty flag
+            menu.ChangesUnpublished = true;
+
+            //save changes
+            db.Entry(menu).State = EntityState.Modified;
+            db.SaveChanges();
+
             return RedirectToAction(ReturnUrl, new { id = id });
         }
 

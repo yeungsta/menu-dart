@@ -104,6 +104,7 @@ namespace MenuDart.Models
         [Display(Name = "Password")]
         public string Password { get; set; }
 
+        [Required(ErrorMessage = "You must enter a confirm password.")]
         [DataType(DataType.Password)]
         [Display(Name = "Confirm password")]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]

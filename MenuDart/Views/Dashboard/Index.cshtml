@@ -17,6 +17,8 @@
           <dt>Menus <span class="badge badge-info">@Model.Menus.Count()</span></dt>
           <br>
           <dd>
+            @if (Model.Menus.Count() > 0)
+            {
             <table class="table">
               <thead>
                 <tr>
@@ -49,14 +51,8 @@
                             <text>
                             <a class="btn" href="@Url.Action("ViewActiveMenu", "Menu", new { id = item.ID }, null)"><i class="icon-picture"></i> View</a>
                             <a class="btn" href="@Url.Action("Edit", "Menu", new { id = item.ID }, null)"><i class="icon-pencil"></i> Edit</a>
+                            <a class="btn" href="@Url.Action("Deactivate", "Subscription", new { ReturnUrl = "/Edit/" + item.ID, id = item.ID }, null)"><i class="icon-remove"></i> Deactivate</a>
                             </text>
- 
-                            if (Model.TrialEnded)
-                            {
-                                <text>
-                                <a class="btn" href="@Url.Action("Deactivate", "Subscription", new { ReturnUrl = "/Edit/" + item.ID, id = item.ID }, null)"><i class="icon-remove"></i> Deactivate</a>
-                                </text>
-                            }
                         }
                         else
                         {
@@ -73,6 +69,7 @@
                 }               
               </tbody>
             </table>
+            }
             <a class="btn btn-small btn-primary" href="@Url.Action("MenuBuilder", "Menu", null, null)"><i class="icon-plus icon-white"></i> Create new menu</a>        
           </dd>
           <br>
@@ -103,8 +100,15 @@
                 if (Model.TrialEndDate != null)
                 {
                     <text>
-                     which will end on <b>@Model.TrialEndDate</b>. Why not @Html.ActionLink("start your subscription today?", "ActivateAll", "Subscription", new { email = Model.Email, quantity = @Model.Menus.Count() }, null)
+                     which will end on <b>@Model.TrialEndDate</b>. 
                     </text>
+                
+                    if (Model.Menus.Count() > 0)
+                    {
+                        <text>
+                        Why not @Html.ActionLink("start your subscription today?", "ActivateAll", "Subscription", new { email = Model.Email, quantity = @Model.Menus.Count() }, null)
+                        </text>
+                    }
                 }
             }
             else
@@ -116,7 +120,7 @@
                 if (Model.Menus.Count() > 0)
                 {
                     <text>
-                    Why not put your menu to use @Html.ActionLink("and activate today?", "ActivateAll", "Subscription", new { email = Model.Email, quantity = @Model.Menus.Count() }, null)
+                    Why not put your menus to use @Html.ActionLink("and activate today?", "ActivateAll", "Subscription", new { email = Model.Email, quantity = @Model.Menus.Count() }, null)
                     </text>
                 }
             }

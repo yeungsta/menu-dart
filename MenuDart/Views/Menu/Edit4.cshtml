@@ -37,6 +37,34 @@
 		        </noscript>         
 	        </div>
 
+        @if (Model.Staging)
+        {
+            <text>
+            <script type="text/javascript">
+                jQuery(function () {
+                    var uploader = new qq.FileUploader({
+                        element: document.getElementById('file-uploader'),
+                        action: '/staging/Menu/LogoUpload',
+                        allowedExtensions: ['jpg', 'jpeg', 'png', 'gif'],
+                        sizeLimit: 600000, // max size
+                        multiple: false,
+                        debug: true,
+                        params: {
+                            menuDartUrl: '@Model.MenuDartUrl',
+                            owner: '@Model.Owner',
+                            id: '@Model.MenuId'
+                        },
+                        onComplete: function (id, fileName, responseJSON) {
+                            window.location = '/staging/Menu/Edit4/' + @Model.MenuId;
+                        }
+                    });
+                });     
+            </script>
+            </text>
+        }
+        else
+        {
+            <text>
             <script type="text/javascript">
                 jQuery(function () {
                     var uploader = new qq.FileUploader({
@@ -48,15 +76,17 @@
                         debug: true,
                         params: {
                             menuDartUrl: '@Model.MenuDartUrl',
-                            owner: '@Model.Owner'
+                            owner: '@Model.Owner',
+                            id: '@Model.MenuId'
                         },
                         onComplete: function (id, fileName, responseJSON) {
                             window.location = '/Menu/Edit4/' + @Model.MenuId;
                         }
                     });
                 });     
-
             </script>
+            </text>            
+        }
 
         @if (!string.IsNullOrEmpty(Model.LogoUrl))
         {
@@ -64,9 +94,8 @@
         }
         </center>
         <div class="form-actions">
-            <b>* Logo changes take immediate effect. Publishing is not needed.</b>
             <ul class="pull-right">
-                <a class="btn btn-large btn-warning" href="@Url.Action("PreviewMenu", "Menu", new { id = Model.MenuId, useSampleLogo = false }, null)"><i class="icon-picture icon-white"></i> Preview</a>
+                <a class="btn btn-large btn-warning" href="@Url.Action("PreviewMenu", "Menu", new { id = Model.MenuId, useSampleLogo = false }, null)"><i class="icon-picture icon-white"></i> Preview Changes</a>
                 @if (Model.ChangesUnpublished)
                 {
                     <a class="btn btn-large btn-success" href="@Url.Action("Publish", "Menu", new { ReturnUrl = "/Edit/" + Model.MenuId, id = Model.MenuId }, null)"><i class="icon-arrow-up icon-white"></i> Publish</a>

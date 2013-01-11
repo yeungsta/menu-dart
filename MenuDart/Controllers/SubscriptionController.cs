@@ -33,6 +33,27 @@ namespace MenuDart.Controllers
                 return HttpNotFound();
             }
 
+            //just activate the menu directly if user is on free trial
+            if (Utilities.IsUserOnTrial(db, User))
+            {
+                if (!Utilities.ActivateMenu(id, menu, User.Identity.Name, 1, db, true))
+                {
+                    return RedirectToAction("Failed");
+                }
+
+                //save all changes to DB
+                db.SaveChanges();
+
+                //for view display. Use TempData since we're
+                //using RedirectToAction() as opposed to View()
+                TempData["Id"] = id;
+                TempData["Name"] = menu.Name;
+                TempData["Url"] = Utilities.GetFullUrl(menu.MenuDartUrl);
+
+                return RedirectToAction("ActivateCompleted");
+            }
+
+            //Else, continue w/ payment data collection...
             //find out how many active menus this owner already has
             IOrderedQueryable<Menu> allMenus = Utilities.GetAllMenus(menu.Owner, db);
             if (allMenus == null) { return HttpNotFound(); }
@@ -94,14 +115,14 @@ namespace MenuDart.Controllers
 
         [Authorize]
         [HttpPost, ActionName("ActivateAll")]
-        public ActionResult ActivateAllConfirmed(string Email, int Quantity)
+        public ActionResult ActivateAllConfirmed(string Email, int Quantity, string stripeToken)
         {
             if (User.Identity.Name != Email)
             {
                 return RedirectToAction("MenuBuilderAccessViolation", "Menu");
             }
 
-            return RedirectToAction("Subscribe", "Subscription", new { id = 0, subscribeAction = Constants.ActivateAll, email = Email, quantity = Quantity });
+            return RedirectToAction("Subscribe", "Subscription", new { id = 0, subscribeAction = Constants.ActivateAll, email = Email, quantity = Quantity, token = stripeToken });
         }
 
         //
@@ -121,6 +142,31 @@ namespace MenuDart.Controllers
             {
                 Utilities.LogAppError("Could not find menu.");
                 return HttpNotFound();
+            }
+
+            //just deactivate the menu directly if user is on free trial
+            if (Utilities.IsUserOnTrial(db, User))
+            {
+                ViewBag.TrialWarning = true;
+
+                return View(menu);
+/*
+                if (!DeactivateMenu(id, menu, User.Identity.Name, 1))
+                {
+                    return RedirectToAction("Failed");
+                }
+
+                //save all changes to DB
+                db.SaveChanges();
+
+                //for view display. Use TempData since we're
+                //using RedirectToAction() as opposed to View()
+                TempData["Id"] = id;
+                TempData["Name"] = menu.Name;
+                TempData["Url"] = Utilities.GetFullUrl(menu.MenuDartUrl);
+
+                return RedirectToAction("DeactivateCompleted");
+ */ 
             }
 
             //find out how many remaining active menus this owner has
@@ -154,6 +200,34 @@ namespace MenuDart.Controllers
             if ((id == 0) || !Utilities.IsThisMyMenu(id, db, User))
             {
                 return RedirectToAction("MenuBuilderAccessViolation", "Menu");
+            }
+
+            //just deactivate the menu directly if user is on free trial
+            if (Utilities.IsUserOnTrial(db, User))
+            {
+                Menu menu = db.Menus.Find(id);
+
+                if (menu == null)
+                {
+                    Utilities.LogAppError("Could not find menu.");
+                    return HttpNotFound();
+                }
+
+                if (!DeactivateMenu(id, menu, User.Identity.Name, 1))
+                {
+                    return RedirectToAction("Failed");
+                }
+
+                //save all changes to DB
+                db.SaveChanges();
+
+                //for view display. Use TempData since we're
+                //using RedirectToAction() as opposed to View()
+                TempData["Id"] = id;
+                TempData["Name"] = menu.Name;
+                TempData["Url"] = Utilities.GetFullUrl(menu.MenuDartUrl);
+
+                return RedirectToAction("DeactivateCompleted");
             }
 
             return RedirectToAction("Subscribe", "Subscription", new { id = id, subscribeAction = Constants.DeactivateOne, email = Email, quantity = ActiveCount }); 
@@ -212,11 +286,12 @@ namespace MenuDart.Controllers
         [Authorize]
         public ActionResult Subscribe(int id, string subscribeAction, string email, int quantity, string token)
         {
+/*    TODO: ID will be 0 on activate alls?  
             if ((id == 0) || !Utilities.IsThisMyMenu(id, db, User))
             {
                 return RedirectToAction("MenuBuilderAccessViolation", "Menu");
             }
-
+*/
             UserInfo userInfo = GetUserInfo(email);
 
             //there must be a user info entry found
@@ -272,6 +347,12 @@ namespace MenuDart.Controllers
                         return RedirectToAction("Failed");
                     }
 
+                    //if user is on free trial, mark it as finished.
+                    if (Utilities.IsUserOnTrial(db, User))
+                    {
+                        userInfo.TrialEnded = true;
+                    }
+
                     //save all changes to DB
                     db.SaveChanges();
 
@@ -286,6 +367,12 @@ namespace MenuDart.Controllers
                     if (!ActivateAllMenus(email, quantity))
                     {
                         return RedirectToAction("Failed");
+                    }
+
+                    //if user is on free trial, mark it as finished.
+                    if (Utilities.IsUserOnTrial(db, User))
+                    {
+                        userInfo.TrialEnded = true;
                     }
 
                     //save all changes to DB

@@ -1,7 +1,7 @@
 ﻿<button type="submit" value="Save" name="save_btn" class="btn btn-large btn-primary" disabled><i class="icon-ok icon-white"></i> Save</button>
 <a class="btn btn-large disabled" id="cancel_btn" href="javascript: void(0)"><i class="icon-remove"></i> Cancel</a>
 <ul class="pull-right">
-    <a class="btn btn-large btn-warning" href="@Url.Action("PreviewMenu", "Menu", new { id = Model.MenuId, useSampleLogo = false }, null)"><i class="icon-picture icon-white"></i> Preview</a>
+    <a class="btn btn-large btn-warning" href="@Url.Action("PreviewMenu", "Menu", new { id = Model.MenuId, useSampleLogo = false }, null)"><i class="icon-picture icon-white"></i> Preview Changes</a>
     @if (Model.ChangesUnpublished)
     {
         <a class="btn btn-large btn-success" href="@Url.Action("Publish", "Menu", new { ReturnUrl = "/Edit/" + Model.MenuId, id = Model.MenuId }, null)"><i class="icon-arrow-up icon-white"></i> Publish</a>

@@ -8,8 +8,7 @@
 <center>
 <h2>Your menu must be activated before you publish it!
 <p>
-    Activation requires a subscription to MenuDart. Do you want to activate @Model.Name's Menu now?
-<p>
+<br />
 @Html.ActionLink("Yes, activate it!", "Activate", "Subscription", new { id = Model.MenuId }, null)
 <br />
 @Html.ActionLink("No, not now.", Model.ReturnUrl, "Menu")

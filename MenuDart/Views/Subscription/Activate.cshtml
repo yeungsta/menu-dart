@@ -32,11 +32,14 @@ else
     <div class="form-actions">
         @if (ViewBag.NumActiveMenus <= 1)
         {
-          <script src="https://button.stripe.com/v1/button.js" class="stripe-button"
-                  data-key="pk_0AQ27F6Upi3VpRUBHAPDlR9o4GnM6"
-                  data-amount="700">
-          </script>
-          <br />
+            <script src="https://checkout.stripe.com/v2/checkout.js" class="stripe-button"
+                    data-key="pk_0AQ27F6Upi3VpRUBHAPDlR9o4GnM6"
+                    data-amount="700"
+                    data-description="Monthly Subscription"
+                    data-name="Menu Dart"
+                    data-image="/128x128.png">
+            </script>            
+          <br /><br />
           <a class="btn" href="@Url.Action("Index", "Dashboard")"><i class="icon-remove"></i> Cancel</a>
         }
         else

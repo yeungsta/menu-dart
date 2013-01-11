@@ -417,6 +417,7 @@ namespace MenuDart.Controllers
             var cart = SessionCart.GetCart(this.HttpContext);
 
             cart.MigrateMenu(UserName);
+
             Session[SessionCart.CartSessionKey] = UserName;
         }
     }

@@ -114,5 +114,14 @@ namespace MenuDart.Controllers
 
             return Email("SendTrialWarningEmail", viewModel);
         }
+
+        public EmailResult SendCouponAppliedEmail(string email)
+        {
+            To.Add(email);
+            From = "Menu Dart <" + Constants.SupportEmail + ">";
+            Subject = "You've Received a Free Month!";
+
+            return Email("SendCouponAppliedEmail", email);
+        }
     }
 }

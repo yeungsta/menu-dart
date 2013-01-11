@@ -34,8 +34,8 @@
                         <label class="radio inline themeName">@Html.RadioButton("Template", @theme, new { @class = "input-xlarge" })@theme<br><img src="@Url.Content("~/Content/images/themes/" + @theme + ".png")" class="img-polaroid imageSpacing"></label>                 
                     }
 
-                    //3 per row
-                    if ((i % 3) == 0)
+                    //2 per row
+                    if ((i % 2) == 0)
                     {
                         <text>
                         <br><br>

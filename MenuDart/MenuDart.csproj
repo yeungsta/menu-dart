@@ -29,7 +29,7 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\</OutputPath>
-    <DefineConstants>TRACE;UseAmazonS3,Staging</DefineConstants>
+    <DefineConstants>TRACE;UseAmazonS3</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -322,9 +322,11 @@
     <Content Include="Views\Menu\Failed.cshtml" />
     <Content Include="Views\Mail\SendActivateEmailTrial.html.cshtml" />
     <Content Include="Views\Menu\MenuTrialLimit.cshtml" />
+    <Content Include="Views\JobScheduler\StripeWebhook.cshtml" />
+    <Content Include="Views\Mail\SendCouponAppliedEmail.html.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Data\" />
+    <Folder Include="App_Data\errorlogs\" />
     <Folder Include="bin\" />
     <Folder Include="Content\menus\" />
     <Folder Include="Content\templates\" />
