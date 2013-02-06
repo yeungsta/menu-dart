@@ -55,8 +55,7 @@
             @Html.ActionLink("Remove Logo. (You can always add another one later)", "LogoRemove", "Menu", new { ReturnUrl = "MenuBuilder4", id = @Model.ID }, null)
         }
         </center></p>
-        <br>
-        <p>
+        <br><br />
         @using (Html.BeginForm("MenuBuilder4", "Menu", FormMethod.Post, new { @class = "form-horizontal" }))
         {
             @Html.ValidationSummary(true)

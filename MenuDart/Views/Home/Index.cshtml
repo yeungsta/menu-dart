@@ -4,64 +4,99 @@
 
       <!-- Main hero unit for a primary marketing message or call to action -->
       <div class="hero-unit">
+        <script>
+            $(document).ready(function () {
+                $('.carousel').carousel()
+            });
+        </script>
         <div class="row">  
-          <div class="span4">
-            <img src="@Url.Content("~/Content/images/mobile.png")">
-          </div>
-          <div class="span6">
-            <h1>Make Your Restaurant<br> <strong>Menu Mobile</strong>.<br>For The Price Of A Burger.</h1>
-            <dl class="titleDl">
-              <dt class="titleSubTitle">It's super easy.</dt>
-              <dd class="titleSubDesc">You created your own business. Create your mobile menu too.</dd>
-              <dt class="titleSubTitle">It's free for 30 days.</dt>
-              <dd class="titleSubDesc">No credit card required to try. If you find it makes your life easier, continue for 7 bucks a month, no commitment. Really.</dd>           
-            </dl>
-            <p><a class="btn btn-primary btn-large" href="@Url.Action("MenuBuilder", "Menu")"><b>Create menu now </b><i class="icon-chevron-right icon-white"></i></a></p>
+          <div id="myCarousel" class="carousel slide">
+            <!-- Carousel items -->
+            <div class="carousel-inner">
+              <div class="active item">
+                <div class="span4 offset1">
+                  <img src="@Url.Content("~/Content/images/mobile.png")">
+                </div>
+                <div class="span5">
+                  <h1>Make Your Restaurant<br> <strong>Menu Mobile</strong>.<br>For The Price Of A Burger.</h1>
+                  <dl class="titleDl">
+                    <dt class="titleSubTitle">It's super easy.</dt>
+                    <dd class="titleSubDesc">You created your own business. Create your mobile menu too.</dd>
+                    <dt class="titleSubTitle">It's free for 30 days.</dt>
+                    <dd class="titleSubDesc">Try it, on us. If it makes your life a bit easier, continue for 7 bucks a month, no commitment.</dd>           
+                  </dl>
+                  <p><a class="btn btn-primary btn-large" href="@Url.Action("MenuBuilder", "Menu")"><b>Create menu now </b><i class="icon-chevron-right icon-white"></i></a></p>
+                </div>
+              </div>
+              <div class="item">
+                <div class="span4 offset1">
+                  <img src="@Url.Content("~/Content/images/mobile.png")">
+                </div>
+                <div class="span5">
+                  <h1>A Good Menu<br>Is A Legible One.<br></h1>
+                  <dl class="titleDl">
+                    <dt class="titleSubTitle">Looks good on all mobile devices.</dt>
+                    <dd class="titleSubDesc">Touch-screen navigation, buttons, instant maps, and all the elements your customers have come to expect from mobile apps.</dd>
+                    <dt class="titleSubTitle">It's free for 30 days.</dt>
+                    <dd class="titleSubDesc">Try it, on us. If it makes your life a bit easier, continue for 7 bucks a month, no commitment.</dd>           
+                  </dl>
+                  <p><a class="btn btn-primary btn-large" href="@Url.Action("MenuBuilder", "Menu")"><b>Create menu now </b><i class="icon-chevron-right icon-white"></i></a></p>
+                </div>               
+              </div>
+              <div class="item">
+                <div class="span4 offset1">
+                  <img src="@Url.Content("~/Content/images/mobile.png")">
+                </div>
+                <div class="span5">
+                  <h1>Do It Yourself.</h1>
+                  <dl class="titleDl">
+                    <dt class="titleSubTitle">Stop relying on your web guy/gal.</dt>
+                    <dd class="titleSubDesc">Take control. Create and update your menu items yourself, instantly.</dd>
+                    <dt class="titleSubTitle">It's free for 30 days.</dt>
+                    <dd class="titleSubDesc">Try it, on us. If it makes your life a bit easier, continue for 7 bucks a month, no commitment.</dd>           
+                  </dl>
+                  <p><a class="btn btn-primary btn-large" href="@Url.Action("MenuBuilder", "Menu")"><b>Create menu now </b><i class="icon-chevron-right icon-white"></i></a></p>
+                </div>                  
+              </div>
+            </div>
+            <!-- Carousel nav -->
+            <a class="carousel-control left" href="#myCarousel" data-slide="prev">&lsaquo;</a>
+            <a class="carousel-control right" href="#myCarousel" data-slide="next">&rsaquo;</a>
           </div>
         </div>
       </div>
 
       <!-- Example row of columns -->
       <div class="row">
-        <div class="span4">
-          <h2>What can it do for me?</h2>
-           <p>Try for 30 days free, no subscription required.</p>
-          <p><a class="btn" href="@Url.Action("Features", "Home")">View Features &raquo;</a></p>
+        <div class="span3">
+          <div class="homepage">
+          <h2>Why?</h2>
+          <p>Your customers are increasingly using small, touch-screen devices to browse restaurants.</p>
+          <h2>Who Cares?</h2>
+          <p>You should. Illegible menus with stale information shouldn't be experienced by your patrons.</p>
+          <h2>So What?</h2>
+          <p>A happy customer is a good one. It's easy to create and maintain your own mobile menu. See what you else you can do!</p>
+          </div> 
+          <br><a class="btn" href="@Url.Action("Features", "Home")">View Features &raquo;</a>
         </div>
-        <div class="span4">
-          <h2>I've created it. What next?</h2>
+        <div class="span3 offset1">
+          <div class="homepage">
+          <h2>Show Off Your Menu.</h2>
            <p>You can now add your mobile menu to your restaurant's Yelp page,
            add a link to your existing website, or forward mobile visitors from your website.
            Don't fret, we'll show you <em>exactly</em> how to do it!</p>
-          <p><a class="btn" href="@Url.Action("Using", "Home")">Using Your Menu &raquo;</a></p>
+           </div>
+          <br><a class="btn" href="@Url.Action("Using", "Home")">Using Your Menu &raquo;</a>
        </div>
-        <div class="span4">
-          <h2>Allright, but how much?</h2>
-          <p>Try for 30 days free, no credit card required.
-          Then, if you like MenuDart, it's just 7 bucks a month for as long as you use it.
-          No commitment, cancel anytime, instantly.</p>
-          <p><a class="btn" href="@Url.Action("Pricing", "Home")">View Pricing &raquo;</a></p>
+        <div class="span3 offset1">
+          <div class="homepage">
+          <h2>It's Worth 7 Bucks.</h2>
+          <p>At least we think so. Give it a whirl with a 30 day free trial, no credit card required.
+          After that, continue for $7 per month.
+          No commitment. Cancel anytime, instantly.</p>
+          </div>
+          <br><a class="btn" href="@Url.Action("Pricing", "Home")">View Pricing &raquo;</a>
+        </div>
+        <div class="span1">
         </div>
       </div>
-
-      <hr class="soften">
-        
-      <div class="container">
-        <div class="span12">
-          <h2>But don't take our word for it.</h2>
-          <blockquote>
-            <p>Wow. That was damn easy. And damn cheap.</p>
-            <small>Chef Michael Shafer, Owner, <a href="http://www.menudart.com/depot/" target="_blank">Depot Restaurant</a>, Torrance, California</small>
-          </blockquote>
-           <blockquote class="pull-right">
-            <p>MenuDart got my mobile menu created within an hour, and on Yelp within a day. Thank you!</p>
-            <small>Lisa Keegan, Owner, <a href="http://www.menudart.com" target="_blank">Keegan's Pub</a>, Torrance, California</small>
-          </blockquote>
-          <blockquote class="pull-left">
-            <p>I love how I can update my own menu, anytime. No more relying on my website guy.</p>
-            <small>Atlanta Lonnerath, Owner, <a href="http://www.menudart.com" target="_blank">America's Best Coffee</a>, Arlington, Texas</small>
-          </blockquote>           
-        </div>        
-      </div>
-
-      <hr>

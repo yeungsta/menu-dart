@@ -4,7 +4,7 @@
 
 <div class="hero-unit">
 <center>
-<h1>That was fast.</h1>
+<h1>Here's a First Look.</h1>
 <br />
 <table cellpadding="0" border="0" cellspacing="0" class="iphoneTable">
   <tr>
@@ -31,16 +31,19 @@
 </table>
 
 <br />
+<div class="greytext">
 <h4>
 <p>
-You're well on your way to creating a mobile-friendly restaurant menu for @ViewBag.Name!
+This is just the first step.<br />You're now on your way to creating a mobile-friendly restaurant menu for @ViewBag.Name!
 <p>
-Go ahead. Try it on your smartphone's browser:
+If you have a smartphone handy, try it on your device's browser to get the real experience.
+<br />Here's the temporary link:
 <br />
-<a href="@ViewBag.Url" target="_blank">@ViewBag.Url</a>
+@ViewBag.Url
 <br><br />
-Let's continue, shall we?
+Ready to Customize It?
 </h4>
+</div>
 <p>
 <p>
 @if (Request.IsAuthenticated)
@@ -49,10 +52,10 @@ Let's continue, shall we?
 }
 else
 {
-    <a class="btn btn-primary btn-large" href="@Url.Action("Register", "Account", new { returnAction = "MenuBuilder3", returnController = "Menu", menuID = ViewBag.MenuId }, null)">Create Free Account <i class="icon-chevron-right icon-white"></i></a>
+    <a class="btn btn-primary btn-large" href="@Url.Action("Register", "Account", new { returnAction = "MenuBuilder3", returnController = "Menu", menuID = ViewBag.MenuId }, null)">Create Your Account <i class="icon-chevron-right icon-white"></i></a>
     <br />
     <br />
-    @Html.ActionLink("or Log In with existing account", "LogOn", "Account", new { returnAction = "MenuBuilder3", returnController = "Menu", menuID = ViewBag.MenuId }, null)
+    @Html.ActionLink("or Log In with an existing account", "LogOn", "Account", new { returnAction = "MenuBuilder3", returnController = "Menu", menuID = ViewBag.MenuId }, null)
 }
 </center>
 

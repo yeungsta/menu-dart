@@ -9,8 +9,7 @@
         <center><h1>Menu Builder.</h1></center>
         <br>
         <center><h4>Now fill out the location info for your restaurant:</h4></center>
-        <br>
-        <p>
+        <br><br />
         @using (Html.BeginForm("MenuBuilder6", "Menu", FormMethod.Post, new { @class = "form-horizontal" }))
         {
           @Html.ValidationSummary(true)

@@ -9,15 +9,14 @@
       <div class="hero-unit">
         <center><h1>Menu Builder.</h1></center>
         <br>
-        <center><h4>Now choose a theme for your menu:</h4></center>
-        <br>
-        <p>
+        <center><h4>Choose a theme for your menu:</h4></center>
+        <br><br />
         @using (Html.BeginForm("MenuBuilder3", "Menu", FormMethod.Post, new { @class = "form-horizontal" }))
         {
             @Html.ValidationSummary(true)
             <fieldset>
                 <div class="control-group">
-                    <label class="control-label">@Html.Label("Theme")</label>
+
                     <div class="controls">
                         @foreach (string theme in Model.Themes)
                         {
@@ -36,9 +35,11 @@
                     </div>
                 </div> 
                          
-                <div class="form-actions">
-                    <button type="submit" value="Next" class="btn btn-large btn-primary">Next <i class="icon-chevron-right icon-white"></i></button>
-                </div>            
+                <ul class="pull-right">
+                    <div class="form-actions">
+                        <button type="submit" value="Next" class="btn btn-large btn-primary">Next <i class="icon-chevron-right icon-white"></i></button>
+                    </div>
+                </ul>         
            </fieldset>
         }
         </p>

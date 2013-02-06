@@ -6,6 +6,7 @@
 <center>
 <h1>Deactivate all menu(s)?</h1>
 <br>
+<div class="greytext">
 <h3>Are you sure you want to deactivate @ViewBag.NumActiveMenus active menu(s)?
 <p>
 If you continue, your menu(s) won't be permanently removed, but they will no longer be viewable by your customers (or anyone).
@@ -14,7 +15,7 @@ By continuing, your current billing agreement will be cancelled and you will no 
 <p>
 (Remember, you can always re-activate your menu(s) anytime.)
 </h3>
-
+</div>
 @using (Html.BeginForm())
 {
     @Html.Hidden("Email", (object)ViewBag.Email)

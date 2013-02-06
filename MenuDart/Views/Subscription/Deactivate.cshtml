@@ -5,11 +5,12 @@
 }
 
 <div class="hero-unit">
-<center><h1>Deactivate @Model.Name?</h1>
+<center><h1>Deactivate<br />@Model.Name?</h1>
 <br>
-<h3>Are you sure you want to deactivate the menu for @Model.Name?
+<div class="greytext">
+<h3>Are you sure you want to deactivate the menu for<br />@Model.Name?
 <p>
-If you continue, it will no longer be viewable by the public online.
+If you continue, it will no longer be viewable by the public.
 <p>
 </h3>
 
@@ -29,13 +30,12 @@ If you continue, it will no longer be viewable by the public online.
     {
     <text>
     <h3>
-    By continuing, your current billing agreement will first be cancelled, then you will be prompted with a modified
-    billing agreement for your remaining @ViewBag.NumActiveMenus active menu(s) at $@ViewBag.NewTotal a month.
-    <p>(Remember, you can always re-activate your menu anytime.)
+    By continuing, you will be prompted with a modified billing agreement for your remaining @ViewBag.NumActiveMenus active menu(s) at $@ViewBag.NewTotal a month.
     </h3>
     </text>
     }
 }
+</div>
 
 @using (Html.BeginForm())
 {
@@ -51,7 +51,7 @@ If you continue, it will no longer be viewable by the public online.
     }
 
     <div class="form-actions">
-        <button type="submit" value="Deactivate" class="btn btn-large btn-primary"><i class="icon-ok icon-white"></i> Deactivate</button>
+        <button id="deactivate_btn" type="submit" data-loading-text="Deactivating..." value="Deactivate" class="btn btn-large btn-primary"><i class="icon-ok icon-white"></i> Deactivate</button>
         <a class="btn btn-large" href="@Url.Action("Index", "Dashboard")"><i class="icon-remove"></i> Cancel</a>
     </div>
 }
@@ -62,3 +62,14 @@ If you continue, it will no longer be viewable by the public online.
     @Html.ActionLink("Back to Dashboard", "Index", "Dashboard")
 </div>
 </div> <!-- hero -->
+
+<script type="text/javascript">
+    //stateful buttons
+    $(document).ready(function(){
+      $('#deactivate_btn').button();
+
+      $('#deactivate_btn').click(function () {
+        $(this).button('loading');
+      });
+    });
+</script>

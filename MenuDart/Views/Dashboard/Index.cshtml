@@ -14,7 +14,7 @@
         </center>
         <br>
         <dl>
-          <dt>Menus <span class="badge badge-info">@Model.Menus.Count()</span></dt>
+          <dt>Menus</dt>
           <br>
           <dd>
             @if (Model.Menus.Count() > 0)
@@ -59,7 +59,7 @@
                             <text>
                             <a class="btn" href="@Url.Action("PreviewMenu", "Menu", new { id = item.ID, useSampleLogo = false }, null)"><i class="icon-picture"></i> Preview</a>
                             <a class="btn" href="@Url.Action("Edit", "Menu", new { id = item.ID }, null)"><i class="icon-pencil"></i> Edit</a>
-                            <a class="btn" href="@Url.Action("Activate", "Subscription", new { ReturnUrl = "/Edit/" + item.ID, id = item.ID }, null)"><i class="icon-arrow-up"></i> Activate</a>
+                            <a id="activate_btn" class="btn" href="@Url.Action("Activate", "Subscription", new { ReturnUrl = "/Edit/" + item.ID, id = item.ID }, null)" data-loading-text="Activating..."><i class="icon-arrow-up"></i> Activate</a>
                             <a class="btn" href="@Url.Action("Delete", "Menu", new { id = item.ID }, null)"><i class="icon-trash"></i> Trash</a>
                             </text>
                         }
@@ -152,7 +152,7 @@
                             </div>
                         </div>
                         <div class="form-actions">
-                          <button type="submit" value="Send" name="send_btn" class="btn btn-large btn-primary" disabled><i class="icon-envelope icon-white"></i> Send</button>
+                          <button type="submit" value="Send" name="send_btn" id="send_btn" class="btn btn-large btn-primary" data-loading-text="Sending..." disabled><i class="icon-envelope icon-white"></i> Send</button>
                         </div>
                         </fieldset>
                 }
@@ -204,5 +204,20 @@
         }
     })();
 </script>
+<script type="text/javascript">
+    //stateful buttons
+    $(document).ready(function () {
+        $('#activate_btn').button();
 
+        $('#activate_btn').click(function () {
+            $(this).button('loading');
+        });
+
+        $('#send_btn').button();
+
+        $('#send_btn').click(function () {
+            $(this).button('loading');
+        });
+    });
+</script>
 

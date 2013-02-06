@@ -5,13 +5,17 @@
 }
 
 <div class="hero-unit">
-<center><h1>Activate @Model.Name.</h1>
+<center><h1>Activate<br />@Model.Name.</h1>
 <br>
+<div class="row greytext">
+    <div class="span9 offset1">
 <h3>
 @if (ViewBag.NumActiveMenus <= 1)
 {
     <text>
-    By continuing, you will be prompted with a recurring billing agreement for @Model.Name menu at $@ViewBag.NewTotal a month.
+    By continuing, you are agreeing to a recurring billing agreement for the @Model.Name menu at $@ViewBag.NewTotal a month.
+    <br>We use <a href="http://www.stripe.com" target=_blank>Stripe</a> to process a quick, secure, and modern payment with your credit card.
+    <br /><img src="@Url.Content("~/Content/images/creditcards.png")">
     </text>
 }
 else
@@ -20,9 +24,10 @@ else
     By continuing, your current billing agreement will be modified to a total of @ViewBag.NumActiveMenus active menu(s) at $@ViewBag.NewTotal a month.
     </text>
 }
-<p>
-(You can always deactivate your menu anytime.)
+
 </h3>
+    </div>
+</div>
 
 @using (Html.BeginForm("Activate", "Subscription", FormMethod.Post))
 {
@@ -32,15 +37,21 @@ else
     <div class="form-actions">
         @if (ViewBag.NumActiveMenus <= 1)
         {
+            <div class="row">
+                <div class="span2 offset3">
             <script src="https://checkout.stripe.com/v2/checkout.js" class="stripe-button"
                     data-key="pk_0AQ27F6Upi3VpRUBHAPDlR9o4GnM6"
                     data-amount="700"
                     data-description="Monthly Subscription"
                     data-name="Menu Dart"
-                    data-image="/128x128.png">
-            </script>            
-          <br /><br />
+                    data-image="../../../content/images/lock_48.png">
+            </script> 
+            </div>     
+            <div class="span2">      
           <a class="btn" href="@Url.Action("Index", "Dashboard")"><i class="icon-remove"></i> Cancel</a>
+              </div>
+            </div>
+            <br />
         }
         else
         {
@@ -51,7 +62,8 @@ else
 }
 </center>
 
-<div>
-    @Html.ActionLink("Back to Dashboard", "Index", "Dashboard")
-</div>
+@Html.ActionLink("Back to Dashboard", "Index", "Dashboard")
+<ul class="pull-right">
+    <a href="http://www.stripe.com" target="_blank"><img src="@Url.Content("~/Content/images/lock_32.png")"><img src="@Url.Content("~/Content/images/stripe.png")"></a>
+</ul>
 </div> <!-- hero -->

@@ -101,6 +101,7 @@ namespace MenuDart.Controllers
             basicViewData.Phone = menu.Phone;
             basicViewData.Website = Utilities.CleanUrl(menu.Website);
             basicViewData.ChangesUnpublished = menu.ChangesUnpublished;
+            basicViewData.ReturnEditPage = "Edit";
 
             return View(basicViewData);
         }
@@ -120,42 +121,40 @@ namespace MenuDart.Controllers
                     return RedirectToAction("MenuBuilderAccessViolation");
                 }
 
-                if (ModelState.IsValid)
+                Menu menu = db.Menus.Find(id);
+
+                if (menu == null)
                 {
-                    Menu menu = db.Menus.Find(id);
-
-                    if (menu == null)
-                    {
-                        return HttpNotFound();
-                    }
-
-                    //if name or city is updated, need to update new URL
-                    if ((menu.Name != basicInfo.Name) || (menu.City != basicInfo.City))
-                    {
-                        menu.Name = basicInfo.Name;
-                        menu.City = basicInfo.City;
-                        //save the current URL for latter use (deleting)
-                        menu.PreviousMenuDartUrl = menu.MenuDartUrl;
-                        //create new URL based on new name/city
-                        menu.MenuDartUrl = CreateMenuDartUrl(basicInfo.Name, basicInfo.City);
-                    }
-
-                    //update basic info fields
-                    menu.Phone = basicInfo.Phone;
-                    menu.Website = Utilities.CleanUrl(basicInfo.Website);
-
-                    //mark menu as dirty
-                    menu.ChangesUnpublished = true;
-                    //for view
-                    basicInfo.ChangesUnpublished = menu.ChangesUnpublished;
-
-                    //save changes
-                    db.Entry(menu).State = EntityState.Modified;
-                    db.SaveChanges();
+                    return HttpNotFound();
                 }
 
+                //if name or city is updated, need to update new URL
+                if ((menu.Name != basicInfo.Name) || (menu.City != basicInfo.City))
+                {
+                    menu.Name = basicInfo.Name;
+                    menu.City = basicInfo.City;
+                    //save the current URL for latter use (deleting)
+                    menu.PreviousMenuDartUrl = menu.MenuDartUrl;
+                    //create new URL based on new name/city
+                    menu.MenuDartUrl = CreateMenuDartUrl(basicInfo.Name, basicInfo.City);
+                }
+
+                //update basic info fields
+                menu.Phone = basicInfo.Phone;
+                menu.Website = Utilities.CleanUrl(basicInfo.Website);
+
+                //mark menu as dirty
+                menu.ChangesUnpublished = true;
+                //for view
+                basicInfo.ChangesUnpublished = menu.ChangesUnpublished;
+
+                //save changes
+                db.Entry(menu).State = EntityState.Modified;
+                db.SaveChanges();
+
                 //update view model
-                basicInfo.MenuId = id;             
+                basicInfo.MenuId = id;
+                basicInfo.ReturnEditPage = "Edit";
                 return View(basicInfo);
             }
 
@@ -187,6 +186,7 @@ namespace MenuDart.Controllers
             themeViewData.ChangesUnpublished = menu.ChangesUnpublished;
             themeViewData.Themes = GetTemplates();
             themeViewData.CurrentTheme = menu.Template;
+            themeViewData.ReturnEditPage = "Edit2";
 
             return View(themeViewData);
         }
@@ -231,6 +231,7 @@ namespace MenuDart.Controllers
             themeViewData.ChangesUnpublished = menu.ChangesUnpublished;
             themeViewData.Themes = GetTemplates();
             themeViewData.CurrentTheme = menu.Template;
+            themeViewData.ReturnEditPage = "Edit2";
 
             return View(themeViewData);
         }
@@ -260,6 +261,7 @@ namespace MenuDart.Controllers
             aboutViewData.AboutTitle = menu.AboutTitle;
             aboutViewData.AboutText = menu.AboutText;
             aboutViewData.ChangesUnpublished = menu.ChangesUnpublished;
+            aboutViewData.ReturnEditPage = "Edit3";
 
             return View(aboutViewData);
         }
@@ -298,6 +300,7 @@ namespace MenuDart.Controllers
 
                 //for view
                 aboutInfo.ChangesUnpublished = menu.ChangesUnpublished;
+                aboutInfo.ReturnEditPage = "Edit3";
             }
 
             return View(aboutInfo);
@@ -328,6 +331,7 @@ namespace MenuDart.Controllers
             logoViewData.MenuDartUrl = menu.MenuDartUrl;
             logoViewData.ChangesUnpublished = menu.ChangesUnpublished;
             logoViewData.Owner = menu.Owner;
+            logoViewData.ReturnEditPage = "Edit4";
 #if Staging
             logoViewData.Staging = true;
 #else
@@ -387,6 +391,7 @@ namespace MenuDart.Controllers
             locationViewData.Name = menu.Name;
             locationViewData.Locations = V1.DeserializeLocations(menu.Locations);
             locationViewData.ChangesUnpublished = menu.ChangesUnpublished;
+            locationViewData.ReturnEditPage = "Edit5";
 
             return View(locationViewData);
         }
@@ -424,6 +429,7 @@ namespace MenuDart.Controllers
 
                 //for view
                 locationInfo.ChangesUnpublished = menu.ChangesUnpublished;
+                locationInfo.ReturnEditPage = "Edit5";
             }
 
             return View(locationInfo);
@@ -453,6 +459,7 @@ namespace MenuDart.Controllers
             locationViewData.Name = menu.Name;
             locationViewData.Locations = V1.DeserializeLocations(menu.Locations);
             locationViewData.ChangesUnpublished = menu.ChangesUnpublished;
+            locationViewData.ReturnEditPage = "Edit6";
 
             return View(locationViewData);
         }
@@ -491,6 +498,7 @@ namespace MenuDart.Controllers
 
                 //for view
                 locationInfo.ChangesUnpublished = menu.ChangesUnpublished;
+                locationInfo.ReturnEditPage = "Edit6";
             }
 
             return View(locationInfo);
@@ -520,6 +528,7 @@ namespace MenuDart.Controllers
             locationViewData.Name = menu.Name;
             locationViewData.Locations = V1.DeserializeLocations(menu.Locations);
             locationViewData.ChangesUnpublished = menu.ChangesUnpublished;
+            locationViewData.ReturnEditPage = "Edit7";
 
             return View(locationViewData);
         }
@@ -577,6 +586,7 @@ namespace MenuDart.Controllers
 
                 //for view
                 locationInfo.ChangesUnpublished = menu.ChangesUnpublished;
+                locationInfo.ReturnEditPage = "Edit7";
             }
 
             return View(locationInfo);
@@ -679,7 +689,7 @@ namespace MenuDart.Controllers
                     activateViewData.Name = menu.Name;
                     activateViewData.MenuId = id;
                     activateViewData.Url = fullURL;
-                    activateViewData.ReturnUrl = ReturnUrl;
+                    activateViewData.ReturnEditPage = ReturnUrl;
 
                     return View(activateViewData);
                 }
@@ -705,7 +715,7 @@ namespace MenuDart.Controllers
             ActivateViewModel activateViewData = new ActivateViewModel();
             activateViewData.Name = menuName;
             activateViewData.MenuId = id;
-            activateViewData.ReturnUrl = ReturnUrl;
+            activateViewData.ReturnEditPage = ReturnUrl;
 
             return View(activateViewData);
         }
@@ -745,7 +755,7 @@ namespace MenuDart.Controllers
         // Allow for public access since this is used to preview menus
         // for guests not logged in
 
-        public ActionResult PreviewMenu(bool useSampleLogo, int id = 0)
+        public ActionResult PreviewMenu(string ReturnUrl, bool useSampleLogo, int id = 0)
         {
             bool createNewTempDir = false;
 
@@ -804,6 +814,7 @@ namespace MenuDart.Controllers
             ViewBag.MenuId = id;
             //if using sample logo, this is coming from the menu builder
             ViewBag.MenuBuilderPreview = useSampleLogo;
+            ViewBag.ReturnUrl = ReturnUrl;
 
             return View();
         }
@@ -849,8 +860,8 @@ namespace MenuDart.Controllers
             if (ModelState.IsValid)
             {
                 //menu is inactive by default at initial creation;
-                //but will be set to active if user signs up for a 
-                //free trial (in SessionCart.MigrateMenu()).
+                //but will be set to active after user signs up for an 
+                //account/free trial.
                 menuBuilderModel.CurrentMenu.Active = false;
 
                 //create initial default location
@@ -870,7 +881,7 @@ namespace MenuDart.Controllers
 
                 menuBuilderModel.CurrentMenu.Locations = V1.SerializeLocations(defaultLocationList);
 
-                //set default if not supplied (so sample will look good)
+                //set default (so sample will look good)
                 if (string.IsNullOrEmpty(menuBuilderModel.CurrentMenu.Website))
                 {
                     menuBuilderModel.CurrentMenu.Website = Composer.Constants.DefaultWebsite;
@@ -1028,6 +1039,84 @@ namespace MenuDart.Controllers
         //
         // GET: /Menu/MenuBuilder3
         // 
+        //Activate menu and forward to Editor
+
+        [Authorize]
+        public ActionResult MenuBuilder3(int id = 0)
+        {
+            //if current logged in user is on trial
+            if ((Request.IsAuthenticated) && (Utilities.IsUserOnTrial(db, User)))
+            {
+                IOrderedQueryable<Menu> allMenus = Utilities.GetAllMenus(User.Identity.Name, db);
+
+                //if user already has an existing menu (not counting the one being created now)
+                if ((allMenus != null) && ((allMenus.Count() - 1) != 0))
+                {
+                    //user cannot have more than one menu on free trial,
+                    //remove current menu
+                    if ((id == 0) || !Utilities.IsThisMyMenu(id, db, User))
+                    {
+                        return RedirectToAction("MenuTrialLimit");
+                    }
+
+                    Menu menu = db.Menus.Find(id);
+
+                    if (menu == null)
+                    {
+                        Utilities.LogAppError("Could not find menu.");
+                        return HttpNotFound();
+                    }
+
+                    db.Menus.Remove(menu);
+                    db.SaveChanges();
+
+                    return RedirectToAction("MenuTrialLimit");
+                }
+                else
+                {
+                    Menu menu = db.Menus.Find(id);
+
+                    if (menu == null)
+                    {
+                        Utilities.LogAppError("Could not find menu.");
+                        return HttpNotFound();
+                    }
+
+                    //In MenuBuilder step 1, we supplied dummy phone and website values in order
+                    //for the sample menu to look good (filled out). Now we want to clear out the 
+                    //dummy values.
+                    if (menu.Website == Composer.Constants.DefaultWebsite)
+                    {
+                        menu.Website = null;
+                    }
+                    if (menu.Phone == Composer.Constants.DefaultPhone)
+                    {
+                        menu.Phone = null;
+                    }
+
+                    if (!Utilities.ActivateMenu(id, menu, User.Identity.Name, 1, db, true))
+                    {
+                        return RedirectToAction("Failed");
+                    }
+
+                    //save menu to DB
+                    db.Entry(menu).State = EntityState.Modified;
+                    db.SaveChanges();
+                }
+            }
+
+            if ((id == 0) || !Utilities.IsThisMyMenu(id, db, User))
+            {
+                return RedirectToAction("MenuBuilderAccessViolation");
+            }
+
+            return RedirectToAction("Edit2", new { id = id });
+        }
+
+/*
+        //
+        // GET: /Menu/MenuBuilder3
+        // 
         //Starting at this step, only authorized users can continue building their menu
 
         [Authorize]
@@ -1122,7 +1211,7 @@ namespace MenuDart.Controllers
 
             return View();
         }
-
+*/
         //
         // GET: /Menu/MenuBuilder4
         // 

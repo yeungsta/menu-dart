@@ -10,11 +10,13 @@
     <text>
     <h1>Activate menu?</h1>
     <br>
+    <div class="greytext">
     <h3>
-    By continuing, you will be prompted with a recurring billing agreement for your menu at $@ViewBag.NewTotal a month.
-    <p>
+    By continuing, you will be prompted with<br />a recurring billing agreement for your menu at<br />$@ViewBag.NewTotal a month.
+    <p><p>
     (Commitment-phobes: You can always cancel your subscription, anytime.)
     </h3>
+    </div>
     </text>
 }
 else
@@ -22,11 +24,13 @@ else
     <text>
     <h1>Activate menu(s)?</h1>
     <br>
+    <div class="greytext">
     <h3>
-    By continuing, you will be prompted with a recurring billing agreement for @ViewBag.NumActiveMenus menu(s) at $@ViewBag.NewTotal a month.
-    <p>
+    By continuing, you will be prompted with<br />a recurring billing agreement for @ViewBag.NumActiveMenus menu(s) at<br />$@ViewBag.NewTotal a month.
+    <p><p>
     (Commitment-phobes: You can always cancel your subscription, anytime.)
     </h3>
+    </div>
     </text>   
 }
 
@@ -36,20 +40,27 @@ else
         @Html.Hidden("Quantity", (object)ViewBag.NumActiveMenus)
 
         <div class="form-actions">
+            <div class="row">
+            <div class="span2 offset3">
               <script src="https://checkout.stripe.com/v2/checkout.js" class="stripe-button"
                       data-key="pk_0AQ27F6Upi3VpRUBHAPDlR9o4GnM6"
                       data-amount="700"
                       data-description="Monthly Subscription"
                       data-name="Menu Dart"
-                      data-image="/128x128.png">
+                      data-image="../../../content/images/lock_48.png">
               </script>
-              <br /><br />
+            </div>         
+            <div class="span2">
               <a class="btn" href="@Url.Action("Index", "Dashboard")"><i class="icon-remove"></i> Cancel</a>
+            </div>
+            </div>
+            <br />
         </div>
 }
 </center>
 
-<div>
-    @Html.ActionLink("Back to Dashboard", "Index", "Dashboard")
-</div>
+@Html.ActionLink("Back to Dashboard", "Index", "Dashboard")
+<ul class="pull-right">
+    <a href="http://www.stripe.com" target="_blank"><img src="@Url.Content("~/Content/images/lock_32.png")"><img src="@Url.Content("~/Content/images/stripe.png")"></a>
+</ul>
 </div> <!-- hero -->

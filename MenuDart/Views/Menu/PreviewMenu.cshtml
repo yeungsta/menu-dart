@@ -2,6 +2,10 @@
     ViewBag.Title = "Preview Menu";
 }
 
+<script type="text/javascript">
+    document.getElementById("myiframe").contentDocument.location.reload(true);
+</script>
+
 <div class="hero-unit">
 <center>
 <h1>Preview.</h1>
@@ -16,7 +20,7 @@
   <tr>
     <td class="iphone"><img src="../../../content/images/slice_1_0.png" style="width: 28px;  height: 480px;"></td>
     <td class="iphone iframe">
-        <iframe src="@ViewBag.Url" width="320" height="480" frameborder="0" scrolling="auto">
+        <iframe src="@ViewBag.Url" id="myiframe" width="320" height="480" frameborder="0" scrolling="auto">
         <p>Your browser does not support this preview function. Please click here to try a full page view.</p>
         </iframe>
     </td>
@@ -31,25 +35,35 @@
 </table>
 
 <br />
+<div class="greytext">
 <h4>
 View menu on your mobile device by pointing your browser to this site:
 <br />
 <br />
-<a href="@ViewBag.Url" target="_blank">@ViewBag.Url</a>
+@ViewBag.Url
 </h4>
+</div>
 </center>
 
 @if (!ViewBag.MenuBuilderPreview)
 {
-    <text><br /><br />
-    Want to change something in your menu? @Html.ActionLink("Edit your menu.", "Edit", "Menu", new { id = ViewBag.MenuId }, null)
-    <br />
+    <text><br /><br /></text>
+    if (string.IsNullOrEmpty(ViewBag.ReturnUrl))
+    {
+        @Html.ActionLink("Edit Menu", "Edit", "Menu", new { id = ViewBag.MenuId }, null);
+    }
+    else if (ViewBag.ReturnUrl.Contains("Details"))
+    {
+        //for link to menu items editor
+        @Html.ActionLink("Back to Editor", (string)ViewBag.ReturnUrl, "MenuTree", new { parent = 0, idx = -1, source = "MenuEditor", ReturnUrl = "/Edit/" + ViewBag.MenuId }, null);
+    }
+    else
+    {
+        @Html.ActionLink("Back to Editor", (string)ViewBag.ReturnUrl, "Menu");
+    }
+    <text><br />
     @Html.ActionLink("Back to Dashboard", "Index", "Dashboard")
     </text>
 }
-
-<script type="text/javascript">
-    document.getElementById(FrameID).contentDocument.location.reload(true);
-</script>
 
 </div> <!-- hero -->

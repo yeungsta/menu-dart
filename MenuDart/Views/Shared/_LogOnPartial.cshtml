@@ -1,9 +1,20 @@
 ﻿@if(Request.IsAuthenticated) {
     @MenuDart.Controllers.MenuExtensions.MenuItem(Html, "Your Dashboard", "Index", "Dashboard")
-    <a class="btn btn-danger btn-small" href="@Url.Action("LogOff", "Account")">Log Out @User.Identity.Name</a>
+    <a id="logoff_btn" class="btn btn-danger btn-small" href="@Url.Action("LogOff", "Account")" data-loading-text="Logging out...">Log Out @User.Identity.Name</a>
 }
 else
 { 
     @MenuDart.Controllers.MenuExtensions.MenuItem(Html, "Sign Up, Free!", "Register", "Account")
     <a class="btn btn-primary btn-small" href="@Url.Action("LogOn", "Account")">Log In</a>
 }
+
+<script type="text/javascript">
+    //stateful buttons
+    $(document).ready(function () {
+        $('#logoff_btn').button();
+
+        $('#logoff_btn').click(function () {
+            $(this).button('loading');
+        });
+    });
+</script>

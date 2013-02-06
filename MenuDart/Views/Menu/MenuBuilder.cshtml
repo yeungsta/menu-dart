@@ -6,28 +6,29 @@
 
       <!-- Main hero unit for a primary marketing message or call to action -->
       <div class="hero-unit">
-        <center><h1>Menu Builder.</h1></center>
+        <center><h1>Make Your Menu.</h1></center>
         <br>
-        <center><h4>Building a mobile menu is easy. Get started now!</h4></center>
-        <br>
-        <p>
+        <center><h4>It's simple. Just fill out this page and see a preview.</h4></center>
+        <br><br />
         @using (Html.BeginForm("MenuBuilder", "Menu", FormMethod.Post, new { @class = "form-horizontal" }))
         {
             @Html.ValidationSummary(true)
                     <fieldset>
                       @Html.HiddenFor(model => model.CurrentMenu.ID)
                       <div class="control-group">
-                        <label class="control-label">@Html.LabelFor(model => model.CurrentMenu.Name, "Restaurant name *")</label>
+                        <label class="control-label">@Html.LabelFor(model => model.CurrentMenu.Name, "Restaurant name")</label>
                         <div class="controls">
                             @Html.TextBoxFor(model => model.CurrentMenu.Name, new { @class = "input-xlarge", style = "width: 300px;" })
                             @Html.ValidationMessageFor(model => model.CurrentMenu.Name)
+                            * Required
                         </div>
                       </div>
                       <div class="control-group">
-                        <label class="control-label">@Html.LabelFor(model => model.CurrentMenu.City, "City *")</label>
+                        <label class="control-label">@Html.LabelFor(model => model.CurrentMenu.City, "City")</label>
                         <div class="controls">
                             @Html.TextBoxFor(model => model.CurrentMenu.City, new { @class = "input-xlarge", style = "width: 300px;" })
                             @Html.ValidationMessageFor(model => model.CurrentMenu.City)
+                            * Required
                         </div>
                       </div>
                       <div class="control-group">
@@ -46,12 +47,9 @@
                                 @Html.ValidationMessageFor(model => model.CurrentMenu.Website)
                             </div>
                         </div>
-                      </div>
-                        <div class="control-group">
-                            <label class="control-label"><b>* Required</b></label>
-                        </div>                                   
+                      </div>                
                     <div class="form-actions">
-                      <button type="submit" value="Create" class="btn btn-large btn-primary">Create!</button>
+                      <button type="submit" value="Create" class="btn btn-large btn-primary">Preview My Menu!</button>
                     </div>            
                     </fieldset>
             }

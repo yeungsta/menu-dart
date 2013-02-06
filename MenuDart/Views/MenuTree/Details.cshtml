@@ -128,7 +128,7 @@
 				            <h3 class="ui-title">Are you sure you want to delete the title text?</h3>
 				            <p>This action cannot be undone.</p>
                             <a class="btn btn-large" href="#" data-rel="back"><i class="icon-remove"></i> Cancel</a>   
-                            <a class="btn btn-large btn-warning" href="@Url.Action("DeleteTextConfirmed", "MenuTree", new { id = ViewBag.MenuId, parent = ViewBag.Parent }, null)"><i class="icon-picture icon-white"></i> Delete</a>
+                            <a name="delete_btn" class="btn btn-large btn-warning" href="@Url.Action("DeleteTextConfirmed", "MenuTree", new { id = ViewBag.MenuId, parent = ViewBag.Parent }, null)" data-loading-text="Deleting..."><i class="icon-picture icon-white"></i> Delete</a>
 			            </div>
 		            </div>                 
                 }
@@ -151,7 +151,7 @@
 				                <h3 class="ui-title">Are you sure you want to delete "@currentItem.Title"?</h3>
 				                <p>This action cannot be undone.</p>
                                 <a class="btn btn-large" href="#" data-rel="back"><i class="icon-remove"></i> Cancel</a>  
-                                <a class="btn btn-large btn-warning" href="@Url.Action("DeleteConfirmed", "MenuTree", new { id = ViewBag.MenuId, parent = ViewBag.Parent, idx = i }, null)"><i class="icon-picture icon-white"></i> Delete</a>
+                                <a name="delete_btn" class="btn btn-large btn-warning" href="@Url.Action("DeleteConfirmed", "MenuTree", new { id = ViewBag.MenuId, parent = ViewBag.Parent, idx = i }, null)" data-loading-text="Deleting..."><i class="icon-picture icon-white"></i> Delete</a>
 			                </div>
 		                </div>                 
                     }
@@ -169,7 +169,7 @@
 				                <h3 class="ui-title">Are you sure you want to delete "@Model[i].Title" and all its sub-items?</h3>
 				                <p>This action cannot be undone.</p>
                                 <a class="btn btn-large" href="#" data-rel="back"><i class="icon-remove"></i> Cancel</a>   
-                                <a class="btn btn-large btn-warning" href="@Url.Action("DeleteConfirmed", "MenuTree", new { id = ViewBag.MenuId, parent = ViewBag.Parent, idx = i }, null)"><i class="icon-picture icon-white"></i> Delete</a>
+                                <a name="delete_btn" class="btn btn-large btn-warning" href="@Url.Action("DeleteConfirmed", "MenuTree", new { id = ViewBag.MenuId, parent = ViewBag.Parent, idx = i }, null)" data-loading-text="Deleting..."><i class="icon-picture icon-white"></i> Delete</a>
 			                </div>
 		                </div>      
                     }
@@ -211,7 +211,11 @@
         }
         else
         {
-            <text><b><span style="font-size: 1.25em">This is the menu's main level.</span></b></text>
+            <text>
+            <ul class="breadcrumb pull-left">
+              <li><b><span style="font-size: 1.25em">Main Level</span></b></li>
+            </ul>  
+            </text>
         }
 
         @if (ViewBag.Source == "MenuBuilder")
@@ -234,11 +238,10 @@
         {
             <text>
             <ul class="pull-right">
-                <a class="btn btn-large btn-warning" href="@Url.Action("PreviewMenu", "Menu", new { id = ViewBag.MenuId, useSampleLogo = false }, null)"><i class="icon-picture icon-white"></i><span style="color:White"> Preview</span></a>
-                <!-- <a class="btn btn-large btn-success" href="@Url.Action("Publish", "Menu", new { ReturnUrl = "/Edit/" + ViewBag.MenuId, id = ViewBag.MenuId }, null)"><i class="icon-arrow-up icon-white"></i><span style="color:White"> Publish</span></a> -->
+                <a id="preview_btn" class="btn btn-large btn-warning" href="@Url.Action("PreviewMenu", "Menu", new { ReturnUrl = "/Details/" + ViewBag.MenuId, id = ViewBag.MenuId, useSampleLogo = false }, null)" data-loading-text="Previewing..."><i class="icon-picture icon-white"></i><span style="color:White"> Preview Changes</span></a>
                 @if (ViewBag.ChangesUnpublished)
                 {
-                    <a class="btn btn-large btn-success" href="@Url.Action("Publish", "Menu", new { ReturnUrl = "/Edit/" + ViewBag.MenuId, id = ViewBag.MenuId }, null)"><i class="icon-arrow-up icon-white"></i> Publish</a>
+                    <a id="publish_btn" class="btn btn-large btn-success" href="@Url.Action("Publish", "Menu", new { ReturnUrl = "/Details/" + ViewBag.MenuId, id = ViewBag.MenuId }, null)" data-loading-text="Publishing..."><i class="icon-arrow-up icon-white"></i> Publish</a>
                 }
                 else
                 {
@@ -252,3 +255,26 @@
       </div> <!-- hero -->
       <br />
  </div> <!-- data-role="page" -->
+
+ <script type="text/javascript">
+    //stateful buttons
+    $(document).ready(function () {
+        $('#preview_btn').button();
+
+        $('#preview_btn').click(function () {
+            $(this).button('loading');
+        });
+
+        $('#publish_btn').button();
+
+        $('#publish_btn').click(function () {
+            $(this).button('loading');
+        });
+
+        $('a[name=delete_btn]').button();
+
+        $('a[name=delete_btn]').click(function () {
+            $(this).button('loading');
+        });
+    });
+</script>

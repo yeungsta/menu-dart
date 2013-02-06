@@ -10,8 +10,7 @@
 <center>
 <h1>Add Menu Category.</h1>
 </center>
-<br>
-<p>
+<br><br />
 
 @using (Html.BeginForm("Create", "MenuTree", new { id = ViewBag.MenuId, parent = ViewBag.Parent }, FormMethod.Post, new { @class = "form-horizontal", @name = "editor_form" }))
 {
@@ -26,7 +25,7 @@
         </div>
 
         <div class="form-actions">
-            <button type="submit" value="Create" name="save_btn" class="btn btn-large btn-primary" disabled>Create</button>
+            <button type="submit" value="Create" id="save_btn" name="save_btn" class="btn btn-large btn-primary" data-loading-text="Creating..." disabled>Create</button>
             <a class="btn btn-large" id="cancel_btn" href="@Url.Action("Details", "MenuTree", new { id = ViewBag.MenuId, parent = ViewBag.Parent, idx = -1 }, null)">Cancel</a>
         </div>
 
@@ -45,3 +44,14 @@
 </div> <!-- hero -->
 
 @Html.Partial("_FormValidation")
+
+<script type="text/javascript">
+    //stateful buttons
+    $(document).ready(function () {
+        $('#save_btn').button();
+
+        $('#save_btn').click(function () {
+            $(this).button('loading');
+        });
+    });
+</script>

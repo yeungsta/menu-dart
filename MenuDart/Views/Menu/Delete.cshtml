@@ -6,12 +6,12 @@
 
 <div class="hero-unit">
 <center><h1>Remove @Model.Name?</h1>
-
-<h3>Are you sure you want to permanently remove the menu for @Model.Name?
+<div class="greytext">
+<h3>You're about to permanently remove the menu for<br />@Model.Name.
 <br>
-It will no longer be able to be recovered.
-<p>
-Or maybe you just want to deactivate it? It won't be live, but won't be removed either.</h3>
+It cannot be recovered after this. Are you sure?
+</h3>
+</div>
 @using (Html.BeginForm()) {
     <div class="form-actions">
         <button type="submit" value="Remove For Good" class="btn btn-large btn-primary"><i class="icon-ok icon-white"></i> Remove</button>

@@ -19,7 +19,7 @@
         @Html.HiddenFor(model => model.MenuId)
 
         <div class="control-group">
-            <label class="control-label">@Html.LabelFor(model => model.AboutTitle, "Title")</label>
+            <label class="control-label">@Html.LabelFor(model => model.AboutTitle, "Welcome Tagline")</label>
             <div class="controls">
             @Html.TextAreaFor(model => model.AboutTitle, new { @class = "input-xlarge", style = "width: 300px; height: 50px;" })
             @Html.ValidationMessageFor(model => model.AboutTitle)

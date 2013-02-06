@@ -18,6 +18,14 @@
 </center>
 
 <div>
-    @Html.ActionLink("Back to Editor", Model.ReturnUrl, "Menu")
+@if (Model.ReturnEditPage.Contains("Details"))
+{
+    //for link to menu items editor
+    @Html.ActionLink("Back to Editor", Model.ReturnEditPage, "MenuTree", new { parent = 0, idx = -1, source = "MenuEditor", ReturnUrl = "/Edit/" + ViewBag.MenuId }, null);
+}
+else
+{
+    @Html.ActionLink("Back to Editor", Model.ReturnEditPage, "Menu")
+}
 </div>
 </div> <!-- hero -->

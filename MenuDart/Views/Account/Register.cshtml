@@ -7,8 +7,7 @@
       <!-- Main hero unit for a primary marketing message or call to action -->
       <div class="hero-unit">
         <center><h1>Sign Up, Free.</h1></center>
-        <br>
-        <p>
+        <br><br />
             @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal" }))
             {
                 @Html.ValidationSummary(true, "Account creation was unsuccessful. Please correct the errors and try again.")

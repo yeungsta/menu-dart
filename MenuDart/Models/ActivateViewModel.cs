@@ -10,6 +10,6 @@ namespace MenuDart.Models
         public int MenuId { get; set; }
         public string Name { get; set; }
         public string Url { get; set; }
-        public string ReturnUrl { get; set; }
+        public string ReturnEditPage { get; set; }
     }
 }

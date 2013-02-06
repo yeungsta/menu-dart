@@ -5,8 +5,12 @@
 <div class="hero-unit">
 <center><h1>@TempData["Name"] is Activated.</h1>
 <br>
-<p>Congratulations! The menu is located at:<br />@Html.ActionLink(TempData["Url"].ToString(), "ViewActiveMenu", "Menu", new { id = TempData["Id"] }, null)
+<p>
+<div class="greytext">
+<h2>
+Congratulations! The menu is located at:<br />@Html.ActionLink(TempData["Url"].ToString(), "ViewActiveMenu", "Menu", new { id = TempData["Id"] }, null)
 </h2>
+</div>
 </center>
 <p>
 <br />

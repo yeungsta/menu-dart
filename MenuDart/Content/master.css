@@ -91,17 +91,46 @@ i.gear {
 }
 
 /* feature page */
-.features p {
-    margin-left: 38px;
-    color: #888;
-    margin-bottom: 24px;   
+
+.features 
+{
+    font-size: 22px;
+    font-weight: bold;
 }
 
-.features h3 {
-    margin-left: 38px;
-    margin-bottom: 10px;      
-    display: block;    
-    font-size: 22px;
+.features p {
+    color: #777;
+    margin-top: 15px;
+    margin-bottom: 48px; 
+    margin-left: 39px;
+    font-size: 16px;
+    line-height: 1.5em;    
+}
+
+.features i 
+{
+    margin-right: 8px;
+}
+
+/* home index page */
+.homepage p {
+    color: #666;
+    font-size: 16px; 
+}
+
+.greytext h2
+{
+    color: #666;    
+}
+
+.greytext h3
+{
+    color: #666;    
+}
+
+.greytext h4
+{
+    color: #666;    
 }
 
 /* misc */
@@ -193,4 +222,13 @@ i.gear {
     font-weight: bold;
     text-align: center;
     margin: 0px 20px 0px 20px;
+}
+
+/* Bootstrap tooltips */
+.tooltip {
+  font-size: 16px;
+}
+
+.tooltip-inner {
+  padding: 8px;  
 }

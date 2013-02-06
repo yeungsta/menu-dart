@@ -46,17 +46,17 @@
         </div> 
 
         <div class="form-actions">
-            <button type="submit" value="Save" name="save_btn" class="btn btn-large btn-primary" disabled><i class="icon-ok icon-white"></i> Save</button>
-            <a class="btn btn-large disabled" id="cancel_btn" href="javascript: void(0)"><i class="icon-remove"></i> Cancel</a>
+            <button type="submit" value="Save" id="save_btn" class="btn btn-large btn-primary disabled" rel="save_tooltip" data-title="Save your changes made on this page" data-placement="left" data-loading-text="Saving..."><i class="icon-ok icon-white"></i> Save</button>
+            <a class="btn btn-large disabled" id="cancel_btn" href="javascript: void(0)" rel="tooltip" title="Cancel any changes made on this page" data-placement="bottom"><i class="icon-remove"></i> Cancel</a>
             <ul class="pull-right">
-                <a class="btn btn-large btn-warning" href="@Url.Action("PreviewMenu", "Menu", new { id = Model.MenuId, useSampleLogo = false }, null)"><i class="icon-picture icon-white"></i> Preview</a>
+                <a id="preview_btn" class="btn btn-large btn-warning" href="@Url.Action("PreviewMenu", "Menu", new { ReturnUrl = "/" + Model.ReturnEditPage + "/" + Model.MenuId, id = Model.MenuId, useSampleLogo = false }, null)" rel="tooltip" title="Preview saved changes before publishing live" data-placement="bottom" data-loading-text="Previewing..."><i class="icon-picture icon-white"></i> Preview Changes</a>
                 @if (Model.ChangesUnpublished)
                 {
-                    <a class="btn btn-large btn-success" href="@Url.Action("Publish", "Menu", new { ReturnUrl = "/Edit/" + Model.MenuId, id = Model.MenuId }, null)"><i class="icon-arrow-up icon-white"></i> Publish</a>
+                    <a id="publish_btn" class="btn btn-large btn-success" href="@Url.Action("Publish", "Menu", new { ReturnUrl = "/" + Model.ReturnEditPage + "/" + Model.MenuId, id = Model.MenuId }, null)" rel="tooltip" title="Push saved changes live to customers" data-placement="right" data-loading-text="Publishing..."><i class="icon-arrow-up icon-white"></i> Publish</a>
                 }
                 else
                 {
-                    <a class="btn btn-large btn-success disabled" href="javascript: void(0)"><i class="icon-arrow-up icon-white"></i> Publish</a>        
+                    <a class="btn btn-large btn-success disabled" href="javascript: void(0)" rel="tooltip" title="Push saved changes live to customers" data-placement="right"><i class="icon-arrow-up icon-white"></i> Publish</a>        
                 }
             </ul>
 
@@ -64,9 +64,69 @@
                 $(document).ready(function () {
                         $('.input-xlarge').change(function () {
                         //else enable save and cancel buttons
-                        document.editor_form.save_btn.disabled = false;
+                        document.getElementById("save_btn").className = document.getElementById("save_btn").className.replace(/(?:^|\s)disabled(?!\S)/g, '');
+                        //unbind the event on click for save button
+                        $("[rel='save_tooltip']").unbind('click', DeactivateButton)
                         document.getElementById("cancel_btn").className = document.getElementById("cancel_btn").className.replace(/(?:^|\s)disabled(?!\S)/g, '');
-                        document.getElementById("cancel_btn").href = "";});
+                        document.getElementById("cancel_btn").href = "./@Model.MenuId";
+                    });
+                });
+
+                var warnMessage = "You have unsaved changes on this page. Leaving now will result in losing your changes.";
+
+                //navigating away from unsaved changes
+                $(document).ready(function () {
+                    $('input:not(:button,:submit),textarea,select').change(function () {
+                        window.onbeforeunload = function () {
+                            if (warnMessage != null) {
+                                $('#preview_btn').button('reset');
+                                $('#publish_btn').button('reset');
+                                return warnMessage;
+                            }
+                        }
+                    });
+                    $('button').click(function (e) {
+                        warnMessage = null;
+                    });
+                    $('#cancel_btn').click(function (e) {
+                        warnMessage = null;
+                    });
+                });
+
+                //tooltips
+                $(document).ready(function () {
+                    $("[rel='tooltip']").tooltip();
+                    $("[rel='save_tooltip']").tooltip();
+                });
+
+                function DeactivateButton() {
+                    return false;
+                }
+
+                //bind a false return to make save button do nothing on deactivated state
+                $(document).ready(function () {
+                    $("[rel='save_tooltip'].disabled").bind('click', DeactivateButton)
+                });
+
+                //stateful buttons
+                $(document).ready(function () {
+                    $('#save_btn').button();
+
+                    $('#save_btn').click(function () {
+                        $(this).button('loading');
+                    });
+
+                    $('#preview_btn').button();
+
+                    $('#preview_btn').click(function () {
+                        $(this).button('loading');
+                    });
+
+                    $('#publish_btn').button();
+
+                    $('#publish_btn').click(function () {
+                        $(this).button('loading');
+                    });
                 });
             </script>
         </div>

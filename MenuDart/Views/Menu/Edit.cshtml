@@ -16,18 +16,20 @@
     @Html.ValidationSummary(true)
     <fieldset>
         <div class="control-group">
-            <label class="control-label">@Html.LabelFor(model => model.Name, "Restaurant name *")</label>
+            <label class="control-label">@Html.LabelFor(model => model.Name, "Restaurant name")</label>
             <div class="controls">
                 @Html.TextBoxFor(model => model.Name, new { @class = "input-xlarge", style = "width: 300px;" })
                 @Html.ValidationMessageFor(model => model.Name)
+                * Required
             </div>
         </div>
 
         <div class="control-group">
-            <label class="control-label">@Html.LabelFor(model => model.City, "City *")</label>
+            <label class="control-label">@Html.LabelFor(model => model.City, "City")</label>
             <div class="controls">
                 @Html.TextBoxFor(model => model.City, new { @class = "input-xlarge", style = "width: 300px;" })
                 @Html.ValidationMessageFor(model => model.City)
+                * Required
             </div>
         </div>
 
@@ -48,9 +50,6 @@
                     @Html.ValidationMessageFor(model => model.Website)
                 </div>
             </div>
-        </div>
-        <div class="control-group">
-            <label class="control-label"><b>* Required</b></label>
         </div>
         <div class="form-actions">
             @Html.Partial("_EditorButtons")

@@ -10,6 +10,7 @@ namespace MenuDart.Models
     public class MenuEditorBasicViewModel
     {
         public int MenuId { get; set; }
+        public string ReturnEditPage { get; set; }
         [Required(ErrorMessage = "You must enter a restaurant name.")]
         public string Name { get; set; }
         [Required(ErrorMessage = "You must enter the city of your restaurant.")]
@@ -22,6 +23,7 @@ namespace MenuDart.Models
     public class MenuEditorThemeViewModel
     {
         public int MenuId { get; set; }
+        public string ReturnEditPage { get; set; }
         public string Name { get; set; }
         public bool ChangesUnpublished { get; set; }
         public List<string> Themes { get; set; }
@@ -31,6 +33,7 @@ namespace MenuDart.Models
     public class MenuEditorAboutViewModel
     {
         public int MenuId { get; set; }
+        public string ReturnEditPage { get; set; }
         public string Name { get; set; }
         public string AboutTitle { get; set; }
         public string AboutText { get; set; }
@@ -40,6 +43,7 @@ namespace MenuDart.Models
     public class MenuEditorLogoViewModel
     {
         public int MenuId { get; set; }
+        public string ReturnEditPage { get; set; }
         public string Name { get; set; }
         public string MenuDartUrl { get; set; }
         public string LogoUrl { get; set; }
@@ -51,6 +55,7 @@ namespace MenuDart.Models
     public class MenuEditorLocationViewModel
     {
         public int MenuId { get; set; }
+        public string ReturnEditPage { get; set; }
         public string Name { get; set; }
         public List<Location> Locations { get; set; }
         public bool ChangesUnpublished { get; set; }
