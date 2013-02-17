@@ -857,6 +857,19 @@ namespace MenuDart.Controllers
         [HttpPost]
         public ActionResult MenuBuilder(MenuBuilderViewModel menuBuilderModel)
         {
+            //if current logged in user is on trial
+            if ((Request.IsAuthenticated) && (Utilities.IsUserOnTrial(db, User)))
+            {
+                IOrderedQueryable<Menu> allMenus = Utilities.GetAllMenus(User.Identity.Name, db);
+
+                //if user already has a menu
+                if ((allMenus != null) && (allMenus.Count() != 0))
+                {
+                    //user cannot have more than one menu on free trial
+                    return RedirectToAction("MenuTrialLimit");
+                }
+            }
+
             if (ModelState.IsValid)
             {
                 //menu is inactive by default at initial creation;
@@ -866,8 +879,7 @@ namespace MenuDart.Controllers
 
                 //create initial default location
                 List<Location> defaultLocationList = new List<Location>() {
-                    new Location() { 
-                        //Address = Composer.Constants.DefaultAddress,
+                    new Location() {
                         City = menuBuilderModel.CurrentMenu.City,
                         Hours = Composer.Constants.DefaultHours,
                         MapLink = Utilities.CreateMapLink(string.Empty, menuBuilderModel.CurrentMenu.City, string.Empty),
@@ -900,30 +912,30 @@ namespace MenuDart.Controllers
                 //create initial default menu tree
                 //default breakfast
                 List<MenuNode> defaultBreakfastMenuLeafList = new List<MenuNode>(){
-                    new MenuLeaf() { Title = "House Omelet (example)", Description = "Three eggs, cheese, sausage, onions", Price = 7 },
-                    new MenuLeaf() { Title = "Pancakes (example)", Description = "Four flapjacks piled high, your choice of blueberry or banana", Price = 5 },
-                    new MenuLeaf() { Title = "Latte (example)", Description = "Organic espresso, soy available", Price = 4.50m }
+                    new MenuLeaf() { Title = "House Omelet", Description = "Three eggs, cheese, sausage, onions", Price = 7 },
+                    new MenuLeaf() { Title = "Pancakes", Description = "Four flapjacks piled high, your choice of blueberry or banana", Price = 5 },
+                    new MenuLeaf() { Title = "Latte", Description = "Organic espresso, soy available", Price = 4.50m }
                 };
 
                 //default lunch
                 List<MenuNode> defaultLunchMenuLeafList = new List<MenuNode>(){
-                    new MenuLeaf() { Title = "Pizza (example)", Description = "Pepperoni, cheese, mushrooms", Price = 10 },
-                    new MenuLeaf() { Title = "Bacon Cheeseburger (example)", Description = "Angus beef, made to order", Price = 7 },
-                    new MenuLeaf() { Title = "Smoothie (example)", Description = "Strawberries, bananas, pineapples, protein powder", Price = 5 }
+                    new MenuLeaf() { Title = "Pizza", Description = "Pepperoni, cheese, mushrooms", Price = 10 },
+                    new MenuLeaf() { Title = "Bacon Cheeseburger", Description = "Angus beef, made to order", Price = 7 },
+                    new MenuLeaf() { Title = "Smoothie", Description = "Strawberries, bananas, pineapples, protein powder", Price = 5 }
                 };
 
                 //default dinner
                 List<MenuNode> defaultDinnerMenuLeafList = new List<MenuNode>(){
-                    new MenuLeaf() { Title = "BBQ Ribs (example)", Description = "Slow cooked, house bbq sauce", Price = 14 },
-                    new MenuLeaf() { Title = "Enchiladas (example)", Description = "Three cheese, chicken, or steak ", Price = 9.50m },
-                    new MenuLeaf() { Title = "Magarita (example)", Description = "Fresh limes, triple sec, tequila", Price = 7 }
+                    new MenuLeaf() { Title = "BBQ Ribs", Description = "Slow cooked, house bbq sauce", Price = 14 },
+                    new MenuLeaf() { Title = "Enchiladas", Description = "Three cheese, chicken, or steak ", Price = 9.50m },
+                    new MenuLeaf() { Title = "Magarita", Description = "Fresh limes, triple sec, tequila", Price = 7 }
                 };
 
                 //default root
                 List<MenuNode> defaultMenuNodeList = new List<MenuNode>(){
-                    new MenuNode() { Title = "Breakfast (example)", Link = "1-1", Text = "Breakfast menu items (example)", Branches = defaultBreakfastMenuLeafList },
-                    new MenuNode() { Title = "Lunch (example)", Link = "1-2", Text = "Lunch menu items (example)", Branches = defaultLunchMenuLeafList },
-                    new MenuNode() { Title = "Dinner (example)", Link = "1-3", Text = "Dinner menu items (example)", Branches = defaultDinnerMenuLeafList }
+                    new MenuNode() { Title = "Breakfast", Link = "1-1", Text = "Breakfast menu items", Branches = defaultBreakfastMenuLeafList },
+                    new MenuNode() { Title = "Lunch", Link = "1-2", Text = "Lunch menu items", Branches = defaultLunchMenuLeafList },
+                    new MenuNode() { Title = "Dinner", Link = "1-3", Text = "Dinner menu items", Branches = defaultDinnerMenuLeafList }
                 };
 
                 menuBuilderModel.CurrentMenu.MenuTree = V1.SerializeMenuTree(defaultMenuNodeList);
@@ -1082,8 +1094,8 @@ namespace MenuDart.Controllers
                         return HttpNotFound();
                     }
 
-                    //In MenuBuilder step 1, we supplied dummy phone and website values in order
-                    //for the sample menu to look good (filled out). Now we want to clear out the 
+                    //In MenuBuilder step 1, we supplied dummy values in order
+                    //for the sample menu to look good (filled out). Now we want to clear out those 
                     //dummy values.
                     if (menu.Website == Composer.Constants.DefaultWebsite)
                     {
@@ -1092,6 +1104,11 @@ namespace MenuDart.Controllers
                     if (menu.Phone == Composer.Constants.DefaultPhone)
                     {
                         menu.Phone = null;
+                    }
+                    if (menu.MenuTree != null)
+                    {
+                        List<MenuNode> emptyMenuNodeList = new List<MenuNode>();
+                        menu.MenuTree = V1.SerializeMenuTree(emptyMenuNodeList);
                     }
 
                     if (!Utilities.ActivateMenu(id, menu, User.Identity.Name, 1, db, true))
@@ -1113,105 +1130,6 @@ namespace MenuDart.Controllers
             return RedirectToAction("Edit2", new { id = id });
         }
 
-/*
-        //
-        // GET: /Menu/MenuBuilder3
-        // 
-        //Starting at this step, only authorized users can continue building their menu
-
-        [Authorize]
-        public ActionResult MenuBuilder3(int id = 0)
-        {
-            //if current logged in user is on trial
-            if ((Request.IsAuthenticated) && (Utilities.IsUserOnTrial(db, User)))
-            {
-                IOrderedQueryable<Menu> allMenus = Utilities.GetAllMenus(User.Identity.Name, db);
-
-                //if user already has an existing menu (not counting the one being created now)
-                if ((allMenus != null) && ((allMenus.Count() - 1) != 0))
-                {
-                    //user cannot have more than one menu on free trial,
-                    //remove current menu
-                    if ((id == 0) || !Utilities.IsThisMyMenu(id, db, User))
-                    {
-                        return RedirectToAction("MenuTrialLimit");
-                    }
-
-                    Menu menu = db.Menus.Find(id);
-
-                    if (menu == null)
-                    {
-                        Utilities.LogAppError("Could not find menu.");
-                        return HttpNotFound();
-                    }
-
-                    db.Menus.Remove(menu);
-                    db.SaveChanges();
-
-                    return RedirectToAction("MenuTrialLimit");
-                }
-            }
-
-            if ((id == 0) || !Utilities.IsThisMyMenu(id, db, User))
-            {
-                return RedirectToAction("MenuBuilderAccessViolation");
-            }
-
-            //create view model
-            MenuBuilderThemeViewModel themeViewData = new MenuBuilderThemeViewModel();
-            themeViewData.Themes = GetTemplates();
-
-            return View(themeViewData);
-        }
-
-        //
-        // POST: /Menu/MenuBuilder3
-
-        [HttpPost]
-        [ValidateInput(false)]
-        [Authorize]
-        public ActionResult MenuBuilder3(string template, int id = 0)
-        {
-            if ((id == 0) || !Utilities.IsThisMyMenu(id, db, User))
-            {
-                return RedirectToAction("MenuBuilderAccessViolation");
-            }
-
-            if (ModelState.IsValid)
-            {
-                Menu menu = db.Menus.Find(id);
-
-                if (menu == null)
-                {
-                    Utilities.LogAppError("Could not find menu.");
-                    return HttpNotFound();
-                }
-
-                //set template value
-                menu.Template = template;
-
-                //In MenuBuilder step 1, we supplied dummy phone and website values in order
-                //for the sample menu to look good (filled out). Now if the user didn't fill
-                //these fields out, we want to clear out the dummy values.
-                if (menu.Website == Composer.Constants.DefaultWebsite)
-                {
-                    menu.Website = null;
-                }
-                if (menu.Phone == Composer.Constants.DefaultPhone)
-                {
-                    menu.Phone = null;
-                }
-
-                //save menu to DB
-                db.Entry(menu).State = EntityState.Modified;
-                db.SaveChanges();
-
-                return RedirectToAction("MenuBuilder4", new { id = id });
-            }
-
-            return View();
-        }
-*/
         //
         // GET: /Menu/MenuBuilder4
         // 

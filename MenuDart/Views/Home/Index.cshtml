@@ -1,5 +1,5 @@
 ﻿@{
-    ViewBag.Title = "MenuDart. Easy Mobile Menus.";
+    ViewBag.Title = "Menu Dart. Easy Mobile Menus.";
 }
 
       <!-- Main hero unit for a primary marketing message or call to action -->
@@ -18,19 +18,23 @@
                   <img src="@Url.Content("~/Content/images/mobile.png")">
                 </div>
                 <div class="span5">
-                  <h1>Make Your Restaurant<br> <strong>Menu Mobile</strong>.<br>For The Price Of A Burger.</h1>
-                  <dl class="titleDl">
-                    <dt class="titleSubTitle">It's super easy.</dt>
-                    <dd class="titleSubDesc">You created your own business. Create your mobile menu too.</dd>
-                    <dt class="titleSubTitle">It's free for 30 days.</dt>
-                    <dd class="titleSubDesc">Try it, on us. If it makes your life a bit easier, continue for 7 bucks a month, no commitment.</dd>           
-                  </dl>
+                    <div itemscope itemtype="http://schema.org/Organization">
+                        <span itemprop="description"><h1>Make Your Restaurant<br> <strong>Menu Mobile</strong>.<br>For The Price Of A Burger.</h1></span>             
+                          <dl class="titleDl">
+                            <span itemprop="description"><dt class="titleSubTitle">It's super easy.</dt></span>
+                            <span itemprop="description"><dd class="titleSubDesc">You created your own business. Create your mobile menu too.</dd></span>
+                            <span itemprop="description"><dt class="titleSubTitle">It's free for 30 days.</dt></span>
+                            <span itemprop="description"><dd class="titleSubDesc">Try it, on us. If it makes your life a bit easier, continue for 7 bucks a month, no commitment.</dd></span>          
+                          </dl>
+                  </div>
                   <p><a class="btn btn-primary btn-large" href="@Url.Action("MenuBuilder", "Menu")"><b>Create menu now </b><i class="icon-chevron-right icon-white"></i></a></p>
                 </div>
               </div>
               <div class="item">
                 <div class="span4 offset1">
-                  <img src="@Url.Content("~/Content/images/mobile.png")">
+                    <div itemscope itemtype="http://schema.org/Organization">
+                        <span itemprop="image"><img src="@Url.Content("~/Content/images/mobile.png")"></span>
+                    </div>
                 </div>
                 <div class="span5">
                   <h1>A Good Menu<br>Is A Legible One.<br></h1>

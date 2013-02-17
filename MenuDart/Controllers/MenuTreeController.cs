@@ -270,6 +270,105 @@ namespace MenuDart.Controllers
             return HttpNotFound();
         }
 
+        //
+        // GET: /MenuTree/CreateDirectly
+
+        [Authorize]
+        public ActionResult CreateDirectly(string categoryName, string parent, int id = 0)
+        {
+            if ((id == 0) || !Utilities.IsThisMyMenu(id, db, User))
+            {
+                return RedirectToAction("MenuBuilderAccessViolation", "Menu");
+            }
+
+            //we need a parent in order to know where to create these menu nodes
+            if (!string.IsNullOrEmpty(parent))
+            {
+                if ((ModelState.IsValid) && (!string.IsNullOrEmpty(categoryName)))
+                {
+                    Menu menu = db.Menus.Find(id);
+
+                    if (menu == null)
+                    {
+                        Utilities.LogAppError("Could not find menu.");
+                        return HttpNotFound();
+                    }
+
+                    //create new menu node
+                    MenuNode newMenuNode = new MenuNode();
+                    newMenuNode.Title = categoryName;
+
+                    //first deserialize current menu tree
+                    List<MenuNode> currentMenuTree = V1.DeserializeMenuTree(menu.MenuTree);
+
+                    if ((currentMenuTree != null) && (currentMenuTree.Count > 0))
+                    {
+                        //if this is the root level
+                        if (parent == Constants.RootLevel)
+                        {
+                            try
+                            {
+                                newMenuNode.Link = IncrementLink(currentMenuTree.Last(node => !(node is MenuLeaf)).Link);
+                            }
+                            catch //there is no other menuNode
+                            {
+                                newMenuNode.Link = FirstLink;
+                            }
+
+                            //add node to the root level
+                            currentMenuTree.Add(newMenuNode);
+                        }
+                        else
+                        {
+                            //find the parent node
+                            MenuNode parentNode = V1.FindMenuNode(currentMenuTree, parent);
+
+                            if (parentNode != null)
+                            {
+                                try
+                                {
+                                    newMenuNode.Link = IncrementLink(parentNode.Branches.Last(node => !(node is MenuLeaf)).Link);
+                                }
+                                catch //there is no other menuNode
+                                {
+                                    //create the first category link of this level
+                                    newMenuNode.Link = parentNode.Link + FirstLinkSuffix;
+                                }
+
+                                //add node to the parent's branches
+                                parentNode.Branches.Add(newMenuNode);
+                            }
+                        }
+
+                        //serialize back into the menu
+                        menu.MenuTree = V1.SerializeMenuTree(currentMenuTree);
+                    }
+                    else
+                    {
+                        //this is the first and only node of the tree
+                        newMenuNode.Link = FirstLink;
+
+                        List<MenuNode> newMenuNodeList = new List<MenuNode>();
+                        newMenuNodeList.Add(newMenuNode);
+
+                        //no current nodes, so just set serialized data directly into menu
+                        menu.MenuTree = V1.SerializeMenuTree(newMenuNodeList);
+                    }
+
+                    //mark menu as dirty
+                    menu.ChangesUnpublished = true;
+
+                    //save menu in DB
+                    db.Entry(menu).State = EntityState.Modified;
+                    db.SaveChanges();
+                }
+
+                return RedirectToAction("Details", new { id = id, parent = parent, idx = -1 });
+            }
+
+            return HttpNotFound();
+        } 
+
         [Authorize]
         public ActionResult CreateItem(string parent, int id = 0)
         {

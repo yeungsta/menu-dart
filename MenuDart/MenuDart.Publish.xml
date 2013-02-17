@@ -1,20 +1,18 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <publishData>
-  <publishProfile publishUrl="ftp://ftp.menudart.com" deleteExistingFiles="False" ftpAnonymousLogin="False" ftpPassiveMode="True" msdeploySite="" msdeploySiteID="" msdeployRemoteSitePhysicalPath="" msdeployAllowUntrustedCertificate="False" msdeploySkipExtraFilesOnServer="True" msdeployMarkAsApp="False" profileName="Production" publishMethod="FTP" replaceMatchingFiles="True" userName="menudart" savePWD="True" userPWD="AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAALP1cohKdHEanq0fNUgMVjQAAAAACAAAAAAAQZgAAAAEAACAAAABK2WLv08eyFWX9HsBAzLA4+uw63ZZPpIXqsKKcYVwJtwAAAAAOgAAAAAIAACAAAAAJxMuhPFU5HxCOzEZ5FmVLMyVChbTjl/6UOO26Mn9stCAAAABWpdKsirlzEAB/AqnHsU/KqrDS2MU6Kxiw0ighZhir3UAAAACPY3oCm0uyQhowCPNx0l7H2UmxTqCRJ2385QdFASaa1OmJa5gY7VDe8IYJieUkgd6FNc6a/EQOSP4F3sH/AXpr" SelectedForPublish="True">
+  <publishProfile publishUrl="ftp://ftp.menudart.com" deleteExistingFiles="False" ftpAnonymousLogin="False" ftpPassiveMode="True" msdeploySite="" msdeploySiteID="" msdeployRemoteSitePhysicalPath="" msdeployAllowUntrustedCertificate="False" msdeploySkipExtraFilesOnServer="True" msdeployMarkAsApp="False" profileName="Production" publishMethod="FTP" replaceMatchingFiles="True" userName="menudart" savePWD="True" userPWD="AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAALP1cohKdHEanq0fNUgMVjQAAAAACAAAAAAAQZgAAAAEAACAAAABK2WLv08eyFWX9HsBAzLA4+uw63ZZPpIXqsKKcYVwJtwAAAAAOgAAAAAIAACAAAAAJxMuhPFU5HxCOzEZ5FmVLMyVChbTjl/6UOO26Mn9stCAAAABWpdKsirlzEAB/AqnHsU/KqrDS2MU6Kxiw0ighZhir3UAAAACPY3oCm0uyQhowCPNx0l7H2UmxTqCRJ2385QdFASaa1OmJa5gY7VDe8IYJieUkgd6FNc6a/EQOSP4F3sH/AXpr" SelectedForPublish="False">
+    <file relUrl="Views/Account/ResetPasswordFailed.cshtml" publishTime="12/19/2012 23:00:17" />
     <file relUrl="Scripts/MicrosoftAjax.js" publishTime="01/30/2012 19:31:24" />
-    <file relUrl="Content/images/creditcards.png" publishTime="01/19/2013 16:02:19" />
-    <file relUrl="Scripts/bootstrap-scrollspy.js" publishTime="08/23/2012 21:44:50" />
-    <file relUrl="Views/Shared/Error.cshtml" publishTime="01/30/2012 19:31:24" />
+    <file relUrl="Views/TempMenu/DeleteAll.cshtml" publishTime="04/05/2012 20:50:39" />
     <file relUrl="bin/System.Web.WebPages.dll" publishTime="01/05/2011 15:45:38" />
     <file relUrl="Views/Subscription/SyncAccounts.cshtml" publishTime="08/31/2012 22:06:18" />
+    <file relUrl="Content/previews/shared/templates/template_pumpkin.css" publishTime="11/23/2012 16:40:14" />
     <file relUrl="Content/themes/base/jquery.ui.autocomplete.css" publishTime="01/30/2012 19:31:58" />
-    <file relUrl="Content/images/32-iphone.png" publishTime="10/15/2010 13:09:00" />
     <file relUrl="Content/themes/base/jquery.ui.datepicker.css" publishTime="01/30/2012 19:31:58" />
-    <file relUrl="Scripts/jquery-ui-1.8.11.js" publishTime="01/30/2012 19:31:56" />
     <file relUrl="Content/legacy_depot/twitter.png" publishTime="01/21/2012 20:55:38" />
     <file relUrl="Scripts/bootstrap-tab.js" publishTime="08/23/2012 21:44:50" />
     <file relUrl="Scripts/jquery-1.5.1.js" publishTime="01/30/2012 19:31:52" />
-    <file relUrl="Scripts/bootstrap-collapse.js" publishTime="08/23/2012 21:44:49" />
+    <file relUrl="Views/Account/StartReset.cshtml" publishTime="01/17/2013 01:14:44" />
     <file relUrl="Views/TempMenu/Delete.cshtml" publishTime="04/05/2012 20:27:30" />
     <file relUrl="bin/Microsoft.Web.Infrastructure.xml" publishTime="12/20/2010 10:52:36" />
     <file relUrl="Views/Account/StartResetSuccess.cshtml" publishTime="12/19/2012 22:55:27" />
@@ -27,171 +25,178 @@
     <file relUrl="Views/Web.config" publishTime="08/27/2012 22:06:19" />
     <file relUrl="Content/themes/base/jquery.ui.selectable.css" publishTime="01/30/2012 19:31:58" />
     <file relUrl="Content/legacy_depot/master.css" publishTime="01/22/2012 16:34:40" />
-    <file relUrl="Views/Subscription/DeactivateAllCompleted.cshtml" publishTime="08/31/2012 16:20:16" />
+    <file relUrl="Views/Subscription/DeactivateAllCompleted.cshtml" publishTime="01/23/2013 21:50:54" />
     <file relUrl="Scripts/fileuploader.js" publishTime="09/08/2012 18:06:24" />
     <file relUrl="Scripts/jquery.validate.js" publishTime="01/30/2012 19:31:54" />
     <file relUrl="Content/previews/shared/images/phone.png" publishTime="01/21/2012 20:34:22" />
     <file relUrl="Content/previews/shared/templates/template_spinach.css" publishTime="03/16/2012 09:58:06" />
-    <file relUrl="Views/Mail/SendFeedbackEmail.html.cshtml" publishTime="08/12/2012 16:23:39" />
-    <file relUrl="Content/legacy_bfd/phone.png" publishTime="01/21/2012 20:34:22" />
+    <file relUrl="Views/Mail/SendFeedbackEmail.html.cshtml" publishTime="02/15/2013 19:25:49" />
     <file relUrl="Scripts/bootstrap-popover.js" publishTime="08/23/2012 21:44:50" />
     <file relUrl="Views/Menu/Create.cshtml" publishTime="03/11/2012 23:02:36" />
     <file relUrl="Content/themes/base/jquery.ui.all.css" publishTime="01/30/2012 19:31:58" />
+    <file relUrl="bin/ActionMailer.Net.pdb" publishTime="08/04/2012 17:03:32" />
     <file relUrl="Scripts/bootstrap-dropdown.js" publishTime="08/23/2012 21:44:49" />
     <file relUrl="Scripts/jquery-1.5.1-vsdoc.js" publishTime="01/30/2012 19:31:54" />
-    <file relUrl="Views/Home/Pricing.cshtml" publishTime="01/19/2013 16:35:04" />
-    <file relUrl="Views/Dashboard/SendFeedbackFail.cshtml" publishTime="11/28/2012 22:18:36" />
+    <file relUrl="Content/themes/base/images/ui-icons_888888_256x240.png" publishTime="01/30/2012 19:31:58" />
     <file relUrl="Views/Account/ResetPasswordSuccess.cshtml" publishTime="12/19/2012 22:57:45" />
+    <file relUrl="Views/Home/Pricing.cshtml" publishTime="02/16/2013 14:23:14" />
+    <file relUrl="Views/Dashboard/SendFeedbackFail.cshtml" publishTime="11/28/2012 22:18:36" />
+    <file relUrl="Content/images/lock_32.png" publishTime="12/02/2010 23:28:31" />
     <file relUrl="Scripts/modernizr-1.7.min.js" publishTime="01/30/2012 19:32:04" />
-    <file relUrl="Views/Menu/Delete.cshtml" publishTime="10/24/2012 21:37:29" />
-    <file relUrl="Content/images/slice_0_0.png" publishTime="05/19/2012 09:52:49" />
-    <file relUrl="Views/Mail/SendTrialExpiredEmail.html.cshtml" publishTime="08/21/2012 23:40:18" />
+    <file relUrl="Views/Menu/Delete.cshtml" publishTime="02/15/2013 17:03:37" />
+    <file relUrl="Views/Shared/Error.cshtml" publishTime="01/30/2012 19:31:24" />
+    <file relUrl="Views/Mail/SendTrialExpiredEmail.html.cshtml" publishTime="02/15/2013 23:18:25" />
+    <file relUrl="bin/Elmah.dll" publishTime="07/22/2012 21:24:53" />
     <file relUrl="Views/Template/Edit.cshtml" publishTime="12/10/2012 21:51:43" />
     <file relUrl="Views/Locations/Create.cshtml" publishTime="02/24/2012 23:34:18" />
     <file relUrl="Scripts/jquery-1.7.1.min.js" publishTime="01/17/2013 23:03:54" />
     <file relUrl="Content/legacy_depot/envelope.png" publishTime="01/21/2012 20:47:00" />
     <file relUrl="Views/Menu/PublishNotActive.cshtml" publishTime="01/04/2013 18:09:40" />
-    <file relUrl="Views/Subscription/ActivateAll.cshtml" publishTime="01/05/2013 09:21:18" />
+    <file relUrl="Views/Subscription/ActivateAll.cshtml" publishTime="02/06/2013 01:33:23" />
     <file relUrl="bin/System.Web.Razor.xml" publishTime="12/20/2010 10:52:36" />
     <file relUrl="Content/legacy_depot/logo.png" publishTime="01/08/2012 21:18:08" />
     <file relUrl="Content/images/slice_1_2.png" publishTime="05/19/2012 10:13:38" />
     <file relUrl="Content/previews/shared/images/facebook.png" publishTime="01/21/2012 20:51:12" />
     <file relUrl="Content/images/themes/ice.png" publishTime="11/23/2012 15:40:27" />
     <file relUrl="Content/images/174-imac.png" publishTime="10/18/2010 00:43:38" />
+    <file relUrl="Content/previews/shared/templates/template_blueberry.css" publishTime="11/23/2012 16:40:18" />
     <file relUrl="Content/images/themes/jalapeno.png" publishTime="11/23/2012 15:41:56" />
-    <file relUrl="Views/Mail/SendPasswordResetEmail.html.cshtml" publishTime="08/04/2012 22:00:51" />
+    <file relUrl="Views/Menu/Index.cshtml" publishTime="08/31/2012 22:04:45" />
     <file relUrl="Content/previews/shared/images/yelp.png" publishTime="01/21/2012 22:02:58" />
     <file relUrl="Content/themes/base/images/ui-bg_glass_55_fbf9ee_1x400.png" publishTime="01/30/2012 19:32:00" />
     <file relUrl="Content/images/themes/eggplant.png" publishTime="11/21/2012 22:20:32" />
-    <file relUrl="Views/Mail/SendTrialWarningEmail.html.cshtml" publishTime="08/21/2012 23:50:13" />
+    <file relUrl="Views/Mail/SendTrialWarningEmail.html.cshtml" publishTime="02/15/2013 23:18:37" />
     <file relUrl="Views/Menu/MenuBuilderAccessViolation.cshtml" publishTime="04/21/2012 08:57:32" />
-    <file relUrl="Views/Menu/Edit2.cshtml" publishTime="01/16/2013 23:02:30" />
+    <file relUrl="Views/Menu/Edit2.cshtml" publishTime="02/04/2013 23:12:34" />
     <file relUrl="Views/depot/Index.cshtml" publishTime="11/29/2012 20:41:46" />
     <file relUrl="Content/themes/base/jquery.ui.resizable.css" publishTime="01/30/2012 19:31:58" />
     <file relUrl="Scripts/MicrosoftMvcAjax.debug.js" publishTime="01/30/2012 19:31:24" />
-    <file relUrl="Views/Menu/MenuTrialLimit.cshtml" publishTime="12/17/2012 22:52:22" />
+    <file relUrl="Scripts/jquery.unobtrusive-ajax.min.js" publishTime="01/30/2012 19:31:24" />
     <file relUrl="Content/themes/base/jquery.ui.tabs.css" publishTime="01/30/2012 19:31:56" />
     <file relUrl="Views/Shared/_FormValidation.cshtml" publishTime="01/09/2013 23:44:12" />
     <file relUrl="bin/System.Web.WebPages.xml" publishTime="12/19/2010 23:59:38" />
     <file relUrl="Views/Subscription/Completed.cshtml" publishTime="08/31/2012 16:14:19" />
+    <file relUrl="Views/Home/Using.cshtml" publishTime="02/16/2013 14:23:13" />
     <file relUrl="Content/images/mobile.png" publishTime="12/27/2011 17:31:38" />
     <file relUrl="Scripts/jquery-ui-1.8.11.min.js" publishTime="01/30/2012 19:31:56" />
     <file relUrl="Content/images/slice_1_0.png" publishTime="05/19/2012 09:52:50" />
     <file relUrl="Content/themes/base/images/ui-icons_2e83ff_256x240.png" publishTime="01/30/2012 19:32:00" />
-    <file relUrl="Views/Subscription/DeactivateAll.cshtml" publishTime="10/24/2012 21:44:14" />
+    <file relUrl="Views/Subscription/DeactivateAll.cshtml" publishTime="01/23/2013 21:50:37" />
     <file relUrl="Scripts/bootstrap.js" publishTime="08/23/2012 21:40:33" />
+    <file relUrl="Content/images/19-gear.png" publishTime="10/15/2010 13:08:56" />
     <file relUrl="Scripts/MicrosoftMvcAjax.js" publishTime="01/30/2012 19:31:24" />
     <file relUrl="bin/System.Web.WebPages.Deployment.dll" publishTime="01/05/2011 15:45:38" />
-    <file relUrl="Views/Subscription/ActivateAllCompleted.cshtml" publishTime="10/15/2012 22:08:07" />
+    <file relUrl="Views/bfd/Index.cshtml" publishTime="11/29/2012 19:41:42" />
+    <file relUrl="bin/ActionMailer.Net.Mvc.dll" publishTime="08/04/2012 17:03:32" />
+    <file relUrl="Scripts/bootstrap-button.js" publishTime="08/23/2012 21:44:49" />
     <file relUrl="Scripts/bootstrap-carousel.js" publishTime="08/23/2012 21:44:49" />
     <file relUrl="Scripts/MicrosoftAjax.debug.js" publishTime="01/30/2012 19:31:24" />
-    <file relUrl="Views/Menu/MenuBuilder2.cshtml" publishTime="01/07/2013 23:25:14" />
+    <file relUrl="Views/Menu/MenuBuilder2.cshtml" publishTime="02/15/2013 09:06:35" />
     <file relUrl="Content/legacy_depot/phone.png" publishTime="01/21/2012 20:34:22" />
-    <file relUrl="Views/Menu/Edit7.cshtml" publishTime="11/23/2012 19:39:50" />
-    <file relUrl="Scripts/bootstrap-button.js" publishTime="08/23/2012 21:44:49" />
-    <file relUrl="bin/MenuDart.dll" publishTime="01/19/2013 17:40:54" />
+    <file relUrl="Views/Menu/MenuBuilder.cshtml" publishTime="02/13/2013 21:48:05" />
+    <file relUrl="Views/Shared/_LogOnPartial.cshtml" publishTime="02/04/2013 22:08:31" />
     <file relUrl="Global.asax" publishTime="01/30/2012 19:31:24" />
-    <file relUrl="Views/Mail/SendCouponAppliedEmail.html.cshtml" publishTime="12/31/2012 10:19:24" />
-    <file relUrl="Views/Menu/MenuBuilder.cshtml" publishTime="01/17/2013 00:45:52" />
-    <file relUrl="Views/MenuTree/EditItem.cshtml" publishTime="01/17/2013 00:51:24" />
+    <file relUrl="Views/Mail/SendCouponAppliedEmail.html.cshtml" publishTime="02/15/2013 23:17:30" />
+    <file relUrl="Views/MenuTree/EditItem.cshtml" publishTime="02/05/2013 22:36:16" />
+    <file relUrl="Views/Menu/ViewActiveMenu.cshtml" publishTime="02/01/2013 18:27:26" />
     <file relUrl="Scripts/MicrosoftMvcValidation.js" publishTime="01/30/2012 19:31:24" />
     <file relUrl="Content/legacy_bfd/logo.png" publishTime="12/18/2011 23:23:31" />
-    <file relUrl="Views/Menu/Index.cshtml" publishTime="08/31/2012 22:04:45" />
+    <file relUrl="Scripts/jquery.cookie.js" publishTime="02/11/2013 22:59:44" />
+    <file relUrl="Views/Subscription/ActivateAllCompleted.cshtml" publishTime="01/23/2013 21:53:17" />
     <file relUrl="Views/Locations/Delete.cshtml" publishTime="03/04/2012 19:05:04" />
-    <file relUrl="Web.config" publishTime="01/19/2013 17:41:18" />
-    <file relUrl="Views/Menu/Edit3.cshtml" publishTime="11/02/2012 16:36:41" />
+    <file relUrl="Web.config" publishTime="02/16/2013 14:53:14" />
+    <file relUrl="Views/Mail/SendActivateEmailTrial.html.cshtml" publishTime="02/15/2013 23:17:21" />
+    <file relUrl="Views/Menu/Edit3.cshtml" publishTime="01/30/2013 20:45:14" />
     <file relUrl="bin/Microsoft.Web.Infrastructure.dll" publishTime="01/05/2011 15:45:38" />
     <file relUrl="Scripts/MicrosoftMvcValidation.debug.js" publishTime="01/30/2012 19:31:24" />
-    <file relUrl="Content/master.css" publishTime="01/19/2013 16:33:16" />
+    <file relUrl="Content/master.css" publishTime="02/01/2013 18:04:29" />
     <file relUrl="Content/previews/shared/images/envelope.png" publishTime="01/21/2012 20:47:00" />
     <file relUrl="bin/System.Web.Mvc.dll" publishTime="01/05/2011 17:42:16" />
-    <file relUrl="bin/Elmah.dll" publishTime="07/22/2012 21:24:53" />
+    <file relUrl="Scripts/jquery.unobtrusive-ajax.js" publishTime="01/30/2012 19:31:24" />
     <file relUrl="Content/previews/shared/templates/template_brie.css" publishTime="03/12/2012 20:57:48" />
     <file relUrl="Content/bootstrap.css" publishTime="10/26/2012 14:53:02" />
     <file relUrl="packages.config" publishTime="08/04/2012 17:03:33" />
-    <file relUrl="Views/Home/James.cshtml" publishTime="10/17/2012 22:09:17" />
     <file relUrl="bin/ActionMailer.Net.dll" publishTime="08/04/2012 17:03:32" />
-    <file relUrl="Scripts/bootstrap-alert.js" publishTime="08/23/2012 21:44:49" />
     <file relUrl="Content/themes/base/jquery.ui.dialog.css" publishTime="01/30/2012 19:31:58" />
-    <file relUrl="Views/Subscription/ModifySubscription.cshtml" publishTime="08/31/2012 16:39:55" />
-    <file relUrl="Views/Dashboard/Index.cshtml" publishTime="01/04/2013 22:31:48" />
-    <file relUrl="Content/legacy_bfd/yelp.png" publishTime="01/21/2012 22:02:58" />
+    <file relUrl="Views/Subscription/ModifySubscription.cshtml" publishTime="01/23/2013 21:54:24" />
+    <file relUrl="Views/Dashboard/Index.cshtml" publishTime="02/15/2013 10:36:12" />
     <file relUrl="bin/AWSSDK.xml" publishTime="09/14/2012 12:58:28" />
-    <file relUrl="Content/previews/shared/master.css" publishTime="09/03/2012 17:36:16" />
-    <file relUrl="Views/MenuTree/CreateText.cshtml" publishTime="01/17/2013 00:51:55" />
-    <file relUrl="Views/Menu/Edit.cshtml" publishTime="01/10/2013 22:24:28" />
-    <file relUrl="Views/bfd/Index.cshtml" publishTime="11/29/2012 19:41:42" />
+    <file relUrl="Content/previews/shared/master.css" publishTime="02/15/2013 23:54:56" />
+    <file relUrl="Scripts/bootstrap-collapse.js" publishTime="08/23/2012 21:44:49" />
+    <file relUrl="Views/Menu/Edit.cshtml" publishTime="01/30/2013 22:08:26" />
     <file relUrl="Content/themes/base/images/ui-icons_222222_256x240.png" publishTime="01/30/2012 19:32:00" />
+    <file relUrl="Content/images/stripe.png" publishTime="02/04/2013 19:23:35" />
     <file relUrl="Views/Menu/MenuBuilder9.cshtml" publishTime="12/14/2012 20:10:33" />
     <file relUrl="Scripts/bootstrap-affix.js" publishTime="08/23/2012 21:44:49" />
-    <file relUrl="bin/MenuDart.pdb" publishTime="01/19/2013 17:40:54" />
+    <file relUrl="Views/MenuTree/CreateText.cshtml" publishTime="02/09/2013 22:49:42" />
+    <file relUrl="bin/MenuDart.pdb" publishTime="02/16/2013 14:53:06" />
     <file relUrl="Content/images/slice_1_1.png" publishTime="05/19/2012 09:52:51" />
     <file relUrl="Content/legacy_bfd/twitter.png" publishTime="01/21/2012 20:55:38" />
     <file relUrl="Scripts/jquery.validate.unobtrusive.min.js" publishTime="01/30/2012 19:31:24" />
-    <file relUrl="Views/Menu/MenuBuilder3.cshtml" publishTime="01/17/2013 00:46:10" />
+    <file relUrl="Views/Menu/MenuBuilder3.cshtml" publishTime="01/21/2013 20:55:07" />
     <file relUrl="Views/Account/ResetPassword.cshtml" publishTime="01/17/2013 01:12:26" />
+    <file relUrl="Content/legacy_bfd/display.png" publishTime="01/21/2012 20:43:06" />
     <file relUrl="Views/_ViewStart.cshtml" publishTime="09/08/2012 13:26:35" />
     <file relUrl="Scripts/bootstrap-modal.js" publishTime="08/23/2012 21:44:49" />
     <file relUrl="Content/previews/shared/templates/template_monkish.css" publishTime="11/24/2012 19:40:43" />
+    <file relUrl="Views/Subscription/ActivateCompleted.cshtml" publishTime="01/23/2013 21:53:42" />
     <file relUrl="Views/JobScheduler/KickOff.cshtml" publishTime="08/31/2012 22:01:09" />
     <file relUrl="Views/TempMenu/Index.cshtml" publishTime="08/31/2012 22:12:16" />
-    <file relUrl="Views/Subscription/DeactivateCompleted.cshtml" publishTime="10/16/2012 21:39:47" />
+    <file relUrl="Views/Subscription/DeactivateCompleted.cshtml" publishTime="01/23/2013 22:14:46" />
     <file relUrl="bin/ActionMailer.Net.Mvc.pdb" publishTime="08/04/2012 17:03:32" />
-    <file relUrl="Views/Template/Delete.cshtml" publishTime="12/10/2012 21:52:49" />
-    <file relUrl="Scripts/bootstrap-tooltip.js" publishTime="08/23/2012 21:44:50" />
+    <file relUrl="Content/images/creditcards.png" publishTime="01/19/2013 16:02:19" />
+    <file relUrl="Content/images/logo2.png" publishTime="02/02/2013 22:10:10" />
     <file relUrl="bin/AWSSDK.dll" publishTime="09/14/2012 12:58:28" />
     <file relUrl="Views/Home/About.cshtml" publishTime="11/10/2012 22:03:01" />
+    <file relUrl="Views/Locations/Edit.cshtml" publishTime="04/21/2012 17:29:59" />
     <file relUrl="Content/themes/base/images/ui-bg_glass_75_e6e6e6_1x400.png" publishTime="01/30/2012 19:32:00" />
-    <file relUrl="favicon.ico" publishTime="07/23/2012 21:06:03" />
+    <file relUrl="favicon.ico" publishTime="02/04/2013 19:03:29" />
     <file relUrl="Views/MenuTree/Delete.cshtml" publishTime="06/09/2012 09:53:00" />
     <file relUrl="Scripts/jquery.validate-vsdoc.js" publishTime="01/30/2012 19:31:54" />
     <file relUrl="Content/images/glyphicons-halflings-white.png" publishTime="03/22/2012 00:33:18" />
     <file relUrl="Content/themes/base/jquery.ui.theme.css" publishTime="01/30/2012 19:31:56" />
-    <file relUrl="Scripts/jquery.validate.min.js" publishTime="01/30/2012 19:31:54" />
-    <file relUrl="Scripts/jquery.unobtrusive-ajax.js" publishTime="01/30/2012 19:31:24" />
+    <file relUrl="Content/themes/base/images/ui-icons_454545_256x240.png" publishTime="01/30/2012 19:31:58" />
     <file relUrl="Views/Dashboard/SendFeedbackSuccess.cshtml" publishTime="08/28/2012 23:10:50" />
     <file relUrl="Views/Account/ChangePassword.cshtml" publishTime="01/17/2013 01:11:56" />
     <file relUrl="Views/MenuTree/CreateItem.cshtml" publishTime="01/17/2013 00:52:07" />
-    <file relUrl="Views/MenuTree/EditText.cshtml" publishTime="01/17/2013 00:51:35" />
+    <file relUrl="Views/MenuTree/EditText.cshtml" publishTime="02/09/2013 22:50:37" />
     <file relUrl="Content/images/themes/pumpkin.png" publishTime="11/23/2012 16:52:59" />
     <file relUrl="Views/TempMenu/Edit.cshtml" publishTime="04/05/2012 20:27:30" />
+    <file relUrl="Views/Subscription/Cancelled.cshtml" publishTime="09/05/2012 21:53:01" />
     <file relUrl="Content/menu-item-editor.css" publishTime="01/17/2013 01:24:27" />
     <file relUrl="Content/images/slice_2_0.png" publishTime="05/19/2012 09:52:52" />
     <file relUrl="Views/Menu/Details.cshtml" publishTime="04/17/2012 21:48:22" />
     <file relUrl="Content/themes/base/images/ui-bg_glass_75_dadada_1x400.png" publishTime="01/30/2012 19:32:00" />
     <file relUrl="Content/themes/base/jquery.ui.button.css" publishTime="01/30/2012 19:31:58" />
     <file relUrl="Content/themes/base/images/ui-bg_glass_95_fef1ec_1x400.png" publishTime="01/30/2012 19:32:00" />
-    <file relUrl="Content/images/logo.png" publishTime="10/21/2012 23:16:22" />
+    <file relUrl="Content/images/lock_48.png" publishTime="12/02/2010 23:28:31" />
+    <file relUrl="Content/images/logo.png" publishTime="02/02/2013 21:44:13" />
     <file relUrl="Content/images/themes/brie.png" publishTime="11/21/2012 22:18:57" />
-    <file relUrl="Views/Subscription/Cancelled.cshtml" publishTime="09/05/2012 21:53:01" />
+    <file relUrl="Content/themes/base/jquery.ui.core.css" publishTime="01/30/2012 19:31:58" />
     <file relUrl="Content/images/glyphicons-halflings.png" publishTime="03/22/2012 00:33:18" />
-    <file relUrl="Views/Menu/PreviewMenu.cshtml" publishTime="10/28/2012 22:59:13" />
-    <file relUrl="Views/Subscription/Activate.cshtml" publishTime="01/05/2013 09:08:20" />
+    <file relUrl="Views/Menu/PreviewMenu.cshtml" publishTime="02/01/2013 18:26:46" />
+    <file relUrl="Views/Subscription/Activate.cshtml" publishTime="02/06/2013 01:33:49" />
     <file relUrl="Content/themes/base/images/ui-bg_glass_65_ffffff_1x400.png" publishTime="01/30/2012 19:32:00" />
     <file relUrl="bin/System.Web.WebPages.Razor.xml" publishTime="12/20/2010 10:52:36" />
     <file relUrl="Content/images/themes/blueberry.png" publishTime="11/23/2012 16:52:06" />
-    <file relUrl="Views/Template/Create.cshtml" publishTime="12/10/2012 21:53:03" />
     <file relUrl="Content/previews/shared/images/display.png" publishTime="01/21/2012 20:43:06" />
     <file relUrl="Views/Subscription/SuspendCompleted.cshtml" publishTime="07/21/2012 16:13:03" />
-    <file relUrl="Content/images/125-food.png" publishTime="10/15/2010 13:08:52" />
     <file relUrl="Views/Shared/_Layout.cshtml" publishTime="10/20/2012 16:33:11" />
     <file relUrl="bin/Stripe.net.dll" publishTime="10/14/2012 08:53:58" />
     <file relUrl="Views/TempMenu/Details.cshtml" publishTime="04/05/2012 20:27:29" />
     <file relUrl="Content/legacy_depot/display.png" publishTime="01/21/2012 20:43:06" />
     <file relUrl="Content/themes/base/images/ui-icons_cd0a0a_256x240.png" publishTime="01/30/2012 19:31:58" />
     <file relUrl="Content/legacy_bfd/facebook.png" publishTime="01/21/2012 20:51:13" />
-    <file relUrl="Views/Subscription/Deactivate.cshtml" publishTime="01/08/2013 20:59:03" />
+    <file relUrl="Views/Subscription/Deactivate.cshtml" publishTime="02/04/2013 21:56:42" />
     <file relUrl="Content/images/themes/spinach.png" publishTime="11/23/2012 15:45:51" />
     <file relUrl="Content/images/slice_2_2.png" publishTime="05/19/2012 09:52:53" />
-    <file relUrl="Views/Home/Features.cshtml" publishTime="01/19/2013 16:35:04" />
+    <file relUrl="Views/Home/Features.cshtml" publishTime="02/16/2013 14:23:14" />
     <file relUrl="Content/themes/base/jquery.ui.accordion.css" publishTime="01/30/2012 19:31:58" />
     <file relUrl="Views/Subscription/UnsuspendCompleted.cshtml" publishTime="07/21/2012 16:16:02" />
-    <file relUrl="Views/Mail/SendDeactivateEmail.html.cshtml" publishTime="08/10/2012 22:50:17" />
     <file relUrl="Views/TempMenu/Create.cshtml" publishTime="04/05/2012 20:27:30" />
     <file relUrl="Content/legacy_bfd/envelope.png" publishTime="01/21/2012 20:47:00" />
     <file relUrl="Views/Locations/Index.cshtml" publishTime="02/21/2012 21:24:14" />
-    <file relUrl="Views/Locations/Edit.cshtml" publishTime="04/21/2012 17:29:59" />
-    <file relUrl="Content/themes/base/jquery.ui.core.css" publishTime="01/30/2012 19:31:58" />
+    <file relUrl="Content/legacy_bfd/phone.png" publishTime="01/21/2012 20:34:22" />
     <file relUrl="Content/previews/shared/templates/template_jalapeno.css" publishTime="03/12/2012 21:16:38" />
     <file relUrl="Content/images/themes/tomato.png" publishTime="11/23/2012 15:47:26" />
     <file relUrl="bin/System.Web.Razor.dll" publishTime="01/05/2011 15:45:38" />
@@ -200,17 +205,16 @@
     <file relUrl="Content/previews/shared/templates/template_ice.css" publishTime="03/12/2012 20:38:23" />
     <file relUrl="Content/images/themes/licorice.png" publishTime="11/23/2012 15:44:20" />
     <file relUrl="Content/bootstrap-responsive.css" publishTime="08/23/2012 21:40:32" />
-    <file relUrl="Views/TempMenu/DeleteAll.cshtml" publishTime="04/05/2012 20:50:39" />
-    <file relUrl="Views/Shared/_MDLayout.cshtml" publishTime="01/19/2013 16:34:39" />
+    <file relUrl="Views/Mail/SendPasswordResetEmail.html.cshtml" publishTime="02/15/2013 23:18:10" />
+    <file relUrl="Views/Shared/_MDLayout.cshtml" publishTime="02/16/2013 14:37:30" />
     <file relUrl="Views/Menu/MenuBuilder6.cshtml" publishTime="01/17/2013 00:47:36" />
-    <file relUrl="bin/EntityFramework.dll" publishTime="01/30/2012 19:32:00" />
     <file relUrl="Scripts/jquery-1.5.1.min.js" publishTime="01/30/2012 19:31:52" />
-    <file relUrl="Views/Shared/_LogOnPartial.cshtml" publishTime="11/17/2012 18:18:39" />
+    <file relUrl="Content/images/125-food.png" publishTime="10/15/2010 13:08:52" />
     <file relUrl="Content/images/117-todo.png" publishTime="10/15/2010 13:08:50" />
-    <file relUrl="Content/themes/base/images/ui-icons_454545_256x240.png" publishTime="01/30/2012 19:31:58" />
-    <file relUrl="Content/previews/shared/templates/template_pumpkin.css" publishTime="11/23/2012 16:40:14" />
+    <file relUrl="Scripts/jquery-ui-1.8.11.js" publishTime="01/30/2012 19:31:56" />
+    <file relUrl="Content/previews/shared/templates/template_licorice.css" publishTime="11/23/2012 15:55:41" />
     <file relUrl="Views/Menu/MenuBuilder4.cshtml" publishTime="01/17/2013 00:46:52" />
-    <file relUrl="Views/Menu/Edit4.cshtml" publishTime="01/10/2013 21:28:26" />
+    <file relUrl="Views/Menu/Edit4.cshtml" publishTime="01/29/2013 23:00:11" />
     <file relUrl="Scripts/jquery.validate.unobtrusive.js" publishTime="01/30/2012 19:31:24" />
     <file relUrl="Content/previews/shared/templates/template_tomato.css" publishTime="11/23/2012 15:55:50" />
     <file relUrl="bin/System.Web.WebPages.Razor.dll" publishTime="01/05/2011 15:45:38" />
@@ -219,76 +223,79 @@
     <file relUrl="Views/Menu/MenuBuilder8.cshtml" publishTime="01/17/2013 00:48:14" />
     <file relUrl="bin/EntityFramework.xml" publishTime="01/30/2012 19:32:00" />
     <file relUrl="Views/Menu/Edit6.cshtml" publishTime="11/23/2012 19:43:39" />
-    <file relUrl="Content/legacy_bfd/display.png" publishTime="01/21/2012 20:43:06" />
+    <file relUrl="Views/Menu/Edit7.cshtml" publishTime="01/30/2013 20:50:15" />
     <file relUrl="Content/previews/shared/images/twitter.png" publishTime="01/21/2012 20:55:38" />
     <file relUrl="Content/images/loading.gif" publishTime="03/20/2012 22:40:15" />
     <file relUrl="Content/legacy_bfd/master.css" publishTime="01/22/2012 16:35:40" />
-    <file relUrl="Views/Account/LogOn.cshtml" publishTime="01/16/2013 23:15:00" />
-    <file relUrl="bin/ActionMailer.Net.Mvc.xml" publishTime="08/04/2012 17:03:32" />
-    <file relUrl="Views/Account/ResetPasswordFailed.cshtml" publishTime="12/19/2012 23:00:17" />
+    <file relUrl="bin/EntityFramework.dll" publishTime="01/30/2012 19:32:00" />
+    <file relUrl="Views/Template/Delete.cshtml" publishTime="12/10/2012 21:52:49" />
     <file relUrl="Content/legacy_depot/yelp.png" publishTime="01/21/2012 22:02:58" />
     <file relUrl="Scripts/bootstrap-transition.js" publishTime="08/23/2012 21:44:50" />
     <file relUrl="Content/previews/shared/images/logo.png" publishTime="03/11/2012 21:41:32" />
-    <file relUrl="Views/MenuTree/Details.cshtml" publishTime="01/17/2013 00:57:15" />
+    <file relUrl="Views/MenuTree/Details.cshtml" publishTime="02/15/2013 10:20:50" />
     <file relUrl="Views/Locations/Details.cshtml" publishTime="02/21/2012 21:24:14" />
     <file relUrl="Views/Menu/MenuBuilder5.cshtml" publishTime="01/17/2013 00:47:15" />
-    <file relUrl="Views/MenuTree/DeleteText.cshtml" publishTime="03/16/2012 20:25:54" />
-    <file relUrl="Views/Mail/SendSignUpEmail.html.cshtml" publishTime="08/04/2012 22:08:11" />
-    <file relUrl="Content/themes/base/images/ui-icons_888888_256x240.png" publishTime="01/30/2012 19:31:58" />
-    <file relUrl="bin/ActionMailer.Net.Mvc.dll" publishTime="08/04/2012 17:03:32" />
-    <file relUrl="Views/Mail/SendActivateEmailTrial.html.cshtml" publishTime="12/14/2012 20:38:26" />
+    <file relUrl="Content/images/slice_0_0.png" publishTime="05/19/2012 09:52:49" />
+    <file relUrl="Views/Mail/SendSignUpEmail.html.cshtml" publishTime="02/15/2013 23:12:55" />
+    <file relUrl="Views/Home/James.cshtml" publishTime="02/16/2013 14:23:14" />
+    <file relUrl="bin/System.Web.Helpers.dll" publishTime="01/05/2011 15:45:38" />
+    <file relUrl="Content/themes/base/jquery.ui.progressbar.css" publishTime="01/30/2012 19:31:58" />
+    <file relUrl="Views/Menu/MenuTrialLimit.cshtml" publishTime="02/15/2013 09:11:24" />
     <file relUrl="Content/fileuploader.css" publishTime="09/08/2012 14:19:20" />
-    <file relUrl="Views/Shared/_EditorButtons.cshtml" publishTime="01/16/2013 22:43:39" />
+    <file relUrl="Views/Shared/_EditorButtons.cshtml" publishTime="02/09/2013 22:15:59" />
     <file relUrl="Content/themes/base/images/ui-bg_flat_75_ffffff_40x100.png" publishTime="01/30/2012 19:32:00" />
-    <file relUrl="Views/Account/StartReset.cshtml" publishTime="01/17/2013 01:14:44" />
+    <file relUrl="bin/ActionMailer.Net.Mvc.xml" publishTime="08/04/2012 17:03:32" />
     <file relUrl="Views/Shared/_EditorMenubar.cshtml" publishTime="11/10/2012 21:27:01" />
     <file relUrl="Views/Template/Details.cshtml" publishTime="12/10/2012 21:52:36" />
-    <file relUrl="Content/themes/base/jquery.ui.progressbar.css" publishTime="01/30/2012 19:31:58" />
+    <file relUrl="Views/MenuTree/DeleteText.cshtml" publishTime="02/09/2013 22:49:03" />
     <file relUrl="Views/Subscription/Failed.cshtml" publishTime="08/31/2012 15:41:06" />
-    <file relUrl="bin/System.Web.Helpers.dll" publishTime="01/05/2011 15:45:38" />
+    <file relUrl="Content/legacy_bfd/yelp.png" publishTime="01/21/2012 22:02:58" />
     <file relUrl="Views/MenuTree/Index.cshtml" publishTime="02/25/2012 21:31:18" />
-    <file relUrl="Content/themes/base/jquery.ui.base.css" publishTime="01/30/2012 19:31:58" />
     <file relUrl="Content/themes/base/images/ui-bg_flat_0_aaaaaa_40x100.png" publishTime="01/30/2012 19:32:00" />
-    <file relUrl="Views/MenuTree/Edit.cshtml" publishTime="01/17/2013 00:49:49" />
-    <file relUrl="Content/Site.css" publishTime="01/17/2013 01:00:16" />
-    <file relUrl="Views/Menu/ViewActiveMenu.cshtml" publishTime="10/26/2012 14:42:27" />
+    <file relUrl="Views/MenuTree/Edit.cshtml" publishTime="02/05/2013 22:35:05" />
+    <file relUrl="Content/Site.css" publishTime="01/31/2013 23:13:14" />
+    <file relUrl="Scripts/bootstrap-tooltip.js" publishTime="08/23/2012 21:44:50" />
     <file relUrl="Views/Menu/MenuBuilder7.cshtml" publishTime="01/17/2013 00:47:55" />
     <file relUrl="Views/JobScheduler/StripeWebhook.cshtml" publishTime="01/02/2013 22:46:15" />
-    <file relUrl="Views/Menu/Publish.cshtml" publishTime="10/26/2012 14:42:15" />
+    <file relUrl="Views/Menu/Publish.cshtml" publishTime="01/30/2013 19:16:02" />
     <file relUrl="Views/Menu/Failed.cshtml" publishTime="12/14/2012 20:23:27" />
-    <file relUrl="Views/Mail/SendActivateEmail.html.cshtml" publishTime="08/11/2012 00:16:23" />
-    <file relUrl="bin/ActionMailer.Net.pdb" publishTime="08/04/2012 17:03:32" />
+    <file relUrl="Views/Mail/SendActivateEmail.html.cshtml" publishTime="02/15/2013 23:17:10" />
+    <file relUrl="Scripts/jquery.validate.min.js" publishTime="01/30/2012 19:31:54" />
     <file relUrl="Views/Account/Register.cshtml" publishTime="01/17/2013 00:42:18" />
     <file relUrl="Views/Menu/Edit5.cshtml" publishTime="11/02/2012 16:37:35" />
     <file relUrl="Content/images/slice_0_1.png" publishTime="05/19/2012 09:52:49" />
-    <file relUrl="bin/ActionMailer.Net.xml" publishTime="08/04/2012 17:03:32" />
-    <file relUrl="Scripts/jquery.unobtrusive-ajax.min.js" publishTime="01/30/2012 19:31:24" />
-    <file relUrl="Content/images/19-gear.png" publishTime="10/15/2010 13:08:56" />
-    <file relUrl="Content/previews/shared/templates/template_blueberry.css" publishTime="11/23/2012 16:40:18" />
-    <file relUrl="Content/previews/shared/templates/template_licorice.css" publishTime="11/23/2012 15:55:41" />
     <file relUrl="bin/System.Web.WebPages.Deployment.xml" publishTime="12/20/2010 10:52:36" />
-    <file relUrl="Views/Shared/EmailLayout.cshtml" publishTime="08/04/2012 21:53:00" />
+    <file relUrl="bin/MenuDart.dll" publishTime="02/16/2013 14:53:06" />
+    <file relUrl="bin/ActionMailer.Net.xml" publishTime="08/04/2012 17:03:32" />
+    <file relUrl="Scripts/bootstrap-alert.js" publishTime="08/23/2012 21:44:49" />
+    <file relUrl="Views/Account/LogOn.cshtml" publishTime="02/04/2013 22:09:26" />
+    <file relUrl="Views/Template/Create.cshtml" publishTime="12/10/2012 21:53:03" />
+    <file relUrl="Content/themes/base/jquery.ui.base.css" publishTime="01/30/2012 19:31:58" />
+    <file relUrl="Views/Mail/SendDeactivateEmail.html.cshtml" publishTime="02/15/2013 23:17:58" />
+    <file relUrl="Views/Shared/EmailLayout.cshtml" publishTime="02/15/2013 23:13:31" />
     <file relUrl="bin/System.Web.Mvc.xml" publishTime="02/09/2011 11:26:24" />
-    <file relUrl="Views/MenuTree/Create.cshtml" publishTime="01/17/2013 00:52:12" />
-    <file relUrl="Views/Home/Using.cshtml" publishTime="01/19/2013 16:35:04" />
+    <file relUrl="Views/MenuTree/Create.cshtml" publishTime="02/05/2013 22:40:14" />
+    <file relUrl="Content/images/32-iphone.png" publishTime="10/15/2010 13:09:00" />
     <file relUrl="Content/previews/shared/templates/template_eggplant.css" publishTime="03/12/2012 20:45:13" />
-    <file relUrl="Views/Subscription/ActivateCompleted.cshtml" publishTime="10/16/2012 21:41:24" />
+    <file relUrl="Scripts/bootstrap-scrollspy.js" publishTime="08/23/2012 21:44:50" />
   </publishProfile>
-  <publishProfile publishUrl="ftp://ftp.menudart.com/staging" deleteExistingFiles="False" ftpAnonymousLogin="False" ftpPassiveMode="True" msdeploySite="" msdeploySiteID="" msdeployRemoteSitePhysicalPath="" msdeployAllowUntrustedCertificate="False" msdeploySkipExtraFilesOnServer="True" msdeployMarkAsApp="False" profileName="Staging" publishMethod="FTP" replaceMatchingFiles="True" userName="menudart" savePWD="True" userPWD="AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAALP1cohKdHEanq0fNUgMVjQAAAAACAAAAAAAQZgAAAAEAACAAAACfLtMADmW694CYXxp5LKCId7SKPqwKEjIFKwM9EngjZwAAAAAOgAAAAAIAACAAAADLzoTYJYFUEGtf10MvdpLeUNFqSMUt9wTlhIXYGFSjGSAAAACMLBIqZQJcEAB266dueS4qvPtQDZ9h1JlL8nF8MijPmEAAAADTCl/dNPVa6ReyPk/oLQ2WHNqrAczHUf0ASTFJQYW78lZt3zqDVCM52GZw2c6OWvr8uSBLZAqsuKLgABnMGHBw" SelectedForPublish="False">
+  <publishProfile publishUrl="ftp://ftp.menudart.com/staging" deleteExistingFiles="False" ftpAnonymousLogin="False" ftpPassiveMode="True" msdeploySite="" msdeploySiteID="" msdeployRemoteSitePhysicalPath="" msdeployAllowUntrustedCertificate="False" msdeploySkipExtraFilesOnServer="True" msdeployMarkAsApp="False" profileName="Staging" publishMethod="FTP" replaceMatchingFiles="True" userName="menudart" savePWD="True" userPWD="AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAALP1cohKdHEanq0fNUgMVjQAAAAACAAAAAAAQZgAAAAEAACAAAACfLtMADmW694CYXxp5LKCId7SKPqwKEjIFKwM9EngjZwAAAAAOgAAAAAIAACAAAADLzoTYJYFUEGtf10MvdpLeUNFqSMUt9wTlhIXYGFSjGSAAAACMLBIqZQJcEAB266dueS4qvPtQDZ9h1JlL8nF8MijPmEAAAADTCl/dNPVa6ReyPk/oLQ2WHNqrAczHUf0ASTFJQYW78lZt3zqDVCM52GZw2c6OWvr8uSBLZAqsuKLgABnMGHBw" SelectedForPublish="True">
+    <file relUrl="Views/Account/ResetPasswordFailed.cshtml" publishTime="12/19/2012 23:00:17" />
     <file relUrl="Scripts/MicrosoftAjax.js" publishTime="01/30/2012 19:31:24" />
     <file relUrl="Views/Account/StartResetSuccess.cshtml" publishTime="12/19/2012 22:55:27" />
+    <file relUrl="Scripts/bootstrap-scrollspy.js" publishTime="08/23/2012 21:44:50" />
+    <file relUrl="Views/TempMenu/DeleteAll.cshtml" publishTime="04/05/2012 20:50:39" />
+    <file relUrl="Views/Shared/Error.cshtml" publishTime="01/30/2012 19:31:24" />
     <file relUrl="bin/System.Web.WebPages.dll" publishTime="01/05/2011 15:45:38" />
     <file relUrl="Views/Subscription/SyncAccounts.cshtml" publishTime="08/31/2012 22:06:18" />
-    <file relUrl="Content/previews/shared/templates/template_pumpkin.css" publishTime="11/23/2012 16:40:14" />
-    <file relUrl="Content/themes/base/jquery.ui.autocomplete.css" publishTime="01/30/2012 19:31:58" />
     <file relUrl="Content/themes/base/jquery.ui.datepicker.css" publishTime="01/30/2012 19:31:58" />
+    <file relUrl="Scripts/jquery-ui-1.8.11.js" publishTime="01/30/2012 19:31:56" />
     <file relUrl="Content/legacy_depot/twitter.png" publishTime="01/21/2012 20:55:38" />
     <file relUrl="Scripts/bootstrap-tab.js" publishTime="08/23/2012 21:44:50" />
     <file relUrl="Scripts/jquery-1.5.1.js" publishTime="01/30/2012 19:31:52" />
-    <file relUrl="Scripts/bootstrap-collapse.js" publishTime="08/23/2012 21:44:49" />
+    <file relUrl="Views/Account/StartReset.cshtml" publishTime="01/17/2013 01:14:44" />
     <file relUrl="Views/TempMenu/Delete.cshtml" publishTime="04/05/2012 20:27:30" />
     <file relUrl="bin/Microsoft.Web.Infrastructure.xml" publishTime="12/20/2010 10:52:36" />
-    <file relUrl="Content/legacy_bfd/master.css" publishTime="01/22/2012 16:35:40" />
     <file relUrl="Content/previews/shared/images/logo.png" publishTime="03/11/2012 21:41:32" />
     <file relUrl="Views/Account/ChangePasswordSuccess.cshtml" publishTime="12/19/2012 22:50:18" />
     <file relUrl="bin/System.Web.Helpers.xml" publishTime="12/19/2010 23:59:38" />
@@ -299,52 +306,52 @@
     <file relUrl="Views/Web.config" publishTime="08/27/2012 22:06:19" />
     <file relUrl="Content/themes/base/jquery.ui.selectable.css" publishTime="01/30/2012 19:31:58" />
     <file relUrl="Content/legacy_depot/master.css" publishTime="01/22/2012 16:34:40" />
-    <file relUrl="Views/Subscription/DeactivateAllCompleted.cshtml" publishTime="08/31/2012 16:20:16" />
+    <file relUrl="Views/Subscription/DeactivateAllCompleted.cshtml" publishTime="01/23/2013 21:50:54" />
     <file relUrl="Scripts/fileuploader.js" publishTime="09/08/2012 18:06:24" />
     <file relUrl="Scripts/jquery.validate.js" publishTime="01/30/2012 19:31:54" />
     <file relUrl="Content/previews/shared/images/phone.png" publishTime="01/21/2012 20:34:22" />
     <file relUrl="Content/previews/shared/templates/template_spinach.css" publishTime="03/16/2012 09:58:06" />
-    <file relUrl="Views/Mail/SendFeedbackEmail.html.cshtml" publishTime="08/12/2012 16:23:39" />
+    <file relUrl="Views/Mail/SendFeedbackEmail.html.cshtml" publishTime="02/15/2013 19:25:49" />
     <file relUrl="Scripts/bootstrap-popover.js" publishTime="08/23/2012 21:44:50" />
     <file relUrl="Views/Menu/Create.cshtml" publishTime="03/11/2012 23:02:36" />
     <file relUrl="Content/themes/base/jquery.ui.all.css" publishTime="01/30/2012 19:31:58" />
     <file relUrl="bin/System.Web.Razor.dll" publishTime="01/05/2011 15:45:38" />
     <file relUrl="Scripts/jquery-1.5.1-vsdoc.js" publishTime="01/30/2012 19:31:54" />
     <file relUrl="Content/themes/base/images/ui-bg_flat_75_ffffff_40x100.png" publishTime="01/30/2012 19:32:00" />
-    <file relUrl="Views/Menu/ViewActiveMenu.cshtml" publishTime="10/26/2012 14:42:27" />
-    <file relUrl="Views/Home/Pricing.cshtml" publishTime="01/19/2013 16:35:04" />
-    <file relUrl="Views/Dashboard/SendFeedbackFail.cshtml" publishTime="11/28/2012 22:18:36" />
     <file relUrl="Views/Account/ResetPasswordSuccess.cshtml" publishTime="12/19/2012 22:57:45" />
+    <file relUrl="Views/Home/Pricing.cshtml" publishTime="02/16/2013 14:23:14" />
+    <file relUrl="Views/Dashboard/SendFeedbackFail.cshtml" publishTime="11/28/2012 22:18:36" />
+    <file relUrl="Content/images/lock_32.png" publishTime="12/02/2010 23:28:31" />
     <file relUrl="Scripts/modernizr-1.7.min.js" publishTime="01/30/2012 19:32:04" />
-    <file relUrl="Views/Menu/Delete.cshtml" publishTime="10/24/2012 21:37:29" />
+    <file relUrl="Views/Menu/Delete.cshtml" publishTime="02/15/2013 17:03:37" />
     <file relUrl="Content/images/slice_0_0.png" publishTime="05/19/2012 09:52:49" />
-    <file relUrl="Views/Mail/SendTrialExpiredEmail.html.cshtml" publishTime="08/21/2012 23:40:18" />
+    <file relUrl="Views/Mail/SendTrialExpiredEmail.html.cshtml" publishTime="02/15/2013 23:18:25" />
     <file relUrl="Views/Template/Edit.cshtml" publishTime="12/10/2012 21:51:43" />
     <file relUrl="Views/Locations/Create.cshtml" publishTime="02/24/2012 23:34:18" />
     <file relUrl="Scripts/jquery-1.7.1.min.js" publishTime="01/17/2013 23:03:54" />
     <file relUrl="Content/legacy_depot/envelope.png" publishTime="01/21/2012 20:47:00" />
     <file relUrl="Views/Menu/PublishNotActive.cshtml" publishTime="01/04/2013 18:09:40" />
-    <file relUrl="Views/Subscription/ActivateAll.cshtml" publishTime="01/05/2013 09:21:18" />
+    <file relUrl="Views/Subscription/ActivateAll.cshtml" publishTime="02/06/2013 01:33:23" />
     <file relUrl="Content/legacy_depot/display.png" publishTime="01/21/2012 20:43:06" />
     <file relUrl="Content/legacy_depot/logo.png" publishTime="01/08/2012 21:18:08" />
     <file relUrl="Content/images/slice_1_2.png" publishTime="05/19/2012 10:13:38" />
     <file relUrl="Content/previews/shared/images/facebook.png" publishTime="01/21/2012 20:51:12" />
     <file relUrl="Content/images/themes/ice.png" publishTime="11/23/2012 15:40:27" />
     <file relUrl="Content/images/174-imac.png" publishTime="10/18/2010 00:43:38" />
+    <file relUrl="Content/previews/shared/templates/template_eggplant.css" publishTime="03/12/2012 20:45:13" />
+    <file relUrl="Scripts/jquery.validate.min.js" publishTime="01/30/2012 19:31:54" />
     <file relUrl="Content/images/themes/jalapeno.png" publishTime="11/23/2012 15:41:56" />
-    <file relUrl="Views/Mail/SendPasswordResetEmail.html.cshtml" publishTime="08/04/2012 22:00:51" />
-    <file relUrl="Views/Subscription/ActivateAllCompleted.cshtml" publishTime="10/15/2012 22:08:07" />
+    <file relUrl="Views/Menu/Index.cshtml" publishTime="08/31/2012 22:04:45" />
+    <file relUrl="Views/Subscription/ActivateAllCompleted.cshtml" publishTime="01/23/2013 21:53:17" />
     <file relUrl="bin/System.Web.Razor.xml" publishTime="12/20/2010 10:52:36" />
     <file relUrl="Content/themes/base/images/ui-bg_glass_55_fbf9ee_1x400.png" publishTime="01/30/2012 19:32:00" />
-    <file relUrl="Content/images/creditcards.png" publishTime="01/19/2013 16:02:19" />
     <file relUrl="Content/images/themes/eggplant.png" publishTime="11/21/2012 22:20:32" />
-    <file relUrl="Views/Mail/SendTrialWarningEmail.html.cshtml" publishTime="08/21/2012 23:50:13" />
+    <file relUrl="Views/Mail/SendTrialWarningEmail.html.cshtml" publishTime="02/15/2013 23:18:37" />
     <file relUrl="Views/Menu/MenuBuilderAccessViolation.cshtml" publishTime="04/21/2012 08:57:32" />
-    <file relUrl="Views/Menu/Edit2.cshtml" publishTime="01/16/2013 23:02:30" />
+    <file relUrl="Views/Menu/Edit2.cshtml" publishTime="02/04/2013 23:12:34" />
     <file relUrl="Views/depot/Index.cshtml" publishTime="11/29/2012 20:41:46" />
     <file relUrl="Content/themes/base/jquery.ui.resizable.css" publishTime="01/30/2012 19:31:58" />
     <file relUrl="Scripts/MicrosoftMvcAjax.debug.js" publishTime="01/30/2012 19:31:24" />
-    <file relUrl="Views/Menu/MenuTrialLimit.cshtml" publishTime="12/17/2012 22:52:22" />
     <file relUrl="Content/themes/base/jquery.ui.tabs.css" publishTime="01/30/2012 19:31:56" />
     <file relUrl="Views/Shared/_FormValidation.cshtml" publishTime="01/09/2013 23:44:12" />
     <file relUrl="bin/System.Web.WebPages.xml" publishTime="12/19/2010 23:59:38" />
@@ -355,73 +362,74 @@
     <file relUrl="Content/themes/base/images/ui-icons_2e83ff_256x240.png" publishTime="01/30/2012 19:32:00" />
     <file relUrl="Views/TempMenu/Create.cshtml" publishTime="04/05/2012 20:27:30" />
     <file relUrl="Scripts/bootstrap.js" publishTime="08/23/2012 21:40:33" />
-    <file relUrl="Content/images/19-gear.png" publishTime="10/15/2010 13:08:56" />
     <file relUrl="Scripts/MicrosoftMvcAjax.js" publishTime="01/30/2012 19:31:24" />
     <file relUrl="bin/System.Web.WebPages.Deployment.dll" publishTime="01/05/2011 15:45:38" />
-    <file relUrl="Views/Home/James.cshtml" publishTime="10/17/2012 22:09:17" />
+    <file relUrl="Views/Home/James.cshtml" publishTime="02/16/2013 14:23:14" />
+    <file relUrl="bin/ActionMailer.Net.Mvc.dll" publishTime="08/04/2012 17:03:32" />
     <file relUrl="Scripts/bootstrap-button.js" publishTime="08/23/2012 21:44:49" />
     <file relUrl="Scripts/bootstrap-carousel.js" publishTime="08/23/2012 21:44:49" />
-    <file relUrl="Views/Menu/MenuBuilder2.cshtml" publishTime="01/07/2013 23:25:14" />
+    <file relUrl="Views/Menu/MenuBuilder2.cshtml" publishTime="02/15/2013 09:06:35" />
     <file relUrl="Content/legacy_depot/phone.png" publishTime="01/21/2012 20:34:22" />
-    <file relUrl="Views/Menu/Edit7.cshtml" publishTime="11/23/2012 19:39:50" />
-    <file relUrl="Views/Menu/MenuBuilder.cshtml" publishTime="01/17/2013 00:45:52" />
-    <file relUrl="bin/ActionMailer.Net.pdb" publishTime="08/04/2012 17:03:32" />
+    <file relUrl="Views/Menu/MenuBuilder.cshtml" publishTime="02/13/2013 21:48:05" />
+    <file relUrl="bin/MenuDart.dll" publishTime="02/16/2013 17:00:35" />
+    <file relUrl="Views/Shared/_LogOnPartial.cshtml" publishTime="02/04/2013 22:08:31" />
     <file relUrl="Global.asax" publishTime="01/30/2012 19:31:24" />
-    <file relUrl="Views/Mail/SendCouponAppliedEmail.html.cshtml" publishTime="12/31/2012 10:19:24" />
-    <file relUrl="Views/MenuTree/EditItem.cshtml" publishTime="01/17/2013 00:51:24" />
+    <file relUrl="Content/themes/base/jquery.ui.autocomplete.css" publishTime="01/30/2012 19:31:58" />
+    <file relUrl="Views/MenuTree/EditItem.cshtml" publishTime="02/05/2013 22:36:16" />
     <file relUrl="Scripts/bootstrap-dropdown.js" publishTime="08/23/2012 21:44:49" />
     <file relUrl="Scripts/MicrosoftMvcValidation.js" publishTime="01/30/2012 19:31:24" />
     <file relUrl="Content/legacy_bfd/logo.png" publishTime="12/18/2011 23:23:31" />
-    <file relUrl="Views/Menu/Index.cshtml" publishTime="08/31/2012 22:04:45" />
+    <file relUrl="Scripts/jquery.cookie.js" publishTime="02/11/2013 22:59:44" />
+    <file relUrl="Views/bfd/Index.cshtml" publishTime="11/29/2012 19:41:42" />
     <file relUrl="Views/Locations/Delete.cshtml" publishTime="03/04/2012 19:05:04" />
-    <file relUrl="Web.config" publishTime="01/19/2013 17:01:07" />
-    <file relUrl="Views/MenuTree/CreateItem.cshtml" publishTime="01/17/2013 00:52:07" />
-    <file relUrl="Views/Menu/Edit3.cshtml" publishTime="11/02/2012 16:36:41" />
+    <file relUrl="Web.config" publishTime="02/16/2013 17:00:44" />
+    <file relUrl="Views/Mail/SendActivateEmailTrial.html.cshtml" publishTime="02/15/2013 23:17:21" />
+    <file relUrl="Views/Menu/Edit3.cshtml" publishTime="01/30/2013 20:45:14" />
     <file relUrl="bin/Microsoft.Web.Infrastructure.dll" publishTime="01/05/2011 15:45:38" />
     <file relUrl="Scripts/MicrosoftMvcValidation.debug.js" publishTime="01/30/2012 19:31:24" />
-    <file relUrl="Content/master.css" publishTime="01/19/2013 16:33:16" />
+    <file relUrl="Content/master.css" publishTime="02/01/2013 18:04:29" />
     <file relUrl="Content/previews/shared/images/envelope.png" publishTime="01/21/2012 20:47:00" />
     <file relUrl="bin/System.Web.Mvc.dll" publishTime="01/05/2011 17:42:16" />
-    <file relUrl="Content/images/32-iphone.png" publishTime="10/15/2010 13:09:00" />
     <file relUrl="Content/previews/shared/templates/template_brie.css" publishTime="03/12/2012 20:57:48" />
     <file relUrl="Content/bootstrap.css" publishTime="10/26/2012 14:53:02" />
     <file relUrl="packages.config" publishTime="08/04/2012 17:03:33" />
-    <file relUrl="Content/legacy_bfd/phone.png" publishTime="01/21/2012 20:34:22" />
     <file relUrl="bin/ActionMailer.Net.dll" publishTime="08/04/2012 17:03:32" />
     <file relUrl="Content/themes/base/jquery.ui.dialog.css" publishTime="01/30/2012 19:31:58" />
-    <file relUrl="Views/Subscription/ModifySubscription.cshtml" publishTime="08/31/2012 16:39:55" />
-    <file relUrl="Views/Dashboard/Index.cshtml" publishTime="01/04/2013 22:31:48" />
+    <file relUrl="Views/Subscription/ModifySubscription.cshtml" publishTime="01/23/2013 21:54:24" />
+    <file relUrl="Views/Dashboard/Index.cshtml" publishTime="02/15/2013 10:36:12" />
+    <file relUrl="Content/legacy_bfd/yelp.png" publishTime="01/21/2012 22:02:58" />
     <file relUrl="bin/AWSSDK.xml" publishTime="09/14/2012 12:58:28" />
-    <file relUrl="Content/previews/shared/master.css" publishTime="09/03/2012 17:36:16" />
-    <file relUrl="Views/MenuTree/CreateText.cshtml" publishTime="01/17/2013 00:51:55" />
-    <file relUrl="Views/Menu/Edit.cshtml" publishTime="01/10/2013 22:24:28" />
-    <file relUrl="Views/bfd/Index.cshtml" publishTime="11/29/2012 19:41:42" />
+    <file relUrl="Content/previews/shared/master.css" publishTime="02/15/2013 23:54:56" />
+    <file relUrl="Scripts/bootstrap-collapse.js" publishTime="08/23/2012 21:44:49" />
+    <file relUrl="Views/Menu/Edit.cshtml" publishTime="01/30/2013 22:08:26" />
+    <file relUrl="Scripts/bootstrap-alert.js" publishTime="08/23/2012 21:44:49" />
     <file relUrl="Content/themes/base/images/ui-icons_222222_256x240.png" publishTime="01/30/2012 19:32:00" />
+    <file relUrl="Content/images/stripe.png" publishTime="02/04/2013 19:23:35" />
+    <file relUrl="Views/Shared/EmailLayout.cshtml" publishTime="02/15/2013 23:13:31" />
     <file relUrl="Views/Menu/MenuBuilder9.cshtml" publishTime="12/14/2012 20:10:33" />
     <file relUrl="Scripts/bootstrap-affix.js" publishTime="08/23/2012 21:44:49" />
-    <file relUrl="Views/Menu/Failed.cshtml" publishTime="12/14/2012 20:23:27" />
-    <file relUrl="bin/MenuDart.pdb" publishTime="01/19/2013 17:00:31" />
+    <file relUrl="Views/MenuTree/CreateText.cshtml" publishTime="02/09/2013 22:49:42" />
+    <file relUrl="bin/MenuDart.pdb" publishTime="02/16/2013 17:00:35" />
     <file relUrl="Content/images/slice_1_1.png" publishTime="05/19/2012 09:52:51" />
     <file relUrl="Content/legacy_bfd/twitter.png" publishTime="01/21/2012 20:55:38" />
     <file relUrl="bin/EntityFramework.xml" publishTime="01/30/2012 19:32:00" />
-    <file relUrl="Views/Menu/MenuBuilder3.cshtml" publishTime="01/17/2013 00:46:10" />
+    <file relUrl="Views/Menu/MenuBuilder3.cshtml" publishTime="01/21/2013 20:55:07" />
     <file relUrl="Views/Account/ResetPassword.cshtml" publishTime="01/17/2013 01:12:26" />
-    <file relUrl="Views/Menu/MenuBuilder7.cshtml" publishTime="01/17/2013 00:47:55" />
     <file relUrl="Views/_ViewStart.cshtml" publishTime="09/08/2012 13:26:35" />
     <file relUrl="Scripts/bootstrap-modal.js" publishTime="08/23/2012 21:44:49" />
     <file relUrl="Content/previews/shared/templates/template_monkish.css" publishTime="11/24/2012 19:40:43" />
-    <file relUrl="Views/Subscription/ActivateCompleted.cshtml" publishTime="10/16/2012 21:41:24" />
     <file relUrl="Views/JobScheduler/KickOff.cshtml" publishTime="08/31/2012 22:01:09" />
     <file relUrl="Views/TempMenu/Index.cshtml" publishTime="08/31/2012 22:12:16" />
-    <file relUrl="Views/Subscription/DeactivateCompleted.cshtml" publishTime="10/16/2012 21:39:47" />
+    <file relUrl="Views/Subscription/DeactivateCompleted.cshtml" publishTime="01/23/2013 22:14:46" />
+    <file relUrl="Views/Mail/SendCouponAppliedEmail.html.cshtml" publishTime="02/15/2013 23:17:30" />
     <file relUrl="bin/ActionMailer.Net.Mvc.pdb" publishTime="08/04/2012 17:03:32" />
-    <file relUrl="Views/Template/Delete.cshtml" publishTime="12/10/2012 21:52:49" />
-    <file relUrl="Scripts/jquery.unobtrusive-ajax.min.js" publishTime="01/30/2012 19:31:24" />
-    <file relUrl="bin/System.Web.Mvc.xml" publishTime="02/09/2011 11:26:24" />
+    <file relUrl="Content/images/creditcards.png" publishTime="01/19/2013 16:02:19" />
+    <file relUrl="Scripts/bootstrap-tooltip.js" publishTime="08/23/2012 21:44:50" />
+    <file relUrl="Content/images/logo2.png" publishTime="02/02/2013 22:10:10" />
     <file relUrl="bin/AWSSDK.dll" publishTime="09/14/2012 12:58:28" />
     <file relUrl="Views/Home/About.cshtml" publishTime="11/10/2012 22:03:01" />
     <file relUrl="Content/themes/base/images/ui-bg_glass_75_e6e6e6_1x400.png" publishTime="01/30/2012 19:32:00" />
-    <file relUrl="favicon.ico" publishTime="07/23/2012 21:06:03" />
+    <file relUrl="favicon.ico" publishTime="02/04/2013 19:03:29" />
     <file relUrl="Views/MenuTree/Delete.cshtml" publishTime="06/09/2012 09:53:00" />
     <file relUrl="Scripts/jquery.validate-vsdoc.js" publishTime="01/30/2012 19:31:54" />
     <file relUrl="Content/images/glyphicons-halflings-white.png" publishTime="03/22/2012 00:33:18" />
@@ -430,8 +438,8 @@
     <file relUrl="Scripts/jquery.unobtrusive-ajax.js" publishTime="01/30/2012 19:31:24" />
     <file relUrl="Views/Dashboard/SendFeedbackSuccess.cshtml" publishTime="08/28/2012 23:10:50" />
     <file relUrl="Content/images/themes/spinach.png" publishTime="11/23/2012 15:45:51" />
-    <file relUrl="Views/Shared/Error.cshtml" publishTime="01/30/2012 19:31:24" />
-    <file relUrl="Views/MenuTree/EditText.cshtml" publishTime="01/17/2013 00:51:35" />
+    <file relUrl="Views/MenuTree/CreateItem.cshtml" publishTime="01/17/2013 00:52:07" />
+    <file relUrl="Views/MenuTree/EditText.cshtml" publishTime="02/09/2013 22:50:37" />
     <file relUrl="Content/images/themes/pumpkin.png" publishTime="11/23/2012 16:52:59" />
     <file relUrl="Views/TempMenu/Edit.cshtml" publishTime="04/05/2012 20:27:30" />
     <file relUrl="Content/menu-item-editor.css" publishTime="01/17/2013 01:24:27" />
@@ -440,51 +448,53 @@
     <file relUrl="Content/themes/base/images/ui-bg_glass_75_dadada_1x400.png" publishTime="01/30/2012 19:32:00" />
     <file relUrl="Content/themes/base/jquery.ui.button.css" publishTime="01/30/2012 19:31:58" />
     <file relUrl="Content/themes/base/images/ui-bg_glass_95_fef1ec_1x400.png" publishTime="01/30/2012 19:32:00" />
-    <file relUrl="Content/images/logo.png" publishTime="10/21/2012 23:16:22" />
+    <file relUrl="Content/images/lock_48.png" publishTime="12/02/2010 23:28:31" />
+    <file relUrl="Content/images/logo.png" publishTime="02/02/2013 21:44:13" />
+    <file relUrl="Views/Home/Using.cshtml" publishTime="02/16/2013 14:23:13" />
     <file relUrl="Views/Subscription/Cancelled.cshtml" publishTime="09/05/2012 21:53:01" />
     <file relUrl="Content/images/glyphicons-halflings.png" publishTime="03/22/2012 00:33:18" />
-    <file relUrl="Views/Menu/PreviewMenu.cshtml" publishTime="10/28/2012 22:59:13" />
-    <file relUrl="Views/Subscription/Activate.cshtml" publishTime="01/05/2013 09:08:20" />
+    <file relUrl="Views/Menu/PreviewMenu.cshtml" publishTime="02/01/2013 18:26:46" />
+    <file relUrl="Views/Subscription/Activate.cshtml" publishTime="02/06/2013 01:33:49" />
     <file relUrl="Content/themes/base/images/ui-bg_glass_65_ffffff_1x400.png" publishTime="01/30/2012 19:32:00" />
     <file relUrl="bin/System.Web.WebPages.Razor.xml" publishTime="12/20/2010 10:52:36" />
     <file relUrl="Content/images/themes/blueberry.png" publishTime="11/23/2012 16:52:06" />
     <file relUrl="Views/Template/Create.cshtml" publishTime="12/10/2012 21:53:03" />
     <file relUrl="Content/previews/shared/images/display.png" publishTime="01/21/2012 20:43:06" />
     <file relUrl="Views/Subscription/SuspendCompleted.cshtml" publishTime="07/21/2012 16:13:03" />
-    <file relUrl="Content/images/125-food.png" publishTime="10/15/2010 13:08:52" />
     <file relUrl="Views/Shared/_Layout.cshtml" publishTime="10/20/2012 16:33:11" />
     <file relUrl="bin/Stripe.net.dll" publishTime="10/14/2012 08:53:58" />
     <file relUrl="Views/TempMenu/Details.cshtml" publishTime="04/05/2012 20:27:29" />
     <file relUrl="Content/themes/base/images/ui-icons_cd0a0a_256x240.png" publishTime="01/30/2012 19:31:58" />
     <file relUrl="Content/legacy_bfd/facebook.png" publishTime="01/21/2012 20:51:13" />
-    <file relUrl="Views/Subscription/Deactivate.cshtml" publishTime="01/08/2013 20:59:03" />
+    <file relUrl="Views/Subscription/Deactivate.cshtml" publishTime="02/04/2013 21:56:42" />
     <file relUrl="Content/previews/shared/images/yelp.png" publishTime="01/21/2012 22:02:58" />
     <file relUrl="Content/images/slice_2_2.png" publishTime="05/19/2012 09:52:53" />
-    <file relUrl="Views/Home/Features.cshtml" publishTime="01/19/2013 16:35:04" />
+    <file relUrl="Views/Home/Features.cshtml" publishTime="02/16/2013 14:23:14" />
     <file relUrl="Content/themes/base/jquery.ui.accordion.css" publishTime="01/30/2012 19:31:58" />
     <file relUrl="Views/Subscription/UnsuspendCompleted.cshtml" publishTime="07/21/2012 16:16:02" />
+    <file relUrl="Views/Mail/SendDeactivateEmail.html.cshtml" publishTime="02/15/2013 23:17:58" />
     <file relUrl="Content/legacy_bfd/envelope.png" publishTime="01/21/2012 20:47:00" />
     <file relUrl="Views/Locations/Index.cshtml" publishTime="02/21/2012 21:24:14" />
     <file relUrl="Views/Locations/Edit.cshtml" publishTime="04/21/2012 17:29:59" />
     <file relUrl="Content/themes/base/jquery.ui.core.css" publishTime="01/30/2012 19:31:58" />
     <file relUrl="Content/previews/shared/templates/template_jalapeno.css" publishTime="03/12/2012 21:16:38" />
     <file relUrl="Content/images/themes/tomato.png" publishTime="11/23/2012 15:47:26" />
+    <file relUrl="Content/legacy_bfd/display.png" publishTime="01/21/2012 20:43:06" />
     <file relUrl="Content/images/slice_2_1.png" publishTime="05/19/2012 09:52:52" />
     <file relUrl="Content/themes/base/jquery.ui.slider.css" publishTime="01/30/2012 19:31:56" />
     <file relUrl="Content/previews/shared/templates/template_ice.css" publishTime="03/12/2012 20:38:23" />
     <file relUrl="Content/images/themes/licorice.png" publishTime="11/23/2012 15:44:20" />
     <file relUrl="Content/bootstrap-responsive.css" publishTime="08/23/2012 21:40:32" />
-    <file relUrl="Views/TempMenu/DeleteAll.cshtml" publishTime="04/05/2012 20:50:39" />
-    <file relUrl="Views/Shared/_MDLayout.cshtml" publishTime="01/19/2013 16:34:39" />
+    <file relUrl="Views/Mail/SendPasswordResetEmail.html.cshtml" publishTime="02/15/2013 23:18:10" />
+    <file relUrl="Views/Shared/_MDLayout.cshtml" publishTime="02/16/2013 14:37:30" />
     <file relUrl="Views/Menu/MenuBuilder6.cshtml" publishTime="01/17/2013 00:47:36" />
     <file relUrl="Scripts/jquery-1.5.1.min.js" publishTime="01/30/2012 19:31:52" />
-    <file relUrl="Views/Shared/_LogOnPartial.cshtml" publishTime="11/17/2012 18:18:39" />
+    <file relUrl="Content/images/125-food.png" publishTime="10/15/2010 13:08:52" />
     <file relUrl="Content/images/117-todo.png" publishTime="10/15/2010 13:08:50" />
     <file relUrl="Content/themes/base/images/ui-icons_454545_256x240.png" publishTime="01/30/2012 19:31:58" />
-    <file relUrl="Scripts/jquery-ui-1.8.11.js" publishTime="01/30/2012 19:31:56" />
-    <file relUrl="Content/previews/shared/templates/template_licorice.css" publishTime="11/23/2012 15:55:41" />
+    <file relUrl="Content/previews/shared/templates/template_pumpkin.css" publishTime="11/23/2012 16:40:14" />
     <file relUrl="Views/Menu/MenuBuilder4.cshtml" publishTime="01/17/2013 00:46:52" />
-    <file relUrl="Views/Menu/Edit4.cshtml" publishTime="01/10/2013 21:28:26" />
+    <file relUrl="Views/Menu/Edit4.cshtml" publishTime="01/29/2013 23:00:11" />
     <file relUrl="Scripts/jquery.validate.unobtrusive.js" publishTime="01/30/2012 19:31:24" />
     <file relUrl="Content/previews/shared/templates/template_tomato.css" publishTime="11/23/2012 15:55:50" />
     <file relUrl="bin/System.Web.WebPages.Razor.dll" publishTime="01/05/2011 15:45:38" />
@@ -493,59 +503,59 @@
     <file relUrl="Views/Menu/MenuBuilder8.cshtml" publishTime="01/17/2013 00:48:14" />
     <file relUrl="Scripts/MicrosoftAjax.debug.js" publishTime="01/30/2012 19:31:24" />
     <file relUrl="Views/Menu/Edit6.cshtml" publishTime="11/23/2012 19:43:39" />
-    <file relUrl="Content/legacy_bfd/display.png" publishTime="01/21/2012 20:43:06" />
+    <file relUrl="Views/Menu/Edit7.cshtml" publishTime="01/30/2013 20:50:15" />
     <file relUrl="Content/previews/shared/images/twitter.png" publishTime="01/21/2012 20:55:38" />
     <file relUrl="Content/images/loading.gif" publishTime="03/20/2012 22:40:15" />
-    <file relUrl="Views/Account/StartReset.cshtml" publishTime="01/17/2013 01:14:44" />
+    <file relUrl="Content/legacy_bfd/master.css" publishTime="01/22/2012 16:35:40" />
+    <file relUrl="Views/Account/LogOn.cshtml" publishTime="02/04/2013 22:09:26" />
+    <file relUrl="Views/Account/ChangePassword.cshtml" publishTime="01/17/2013 01:11:56" />
     <file relUrl="bin/EntityFramework.dll" publishTime="01/30/2012 19:32:00" />
-    <file relUrl="Views/Account/ResetPasswordFailed.cshtml" publishTime="12/19/2012 23:00:17" />
+    <file relUrl="Views/Template/Delete.cshtml" publishTime="12/10/2012 21:52:49" />
     <file relUrl="Content/legacy_depot/yelp.png" publishTime="01/21/2012 22:02:58" />
     <file relUrl="Scripts/bootstrap-transition.js" publishTime="08/23/2012 21:44:50" />
-    <file relUrl="Views/MenuTree/Details.cshtml" publishTime="01/17/2013 00:57:15" />
+    <file relUrl="Views/MenuTree/Details.cshtml" publishTime="02/15/2013 10:20:50" />
     <file relUrl="Views/Locations/Details.cshtml" publishTime="02/21/2012 21:24:14" />
     <file relUrl="Views/Menu/MenuBuilder5.cshtml" publishTime="01/17/2013 00:47:15" />
-    <file relUrl="Views/Subscription/DeactivateAll.cshtml" publishTime="10/24/2012 21:44:14" />
-    <file relUrl="Views/Mail/SendSignUpEmail.html.cshtml" publishTime="08/04/2012 22:08:11" />
+    <file relUrl="Views/MenuTree/DeleteText.cshtml" publishTime="02/09/2013 22:49:03" />
+    <file relUrl="Views/Mail/SendSignUpEmail.html.cshtml" publishTime="02/15/2013 23:12:55" />
     <file relUrl="Content/themes/base/images/ui-icons_888888_256x240.png" publishTime="01/30/2012 19:31:58" />
-    <file relUrl="bin/System.Web.Helpers.dll" publishTime="01/05/2011 15:45:38" />
-    <file relUrl="bin/ActionMailer.Net.Mvc.dll" publishTime="08/04/2012 17:03:32" />
-    <file relUrl="Views/Mail/SendActivateEmailTrial.html.cshtml" publishTime="12/14/2012 20:38:26" />
+    <file relUrl="Content/legacy_bfd/phone.png" publishTime="01/21/2012 20:34:22" />
+    <file relUrl="Views/Menu/MenuTrialLimit.cshtml" publishTime="02/15/2013 09:11:24" />
     <file relUrl="Content/fileuploader.css" publishTime="09/08/2012 14:19:20" />
-    <file relUrl="Views/Shared/_EditorButtons.cshtml" publishTime="01/16/2013 22:43:39" />
+    <file relUrl="Views/Shared/_EditorButtons.cshtml" publishTime="02/09/2013 22:15:59" />
     <file relUrl="bin/Elmah.dll" publishTime="07/22/2012 21:24:53" />
     <file relUrl="bin/ActionMailer.Net.Mvc.xml" publishTime="08/04/2012 17:03:32" />
     <file relUrl="Views/Shared/_EditorMenubar.cshtml" publishTime="11/10/2012 21:27:01" />
     <file relUrl="Views/Template/Details.cshtml" publishTime="12/10/2012 21:52:36" />
     <file relUrl="Content/themes/base/jquery.ui.progressbar.css" publishTime="01/30/2012 19:31:58" />
     <file relUrl="Views/Subscription/Failed.cshtml" publishTime="08/31/2012 15:41:06" />
-    <file relUrl="Content/legacy_bfd/yelp.png" publishTime="01/21/2012 22:02:58" />
+    <file relUrl="bin/System.Web.Helpers.dll" publishTime="01/05/2011 15:45:38" />
     <file relUrl="Views/MenuTree/Index.cshtml" publishTime="02/25/2012 21:31:18" />
+    <file relUrl="Content/themes/base/jquery.ui.base.css" publishTime="01/30/2012 19:31:58" />
     <file relUrl="Content/themes/base/images/ui-bg_flat_0_aaaaaa_40x100.png" publishTime="01/30/2012 19:32:00" />
-    <file relUrl="Views/MenuTree/Edit.cshtml" publishTime="01/17/2013 00:49:49" />
-    <file relUrl="Content/Site.css" publishTime="01/17/2013 01:00:16" />
-    <file relUrl="Scripts/bootstrap-tooltip.js" publishTime="08/23/2012 21:44:50" />
-    <file relUrl="Views/Account/ChangePassword.cshtml" publishTime="01/17/2013 01:11:56" />
+    <file relUrl="Views/MenuTree/Edit.cshtml" publishTime="02/05/2013 22:35:05" />
+    <file relUrl="Content/Site.css" publishTime="01/31/2013 23:13:14" />
+    <file relUrl="Views/Menu/ViewActiveMenu.cshtml" publishTime="02/01/2013 18:27:26" />
+    <file relUrl="Views/Menu/MenuBuilder7.cshtml" publishTime="01/17/2013 00:47:55" />
     <file relUrl="Views/JobScheduler/StripeWebhook.cshtml" publishTime="01/02/2013 22:46:15" />
-    <file relUrl="Views/Menu/Publish.cshtml" publishTime="10/26/2012 14:42:15" />
+    <file relUrl="Views/Menu/Publish.cshtml" publishTime="01/30/2013 19:16:02" />
     <file relUrl="Content/images/themes/brie.png" publishTime="11/21/2012 22:18:57" />
-    <file relUrl="Views/Mail/SendActivateEmail.html.cshtml" publishTime="08/11/2012 00:16:23" />
-    <file relUrl="Scripts/jquery.validate.min.js" publishTime="01/30/2012 19:31:54" />
+    <file relUrl="Views/Mail/SendActivateEmail.html.cshtml" publishTime="02/15/2013 23:17:10" />
+    <file relUrl="bin/ActionMailer.Net.pdb" publishTime="08/04/2012 17:03:32" />
     <file relUrl="Views/Account/Register.cshtml" publishTime="01/17/2013 00:42:18" />
     <file relUrl="Views/Menu/Edit5.cshtml" publishTime="11/02/2012 16:37:35" />
     <file relUrl="Content/images/slice_0_1.png" publishTime="05/19/2012 09:52:49" />
-    <file relUrl="bin/System.Web.WebPages.Deployment.xml" publishTime="12/20/2010 10:52:36" />
-    <file relUrl="bin/MenuDart.dll" publishTime="01/19/2013 17:00:31" />
     <file relUrl="bin/ActionMailer.Net.xml" publishTime="08/04/2012 17:03:32" />
-    <file relUrl="Scripts/bootstrap-alert.js" publishTime="08/23/2012 21:44:49" />
-    <file relUrl="Views/Account/LogOn.cshtml" publishTime="01/16/2013 23:15:00" />
+    <file relUrl="Scripts/jquery.unobtrusive-ajax.min.js" publishTime="01/30/2012 19:31:24" />
+    <file relUrl="Content/images/19-gear.png" publishTime="10/15/2010 13:08:56" />
     <file relUrl="Content/previews/shared/templates/template_blueberry.css" publishTime="11/23/2012 16:40:18" />
-    <file relUrl="Content/themes/base/jquery.ui.base.css" publishTime="01/30/2012 19:31:58" />
-    <file relUrl="Views/Mail/SendDeactivateEmail.html.cshtml" publishTime="08/10/2012 22:50:17" />
-    <file relUrl="Views/Shared/EmailLayout.cshtml" publishTime="08/04/2012 21:53:00" />
-    <file relUrl="Views/MenuTree/DeleteText.cshtml" publishTime="03/16/2012 20:25:54" />
-    <file relUrl="Views/MenuTree/Create.cshtml" publishTime="01/17/2013 00:52:12" />
-    <file relUrl="Views/Home/Using.cshtml" publishTime="01/19/2013 16:35:04" />
-    <file relUrl="Content/previews/shared/templates/template_eggplant.css" publishTime="03/12/2012 20:45:13" />
-    <file relUrl="Scripts/bootstrap-scrollspy.js" publishTime="08/23/2012 21:44:50" />
+    <file relUrl="Content/previews/shared/templates/template_licorice.css" publishTime="11/23/2012 15:55:41" />
+    <file relUrl="bin/System.Web.WebPages.Deployment.xml" publishTime="12/20/2010 10:52:36" />
+    <file relUrl="Views/Subscription/DeactivateAll.cshtml" publishTime="01/23/2013 21:50:37" />
+    <file relUrl="bin/System.Web.Mvc.xml" publishTime="02/09/2011 11:26:24" />
+    <file relUrl="Views/MenuTree/Create.cshtml" publishTime="02/05/2013 22:40:14" />
+    <file relUrl="Content/images/32-iphone.png" publishTime="10/15/2010 13:09:00" />
+    <file relUrl="Views/Menu/Failed.cshtml" publishTime="12/14/2012 20:23:27" />
+    <file relUrl="Views/Subscription/ActivateCompleted.cshtml" publishTime="01/23/2013 21:53:42" />
   </publishProfile>
 </publishData>

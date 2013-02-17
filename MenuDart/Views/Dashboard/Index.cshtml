@@ -70,7 +70,7 @@
               </tbody>
             </table>
             }
-            <a class="btn btn-small btn-primary" href="@Url.Action("MenuBuilder", "Menu", null, null)"><i class="icon-plus icon-white"></i> Create new menu</a>        
+            <a class="btn btn-small btn-primary" id="create_btn" href="@Url.Action("MenuBuilder", "Menu", null, null)" data-loading-text="Loading..."><i class="icon-plus icon-white"></i> Create new menu</a>        
           </dd>
           <br>
           <br>
@@ -103,12 +103,12 @@
                      which will end on <b>@Model.TrialEndDate</b>. 
                     </text>
                 
-                    if (Model.Menus.Count() > 0)
-                    {
+                        if (Model.Menus.Count() > 0)
+                        {
                         <text>
                         Why not @Html.ActionLink("start your subscription today?", "ActivateAll", "Subscription", new { email = Model.Email, quantity = @Model.Menus.Count() }, null)
                         </text>
-                    }
+                        }
                 }
             }
             else
@@ -210,6 +210,12 @@
         $('#activate_btn').button();
 
         $('#activate_btn').click(function () {
+            $(this).button('loading');
+        });
+
+        $('#create_btn').button();
+
+        $('#create_btn').click(function () {
             $(this).button('loading');
         });
 

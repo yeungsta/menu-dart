@@ -29,7 +29,7 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\</OutputPath>
-    <DefineConstants>TRACE;UseAmazonS3,Release</DefineConstants>
+    <DefineConstants>TRACE;UseAmazonS3,Release,Staging</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <FilesToIncludeForPublish>OnlyFilesToRunTheApp</FilesToIncludeForPublish>
@@ -147,7 +147,10 @@
     <Content Include="Content\images\creditcards.png" />
     <Content Include="Content\images\glyphicons-halflings-white.png" />
     <Content Include="Content\images\glyphicons-halflings.png" />
+    <Content Include="Content\images\lock_32.png" />
+    <Content Include="Content\images\lock_48.png" />
     <Content Include="Content\images\logo.png" />
+    <Content Include="Content\images\logo2.png" />
     <Content Include="Content\images\mobile.png" />
     <Content Include="Content\images\slice_0_0.png" />
     <Content Include="Content\images\slice_0_1.png" />
@@ -158,6 +161,7 @@
     <Content Include="Content\images\slice_2_0.png" />
     <Content Include="Content\images\slice_2_1.png" />
     <Content Include="Content\images\slice_2_2.png" />
+    <Content Include="Content\images\stripe.png" />
     <Content Include="Content\images\themes\blueberry.png" />
     <Content Include="Content\images\themes\brie.png" />
     <Content Include="Content\images\themes\eggplant.png" />
@@ -255,6 +259,7 @@
     <Content Include="Scripts\jquery-1.7.1.min.js" />
     <Content Include="Scripts\jquery-ui-1.8.11.js" />
     <Content Include="Scripts\jquery-ui-1.8.11.min.js" />
+    <Content Include="Scripts\jquery.cookie.js" />
     <Content Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />

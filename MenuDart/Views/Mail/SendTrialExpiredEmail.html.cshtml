@@ -6,15 +6,15 @@
     Layout = "../Shared/EmailLayout.cshtml";
 }
 
-<h2>Hey there @Model.Email,</h2>
-<p>
-We just want to let you know that your MenuDart 30-day free trial has expired. 
+Hey there @Model.Email,
+<p style="margin-bottom:1em">
+We just want to let you know that your Menu Dart 30-day free trial has expired. 
 
 @if (Model.DeactivatedMenus.Count() > 0)
 {
     <text>
     Your mobile menu(s) have been deactivated and no longer viewable by your customers:
-    <p>
+    <p style="margin-bottom:1em">
     </text>
     
     foreach (var item in Model.DeactivatedMenus)
@@ -23,13 +23,13 @@ We just want to let you know that your MenuDart 30-day free trial has expired.
     }
     
     <text>
-    <p>
+    <p style="margin-bottom:1em">
     Remember, you can always re-activate your menu(s) anytime at MenuDart.com.
     </text>
 }
-<p>
-MenuDart is still only $7 a month! Start immediately by signing in and activating your menu.
-<p>
+<p style="margin-bottom:1em">
+Menu Dart is still only $7 a month! Start immediately by signing in and activating your menu.
+<p style="margin-bottom:1em">
 Happy to serve you,
 <br>
-Your Friends at MenuDart
+Your Friends at Menu Dart

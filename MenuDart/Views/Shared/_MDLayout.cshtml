@@ -3,6 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <title>@ViewBag.Title</title>
+
     <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
     <meta name="description" content="">
     <meta name="author" content="">
@@ -26,7 +27,7 @@
     <![endif]-->
 
     <!-- Le fav and touch icons -->
-    <link rel="shortcut icon" href="../assets/ico/favicon.ico">
+    <link rel="shortcut icon" href="@Url.Content("~/favicon.ico")">
     <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../assets/ico/apple-touch-icon-114-precomposed.png">
     <link rel="apple-touch-icon-precomposed" sizes="72x72" href="../assets/ico/apple-touch-icon-72-precomposed.png">
     <link rel="apple-touch-icon-precomposed" href="../assets/ico/apple-touch-icon-57-precomposed.png">
@@ -46,7 +47,7 @@
             <span class="icon-bar"></span>
           </a>
           <!-- <a class="brand" href="@Url.Action("Index", "Home")"><strong>Menu</strong>Dart</a> -->
-          <a class="brand" href="@Url.Action("Index", "Home")"><img alt="Foo" id="topbar_logo" src="../../../content/images/logo.png"></a>
+          <a class="brand" href="@Url.Action("Index", "Home")"><img alt="Foo" id="topbar_logo" src="@Url.Content("~/Content/images/logo.png")"></a>
           <div class="nav-collapse">
             <ul class="nav">
                @MenuDart.Controllers.MenuExtensions.MenuItem(Html, "Features", "Features", "Home")
@@ -72,7 +73,7 @@
         <a href="mailto:support@menudart.com">Support</a> &middot;          
         <a href="http://twitter.com/menudart" target="_blank">Twitter</a>
         </p>        
-        <p>&copy; MenuDart 2012</p>
+        <p>&copy; MenuDart 2013</p>
       </footer>
 
     </div> <!-- /container -->
@@ -84,7 +85,22 @@
     <script src="@Url.Content("~/Scripts/bootstrap-transition.js")" type="text/javascript"></script>
     <script src="@Url.Content("~/Scripts/bootstrap-carousel.js")" type="text/javascript"></script>
     <script src="@Url.Content("~/Scripts/bootstrap-tooltip.js")" type="text/javascript"></script>
-    <script src="@Url.Content("~/Scripts/bootstrap-alert.js")" type="text/javascript"></script>
     <script src="@Url.Content("~/Scripts/bootstrap-button.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/bootstrap-alert.js")" type="text/javascript"></script>
+
+    <!-- Goog Analytics -->
+    <script type="text/javascript">
+
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-38279742-1']);
+        _gaq.push(['_trackPageview']);
+
+        (function () {
+            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
+
+    </script>
 </body>
 </html>

@@ -6,14 +6,14 @@
     Layout = "../Shared/EmailLayout.cshtml";
 }
 
-<h2>Hey there @Model.Email,</h2>
-<p>
+Hey there @Model.Email,
+<p style="margin-bottom:1em">
 Hooray, your @Model.MenusJustActivated[0].MenuName menu is now activated!
-<p>
-Remember, the link to @Model.MenusJustActivated[0].MenuName is @Model.MenusJustActivated[0].MenuLink.
-<p>
+<p style="margin-bottom:1em">
+Remember, the link to your menu is @Model.MenusJustActivated[0].MenuLink.
+<p style="margin-bottom:1em">
 Your menu is free during your 30-day trial. Please contact us if you have any questions.
-<p>
+<p style="margin-bottom:1em">
 Happy to serve you,
 <br>
-Your Friends at MenuDart
+Your Friends at Menu Dart

@@ -6,14 +6,13 @@
     Layout = "../Shared/EmailLayout.cshtml";
 }
 
-<h2>Hey there @Model.Email,</h2>
-<p>
-
+Hey there @Model.Email,
+<p style="margin-bottom:1em">
 @if (Model.RemainingActiveMenus.Count() > 0)
 {
     <text>
     Your menu has been deactivated. Your current deactivated menu(s):
-    <p>
+    <p style="margin-bottom:1em">
     </text>
         
     foreach (var item in Model.DeactivatedMenus)
@@ -22,11 +21,11 @@
     }
         
     <text>
-    <p>
+    <p style="margin-bottom:1em">
      Remember, can always re-activate your menu(s) at anytime.
-     <p>
+    <p style="margin-bottom:1em">
      Your remaining active menu(s) are:
-    <p>
+    <p style="margin-bottom:1em">
     </text>
     
     foreach (var item in Model.RemainingActiveMenus)
@@ -36,30 +35,30 @@
     }
     
     <text>
-    <p>
-    Starting today, your monthly MenuDart bill is only $@Model.MonthlyBill per month ($7 per menu). Please contact us if you have any questions.
+    <p style="margin-bottom:1em">
+    Starting today, your monthly Menu Dart bill is only $@Model.MonthlyBill per month ($7 per menu). Please contact us if you have any questions.
     </text>
 }
 else
 {
     <text>
-    You have deactivated your menu(s). Starting today, you will no longer have a MenuDart bill.
-    <p>
+    You have deactivated your menu(s). Starting today, you will no longer have a Menu Dart bill.
+    <p style="margin-bottom:1em">
     Remember, can always re-activate your menu(s) at anytime:
-    <p>
+    <p style="margin-bottom:1em">
     </text>
     
     foreach (var item in Model.DeactivatedMenus)
     {
-         @item.MenuName<text><br></text>
+         <text><a href="http://www.menudart.com/Dashboard">@item.MenuName</a><br></text>
     }
     
     <text>
-    <p>
+    <p style="margin-bottom:1em">
     Please contact us if you have any questions.
     </text>
 }
-<p>
+<p style="margin-bottom:1em">
 Happy to serve you,
 <br>
-Your Friends at MenuDart
+Your Friends at Menu Dart

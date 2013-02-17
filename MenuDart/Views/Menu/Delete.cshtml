@@ -14,7 +14,7 @@ It cannot be recovered after this. Are you sure?
 </div>
 @using (Html.BeginForm()) {
     <div class="form-actions">
-        <button type="submit" value="Remove For Good" class="btn btn-large btn-primary"><i class="icon-ok icon-white"></i> Remove</button>
+        <button type="submit" id="remove_btn" value="Remove For Good" class="btn btn-large btn-primary" data-loading-text="Removing..."><i class="icon-ok icon-white"></i> Remove</button>
         <a class="btn btn-large" href="@Url.Action("Index", "Dashboard")"><i class="icon-remove"></i> Cancel</a>
     </div>    
 }
@@ -23,3 +23,14 @@ It cannot be recovered after this. Are you sure?
     @Html.ActionLink("Back to Dashboard", "Index", "Dashboard")
 </div>
 </div> <!-- hero -->
+
+<script type="text/javascript">
+    //stateful buttons
+    $(document).ready(function () {
+        $('#remove_btn').button();
+
+        $('#remove_btn').click(function () {
+            $(this).button('loading');
+        });
+    });
+</script>

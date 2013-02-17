@@ -34,21 +34,22 @@
 <div class="greytext">
 <h4>
 <p>
-This is just the first step.<br />You're now on your way to creating a mobile-friendly restaurant menu for @ViewBag.Name!
+This is your menu with sample menu items. But, it's just the first step<br />on your way to creating a mobile-friendly restaurant menu for @ViewBag.Name!
 <p>
-If you have a smartphone handy, try it on your device's browser to get the real experience.
-<br />Here's the temporary link:
+If you have a smartphone handy, you can try it on your device's browser<br />to get a sense of the real mobile experience.
+<p>
+Here's a temporary link:
 <br />
 @ViewBag.Url
 <br><br />
-Ready to Customize It?
 </h4>
+<h3>Ready to Customize It?</h3>
 </div>
 <p>
 <p>
 @if (Request.IsAuthenticated)
 {
-    <a class="btn btn-primary btn-large" href="@Url.Action("MenuBuilder3", "Menu", new { id = ViewBag.MenuId })">Select a Template <i class="icon-chevron-right icon-white"></i></a>
+    <a class="btn btn-primary btn-large" id="template_btn" href="@Url.Action("MenuBuilder3", "Menu", new { id = ViewBag.MenuId })" data-loading-text="Generating Templates...">Select a Template <i class="icon-chevron-right icon-white"></i></a>
 }
 else
 {
@@ -64,3 +65,14 @@ else
 </script>
 
 </div> <!-- hero -->
+
+<script type="text/javascript">
+    //stateful buttons
+    $(document).ready(function () {
+        $('#template_btn').button();
+
+        $('#template_btn').click(function () {
+            $(this).button('loading');
+        });
+    });
+</script>

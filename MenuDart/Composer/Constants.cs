@@ -51,9 +51,9 @@ namespace MenuDart.Composer
         //jQuery icons
         public const string OrigSiteIcon = "monitor";
         public const string CallIcon = "phone";
-        public const string MenuIcon = "grid";
+        public const string MenuIcon = "home";
         public const string AboutIcon = "star";
-        public const string ContactIcon = "home";
+        public const string ContactIcon = "grid";
         public const string BackIcon = "arrow-l";
         public const string EmailIcon = "email";
         public const string FacebookIcon = "facebook";
@@ -61,15 +61,12 @@ namespace MenuDart.Composer
         public const string YelpIcon = "yelp";
 
         //default values
-        //public const string DefaultAddress = "(Address Here)";
-        //public const string DefaultHoursHtml = "(Example)<br>Monday - Friday:<br>10am - 9pm<p>Saturday - Sunday:<br>11am - 8pm<p>Happy Hour<br>Monday - Friday:<br>5pm - 7pm";
-        //public const string DefaultHoursHtml = "(Example)" + Environment.NewLine + "Monday - Friday:" + Environment.NewLine + "10am - 9pm" + Environment.NewLine + Environment.NewLine + "Saturday - Sunday:<br>11am - 8pm<p>Happy Hour<br>Monday - Friday:<br>5pm - 7pm";
-        public const string DefaultHours = "(Example)\nMonday - Friday:\n10am - 9pm\n\nSaturday - Sunday:\n11am - 8pm\n\nHappy Hour\nMonday - Friday:\n5pm - 7pm";
+        public const string DefaultHours = "Monday - Friday:\n10am - 9pm\n\nSaturday - Sunday:\n11am - 8pm\n\nHappy Hour\nMonday - Friday:\n5pm - 7pm";
         public const string DefaultWebsite = "www.your-website.com";
         public const string DefaultTwitter = "your_twitter_username";
         public const string DefaultEmail = "your@email.here";
         public const string DefaultPhone = "111-1111";
         public const string DefaultAboutTitleFormat = "Welcome to\n{0}!";
-        public const string DefaultAboutTextFormat = "A description and/or story about {0} here...";
+        public const string DefaultAboutTextFormat = "A description or story\nabout {0} here...";
     }
 }

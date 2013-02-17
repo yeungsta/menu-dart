@@ -8,7 +8,7 @@
 <div class="hero-unit">
 
 <center>
-<h1>Edit Title Text.</h1>
+<h1>Edit Heading.</h1>
 </center>
 <br><br />
 
@@ -17,7 +17,7 @@
     @Html.ValidationSummary(true)
     <fieldset>
         <div class="control-group">
-            <label class="control-label">@Html.LabelFor(model => model.Text, "Title text")</label>
+            <label class="control-label">@Html.LabelFor(model => model.Text, "Heading text")</label>
             <div class="controls">
                 @Html.TextAreaFor(model => model.Text, new { @class = "input-xlarge", style = "width: 300px; height: 50px;" })
                 @Html.ValidationMessageFor(model => model.Text)

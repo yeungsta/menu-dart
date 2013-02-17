@@ -813,11 +813,11 @@ namespace MenuDart.Composer
         private void AddMenuDartLink(HtmlTextWriter writer)
         {
             writer.RenderBeginTag(HtmlTextWriterTag.Center);
-            writer.Write("Powered by ");
+            writer.Write("Created with ");
             writer.AddAttribute(HtmlTextWriterAttribute.Href, Constants.MenuDartUrl);
             writer.AddAttribute(HtmlTextWriterAttribute.Target, Constants.BlankTarget);
             writer.RenderBeginTag(HtmlTextWriterTag.A);
-            writer.Write("MenuDart");
+            writer.Write("Menu Dart");
             writer.RenderEndTag();
             writer.RenderEndTag();
         }
@@ -909,7 +909,11 @@ namespace MenuDart.Composer
                         writer.WriteLine();
                     }
                     writer.RenderBeginTag(HtmlTextWriterTag.H4);
-                    writer.Write(location.Address + Constants.Break + location.City);
+                    if (!string.IsNullOrEmpty(location.Address))
+                    {
+                        writer.Write(location.Address + Constants.Break);
+                    }
+                    writer.Write(location.City);
                     if (!string.IsNullOrEmpty(location.State))
                     {
                         writer.Write(", " + location.State);
