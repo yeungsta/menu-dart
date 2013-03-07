@@ -1,28 +1,29 @@
 ﻿@{
-    ViewBag.Title = "Menu Dart. Easy Mobile Menus.";
+    ViewBag.Title = "Menu Dart. Create Your Own Mobile Menu.";
 }
 
       <!-- Main hero unit for a primary marketing message or call to action -->
       <div class="hero-unit">
         <script>
             $(document).ready(function () {
-                $('.carousel').carousel()
+                $('.carousel').carousel({ interval: 10000 })
             });
         </script>
-        <div class="row">  
+         
           <div id="myCarousel" class="carousel slide">
             <!-- Carousel items -->
             <div class="carousel-inner">
               <div class="active item">
+              <div class="row"> 
                 <div class="span4 offset1">
-                  <img src="@Url.Content("~/Content/images/mobile.png")">
+                  <img src="@Url.Content("~/Content/images/hero1.png")">
                 </div>
                 <div class="span5">
                     <div itemscope itemtype="http://schema.org/Organization">
-                        <span itemprop="description"><h1>Make Your Restaurant<br> <strong>Menu Mobile</strong>.<br>For The Price Of A Burger.</h1></span>             
+                        <span itemprop="description"><h1>Make Your<br><strong>Menu Mobile</strong>.<br>For The Price Of A Burger.</h1></span>             
                           <dl class="titleDl">
                             <span itemprop="description"><dt class="titleSubTitle">It's super easy.</dt></span>
-                            <span itemprop="description"><dd class="titleSubDesc">You created your own business. Create your mobile menu too.</dd></span>
+                            <span itemprop="description"><dd class="titleSubDesc">You created your own business.<br />Now create your mobile menu too.</dd></span>
                             <span itemprop="description"><dt class="titleSubTitle">It's free for 30 days.</dt></span>
                             <span itemprop="description"><dd class="titleSubDesc">Try it, on us. If it makes your life a bit easier, continue for 7 bucks a month, no commitment.</dd></span>          
                           </dl>
@@ -30,37 +31,42 @@
                   <p><a class="btn btn-primary btn-large" href="@Url.Action("MenuBuilder", "Menu")"><b>Create menu now </b><i class="icon-chevron-right icon-white"></i></a></p>
                 </div>
               </div>
+              </div>
               <div class="item">
+                <div class="row">
                 <div class="span4 offset1">
-                    <div itemscope itemtype="http://schema.org/Organization">
-                        <span itemprop="image"><img src="@Url.Content("~/Content/images/mobile.png")"></span>
-                    </div>
-                </div>
-                <div class="span5">
-                  <h1>A Good Menu<br>Is A Legible One.<br></h1>
+                  <h1>Imagine Not<br>Squinting.<br></h1>
                   <dl class="titleDl">
-                    <dt class="titleSubTitle">Looks good on all mobile devices.</dt>
+                    <dt class="titleSubTitle">A clean look on all mobiles.</dt>
                     <dd class="titleSubDesc">Touch-screen navigation, buttons, instant maps, and all the elements your customers have come to expect from mobile apps.</dd>
                     <dt class="titleSubTitle">It's free for 30 days.</dt>
                     <dd class="titleSubDesc">Try it, on us. If it makes your life a bit easier, continue for 7 bucks a month, no commitment.</dd>           
                   </dl>
                   <p><a class="btn btn-primary btn-large" href="@Url.Action("MenuBuilder", "Menu")"><b>Create menu now </b><i class="icon-chevron-right icon-white"></i></a></p>
-                </div>               
-              </div>
-              <div class="item">
-                <div class="span4 offset1">
-                  <img src="@Url.Content("~/Content/images/mobile.png")">
                 </div>
                 <div class="span5">
+                    <div itemscope itemtype="http://schema.org/Organization">
+                        <span itemprop="image"><img src="@Url.Content("~/Content/images/hero2.png")"></span>
+                    </div>
+                </div>
+                </div>             
+              </div>
+              <div class="item">
+                <div class="row">
+                <div class="span6 offset1">
+                  <img src="@Url.Content("~/Content/images/hero3.png")">
+                </div>
+                <div class="span3">
                   <h1>Do It Yourself.</h1>
                   <dl class="titleDl">
                     <dt class="titleSubTitle">Stop relying on your web guy/gal.</dt>
-                    <dd class="titleSubDesc">Take control. Create and update your menu items yourself, instantly.</dd>
+                    <dd class="titleSubDesc">Take control.<br />Create and update your menu yourself, instantly.</dd>
                     <dt class="titleSubTitle">It's free for 30 days.</dt>
                     <dd class="titleSubDesc">Try it, on us. If it makes your life a bit easier, continue for 7 bucks a month, no commitment.</dd>           
                   </dl>
                   <p><a class="btn btn-primary btn-large" href="@Url.Action("MenuBuilder", "Menu")"><b>Create menu now </b><i class="icon-chevron-right icon-white"></i></a></p>
-                </div>                  
+                </div> 
+                </div>                               
               </div>
             </div>
             <!-- Carousel nav -->
@@ -68,39 +74,116 @@
             <a class="carousel-control right" href="#myCarousel" data-slide="next">&rsaquo;</a>
           </div>
         </div>
-      </div>
 
       <!-- Example row of columns -->
+      <h2>How It Works</h2>
       <div class="row">
         <div class="span3">
-          <div class="homepage">
-          <h2>Why?</h2>
-          <p>Your customers are increasingly using small, touch-screen devices to browse restaurants.</p>
-          <h2>Who Cares?</h2>
-          <p>You should. Illegible menus with stale information shouldn't be experienced by your patrons.</p>
-          <h2>So What?</h2>
-          <p>A happy customer is a good one. It's easy to create and maintain your own mobile menu. See what you else you can do!</p>
-          </div> 
-          <br><a class="btn" href="@Url.Action("Features", "Home")">View Features &raquo;</a>
+            <dl class="dl-horizontal">
+              <dt><h2>1</h2></dt>
+              <dd><h4>Your existing site doesn't cut it.</h4>
+              <span class="greytext">Customers tell you your website looks tiny on their smartphone. Plus, they're <b>unpleasantly</b> surprised that your prices have changed &#151; your website guy forgot to update your new prices <em>again</em>.</span>
+              <br />
+              <img src="@Url.Content("~/Content/images/cancel.png")" />
+              </dd>
+            </dl>
         </div>
         <div class="span3 offset1">
-          <div class="homepage">
-          <h2>Show Off Your Menu.</h2>
-           <p>You can now add your mobile menu to your restaurant's Yelp page,
-           add a link to your existing website, or forward mobile visitors from your website.
-           Don't fret, we'll show you <em>exactly</em> how to do it!</p>
-           </div>
-          <br><a class="btn" href="@Url.Action("Using", "Home")">Using Your Menu &raquo;</a>
+            <dl class="dl-horizontal">
+              <dt><h2>2</h2></dt>
+              <dd><h4>Create your mobile menu in minutes.</h4>
+              <span class="greytext">Fed up, you create your own mobile menu with <a href="@Url.Action("MenuBuilder", "Menu")"><b>Menu Dart's simple menu builder</b></a>. It looks great on all mobile devices, and you make price adjustments that update instantly &#151; no stale info.</span>
+              <br />
+              <img src="@Url.Content("~/Content/images/mac.png")" />
+              </dd>
+            </dl>
        </div>
         <div class="span3 offset1">
-          <div class="homepage">
-          <h2>It's Worth 7 Bucks.</h2>
-          <p>At least we think so. Give it a whirl with a 30 day free trial, no credit card required.
-          After that, continue for $7 per month.
-          No commitment. Cancel anytime, instantly.</p>
-          </div>
-          <br><a class="btn" href="@Url.Action("Pricing", "Home")">View Pricing &raquo;</a>
+            <dl class="dl-horizontal">
+              <dt><h2>3</h2></dt>
+              <dd><h4>Link the menu to your Yelp page.</h4>
+              <span class="greytext">Armed with your Menu Dart menu, you surf to your business's Yelp page and <a href=""><b>create a link to your menu</b></a>. You impress all that find your business on Yelp with your mobile-friendly menu!</span>
+              <br />
+              <img src="@Url.Content("~/Content/images/yelp.png")" />
+              </dd>
+            </dl>
         </div>
-        <div class="span1">
+      </div>
+
+      <hr />
+      
+      <div class="row foodtruck">
+        <div class="span2 offset3">
+            <img src="@Url.Content("~/Content/images/maps.png")" />
         </div>
+        <div class="span6">
+          <h2>Hey Food Trucks!</h2>
+            <ul class="unstyled greytext greyblock">
+              <li>At a different location everyday?</li>
+              <li>Instantly update your new address, anytime.</li>
+              <li><b>Customers can finally find your spot!</b></li>
+            </ul>
+        </div>
+      </div>
+
+      <hr />
+
+      <h2>Pricing</h2>
+        <ul class="unstyled greytext greyblock">
+            <li>Try us for 30 days free.</li>
+            <li>After that, just $7 per month. There are no other fees.</li>
+            <li>Need two menus? Just another $7.</li>
+            <li><b>Cancel your subscription anytime.</b></li>
+            <li>Change your mind? Start again anytime &#151; Your menu is saved!</li>
+        </ul>
+      <br />
+
+      <!--Features Table-->
+      <div class="row">
+        <div class="span12">        
+          <table class="table table-striped featuresTable">
+            <tr>
+            <td>Looks great on all major mobile devices: iPhone, Android, Blackberry, Windows Phone, more<span class="pull-right"><img src="@Url.Content("~/Content/images/checkmark.png")"></span></td>
+            </tr>
+            <tr>
+            <td>Your customers don't need to download an app &#151; your menu <em>is</em> the app<span class="pull-right"><img src="@Url.Content("~/Content/images/checkmark.png")"></span></td>
+            </tr>
+            <tr>
+            <td>One-click phone dialing to your business<span class="pull-right"><img src="@Url.Content("~/Content/images/checkmark.png")"></span></td>
+            </tr>
+            <tr>
+            <td>One-click Google Maps to your business address<span class="pull-right"><img src="@Url.Content("~/Content/images/checkmark.png")"></span></td>
+            </tr>
+            <tr>
+            <td>Social media buttons for Yelp, Facebook, Twitter<span class="pull-right"><img src="@Url.Content("~/Content/images/checkmark.png")"></span></td>
+            </tr>
+            <tr>
+            <td>Menu is fully hosted online for you: No traffic limit, high-availability<span class="pull-right"><img src="@Url.Content("~/Content/images/checkmark.png")"></span></td>
+            </tr>
+            <tr>
+            <td>Divert mobile visitors from your existing website to mobile menu<span class="pull-right"><img src="@Url.Content("~/Content/images/checkmark.png")"></span></td>
+            </tr>
+            <tr>
+            <td>Cancel subscription anytime, unused days are pro-rated<span class="pull-right"><img src="@Url.Content("~/Content/images/checkmark.png")"></span></td>
+            </tr>
+            <tr>
+            <td>Secure, modern payments via <a href="http://www.stripe.com" target=_blank>Stripe</a>:&nbsp;&nbsp;&nbsp;<img src="@Url.Content("~/Content/images/creditcards.png")"><span class="pull-right"><img src="@Url.Content("~/Content/images/checkmark.png")"></span></td>
+            </tr>
+            <td></td>
+          </table>
+        </div>
+      </div>
+
+      <hr />
+
+      <div class="actionblock">
+      <center>
+      <h2>Try Menu Dart Free, It's On Us!</h2>
+        <ul class="unstyled greytext greyblock">
+            <li>Go ahead, give us a spin for 30 days, free.</li>
+            <li>Your credit card info is <b>not</b> needed.</li>
+            <li>Let us win you over!</li>
+        </ul>
+      <p><a class="btn btn-primary btn-large" href="@Url.Action("MenuBuilder", "Menu")"><b>Create menu now </b><i class="icon-chevron-right icon-white"></i></a></p>
+      </center>
       </div>

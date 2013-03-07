@@ -29,7 +29,7 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\</OutputPath>
-    <DefineConstants>TRACE;UseAmazonS3,Release,Staging</DefineConstants>
+    <DefineConstants>TRACE;UseAmazonS3,Release</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <FilesToIncludeForPublish>OnlyFilesToRunTheApp</FilesToIncludeForPublish>
@@ -144,14 +144,20 @@
     <Content Include="Content\images\174-imac.png" />
     <Content Include="Content\images\19-gear.png" />
     <Content Include="Content\images\32-iphone.png" />
+    <Content Include="Content\images\cancel.png" />
+    <Content Include="Content\images\checkmark.png" />
     <Content Include="Content\images\creditcards.png" />
     <Content Include="Content\images\glyphicons-halflings-white.png" />
     <Content Include="Content\images\glyphicons-halflings.png" />
+    <Content Include="Content\images\hero1.png" />
+    <Content Include="Content\images\hero2.png" />
+    <Content Include="Content\images\hero3.png" />
     <Content Include="Content\images\lock_32.png" />
     <Content Include="Content\images\lock_48.png" />
     <Content Include="Content\images\logo.png" />
     <Content Include="Content\images\logo2.png" />
-    <Content Include="Content\images\mobile.png" />
+    <Content Include="Content\images\mac.png" />
+    <Content Include="Content\images\maps.png" />
     <Content Include="Content\images\slice_0_0.png" />
     <Content Include="Content\images\slice_0_1.png" />
     <Content Include="Content\images\slice_0_2.png" />
@@ -171,6 +177,7 @@
     <Content Include="Content\images\themes\pumpkin.png" />
     <Content Include="Content\images\themes\spinach.png" />
     <Content Include="Content\images\themes\tomato.png" />
+    <Content Include="Content\images\yelp.png" />
     <Content Include="Content\legacy_bfd\display.png" />
     <Content Include="Content\legacy_bfd\envelope.png" />
     <Content Include="Content\legacy_bfd\facebook.png" />
@@ -331,6 +338,10 @@
     <Content Include="Views\Menu\MenuTrialLimit.cshtml" />
     <Content Include="Views\JobScheduler\StripeWebhook.cshtml" />
     <Content Include="Views\Mail\SendCouponAppliedEmail.html.cshtml" />
+    <Content Include="Views\Mail\NewUserNoticeEmail.html.cshtml" />
+    <Content Include="Views\Mail\SendPreviewLinkEmail.html.cshtml" />
+    <Content Include="Views\Mail\SendViewLinkEmail.html.cshtml" />
+    <Content Include="Views\Shared\_MDLayout_NoFooter.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\errorlogs\" />

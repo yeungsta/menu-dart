@@ -123,5 +123,41 @@ namespace MenuDart.Controllers
 
             return Email("SendCouponAppliedEmail", email);
         }
+
+        public EmailResult SendPreviewLinkEmail(string email, string previewLink)
+        {
+            To.Add(email);
+            From = "Menu Dart <" + Constants.ReplyEmail + ">";
+            Subject = "Your Menu Dart Preview Menu Is Ready";
+
+            SendPreviewLinkEmailViewModel viewModel = new SendPreviewLinkEmailViewModel();
+            viewModel.Email = email;
+            viewModel.PreviewLink = previewLink;
+
+            return Email("SendPreviewLinkEmail", viewModel);
+        }
+
+        public EmailResult SendViewLinkEmail(string email, string viewLink)
+        {
+            To.Add(email);
+            From = "Menu Dart <" + Constants.ReplyEmail + ">";
+            Subject = "Your Menu Dart Menu Link";
+
+            SendViewLinkEmailViewModel viewModel = new SendViewLinkEmailViewModel();
+            viewModel.Email = email;
+            viewModel.Link = viewLink;
+
+            return Email("SendViewLinkEmail", viewModel);
+        }
+
+        public EmailResult NewUserNoticeEmail(string email)
+        {
+            //send to MenuDart support team
+            To.Add(Constants.SupportEmail);
+            From = email;
+            Subject = "New User Sign Up: " + email;
+
+            return Email("NewUserNoticeEmail", email);
+        }
     }
 }

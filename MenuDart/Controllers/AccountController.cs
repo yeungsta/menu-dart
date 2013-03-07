@@ -139,6 +139,9 @@ namespace MenuDart.Controllers
                     try //TODO: remove try/catch when using real SMTP server in production
                     {
                         new MailController().SendSignUpEmail(model.Email).Deliver();
+
+                        //send to Support email, too
+                        new MailController().NewUserNoticeEmail(model.Email).Deliver();
                     }
                     catch
                     {

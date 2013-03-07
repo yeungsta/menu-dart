@@ -23,7 +23,7 @@ namespace MenuDart.Composer
         {
             Menu,
             About,
-            Contact
+            Location
         }
 
         #region static members
@@ -405,11 +405,11 @@ namespace MenuDart.Composer
 
         private void CreateContact(HtmlTextWriter writer)
         {
-            BeginPage(writer, MenuBarItems.Contact.ToString(), "bodyBg");
+            BeginPage(writer, MenuBarItems.Location.ToString(), "bodyBg");
             BeginHeader(writer);
             AddHeaderBar(writer, "headerBar", m_menu.Name);
             writer.WriteLine();
-            AddMenuBar(writer, MenuBarItems.Contact);
+            AddMenuBar(writer, MenuBarItems.Location);
             writer.RenderEndTag(); //end header div
             writer.WriteLine();
             BeginContent(writer);
@@ -592,9 +592,9 @@ namespace MenuDart.Composer
             writer.RenderEndTag();
             writer.WriteLine();
             writer.RenderBeginTag(HtmlTextWriterTag.Li);
-            AddMenuBarItem(writer, MenuBarItems.Contact.ToString(),
-                "#" + MenuBarItems.Contact.ToString(), Constants.ContactIcon, Constants.SlideDown, 
-                IsMenuBarItemSelected(MenuBarItems.Contact.ToString(), menuBarItemSelected));
+            AddMenuBarItem(writer, MenuBarItems.Location.ToString(),
+                "#" + MenuBarItems.Location.ToString(), Constants.ContactIcon, Constants.SlideDown, 
+                IsMenuBarItemSelected(MenuBarItems.Location.ToString(), menuBarItemSelected));
             writer.RenderEndTag();
             writer.RenderEndTag();
             writer.RenderEndTag();
@@ -619,8 +619,8 @@ namespace MenuDart.Composer
             writer.RenderEndTag();
             writer.WriteLine();
             writer.RenderBeginTag(HtmlTextWriterTag.Li);
-            AddMenuBarItem(writer, MenuBarItems.Contact.ToString(),
-                "#" + MenuBarItems.Contact.ToString(), Constants.ContactIcon, Constants.SlideDown, false);
+            AddMenuBarItem(writer, MenuBarItems.Location.ToString(),
+                "#" + MenuBarItems.Location.ToString(), Constants.ContactIcon, Constants.SlideDown, false);
             writer.RenderEndTag();
             writer.RenderEndTag();
             writer.RenderEndTag();

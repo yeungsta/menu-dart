@@ -39,6 +39,7 @@ namespace MenuDart.Controllers
         [Authorize(Roles = "Administrator")]
         public ActionResult James()
         {
+            ViewBag.DeploymentVersion = Constants.DeploymentVersion;
             return View();
         }
 

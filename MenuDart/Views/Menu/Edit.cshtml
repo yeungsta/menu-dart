@@ -20,7 +20,7 @@
             <div class="controls">
                 @Html.TextBoxFor(model => model.Name, new { @class = "input-xlarge", style = "width: 300px;" })
                 @Html.ValidationMessageFor(model => model.Name)
-                * Required
+                <span class="red">*</span> Required
             </div>
         </div>
 
@@ -29,7 +29,7 @@
             <div class="controls">
                 @Html.TextBoxFor(model => model.City, new { @class = "input-xlarge", style = "width: 300px;" })
                 @Html.ValidationMessageFor(model => model.City)
-                * Required
+                <span class="red">*</span> Required
             </div>
         </div>
 
@@ -46,7 +46,7 @@
             <div class="controls">
                 <div class="input-prepend">
                 <span class="add-on">http://</span>
-                    @Html.TextBoxFor(model => model.Website, new { @class = "input-xlarge", style = "width: 500px;" })
+                    @Html.TextBoxFor(model => model.Website, new { @class = "input-xlarge", style = "width: 255px;" })
                     @Html.ValidationMessageFor(model => model.Website)
                 </div>
             </div>

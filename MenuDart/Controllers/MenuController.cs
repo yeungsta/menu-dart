@@ -743,6 +743,7 @@ namespace MenuDart.Controllers
             //menu should already exist
             ViewBag.Url = Utilities.GetFullUrl(menu.MenuDartUrl);
             ViewBag.MenuId = id;
+            ViewBag.Email = menu.Owner;
 
             return View();
         }
@@ -815,6 +816,7 @@ namespace MenuDart.Controllers
             //if using sample logo, this is coming from the menu builder
             ViewBag.MenuBuilderPreview = useSampleLogo;
             ViewBag.ReturnUrl = ReturnUrl;
+            ViewBag.Email = menu.Owner;
 
             return View();
         }
@@ -1056,7 +1058,7 @@ namespace MenuDart.Controllers
         [Authorize]
         public ActionResult MenuBuilder3(int id = 0)
         {
-            //if current logged in user is on trial
+            //if currently-logged in user is on trial and already has a menu
             if ((Request.IsAuthenticated) && (Utilities.IsUserOnTrial(db, User)))
             {
                 IOrderedQueryable<Menu> allMenus = Utilities.GetAllMenus(User.Identity.Name, db);
@@ -1071,56 +1073,58 @@ namespace MenuDart.Controllers
                         return RedirectToAction("MenuTrialLimit");
                     }
 
-                    Menu menu = db.Menus.Find(id);
+                    Menu menuToRemove = db.Menus.Find(id);
 
-                    if (menu == null)
+                    if (menuToRemove == null)
                     {
                         Utilities.LogAppError("Could not find menu.");
                         return HttpNotFound();
                     }
 
-                    db.Menus.Remove(menu);
+                    db.Menus.Remove(menuToRemove);
                     db.SaveChanges();
 
                     return RedirectToAction("MenuTrialLimit");
                 }
-                else
+            }
+
+            Menu menu = db.Menus.Find(id);
+
+            if (menu == null)
+            {
+                Utilities.LogAppError("Could not find menu.");
+                return HttpNotFound();
+            }
+
+            //In MenuBuilder step 1, we supplied dummy values in order
+            //for the sample menu to look good (filled out). Now we want to clear out those 
+            //dummy values.
+            if (menu.Website == Composer.Constants.DefaultWebsite)
+            {
+                menu.Website = null;
+            }
+            if (menu.Phone == Composer.Constants.DefaultPhone)
+            {
+                menu.Phone = null;
+            }
+            if (menu.MenuTree != null)
+            {
+                List<MenuNode> emptyMenuNodeList = new List<MenuNode>();
+                menu.MenuTree = V1.SerializeMenuTree(emptyMenuNodeList);
+            }
+
+            //if user is on trial, activate menu by default
+            if ((Request.IsAuthenticated) && (Utilities.IsUserOnTrial(db, User)))
+            {
+                if (!Utilities.ActivateMenu(id, menu, User.Identity.Name, 1, db, true))
                 {
-                    Menu menu = db.Menus.Find(id);
-
-                    if (menu == null)
-                    {
-                        Utilities.LogAppError("Could not find menu.");
-                        return HttpNotFound();
-                    }
-
-                    //In MenuBuilder step 1, we supplied dummy values in order
-                    //for the sample menu to look good (filled out). Now we want to clear out those 
-                    //dummy values.
-                    if (menu.Website == Composer.Constants.DefaultWebsite)
-                    {
-                        menu.Website = null;
-                    }
-                    if (menu.Phone == Composer.Constants.DefaultPhone)
-                    {
-                        menu.Phone = null;
-                    }
-                    if (menu.MenuTree != null)
-                    {
-                        List<MenuNode> emptyMenuNodeList = new List<MenuNode>();
-                        menu.MenuTree = V1.SerializeMenuTree(emptyMenuNodeList);
-                    }
-
-                    if (!Utilities.ActivateMenu(id, menu, User.Identity.Name, 1, db, true))
-                    {
-                        return RedirectToAction("Failed");
-                    }
-
-                    //save menu to DB
-                    db.Entry(menu).State = EntityState.Modified;
-                    db.SaveChanges();
+                    return RedirectToAction("Failed");
                 }
             }
+
+            //save menu to DB
+            db.Entry(menu).State = EntityState.Modified;
+            db.SaveChanges();
 
             if ((id == 0) || !Utilities.IsThisMyMenu(id, db, User))
             {
@@ -1664,6 +1668,54 @@ namespace MenuDart.Controllers
             db.SaveChanges();
 
             return RedirectToAction(ReturnUrl, new { id = id });
+        }
+
+        //
+        // POST: /Menu/EmailViewLink
+        [HttpPost]
+        public ActionResult EmailViewLink(string email, string url)
+        {
+            if (!string.IsNullOrEmpty(email) && !string.IsNullOrEmpty(url))
+            {
+                //Email to user
+                try //TODO: remove try/catch when using real SMTP server in production
+                {
+                    new MailController().SendViewLinkEmail(email, url).Deliver();
+                }
+                catch
+                {
+                }
+            }
+
+            return Json(new
+            {
+                Status = true,
+                Message = "Done sending."
+            });   
+        }
+
+        //
+        // POST: /Menu/EmailPreviewLink
+        [HttpPost]
+        public ActionResult EmailPreviewLink(string email, string url)
+        {
+            if (!string.IsNullOrEmpty(email) && !string.IsNullOrEmpty(url))
+            {
+                //Email to user
+                try //TODO: remove try/catch when using real SMTP server in production
+                {
+                    new MailController().SendPreviewLinkEmail(email, url).Deliver();
+                }
+                catch
+                {
+                }
+            }
+
+            return Json(new
+            {
+                Status = true,
+                Message = "Done sending."
+            });
         }
 
         //

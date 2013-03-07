@@ -1,6 +1,7 @@
 ﻿@model List<MenuDart.Models.MenuNode>
 
 @{
+    Layout = "~/Views/Shared/_MDLayout_NoFooter.cshtml";
     ViewBag.Title = "MenuDart. Easy Mobile Menus. Menu Builder.";
     string tempId;
 }
@@ -21,7 +22,7 @@
  <div data-role="page">
 
       <!-- Main hero unit for a primary marketing message or call to action -->
-      <div class="hero-unit">
+      <div class="hero-unit" style="border: 0px">
 
         @if (ViewBag.Source == "MenuBuilder")
         {

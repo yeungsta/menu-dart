@@ -2,13 +2,6 @@
     ViewBag.Title = "View Menu";
 }
 
-<script type="text/javascript">
-    document.getElementById("myiframe").contentDocument.location.reload(true);
-
-    var iframe = document.getElementById("myiframe");
-    iframe.src = iframe.src;
-</script>
-
 <div class="hero-unit">
 <center>
 <h1>View.</h1>
@@ -23,7 +16,7 @@
   <tr>
     <td class="iphone"><img src="../../../content/images/slice_1_0.png" style="width: 28px;  height: 480px;"></td>
     <td class="iphone iframe">
-        <iframe src="@ViewBag.Url" id="myiframe" width="320" height="480" frameborder="0" scrolling="auto">
+        <iframe src="@ViewBag.Url" id="myiframe" width="320" height="480" frameborder="0" scrolling="auto" onload="reloadOnce(this)">
         <p>Your browser does not support this preview function. Please click here to try a full page view.</p>
         </iframe>
     </td>
@@ -36,15 +29,18 @@
     <td class="iphone"><img src="../../../content/images/slice_2_2.png" style="width: 29px;  height: 131px;"></td>
 </tr>
 </table>
-
 <br />
+<br />
+<div class="well well-large">
 <div class="greytext">
 <h4>
-View menu on your mobile device by pointing your browser to this site:
-<br />
-<br />
-@ViewBag.Url
+View this menu on your mobile device by using this link:
 </h4>
+<h3>
+@ViewBag.Url
+</h3>
+</div>
+<button type="button" class="btn btn-success btn-small" id="send_btn" data-loading-text="Sending..."><i class="icon-envelope icon-white"></i> Email me this link</button>
 </div>
 </center>
 <br />
@@ -53,3 +49,31 @@ View menu on your mobile device by pointing your browser to this site:
 <br />
 @Html.ActionLink("Back to Dashboard", "Index", "Dashboard")
 </div> <!-- hero -->
+
+<script type="text/javascript">
+    //reload iframe once
+    var iframeLoadCount = 0;
+    function reloadOnce(iframe) {
+        iframeLoadCount++;
+        if (iframeLoadCount <= 1) {
+            iframe.contentWindow.location.reload(); 
+            } 
+    } 
+
+    var emailValue = '@(ViewBag.Email)';
+    var urlValue = '@( ViewBag.Url)';
+
+    //stateful buttons
+    $(document).ready(function () {
+        $('#send_btn').button();
+
+        $('#send_btn').click(function () {
+            $(this).button('loading');
+
+            //post via AJAX so we stay on this page and not redirected
+            $.post("@Url.Action("EmailViewLink", "Menu")", { email: emailValue, url: urlValue}, function(data){
+               $('#send_btn').button('reset'); 
+            });
+        });
+    });
+</script>

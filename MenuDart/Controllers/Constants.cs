@@ -7,6 +7,9 @@ namespace MenuDart.Controllers
 {
     public class Constants
     {
+        //current deployment version/timestamp
+        public static readonly string DeploymentVersion = "0.1";
+
         public const string Break = "<br>";
         public const string NewLine = "\n";
         public const string NewLine2 = "\r\n";

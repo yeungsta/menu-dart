@@ -69,7 +69,9 @@
         $('#save_btn').button();
 
         $('#save_btn').click(function () {
-            $(this).button('loading');
+            if (!$(this).hasClass('disabled') && $('form[name=editor_form]').valid()) {
+                $(this).button('loading');
+            }
         });
 
         $('#preview_btn').button();

@@ -25,6 +25,11 @@
 }
 
 /* Hero subtitle */
+.hero-unit
+{
+    border: 1px solid #ddd;
+}
+
 .titleDl {
     margin-bottom: 10px;
 }
@@ -133,7 +138,153 @@ i.gear {
     color: #666;    
 }
 
+.greyblock
+{
+    font-size: 1.5em;
+}
+
+.greyblock li
+{
+    line-height: 1.25em;
+}
+
+hr 
+{
+    border-top: 1px solid #ccc;
+}
+
+.actionblock 
+{
+    margin: 50px 200px 50px 200px;
+    padding: 10px;
+    background-color: #eee;
+    border: 1px dashed #777;
+    border-radius: 4px 4px 4px 4px;
+    -webkit-border-radius: 4px 4px 4px 4px;
+    -moz-border-radius: 4px 4px 4px 4px;      
+}
+
+.dl-horizontal dt 
+{
+    width: auto;
+}
+
+.dl-horizontal dt h2
+{
+    margin: 0px;
+}
+
+.dl-horizontal dd
+{
+    margin-left: 30px;
+    font-size: 1.15em;
+}
+
+.dl-horizontal dd h4
+{
+    padding-top: 5px;
+    height: 40px;
+}
+
+.dl-horizontal img 
+{
+    margin: 20px 0 0 45px;
+}
+
+.featuresTable 
+{
+    font-size: 1.15em;
+}
+
+.featuresTable td
+{
+    line-height: 1.75em;
+}
+
+.foodtruck
+{
+    margin: 25px 0 25px 0;
+}
+
+.carousel-inner .row
+{
+    height: 500px;
+}
+
+/* footer */
+/* to extend footer to the bottom */
+html, body {
+  height: 100%;
+}
+
+#wrap {
+  min-height: 100%;
+}
+
+#main {
+  overflow: auto;
+  padding-bottom: 200px; /* this needs to be bigger than footer height*/
+}
+
+.footer
+{
+    border-top: 2px solid black;
+    background-color: #444444;
+    color: #bbb;
+    height: 200px;
+    margin-top: -200px; /* negative value of footer height */     
+    position: relative;
+    width: 100%; 
+    clear:both;
+}
+
+.footer a:link
+{
+    color: White;
+}
+
+.footer a:hover
+{
+    color: White;
+}
+
+.footer a:active
+{
+    color: White;
+}
+
+.footer a:visited
+{
+    color: White;
+}
+
+.footer h3
+{
+    margin: 5px 0 0 0;
+}
+
+.footer ul
+{
+    margin: 10px 0px 0 0;
+}
+
+.footer .right
+{
+    text-align:right;
+}
+
+
 /* misc */
+
+.red
+{
+    color: Red;
+}
+
+.greytext
+{
+    color: #666;    
+}
 
 .menuNode {
     border: 1px solid black;
@@ -231,4 +382,8 @@ i.gear {
 
 .tooltip-inner {
   padding: 8px;  
+}
+
+.border {
+  border: 1px solid black; 
 }

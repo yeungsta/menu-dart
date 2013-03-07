@@ -10,7 +10,7 @@
         <br>
         <center><h4>It's simple & quick. Just fill out this page to see a preview.</h4></center>
         <br><br />
-        @using (Html.BeginForm("MenuBuilder", "Menu", FormMethod.Post, new { @class = "form-horizontal" }))
+        @using (Html.BeginForm("MenuBuilder", "Menu", FormMethod.Post, new { @class = "form-horizontal", @name = "editor_form" }))
         {
             @Html.ValidationSummary(true)
                     <fieldset>
@@ -20,7 +20,7 @@
                         <div class="controls">
                             @Html.TextBoxFor(model => model.CurrentMenu.Name, new { @class = "input-xlarge", style = "width: 300px;" })
                             @Html.ValidationMessageFor(model => model.CurrentMenu.Name)
-                            * Required
+                            <span class="red">*</span> Required
                         </div>
                       </div>
                       <div class="control-group">
@@ -28,7 +28,7 @@
                         <div class="controls">
                             @Html.TextBoxFor(model => model.CurrentMenu.City, new { @class = "input-xlarge", style = "width: 300px;" })
                             @Html.ValidationMessageFor(model => model.CurrentMenu.City)
-                            * Required
+                            <span class="red">*</span> Required
                         </div>
                       </div>
                       <div class="control-group">
@@ -43,7 +43,7 @@
                         <div class="controls">
                             <div class="input-prepend">
                             <span class="add-on">http://</span>
-                                @Html.TextBoxFor(model => model.CurrentMenu.Website, new { @class = "input-xlarge", style = "width: 500px;" })
+                                @Html.TextBoxFor(model => model.CurrentMenu.Website, new { @class = "input-xlarge", style = "width: 255px;" })
                                 @Html.ValidationMessageFor(model => model.CurrentMenu.Website)
                             </div>
                         </div>
@@ -62,7 +62,9 @@
             $('#preview_btn').button();
 
             $('#preview_btn').click(function () {
-                $(this).button('loading');
+                if ($('form[name=editor_form]').valid()) {
+                    $(this).button('loading');
+                }
             });
         });
     </script>

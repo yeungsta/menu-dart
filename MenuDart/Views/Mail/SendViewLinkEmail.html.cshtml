@@ -1,0 +1,19 @@
+﻿@using ActionMailer.Net.Mvc
+@model MenuDart.Models.SendViewLinkEmailViewModel
+
+@{
+    ViewBag.Title = "Menu Dart Menu Link";
+    Layout = "../Shared/EmailLayout.cshtml";
+}
+
+Hey there @Model.Email,
+<p style="margin-bottom:1em">
+You have requested your menu's link be sent to you.
+<p style="margin-bottom:1em">
+Just view this link with your smartphone:
+<br />
+<a href="@Model.Link">@Model.Link</a>
+<p style="margin-bottom:1em">
+Enjoy,
+<br>
+Your Friends at Menu Dart

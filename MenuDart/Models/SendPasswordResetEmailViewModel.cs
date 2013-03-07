@@ -10,4 +10,16 @@ namespace MenuDart.Models
         public string Email { get; set; }
         public string ResetLink { get; set; }
     }
+
+    public class SendPreviewLinkEmailViewModel
+    {
+        public string Email { get; set; }
+        public string PreviewLink { get; set; }
+    }
+
+    public class SendViewLinkEmailViewModel
+    {
+        public string Email { get; set; }
+        public string Link { get; set; }
+    }
 }

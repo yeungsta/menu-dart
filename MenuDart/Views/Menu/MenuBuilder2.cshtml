@@ -31,18 +31,63 @@
 </table>
 
 <br />
-<div class="greytext">
-<h4>
 <p>
-This is your menu with sample menu items. But, it's just the first step<br />on your way to creating a mobile-friendly restaurant menu for @ViewBag.Name!
-<p>
-If you have a smartphone handy, you can try it on your device's browser<br />to get a sense of the real mobile experience.
-<p>
-Here's a temporary link:
+
+<div class="alert alert-block alert-info fade in MainLevelAlert">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <strong>Tip Alert!</strong><br />This is your menu with sample menu items.<br />But, it's just the first step on your way to creating a mobile-friendly restaurant menu for @ViewBag.Name!
+</div>
+
 <br />
-@ViewBag.Url
-<br><br />
-</h4>
+<div class="greytext">
+<h4>If you have a smartphone handy, you can try it on your device's browser<br />to get a sense of the real mobile experience:</h4>
+</div>
+<br />
+<div class="well well-large">
+<div class="greytext">
+    <h4>
+    Here's your temporary link:
+    </h4>
+    <p>
+    <h3>
+    @ViewBag.Url
+    </h3>
+</div>
+<button type="button" class="btn btn-success btn-small" data-toggle="modal" data-target="#myModal"><i class="icon-envelope icon-white"></i> Email me this link</button>
+</div>
+
+<!-- Modal -->
+<div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+@using (Html.BeginForm("EmailPreviewLink", "Menu", FormMethod.Post, new { id = "emailForm" }))
+{
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 id="myModalLabel">Your Email Address</h3>
+  </div>
+  <div class="modal-body">
+        <center>
+        @Html.ValidationSummary(true)
+        <fieldset>
+            @Html.Hidden("url", (object)ViewBag.Url)
+            <div class="control-group">
+                <div class="controls">
+                    <div class="input-prepend">
+                    <span class="add-on"><i class="icon-envelope"></i></span>
+                        @Html.TextBox("Email")
+                    </div>
+                    (We will only send you your preview menu link, and nothing else.)
+                </div>
+            </div>
+        </fieldset>
+        </center> 
+        <button class="btn btn-large" data-dismiss="modal" aria-hidden="true">Cancel</button>
+        <button type="submit" value="Save" id="send_btn" class="btn btn-large btn-primary" data-loading-text="Sending..."> Send</button>
+  </div>
+}
+</div>
+<!-- End Modal -->
+<br>
+<div class="greytext">
 <h3>Ready to Customize It?</h3>
 </div>
 <p>
@@ -73,6 +118,24 @@ else
 
         $('#template_btn').click(function () {
             $(this).button('loading');
+        });
+
+        $('#send_btn').button();
+
+        $('#send_btn').click(function () {
+            $(this).button('loading');
+        });
+
+        //enable closing alerts
+        $('.alert').alert();
+
+        //post via AJAX so we stay on this page and not redirected
+        $("#emailForm").submit(function(e){
+            e.preventDefault();
+            $('#myModal').modal('hide');
+            $.post("@Url.Action("EmailPreviewLink","Menu")",$("#emailForm").serialize(), function(data){
+               //do nothing     
+            });
         });
     });
 </script>

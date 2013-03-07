@@ -11,11 +11,11 @@
 <br />
 @Html.ActionLink("Yes, activate it!", "Activate", "Subscription", new { id = Model.MenuId }, null)
 <br />
-@Html.ActionLink("No, not now.", Model.ReturnUrl, "Menu")
+@Html.ActionLink("No, not now.", Model.ReturnEditPage, "Menu")
 </h2>
 </center>
 
 <div>
-    @Html.ActionLink("Back to Editor", Model.ReturnUrl, "Menu")
+    @Html.ActionLink("Back to Editor", Model.ReturnEditPage, "Menu")
 </div>
 </div> <!-- hero -->
