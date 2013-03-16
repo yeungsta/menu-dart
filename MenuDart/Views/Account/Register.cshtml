@@ -6,8 +6,9 @@
 
       <!-- Main hero unit for a primary marketing message or call to action -->
       <div class="hero-unit">
-        <center><h1>Sign Up, Free.</h1></center>
+        <center><h1>Sign Up, Free.*</h1></center>
         <br><br />
+        <center><h4></h4></center>
             @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal" }))
             {
                 @Html.ValidationSummary(true, "Account creation was unsuccessful. Please correct the errors and try again.")
@@ -26,7 +27,7 @@
                                 @Html.TextBoxFor(m => m.Email, new { @class = "input-xlarge", style = "width: 300px;" })
                                 @Html.ValidationMessageFor(m => m.Email)
                              </div>
-                        <p class="help-block">Don't worry, we won't email you for anything <em>but</em> communicating (occasionally) with you.</p>
+                        <p class="help-block"></p>
                       </div>
                     </div>
                     <div class="control-group">
@@ -48,7 +49,6 @@
                                 @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "input-xlarge", style = "width: 300px;" })
                                 @Html.ValidationMessageFor(m => m.ConfirmPassword)
                             </div>
-                        <p class="help-block"></p>
                       </div>
                     </div>
                   <div class="form-actions">
@@ -58,17 +58,25 @@
                   </fieldset>
               }
         </p>
-        <p>
-        Already have an account?
-        @if (!string.IsNullOrEmpty(ViewBag.ReturnAction) && !string.IsNullOrEmpty(ViewBag.ReturnController))
-        {
-            @Html.ActionLink("Log in here.", "LogOn", "Account", new { returnAction = "MenuBuilder3", returnController = "Menu", menuID = ViewBag.MenuId }, null)
-        }
-        else
-        {
-            @Html.ActionLink("Log in here.", "LogOn", "Account")
-        }          
-        </p>
+        <p>       
+          <div class="row">
+            <div class="span5 dialogFooter">
+                Already have an account?
+                @if (!string.IsNullOrEmpty(ViewBag.ReturnAction) && !string.IsNullOrEmpty(ViewBag.ReturnController))
+                {
+                    @Html.ActionLink("Log in here.", "LogOn", "Account", new { returnAction = "MenuBuilder3", returnController = "Menu", menuID = ViewBag.MenuId }, null)
+                }
+                else
+                {
+                    @Html.ActionLink("Log in here.", "LogOn", "Account")
+                } 
+            </div>
+            <div class="span4 offset1">
+                <ul class="unstyled dialogFooter greytext">
+                  <li>* Don't worry, we won't sell or spam your email. It's only used to communicate actions you take on Menu Dart.</li>
+                </ul>
+            </div>
+          </div>
       </div>
 
 @Html.Partial("_FormValidation")

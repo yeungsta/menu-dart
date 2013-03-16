@@ -9,13 +9,10 @@
       <!-- Main hero unit for a primary marketing message or call to action -->
       <div class="hero-unit">
         <center><h1>Your Dashboard.</h1>
-        <br>
-        <h2>(@Model.Email)</h2>
+        <span class="dialogHeader"><h2>(@Model.Email)</h2></span>
         </center>
-        <br>
         <dl>
           <dt>Menus</dt>
-          <br>
           <dd>
             @if (Model.Menus.Count() > 0)
             {
@@ -120,7 +117,7 @@
                 if (Model.Menus.Count() > 0)
                 {
                     <text>
-                    Why not put your menus to use @Html.ActionLink("and activate today?", "ActivateAll", "Subscription", new { email = Model.Email, quantity = @Model.Menus.Count() }, null)
+                    Why not put your menus to use <b>@Html.ActionLink("and activate today?", "ActivateAll", "Subscription", new { email = Model.Email, quantity = @Model.Menus.Count() }, null)</b>
                     </text>
                 }
             }
@@ -134,9 +131,9 @@
           <br>
           <br>
           <dt>Talk to us</dt>
-          <dd>Have a question? Or just want to give feedback? The MenuDart Support Team loves to talk!
+          <dd>Have a question? Or just want to give feedback? The Menu Dart Support Team loves to talk!
           <br>
-            Just speak your mind in the form below, and we promise to get back to you over email (email account).
+            Just speak your mind in the form below, and we promise to get back to you over email.
           <br>
             <p>
                 @using (Html.BeginForm("Index", "Dashboard", FormMethod.Post, new { @class = "form-horizontal", @name = "email_form" }))

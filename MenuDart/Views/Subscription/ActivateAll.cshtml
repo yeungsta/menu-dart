@@ -3,33 +3,36 @@
 }
 
 <div class="hero-unit">
-<center>
 
 @if (ViewBag.NumActiveMenus == 1)
 {
     <text>
-    <h1>Activate menu?</h1>
+    <center><h1>Activate menu?</h1></center>
     <br>
-    <div class="greytext">
-    <h3>
-    By continuing, you will be prompted with<br />a recurring billing agreement for your menu at<br />$@ViewBag.NewTotal a month.
-    <p><p>
-    (Commitment-phobes: You can always cancel your subscription, anytime.)
-    </h3>
+    <div class="row">
+        <div class="span7 offset2">
+            <ul class="unstyled dialogHeader">
+                <li>By continuing, you will be prompted with a <b>recurring billing agreement</b> for your menu at $@ViewBag.NewTotal per month.</li>
+                <br />
+                <li>Commitment-phobes: You can always cancel your subscription, <b>anytime, with a refund on days not used</b>.</li>
+            </ul>
+        </div>
     </div>
     </text>
 }
 else
 {
     <text>
-    <h1>Activate menu(s)?</h1>
+    <center><h1>Activate menu(s)?</h1></center>
     <br>
-    <div class="greytext">
-    <h3>
-    By continuing, you will be prompted with<br />a recurring billing agreement for @ViewBag.NumActiveMenus menu(s) at<br />$@ViewBag.NewTotal a month.
-    <p><p>
-    (Commitment-phobes: You can always cancel your subscription, anytime.)
-    </h3>
+    <div class="row">
+        <div class="span7 offset2">
+            <ul class="unstyled dialogHeader">
+                <li>By continuing, you will be prompted with a <b>recurring billing agreement</b> for @ViewBag.NumActiveMenus menu(s) at $@ViewBag.NewTotal per month.</li>
+                <br />
+                <li>Commitment-phobes: You can always cancel your subscription, <b>anytime, with a refund on days not used</b>.</li>
+            </ul>
+        </div>
     </div>
     </text>   
 }
@@ -43,7 +46,7 @@ else
             <div class="row">
             <div class="span2 offset3">
               <script src="https://checkout.stripe.com/v2/checkout.js" class="stripe-button"
-                      data-key="pk_0AQ27F6Upi3VpRUBHAPDlR9o4GnM6"
+                      data-key="@ViewBag.StripeKey"
                       data-amount="700"
                       data-description="Monthly Subscription"
                       data-name="Menu Dart"
@@ -57,7 +60,6 @@ else
             <br />
         </div>
 }
-</center>
 
 @Html.ActionLink("Back to Dashboard", "Index", "Dashboard")
 <ul class="pull-right">

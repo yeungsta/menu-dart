@@ -72,6 +72,7 @@ namespace MenuDart.Controllers
             ViewBag.NumActiveMenus = activeCount + 1;
             ViewBag.NewTotal = (activeCount + 1) * 7;
             ViewBag.Email = menu.Owner;
+            ViewBag.StripeKey = Constants.StripePublishableKey;
 
             return View(menu);
         }
@@ -106,6 +107,7 @@ namespace MenuDart.Controllers
             ViewBag.NumActiveMenus = quantity;
             ViewBag.NewTotal = quantity * 7;
             ViewBag.Email = email;
+            ViewBag.StripeKey = Constants.StripePublishableKey;
 
             return View();
         }
@@ -669,29 +671,32 @@ namespace MenuDart.Controllers
                 var chargeService = new StripeChargeService();
                 IEnumerable<StripeCharge> response = chargeService.List(1, 0, userInfo.PaymentCustomerId);
 
-                StripeCharge charge = response.ElementAt(0);
-
-                //refund the charge (if paid)
-                if (charge.Paid.HasValue && charge.Paid.Value)
+                if ((response != null) && (response.Count() > 0))
                 {
-                    int daysIntoPeriod = 0;
+                    StripeCharge charge = response.ElementAt(0);
 
-                    if (DateTime.Today.Date > periodStart.Value)
+                    //refund the charge (if paid)
+                    if ((charge != null) && charge.Paid.HasValue && charge.Paid.Value)
                     {
-                        daysIntoPeriod = DateTime.Today.Date.Subtract(periodStart.Value).Days;
+                        int daysIntoPeriod = 0;
+
+                        if (DateTime.Today.Date > periodStart.Value)
+                        {
+                            daysIntoPeriod = DateTime.Today.Date.Subtract(periodStart.Value).Days;
+                        }
+
+                        int numDaysInPeriod = periodEnd.Value.Date.Subtract(periodStart.Value.Date).Days;
+                        float ratePerDayInCents = charge.AmountInCents.Value / numDaysInPeriod;
+
+                        float amountOwed = daysIntoPeriod * ratePerDayInCents;
+
+                        int? refundAmount = 0;
+
+                        //round amount to nearest int
+                        refundAmount = charge.AmountInCents.Value - Convert.ToInt32(amountOwed);
+
+                        StripeCharge stripeCharge = chargeService.Refund(charge.Id, refundAmount);
                     }
-
-                    int numDaysInPeriod = periodEnd.Value.Date.Subtract(periodStart.Value.Date).Days;
-                    float ratePerDayInCents = charge.AmountInCents.Value / numDaysInPeriod;
-
-                    float amountOwed = daysIntoPeriod * ratePerDayInCents;
-
-                    int? refundAmount = 0;
-
-                    //round amount to nearest int
-                    refundAmount = charge.AmountInCents.Value - Convert.ToInt32(amountOwed);
-                    
-                    StripeCharge stripeCharge = chargeService.Refund(charge.Id, refundAmount);
                 }
             }
             catch (Exception e)

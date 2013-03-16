@@ -6,9 +6,9 @@
 
       <!-- Main hero unit for a primary marketing message or call to action -->
       <div class="hero-unit">
-        <center><h1>Make Your Menu.</h1></center>
-        <br>
-        <center><h4>It's simple & quick. Just fill out this page to see a preview.</h4></center>
+        <center><h1>Make Your Menu.</h1>
+        <span class="dialogHeader"><h4>It's simple & quick. Just fill out this page to see a preview!</h4></span>
+        </center>
         <br><br />
         @using (Html.BeginForm("MenuBuilder", "Menu", FormMethod.Post, new { @class = "form-horizontal", @name = "editor_form" }))
         {

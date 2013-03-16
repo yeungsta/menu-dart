@@ -12,6 +12,68 @@ namespace MenuDart.Controllers
     [Authorize]
     public class MailController : MailerBase
     {
+#if Staging //don't want to send emails for staging
+        public EmailResult SendPasswordResetEmail(string email, string resetLink)
+        {
+            return null;
+        }
+
+        public EmailResult SendSignUpEmail(string email)
+        {
+            return null;
+        }
+
+        public EmailResult SendActivateEmail(string email, int amount, IList<MenuAndLink> menusJustActivated, IList<MenuAndLink> allActivatedMenus)
+        {
+            return null;
+        }
+
+        public EmailResult SendActivateEmailTrial(string email, IList<MenuAndLink> menusJustActivated)
+        {
+            return null;
+        }
+
+        public EmailResult SendDeactivateEmail(string email, int amount, IList<MenuAndLink> remainingActiveMenus, IList<MenuAndLink> deactivatedMenus)
+        {
+            return null;
+        }
+
+        public EmailResult SendFeedbackEmail(string email, string htmlfeedback)
+        {
+            return null;
+        }
+
+        public EmailResult SendTrialExpiredEmail(string email, IList<MenuAndLink> deactivatedMenus)
+        {
+            return null;
+        }
+
+        //Email for when trial is about to expire
+        public EmailResult SendTrialWarningEmail(string email, IList<MenuAndLink> deactivatedMenus)
+        {
+            return null;
+        }
+
+        public EmailResult SendCouponAppliedEmail(string email)
+        {
+            return null;
+        }
+
+        public EmailResult SendPreviewLinkEmail(string email, string previewLink)
+        {
+            return null;
+        }
+
+        public EmailResult SendViewLinkEmail(string email, string viewLink)
+        {
+            return null;
+        }
+
+        public EmailResult NewUserNoticeEmail(string email)
+        {
+            return null;
+        }
+#else
         public EmailResult SendPasswordResetEmail(string email, string resetLink)
         {
             To.Add(email);
@@ -159,5 +221,6 @@ namespace MenuDart.Controllers
 
             return Email("NewUserNoticeEmail", email);
         }
+#endif
     }
 }

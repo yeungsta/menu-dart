@@ -5,27 +5,26 @@
 }
 
 <div class="hero-unit">
-<center><h1>Activate<br />@Model.Name.</h1>
+<center><h1>Activate<br />@Model.Name.</h1></center>
 <br>
-<div class="row greytext">
-    <div class="span9 offset1">
-<h3>
-@if (ViewBag.NumActiveMenus <= 1)
-{
-    <text>
-    By continuing, you are agreeing to a recurring billing agreement for the @Model.Name menu at $@ViewBag.NewTotal a month.
-    <br>We use <a href="http://www.stripe.com" target=_blank>Stripe</a> to process a quick, secure, and modern payment with your credit card.
-    <br /><img src="@Url.Content("~/Content/images/creditcards.png")">
-    </text>
-}
-else
-{
-    <text>
-    By continuing, your current billing agreement will be modified to a total of @ViewBag.NumActiveMenus active menu(s) at $@ViewBag.NewTotal a month.
-    </text>
-}
-
-</h3>
+<div class="row">
+    <div class="span7 offset2">
+        <ul class="unstyled dialogHeader">
+            @if (ViewBag.NumActiveMenus <= 1)
+            {
+                <text>
+                <li>By continuing, you are agreeing to a <b>recurring billing agreement</b> for your @Model.Name menu at only $@ViewBag.NewTotal per month.</li>
+                <br /><li>We use <a href="http://www.stripe.com" target=_blank>Stripe</a> to process a <b>quick, secure, and modern</b> payment with your credit card.</li>
+                <br /><img src="@Url.Content("~/Content/images/creditcards.png")">
+                </text>
+            }
+            else
+            {
+                <text>
+                <li>By continuing, your current billing agreement will be modified to a total of @ViewBag.NumActiveMenus active menu(s) at $@ViewBag.NewTotal per month.</li>
+                </text>
+            }
+        </ul>
     </div>
 </div>
 
@@ -40,7 +39,7 @@ else
             <div class="row">
                 <div class="span2 offset3">
             <script src="https://checkout.stripe.com/v2/checkout.js" class="stripe-button"
-                    data-key="pk_0AQ27F6Upi3VpRUBHAPDlR9o4GnM6"
+                    data-key="@ViewBag.StripeKey"
                     data-amount="700"
                     data-description="Monthly Subscription"
                     data-name="Menu Dart"
@@ -55,12 +54,14 @@ else
         }
         else
         {
+            <center>
             <button type="submit" id="activate_btn" value="Activate" class="btn btn-large btn-primary" data-loading-text="Activating..."><i class="icon-ok icon-white"></i> Activate</button>
             <a class="btn btn-large" href="@Url.Action("Index", "Dashboard")"><i class="icon-remove"></i> Cancel</a>
+            </center>
         }
     </div>
 }
-</center>
+
 
 @Html.ActionLink("Back to Dashboard", "Index", "Dashboard")
 <ul class="pull-right">

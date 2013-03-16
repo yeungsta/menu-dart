@@ -167,6 +167,7 @@
     <Content Include="Content\images\slice_2_0.png" />
     <Content Include="Content\images\slice_2_1.png" />
     <Content Include="Content\images\slice_2_2.png" />
+    <Content Include="Content\images\slogan.png" />
     <Content Include="Content\images\stripe.png" />
     <Content Include="Content\images\themes\blueberry.png" />
     <Content Include="Content\images\themes\brie.png" />

@@ -8,7 +8,7 @@ namespace MenuDart.Controllers
     public class Constants
     {
         //current deployment version/timestamp
-        public static readonly string DeploymentVersion = "0.1";
+        public static readonly string DeploymentVersion = "0.3";
 
         public const string Break = "<br>";
         public const string NewLine = "\n";
@@ -49,5 +49,10 @@ namespace MenuDart.Controllers
         //Amazon S3
         public const string AmazonS3BucketName = "biz.menudart.com";
         public const string AmazonS3HtmlObjectType = "text/html";
+        //Stripe
+        //test key
+        //public const string StripePublishableKey = "pk_0AQ27F6Upi3VpRUBHAPDlR9o4GnM6";
+        //live key
+        public const string StripePublishableKey = "pk_0AQ2fsho4juqMLqP9wNX33seuq1eI";
     }
 }

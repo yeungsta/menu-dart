@@ -3,10 +3,16 @@
 }
 
 <div class="hero-unit">
-<center><h1>Reset Email Sent.</h1>
+<center><h1>Reset Email Sent.</h1></center>
 <br>
 <p>
-    A reset link has emailed to you. From there, you can @Html.ActionLink("log back in", "LogOn", "Account") and reset your password.
-</p>
-</center>
+<div class="row">
+<div class="span6 offset2">
+    <ul class="unstyled dialogHeader">
+        <li>A reset link has emailed to you.</li>
+        <li>Follow the instructions on the email.</li>
+        <li>Back to @Html.ActionLink("log in page", "LogOn", "Account").</li>
+    </ul>
+</div>
+</div>
 </div> <!-- hero -->

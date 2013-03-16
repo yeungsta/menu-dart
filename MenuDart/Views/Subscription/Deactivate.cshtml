@@ -5,36 +5,32 @@
 }
 
 <div class="hero-unit">
-<center><h1>Deactivate<br />@Model.Name?</h1>
+<center><h1>Deactivate<br />@Model.Name?</h1></center>
 <br>
-<div class="greytext">
-<h3>Are you sure you want to deactivate the menu for<br />@Model.Name?
-<p>
-If you continue, it will no longer be viewable by the public.
-<p>
-</h3>
-
-@if ((ViewBag.TrialWarning == null) || (!ViewBag.TrialWarning))
-{
-    if (ViewBag.NumActiveMenus == 0)
-    {
-    <text>
-    <h3>
-    By continuing, your current billing agreement will be cancelled and you will no longer be charged by
-    MenuDart.com (since you will not have any more active menus).
-    <p>(Remember, you can always re-activate your menu anytime.)
-    </h3>
-    </text>
-    }
-    else
-    {
-    <text>
-    <h3>
-    By continuing, you will be prompted with a modified billing agreement for your remaining @ViewBag.NumActiveMenus active menu(s) at $@ViewBag.NewTotal a month.
-    </h3>
-    </text>
-    }
-}
+<div class="row">
+    <div class="span7 offset2">
+        <ul class="unstyled dialogHeader">
+            <li><h3>Are you sure you want to deactivate?</h3></li>
+            <li>If you continue, it will <b>no longer be viewable</b> by the public.</li>
+            <br />
+            @if ((ViewBag.TrialWarning == null) || (!ViewBag.TrialWarning))
+            {
+                if (ViewBag.NumActiveMenus == 0)
+                {
+                <text>
+                <li>By continuing, your current billing agreement <b>will be cancelled</b> and you will no longer be charged by
+                Menu Dart (since you will not have any more active menus).</li>
+                </text>
+                }
+                else
+                {
+                <text>
+                <li>By continuing, you will be prompted with a <b>modified billing agreement</b> for your remaining @ViewBag.NumActiveMenus active menu(s) at $@ViewBag.NewTotal a month.</li>
+                </text>
+                }
+            }
+        </ul>
+    </div>
 </div>
 
 @using (Html.BeginForm())
@@ -50,13 +46,13 @@ If you continue, it will no longer be viewable by the public.
         @Html.Hidden("Email", (object)ViewBag.Email)
     }
 
+    <center>
     <div class="form-actions">
         <button id="deactivate_btn" type="submit" data-loading-text="Deactivating..." value="Deactivate" class="btn btn-large btn-primary"><i class="icon-ok icon-white"></i> Deactivate</button>
         <a class="btn btn-large" href="@Url.Action("Index", "Dashboard")"><i class="icon-remove"></i> Cancel</a>
     </div>
+    </center>
 }
-
-</center>
 
 <div>
     @Html.ActionLink("Back to Dashboard", "Index", "Dashboard")

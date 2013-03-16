@@ -263,6 +263,11 @@ html, body {
     margin: 5px 0 0 0;
 }
 
+.footer img
+{
+    margin: 10px 0 0 0;
+}
+
 .footer ul
 {
     margin: 10px 0px 0 0;
@@ -276,6 +281,23 @@ html, body {
 
 /* misc */
 
+dt
+{
+    font-size: 1.25em;
+    margin: 0 0 5px 0;
+}
+
+dd
+{
+    color: #666;
+    line-height: 1.75em;
+}
+
+dd td
+{
+    color: #333333;
+}
+
 .red
 {
     color: Red;
@@ -284,6 +306,44 @@ html, body {
 .greytext
 {
     color: #666;    
+}
+
+.dialogHeader
+{
+    color: #666; 
+    font-size: 1.5em;
+}
+
+.dialogHeader h2
+{
+    color: #666; 
+}
+
+.dialogHeader h3
+{
+    color: #666; 
+}
+
+.dialogHeader h4
+{
+    color: #666; 
+}
+
+.dialogHeader li
+{
+    line-height: 1.25em;
+}
+
+.form-horizontal .help-block
+{
+    font-size: 1em;
+    color: #666; 
+}
+
+.dialogFooter
+{
+    font-size: 18px;
+    font-weight: 200;
 }
 
 .menuNode {
