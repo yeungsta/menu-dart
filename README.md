@@ -1,1 +1,2 @@
-"# This is my README for MenuDart" 
+# menudart
+Mobile menus for businesses.
